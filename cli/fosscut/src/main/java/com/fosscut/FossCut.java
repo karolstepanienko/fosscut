@@ -7,5 +7,6 @@ public class FossCut {
 
     public static void main(String[] args) {
         System.out.println(new FossCut().getGreeting());
+        OrToolsBasicExample.main();
     }
 }

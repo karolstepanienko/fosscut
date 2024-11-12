@@ -9,8 +9,15 @@ repositories {
 }
 
 dependencies {
+    implementation libs.ortools
     // Use JUnit test framework.
     testImplementation libs.junit
+}
+
+configurations {
+    // add a custom configuration
+    jarConfiguration
+    jarConfiguration.extendsFrom(implementation)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -28,4 +35,9 @@ jar {
     manifest {
         attributes 'Main-Class': application.mainClass
     }
+    // add all configuration dependencies to the jar
+    from {
+        configurations.jarConfiguration.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

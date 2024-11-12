@@ -1,7 +1,9 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
+ortools = "9.11.4210"
 junit = "4.13.2"
 
 [libraries]
+ortools = { module = "com.google.ortools:ortools-java", version.ref = "ortools" }
 junit = { module = "junit:junit", version.ref = "junit" }
