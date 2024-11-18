@@ -1,6 +1,9 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'org.graalvm.buildtools.native' version '0.10.3'
 }
 
 repositories {
@@ -35,9 +38,23 @@ jar {
     manifest {
         attributes 'Main-Class': application.mainClass
     }
+
     // add all configuration dependencies to the jar
     from {
         configurations.jarConfiguration.collect { it.isDirectory() ? it : zipTree(it) }
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // add graalvm native-image configuration to jar
+    // based on it 'native-image' binary will know what resources to include
+    metaInf {
+        from 'src/main/resources/native-image.properties'
+        if (Os.isFamily(Os.FAMILY_UNIX) && !Os.isFamily(Os.FAMILY_MAC)) {
+            from 'src/main/resources/linux-x86-64/'
+        }
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            from 'src/main/resources/win32-x86-64/'
+        }
+        into 'native-image'
+    }
 }
