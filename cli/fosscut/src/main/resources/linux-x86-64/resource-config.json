@@ -1,7 +1,8 @@
 {
     "resources": {
         "includes": [
-            { "pattern": "ortools-linux-x86-64/.*" }
+            { "pattern": "ortools-linux-x86-64/.*" },
+            { "pattern": "version.txt" }
         ],
         "excludes": [ ]
     }

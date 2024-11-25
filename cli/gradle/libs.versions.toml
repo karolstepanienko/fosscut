@@ -3,7 +3,10 @@
 [versions]
 ortools = "9.11.4210"
 junit = "4.13.2"
+picocli = "4.7.6"
 
 [libraries]
 ortools = { module = "com.google.ortools:ortools-java", version.ref = "ortools" }
 junit = { module = "junit:junit", version.ref = "junit" }
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+picoclicodegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }

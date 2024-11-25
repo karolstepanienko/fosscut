@@ -1,6 +1,6 @@
 // Minimal example to call the GLOP solver.
 // example inspired by: https://github.com/or-tools/java_or-tools/blob/main/src/main/java/org/or_tools/example/BasicExample.java
-package com.fosscut;
+package com.fosscut.mwe;
 
 import com.google.ortools.Loader;
 import com.google.ortools.init.OrToolsVersion;
@@ -9,7 +9,7 @@ import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPVariable;
 
-public class OrToolsBasicExample {
+public class OrTools {
 
     public static void main() {
         Loader.loadNativeLibraries();

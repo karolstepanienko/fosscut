@@ -12,7 +12,9 @@ repositories {
 }
 
 dependencies {
+    implementation libs.picocli
     implementation libs.ortools
+    annotationProcessor libs.picoclicodegen
     // Use JUnit test framework.
     testImplementation libs.junit
 }
@@ -28,6 +30,30 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+def generatedResources = "$buildDir/generated-resources/main"
+sourceSets {
+    main {
+        // register an output folder on the main SourceSet:
+        output.dir(generatedResources, builtBy: 'generateVersionTxt')
+        // it is now a part of the 'main' classpath and will be a part of the jar
+    }
+}
+
+tasks.register('generateVersionTxt') {
+    description 'Creates a version.txt file with build info that is added to the root of the jar'
+    doLast {
+        new File(generatedResources).mkdirs()
+        File generated = new File(generatedResources, "version.txt")
+        generated.text = "Version: $rootProject.version\n" \
+            + "Buildtime: ${new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())}\n" \
+            + "Application-name: $project.name"
+    }
+}
+
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 application {
