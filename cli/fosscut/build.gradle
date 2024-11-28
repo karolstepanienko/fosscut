@@ -14,6 +14,7 @@ repositories {
 dependencies {
     implementation libs.picocli
     implementation libs.ortools
+    implementation libs.snakeyaml
     annotationProcessor libs.picoclicodegen
     // Use JUnit test framework.
     testImplementation libs.junit
@@ -74,12 +75,13 @@ jar {
     // add graalvm native-image configuration to jar
     // based on it 'native-image' binary will know what resources to include
     metaInf {
-        from 'src/main/resources/native-image.properties'
+        from 'jar/native-image.properties'
+        from 'jar/reflect-config.json'
         if (Os.isFamily(Os.FAMILY_UNIX) && !Os.isFamily(Os.FAMILY_MAC)) {
-            from 'src/main/resources/linux-x86-64/'
+            from 'jar/linux-x86-64/'
         }
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            from 'src/main/resources/win32-x86-64/'
+            from 'jar/win32-x86-64/'
         }
         into 'native-image'
     }

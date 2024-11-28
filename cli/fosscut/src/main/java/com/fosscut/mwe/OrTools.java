@@ -58,6 +58,7 @@ public class OrTools {
         System.out.println("Objective value = " + objective.value());
         System.out.println("x = " + x.solutionValue());
         System.out.println("y = " + y.solutionValue());
+        System.out.println("dual value = " + constraint.dualValue());
         System.out.println("Problem solved in " + solver.wallTime() + " milliseconds");
         System.out.println("Problem solved in " + solver.iterations() + " iterations");
     }
