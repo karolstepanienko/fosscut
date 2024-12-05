@@ -1,9 +1,12 @@
 package com.fosscut.alg.cg;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fosscut.type.Order;
+import com.fosscut.utils.Defaults;
 import com.google.ortools.Loader;
 import com.google.ortools.init.OrToolsVersion;
 
@@ -37,7 +40,14 @@ public class ColumnGeneration {
             if (relaxCost == null) copyPatterns(order, patternGeneration);
             else copyPatternsWithRelaxation(order, patternGeneration);
 
-        } while (reducedCost > Math.pow(10, -10));
+            // Default precision describes the smallest value of reducedCost
+            // where further calculations are still sensible.
+            // Rounds all digits below the default precision to zero.
+        } while (
+            BigDecimal.valueOf(reducedCost)
+            .setScale(Defaults.CG_REDUCED_COST_PRECISION_PLACES, RoundingMode.FLOOR)
+            .doubleValue() > 0
+        );
 
         CuttingPlanGeneration integerCuttingPlanGeneration = new CuttingPlanGeneration(order, param, true);
         integerCuttingPlanGeneration.solve();
