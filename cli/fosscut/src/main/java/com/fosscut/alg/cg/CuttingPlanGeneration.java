@@ -60,7 +60,6 @@ public class CuttingPlanGeneration extends LPTask {
             }
             patternsPerInputVariables.add(patterns);
         }
-        System.out.println("Number of variables = " + getSolver().numVariables());
         return patternsPerInputVariables;
     }
 
@@ -79,7 +78,6 @@ public class CuttingPlanGeneration extends LPTask {
             }
             fillConstraints.add(constraint);
         }
-        System.out.println("Number of constraints = " + getSolver().numConstraints());
         return fillConstraints;
     }
 

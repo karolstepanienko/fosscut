@@ -54,6 +54,8 @@ public abstract class LPTask {
             }
         }
 
+        System.out.println("Number of variables = " + getSolver().numVariables());
+        System.out.println("Number of constraints = " + getSolver().numConstraints());
         System.out.println("Solution:");
         System.out.println("Objective value = " + getObjective().value());
         System.out.println("Problem solved in " + getSolver().wallTime() + " milliseconds");
