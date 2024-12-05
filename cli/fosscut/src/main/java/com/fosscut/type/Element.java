@@ -10,4 +10,8 @@ public abstract class Element {
     public void setLength(Integer length) {
         this.length = length;
     }
+
+    public String toString() {
+        return "Element: length = " + this.getLength();
+    }
 }

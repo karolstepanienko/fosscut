@@ -10,7 +10,6 @@ import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPVariable;
 
 public class OrTools {
-
     public static void main() {
         Loader.loadNativeLibraries();
 
@@ -19,10 +18,10 @@ public class OrTools {
         // Create the linear solver with the GLOP backend.
         MPSolver solver = MPSolver.createSolver("GLOP");
 
-        // 0.0 <= x <= 1.0
-        MPVariable x = solver.makeNumVar(0.0, 1.0, "x");
-        // 0.0 <= y <= 2.0
-        MPVariable y = solver.makeNumVar(0.0, 2.0, "y");
+        // 0.0 <= x <= 10.0
+        MPVariable x = solver.makeIntVar(0.0, 10.0, "x");
+        // 0.0 <= y <= 20.0
+        MPVariable y = solver.makeIntVar(0.0, 20.0, "y");
         System.out.println("Number of variables = " + solver.numVariables());
 
         double infinity = java.lang.Double.POSITIVE_INFINITY;
@@ -36,7 +35,7 @@ public class OrTools {
         // f(x,y) = 3x + 2y
         MPObjective objective = solver.objective();
         objective.setCoefficient(x, 3);
-        objective.setCoefficient(y, 2);
+        objective.setCoefficient(y, 10.5);
         objective.setMaximization();
 
         System.out.println("Solving with " + solver.solverVersion());
@@ -62,5 +61,4 @@ public class OrTools {
         System.out.println("Problem solved in " + solver.wallTime() + " milliseconds");
         System.out.println("Problem solved in " + solver.iterations() + " iterations");
     }
-
 }

@@ -24,6 +24,14 @@ public class Order {
         this.outputs = outputs;
     }
 
+    public Integer getInputsSumLength() {
+        Integer sumLength = 0;
+        for (Input input : this.inputs) {
+            sumLength += input.getLength();
+        }
+        return sumLength;
+    }
+
     public boolean isValid() {
         Input longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
         Output longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));

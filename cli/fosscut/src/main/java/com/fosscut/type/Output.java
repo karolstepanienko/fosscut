@@ -19,4 +19,10 @@ public class Output extends Element {
     public void setMaxRelax(Integer maxRelax) {
         this.maxRelax = maxRelax;
     }
+
+    public String toString() {
+        return "Output: length = " + this.getLength()
+            + ", number = " + this.getNumber()
+            + ", maxRelax = " + this.getMaxRelax();
+    }
 }

@@ -2,7 +2,7 @@ package com.fosscut.subcommand;
 
 import java.io.File;
 
-import com.fosscut.alg.ColumnGeneration;
+import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.type.Order;
 import com.fosscut.utils.PropertiesVersionProvider;
 import com.fosscut.utils.Validator;
