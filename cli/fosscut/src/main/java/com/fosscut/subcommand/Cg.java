@@ -10,15 +10,36 @@ import com.fosscut.utils.YamlLoader;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Spec;
 
-@Command(name = "cg",
-    versionProvider = PropertiesVersionProvider.class,
-    mixinStandardHelpOptions = true)
+@Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
 public class Cg implements Runnable {
+
     @Parameters(paramLabel = "<order-path>", arity = "1",
-        description = "Path to a YAML file containing an order")
+        description = "Path to a YAML file containing an order.")
     File orderFile;
+
+    @Spec
+    CommandSpec spec;
+
+    Double relaxCost;
+
+    @Option(names = { "-c", "--relaxation-cost" },
+    description = "Cost of relaxing the length of an output element by"
+    + " a single unit. Relaxation is off if this parameter is not set."
+    + " Allowed values: <0, infinity>.")
+    public void setRelaxCost(Double relaxCost) {
+        if (relaxCost != null && relaxCost < 0) {
+            throw new ParameterException(spec.commandLine(),
+                "Relaxation cost cannot be negative."
+                + " Allowed values: <0, infinity>.");
+        }
+        this.relaxCost = relaxCost;
+    }
 
     @Override
     public void run() {
@@ -28,7 +49,7 @@ public class Cg implements Runnable {
         Validator validator = new Validator();
         validator.validateOrder(order);
 
-        ColumnGeneration columnGeneration = new ColumnGeneration();
+        ColumnGeneration columnGeneration = new ColumnGeneration(relaxCost);
         columnGeneration.run(order);
     }
 

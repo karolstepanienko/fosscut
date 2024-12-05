@@ -31,9 +31,7 @@ public class CuttingPlanGeneration extends LPTask {
         this.patternsPerInputVariables = defineVariables();
         this.fillConstraints = defineConstraints();
         setObjective(defineObjective());
-        System.out.println("Solving with " + getSolver().solverVersion());
-        final MPSolver.ResultStatus resultStatus = getSolver().solve();
-        printSolution(resultStatus);
+        printSolution();
     }
 
     public List<Double> getDualValues() {

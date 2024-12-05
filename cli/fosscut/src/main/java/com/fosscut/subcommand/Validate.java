@@ -11,10 +11,9 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "validate",
-    versionProvider = PropertiesVersionProvider.class,
-    mixinStandardHelpOptions = true)
+@Command(name = "validate", versionProvider = PropertiesVersionProvider.class)
 public class Validate implements Runnable {
+
     @Parameters(paramLabel = "<order-path>", arity = "1",
         description = "Path to a YAML file containing an order")
     File orderFile;

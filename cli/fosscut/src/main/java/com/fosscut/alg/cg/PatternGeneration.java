@@ -11,25 +11,32 @@ import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPVariable;
 
 public class PatternGeneration extends LPTask {
-    private boolean enableRelaxation;
-    List<Double> cuttingPlanDualValues;
+    private Double relaxCost;
+    private List<Double> cuttingPlanDualValues;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
-    private double relaxCost;
 
-    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, boolean enableRelaxation) {
+    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
-        this.enableRelaxation = enableRelaxation;
+        this.relaxCost = relaxCost;
     }
 
     public List<List<MPVariable>> getUsageVariables() {
         return usageVariables;
     }
 
+    public void setUsageVariables(List<List<MPVariable>> usageVariables) {
+        this.usageVariables = usageVariables;
+    }
+
     public List<List<MPVariable>> getRelaxVariables() {
         return relaxVariables;
+    }
+
+    public void setRelaxVariables(List<List<MPVariable>> relaxVariables) {
+        this.relaxVariables = relaxVariables;
     }
 
     public void solve() {
@@ -37,15 +44,31 @@ public class PatternGeneration extends LPTask {
         System.out.println("Starting pattern generation...");
 
         setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
-        this.usageVariables = defineVariables("usage");
-        this.relaxVariables = defineVariables("relax");
-        initConstraints();
-        relaxCost = defineRelaxCost();
-        setObjective(defineObjective());
+        if (relaxCost == null) initModel();
+        else initModelWithRelaxation();
 
-        System.out.println("Solving with " + getSolver().solverVersion());
-        final MPSolver.ResultStatus resultStatus = getSolver().solve();
-        printSolution(resultStatus);
+        printSolution();
+    }
+
+    private void initModel() {
+        initVariables();
+        initConstraints();
+        initObjective();
+    }
+
+    private void initModelWithRelaxation() {
+        initVariablesWithRelaxation();
+        initConstraintsWithRelaxation();
+        initObjectiveWithRelaxation();
+    }
+
+    private void initVariables() {
+        setUsageVariables(defineVariables("usage"));
+    }
+
+    private void initVariablesWithRelaxation() {
+        setUsageVariables(defineVariables("usage"));
+        setRelaxVariables(defineVariables("relax"));
     }
 
     private List<List<MPVariable>> defineVariables(String varName) {
@@ -62,11 +85,21 @@ public class PatternGeneration extends LPTask {
 
     private void initConstraints() {
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
-            MPConstraint inputLengthConstraint = getSolver().makeConstraint(
+            MPConstraint usageConstraint = getSolver().makeConstraint(
                 -Double.POSITIVE_INFINITY, getOrder().getInputs().get(i).getLength(), "Length_i_" + i);
             for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                inputLengthConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getLength());
-                inputLengthConstraint.setCoefficient(relaxVariables.get(i).get(o), -1);
+                usageConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getLength());
+            }
+        }
+    }
+
+    private void initConstraintsWithRelaxation() {
+        for (int i = 0; i < getOrder().getInputs().size(); i++) {
+            MPConstraint usageConstraint = getSolver().makeConstraint(
+                -Double.POSITIVE_INFINITY, getOrder().getInputs().get(i).getLength(), "Length_i_" + i);
+            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+                usageConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getLength());
+                usageConstraint.setCoefficient(relaxVariables.get(i).get(o), -1);
 
                 MPConstraint relaxConstraint = getSolver().makeConstraint(0, Double.POSITIVE_INFINITY, "Relax_i_" + i + "_o_" + o);
                 relaxConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getMaxRelax());
@@ -75,14 +108,18 @@ public class PatternGeneration extends LPTask {
         }
     }
 
-    private double defineRelaxCost() {
-        double relaxCost;
-        if(enableRelaxation) relaxCost = Defaults.ENABLED_RELAXATION_COST;
-        else relaxCost = Defaults.DISABLED_RELAXATION_COST;
-        return relaxCost;
+    private void initObjective() {
+        MPObjective objective = getSolver().objective();
+        for (int i = 0; i < getOrder().getInputs().size(); i++) {
+            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+                objective.setCoefficient(usageVariables.get(i).get(o), cuttingPlanDualValues.get(o));
+            }
+        }
+        initGeneralObjective(objective);
+        setObjective(objective);
     }
 
-    private MPObjective defineObjective() {
+    private void initObjectiveWithRelaxation() {
         MPObjective objective = getSolver().objective();
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
             for (int o = 0; o < getOrder().getOutputs().size(); o++) {
@@ -90,8 +127,12 @@ public class PatternGeneration extends LPTask {
                 objective.setCoefficient(relaxVariables.get(i).get(o), -relaxCost);
             }
         }
+        initGeneralObjective(objective);
+        setObjective(objective);
+    }
+
+    private void initGeneralObjective(MPObjective objective) {
         objective.setOffset(-getOrder().getInputsSumLength());
         objective.setMaximization();
-        return objective;
     }
 }

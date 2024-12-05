@@ -3,6 +3,8 @@ package com.fosscut.alg.cg;
 import com.fosscut.type.Order;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
+import com.google.ortools.linearsolver.MPSolver.ResultStatus;
+
 
 /*
  * Linear programming task. Encapsulates all necessary fields for linear
@@ -37,11 +39,14 @@ public abstract class LPTask {
         this.objective = objective;
     }
 
-    protected void printSolution(MPSolver.ResultStatus resultStatus) {
+    protected void printSolution() {
+        System.out.println("Solving with " + getSolver().solverVersion());
+        final ResultStatus resultStatus = getSolver().solve();
+
         System.out.println("Status: " + resultStatus);
-        if (resultStatus != MPSolver.ResultStatus.OPTIMAL) {
+        if (resultStatus != ResultStatus.OPTIMAL) {
             System.out.println("The problem does not have an optimal solution!");
-            if (resultStatus == MPSolver.ResultStatus.FEASIBLE) {
+            if (resultStatus == ResultStatus.FEASIBLE) {
                 System.out.println("A potentially suboptimal solution was found");
             } else {
                 System.out.println("The solver could not solve the problem.");

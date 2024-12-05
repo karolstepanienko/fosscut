@@ -6,9 +6,7 @@ import com.fosscut.utils.PropertiesVersionProvider;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
-@Command(name = "mwe",
-    versionProvider = PropertiesVersionProvider.class,
-    mixinStandardHelpOptions = true)
+@Command(name = "mwe", versionProvider = PropertiesVersionProvider.class)
 public class Mwe {
 
     @Command(name = "ortools")

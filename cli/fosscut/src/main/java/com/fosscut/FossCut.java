@@ -8,13 +8,23 @@ import com.fosscut.utils.PropertiesVersionProvider;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Spec;
 
 @Command(name = "fosscut",
     versionProvider = PropertiesVersionProvider.class,
-    subcommands = {Cg.class, Validate.class, Mwe.class},
-    mixinStandardHelpOptions = true)
+    subcommands = {Cg.class, Validate.class, Mwe.class})
 public class FossCut implements Runnable {
+
+    @Option(names = {"-h", "--help"}, usageHelp = true,
+        scope = CommandLine.ScopeType.INHERIT,
+        description = "Show this help message and exit.")
+    boolean usageHelpRequested;
+
+    @Option(names = {"-v", "--version"}, versionHelp = true,
+        scope = CommandLine.ScopeType.INHERIT,
+        description = "Print version information and exit.")
+    boolean versionInfoRequested;
 
     @Spec
     CommandSpec spec;

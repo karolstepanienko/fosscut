@@ -8,7 +8,13 @@ import com.google.ortools.Loader;
 import com.google.ortools.init.OrToolsVersion;
 
 public class ColumnGeneration {
+    private Double relaxCost;
+
     private Parameters param;
+
+    public ColumnGeneration(Double relaxCost) {
+        this.relaxCost = relaxCost;
+    }
 
     public void run(Order order) {
         System.out.println("");
@@ -23,25 +29,40 @@ public class ColumnGeneration {
             CuttingPlanGeneration linearCuttingPlanGeneration = new CuttingPlanGeneration(order, param, false);
             linearCuttingPlanGeneration.solve();
 
-            PatternGeneration patternGeneration = new PatternGeneration(order, linearCuttingPlanGeneration.getDualValues(), false);
+            PatternGeneration patternGeneration = new PatternGeneration(order, linearCuttingPlanGeneration.getDualValues(), relaxCost);
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
 
-            // Save new generated cutting patterns
             param.incrementNPatternMax();
-            for (int i = 0; i < order.getInputs().size(); i++) {
-                List<Integer> outputs = new ArrayList<>();
-                List<Integer> relax = new ArrayList<>();
-                for (int o = 0; o < order.getOutputs().size(); o++) {
-                    outputs.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
-                    relax.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()).intValue());
-                }
-                param.getNipo().get(i).add(outputs);
-                param.getRipo().get(i).add(relax);
-            }
-        } while (reducedCost > 0.0);
+            if (relaxCost == null) copyPatterns(order, patternGeneration);
+            else copyPatternsWithRelaxation(order, patternGeneration);
+
+        } while (reducedCost > Math.pow(10, -10));
 
         CuttingPlanGeneration integerCuttingPlanGeneration = new CuttingPlanGeneration(order, param, true);
         integerCuttingPlanGeneration.solve();
+    }
+
+    private void copyPatterns(Order order, PatternGeneration patternGeneration) {
+        for (int i = 0; i < order.getInputs().size(); i++) {
+            List<Integer> outputsPattern = new ArrayList<>();
+            for (int o = 0; o < order.getOutputs().size(); o++) {
+                outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
+            }
+            param.getNipo().get(i).add(outputsPattern);
+        }
+    }
+
+    private void copyPatternsWithRelaxation(Order order, PatternGeneration patternGeneration) {
+        for (int i = 0; i < order.getInputs().size(); i++) {
+            List<Integer> outputsPattern = new ArrayList<>();
+            List<Integer> relaxPattern = new ArrayList<>();
+            for (int o = 0; o < order.getOutputs().size(); o++) {
+                outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
+                relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()).intValue());
+            }
+            param.getNipo().get(i).add(outputsPattern);
+            param.getRipo().get(i).add(relaxPattern);
+        }
     }
 }
