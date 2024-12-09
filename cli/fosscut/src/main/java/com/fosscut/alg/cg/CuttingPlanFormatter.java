@@ -14,11 +14,13 @@ public class CuttingPlanFormatter {
     private Double relaxCost;
     private Order order;
     private Parameters params;
+    private boolean integerRelax;
 
-    public CuttingPlanFormatter(Double relaxCost, Order order, Parameters params) {
+    public CuttingPlanFormatter(Double relaxCost, Order order, Parameters params, boolean integerRelax) {
         this.relaxCost = relaxCost;
         this.order = order;
         this.params = params;
+        this.integerRelax = integerRelax;
     }
 
     public CuttingPlan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
@@ -63,9 +65,14 @@ public class CuttingPlanFormatter {
     }
 
     private PlanOutput getPlanOutput(Integer outputNumber, int i, int p, int o) {
-        Integer relax;
-        if (relaxCost == null) relax = 0;
-        else relax = params.getRipo().get(i).get(p).get(o);
+        Double relax;
+        if (relaxCost == null)
+            relax = 0.0;
+        // clean double relaxation values to remove any casting remainders like -0.0
+        else if (integerRelax)
+            relax = Double.valueOf(params.getRipo().get(i).get(p).get(o).intValue());
+        else
+            relax = params.getRipo().get(i).get(p).get(o);
 
         PlanOutput planOutput = new PlanOutput(
             o,

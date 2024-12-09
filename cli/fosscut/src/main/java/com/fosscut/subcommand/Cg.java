@@ -38,6 +38,11 @@ public class Cg implements Runnable {
         description = "Path to the file where the cutting plan will be saved.")
     File outputFile;
 
+    @Option(names = { "-i", "--integer-relaxation" },
+        description = "Enforces integer constraints on relaxation values."
+         + " By default relaxation values can be floating point numbers.")
+    boolean integerRelax;
+
     Double relaxCost;
 
     @Option(names = { "-c", "--relaxation-cost" },
@@ -62,13 +67,15 @@ public class Cg implements Runnable {
     @Override
     public void run() {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
+
         YamlLoader yamlLoader = new YamlLoader(quietModeRequested);
         Order order = yamlLoader.loadOrder(orderFile);
 
         Validator validator = new Validator(quietModeRequested);
         validator.validateOrder(order);
 
-        ColumnGeneration columnGeneration = new ColumnGeneration(order, relaxCost, quietModeRequested);
+        ColumnGeneration columnGeneration = new ColumnGeneration(
+            order, relaxCost, integerRelax, quietModeRequested);
         columnGeneration.run();
 
         String cuttingPlan = null;

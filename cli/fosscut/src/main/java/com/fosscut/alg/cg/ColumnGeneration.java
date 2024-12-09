@@ -14,14 +14,16 @@ import com.google.ortools.Loader;
 public class ColumnGeneration {
     private Double relaxCost;
     private Order order;
+    private boolean integerRelax;
     private boolean quietModeRequested;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
 
-    public ColumnGeneration(Order order, Double relaxCost, boolean quietModeRequested) {
+    public ColumnGeneration(Order order, Double relaxCost, boolean integerRelax, boolean quietModeRequested) {
         this.order = order;
         this.relaxCost = relaxCost;
+        this.integerRelax = integerRelax;
         this.quietModeRequested = quietModeRequested;
     }
 
@@ -33,10 +35,14 @@ public class ColumnGeneration {
 
         double reducedCost;
         do {
-            CuttingPlanGeneration linearCuttingPlanGeneration = new CuttingPlanGeneration(order, params, false, quietModeRequested);
+            CuttingPlanGeneration linearCuttingPlanGeneration =
+                new CuttingPlanGeneration(order, params, false, quietModeRequested);
             linearCuttingPlanGeneration.solve();
 
-            PatternGeneration patternGeneration = new PatternGeneration(order, linearCuttingPlanGeneration.getDualValues(), relaxCost, quietModeRequested);
+            PatternGeneration patternGeneration = new PatternGeneration(
+                order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
+                integerRelax, quietModeRequested
+            );
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
 
@@ -58,7 +64,7 @@ public class ColumnGeneration {
     }
 
     public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
-        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params);
+        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params, integerRelax);
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }
 
@@ -80,10 +86,10 @@ public class ColumnGeneration {
     private void copyPatternsWithRelaxation(Order order, PatternGeneration patternGeneration) {
         for (int i = 0; i < order.getInputs().size(); i++) {
             List<Integer> outputsPattern = new ArrayList<>();
-            List<Integer> relaxPattern = new ArrayList<>();
+            List<Double> relaxPattern = new ArrayList<>();
             for (int o = 0; o < order.getOutputs().size(); o++) {
                 outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
-                relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()).intValue());
+                relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()));
             }
             params.getNipo().get(i).add(outputsPattern);
             params.getRipo().get(i).add(relaxPattern);

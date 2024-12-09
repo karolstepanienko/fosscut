@@ -12,17 +12,19 @@ import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
 class PatternGeneration extends LPTask {
-    private Double relaxCost;
     private List<Double> cuttingPlanDualValues;
+    private Double relaxCost;
+    private boolean integerRelax;
     private boolean quietModeRequested;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
 
-    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean quietModeRequested) {
+    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean integerRelax, boolean quietModeRequested) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
+        this.integerRelax = integerRelax;
         this.quietModeRequested = quietModeRequested;
     }
 
@@ -71,20 +73,21 @@ class PatternGeneration extends LPTask {
     }
 
     private void initVariables() {
-        setUsageVariables(defineVariables("usage"));
+        setUsageVariables(defineVariables("usage", true));
     }
 
     private void initVariablesWithRelaxation() {
-        setUsageVariables(defineVariables("usage"));
-        setRelaxVariables(defineVariables("relax"));
+        setUsageVariables(defineVariables("usage", true));
+        setRelaxVariables(defineVariables("relax", integerRelax));
     }
 
-    private List<List<MPVariable>> defineVariables(String varName) {
+    private List<List<MPVariable>> defineVariables(String varName, boolean integerVariables) {
         List<List<MPVariable>> variables = new ArrayList<>();
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
             List<MPVariable> outputs = new ArrayList<>();
             for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                outputs.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
+                if (integerVariables) outputs.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
+                else outputs.add(getSolver().makeNumVar(0.0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
             }
             variables.add(outputs);
         }

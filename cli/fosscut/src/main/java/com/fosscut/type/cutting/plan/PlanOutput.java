@@ -3,9 +3,9 @@ package com.fosscut.type.cutting.plan;
 public class PlanOutput {
     private Integer id;
     private Integer number;
-    private Integer relax;
+    private Double relax;
 
-    public PlanOutput(Integer id, Integer number, Integer relax) {
+    public PlanOutput(Integer id, Integer number, Double relax) {
         this.id = id;
         this.number = number;
         this.relax = relax;
@@ -27,11 +27,11 @@ public class PlanOutput {
         this.number = number;
     }
 
-    public Integer getRelax() {
+    public Double getRelax() {
         return relax;
     }
 
-    public void setRelax(Integer relax) {
+    public void setRelax(Double relax) {
         this.relax = relax;
     }
 }

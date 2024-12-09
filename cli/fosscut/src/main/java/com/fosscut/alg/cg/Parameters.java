@@ -11,13 +11,13 @@ public class Parameters {
     // pattern definition, number of output elements for [input][pattern][output]
     private List<List<List<Integer>>> nipo;
     // relaxation value for [input][pattern][output]
-    private List<List<List<Integer>>> ripo;
+    private List<List<List<Double>>> ripo;
     private int nPattern;
     private int nPatternMax;
 
     Parameters(Order order) {
-        this.nipo = initParameterMatrix(order);
-        this.ripo = initParameterMatrix(order);
+        this.nipo = initParameterMatrix(order, Integer.class, 0);
+        this.ripo = initParameterMatrix(order, Double.class, 0.0);
         this.nPattern = 0;
         this.nPatternMax = 0;
         initPatterns(order);
@@ -31,7 +31,7 @@ public class Parameters {
         this.nipo = nipo;
     }
 
-    public List<List<List<Integer>>> getRipo() {
+    public List<List<List<Double>>> getRipo() {
         return ripo;
     }
 
@@ -59,15 +59,15 @@ public class Parameters {
         this.nPatternMax++;
     }
 
-    List<List<List<Integer>>> initParameterMatrix(Order order) {
+    private <T> List<List<List<T>>> initParameterMatrix(Order order, Class<T> type, T zero) {
         // without ArrayList it will be created as a static unmodifiable List
-        List<List<List<Integer>>> inputs = new ArrayList<>();
+        List<List<List<T>>> inputs = new ArrayList<>();
         for (int i = 0; i < order.getInputs().size(); i++) {
-            List<List<Integer>> patterns = new ArrayList<>();
+            List<List<T>> patterns = new ArrayList<>();
             for (int p = 0; p < order.getOutputs().size(); p++) {
-                List<Integer> outputs = new ArrayList<>();
+                List<T> outputs = new ArrayList<>();
                 for (int o = 0; o < order.getOutputs().size(); o++) {
-                    outputs.add(0);
+                    outputs.add(zero);
                 }
                 patterns.add(outputs);
             }
@@ -77,12 +77,12 @@ public class Parameters {
     }
 
     public void initPatterns(Order order) {
-        for (int ni = 0; ni < order.getInputs().size(); ni++) {
-            OrderInput input = order.getInputs().get(ni);
+        for (int i = 0; i < order.getInputs().size(); i++) {
+            OrderInput input = order.getInputs().get(i);
             setNPattern(0);
-            for (int no = 0; no < order.getOutputs().size(); no++) {
-                OrderOutput output = order.getOutputs().get(no);
-                getNipo().get(ni).get(getNPattern()).set(no, Math.floorDiv(input.getLength(), output.getLength()));
+            for (int o = 0; o < order.getOutputs().size(); o++) {
+                OrderOutput output = order.getOutputs().get(o);
+                getNipo().get(i).get(getNPattern()).set(o, Math.floorDiv(input.getLength(), output.getLength()));
 
                 incrementNPattern();
                 if (getNPattern() > getNPatternMax()) setNPatternMax(getNPattern());

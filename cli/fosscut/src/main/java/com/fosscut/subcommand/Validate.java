@@ -26,6 +26,7 @@ public class Validate implements Runnable {
     @Override
     public void run() {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
+
         YamlLoader yamlLoader = new YamlLoader(quietModeRequested);
         Order order = yamlLoader.loadOrder(orderFile);
 
