@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.fosscut.type.cutting.Element;
+
 public class Order {
     private List<OrderInput> inputs;
     private List<OrderOutput> outputs;
@@ -32,16 +34,33 @@ public class Order {
         return sumLength;
     }
 
-    public boolean isValid() {
+    private boolean longestInputLongerThanLongestOutput() {
         OrderInput longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
         OrderOutput longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));
         return longestInput.getLength() >= longestOutput.getLength();
     }
 
     public void validate() {
-        if (!this.isValid()) {
+        if (!longestInputLongerThanLongestOutput()) {
             System.err.println("Order invalid. Longest input element must be longer than longest output element.");
             System.exit(1);
+        } else if (!lengthHasToBePositive(this.inputs)) {
+            System.err.println("All input lengths have to be positive.");
+            System.exit(1);
+        } else if (!lengthHasToBePositive(this.outputs)) {
+            System.err.println("All output lengths have to be positive.");
+            System.exit(1);
         }
+    }
+
+    private boolean lengthHasToBePositive(List<? extends Element> elements) {
+        boolean valid = true;
+        for (Element element: elements) {
+            if (element.getLength() <= 0) {
+                valid = false;
+                break;
+            }
+        }
+        return valid;
     }
 }
