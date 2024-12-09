@@ -3,24 +3,27 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.type.Order;
+import com.fosscut.type.cutting.order.Order;
 import com.fosscut.utils.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
+import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
-public class PatternGeneration extends LPTask {
+class PatternGeneration extends LPTask {
     private Double relaxCost;
     private List<Double> cuttingPlanDualValues;
+    private boolean quietModeRequested;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
 
-    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost) {
+    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean quietModeRequested) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
+        this.quietModeRequested = quietModeRequested;
     }
 
     public List<List<MPVariable>> getUsageVariables() {
@@ -40,14 +43,19 @@ public class PatternGeneration extends LPTask {
     }
 
     public void solve() {
-        System.out.println("");
-        System.out.println("Starting pattern generation...");
+        if (!quietModeRequested) printIntro();
 
         setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
         if (relaxCost == null) initModel();
         else initModelWithRelaxation();
+        final ResultStatus resultStatus = getSolver().solve();
 
-        printSolution();
+        if (!quietModeRequested) printSolution(resultStatus);
+    }
+
+    private void printIntro() {
+        System.out.println("");
+        System.out.println("Starting pattern generation...");
     }
 
     private void initModel() {

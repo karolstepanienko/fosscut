@@ -1,11 +1,17 @@
 package com.fosscut.utils;
 
-import com.fosscut.type.Order;
+import com.fosscut.type.cutting.order.Order;
 
 public class Validator {
+    private boolean quietModeRequested;
+
+    public Validator(boolean quietModeRequested) {
+        this.quietModeRequested = quietModeRequested;
+    }
+
     public void validateOrder(Order order) {
-        System.out.println("Running order validation...");
+        if(!quietModeRequested) System.out.println("Running order validation...");
         order.validate();
-        System.out.println("Order valid.");
+        if(!quietModeRequested) System.out.println("Order valid.");
     }
 }

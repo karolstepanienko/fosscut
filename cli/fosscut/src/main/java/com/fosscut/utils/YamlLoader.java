@@ -9,11 +9,17 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import com.fosscut.type.Order;
+import com.fosscut.type.cutting.order.Order;
 
 public class YamlLoader {
+    private boolean quietModeRequested;
+
+    public YamlLoader(boolean quietModeRequested) {
+        this.quietModeRequested = quietModeRequested;
+    }
+
     public Order loadOrder(File orderFile) {
-        System.out.println("Loading order...");
+        if(!quietModeRequested) System.out.println("Loading order...");
         Yaml yaml = new Yaml(new Constructor(Order.class, new LoaderOptions()));
         Order order = new Order();
         try {
@@ -29,7 +35,7 @@ public class YamlLoader {
             System.err.println(e.toString());
             System.exit(1);
         }
-        System.out.println("Order loaded.");
+        if(!quietModeRequested) System.out.println("Order loaded.");
         return order;
     }
 }

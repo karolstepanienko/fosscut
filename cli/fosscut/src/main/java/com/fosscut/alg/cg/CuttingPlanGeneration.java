@@ -4,34 +4,56 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Double;
 
-import com.fosscut.type.Order;
+import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.type.cutting.order.Order;
 import com.fosscut.utils.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
+import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
-public class CuttingPlanGeneration extends LPTask {
+class CuttingPlanGeneration extends LPTask {
     private Parameters params;
     private boolean integer;
+    private boolean quietModeRequested;
 
     private List<List<MPVariable>> patternsPerInputVariables;
     private List<MPConstraint> fillConstraints;
 
-    public CuttingPlanGeneration(Order order, Parameters params, boolean integer) {
+    public CuttingPlanGeneration(Order order, Parameters params, boolean integer, boolean quietModeRequested) {
         setOrder(order);
         this.params = params;
         this.integer = integer;
+        this.quietModeRequested = quietModeRequested;
     }
 
     public void solve() {
-        System.out.println("");
-        System.out.println("Starting cutting plan generation...");
+        if (!quietModeRequested) printIntro();
+
         setSolver(defineSolver());
         this.patternsPerInputVariables = defineVariables();
         this.fillConstraints = defineConstraints();
         setObjective(defineObjective());
-        printSolution();
+        final ResultStatus resultStatus = getSolver().solve();
+
+        if (!quietModeRequested) printSolution(resultStatus);
+    }
+
+    public List<List<Integer>> getInputPatternUsage() throws NotIntegerLPTaskException {
+        if (!integer) {
+            throw new NotIntegerLPTaskException("getInputPatternUsage()");
+        }
+
+        List<List<Integer>> inputPatternUsage = new ArrayList<>();
+        for (int i = 0; i < getOrder().getInputs().size(); i++) {
+            List<Integer> patternUsage = new ArrayList<>();
+            for (int p = 0; p < params.getNPatternMax(); p++) {
+                patternUsage.add(Double.valueOf(this.patternsPerInputVariables.get(i).get(p).solutionValue()).intValue());
+            }
+            inputPatternUsage.add(patternUsage);
+        }
+        return inputPatternUsage;
     }
 
     public List<Double> getDualValues() {
@@ -40,6 +62,11 @@ public class CuttingPlanGeneration extends LPTask {
             dualValues.add(Double.valueOf(fillConstraints.get(o).dualValue()));
         }
         return dualValues;
+    }
+
+    private void printIntro() {
+        System.out.println("");
+        System.out.println("Starting cutting plan generation...");
     }
 
     private MPSolver defineSolver() {

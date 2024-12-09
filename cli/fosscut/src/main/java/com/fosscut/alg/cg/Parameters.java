@@ -3,11 +3,11 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.type.Input;
-import com.fosscut.type.Order;
-import com.fosscut.type.Output;
+import com.fosscut.type.cutting.order.Order;
+import com.fosscut.type.cutting.order.OrderInput;
+import com.fosscut.type.cutting.order.OrderOutput;
 
-class Parameters {
+public class Parameters {
     // pattern definition, number of output elements for [input][pattern][output]
     private List<List<List<Integer>>> nipo;
     // relaxation value for [input][pattern][output]
@@ -78,10 +78,10 @@ class Parameters {
 
     public void initPatterns(Order order) {
         for (int ni = 0; ni < order.getInputs().size(); ni++) {
-            Input input = order.getInputs().get(ni);
+            OrderInput input = order.getInputs().get(ni);
             setNPattern(0);
             for (int no = 0; no < order.getOutputs().size(); no++) {
-                Output output = order.getOutputs().get(no);
+                OrderOutput output = order.getOutputs().get(no);
                 getNipo().get(ni).get(getNPattern()).set(no, Math.floorDiv(input.getLength(), output.getLength()));
 
                 incrementNPattern();

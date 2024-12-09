@@ -1,6 +1,8 @@
-package com.fosscut.type;
+package com.fosscut.type.cutting.order;
 
-public class Output extends Element {
+import com.fosscut.type.cutting.Element;
+
+public class OrderOutput extends Element {
     private Integer number;
     private Integer maxRelax;
 

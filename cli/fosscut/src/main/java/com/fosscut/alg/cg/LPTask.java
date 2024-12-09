@@ -1,6 +1,6 @@
 package com.fosscut.alg.cg;
 
-import com.fosscut.type.Order;
+import com.fosscut.type.cutting.order.Order;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
@@ -10,7 +10,7 @@ import com.google.ortools.linearsolver.MPSolver.ResultStatus;
  * Linear programming task. Encapsulates all necessary fields for linear
  * programming tasks in column generation algorithm.
  */
-public abstract class LPTask {
+abstract class LPTask {
     private Order order;
     private MPSolver solver;
     private MPObjective objective;
@@ -39,17 +39,16 @@ public abstract class LPTask {
         this.objective = objective;
     }
 
-    protected void printSolution() {
-        System.out.println("Solving with " + getSolver().solverVersion());
-        final ResultStatus resultStatus = getSolver().solve();
+    protected void printSolution(ResultStatus resultStatus) {
+        System.out.println("Solved with " + getSolver().solverVersion());
 
         System.out.println("Status: " + resultStatus);
         if (resultStatus != ResultStatus.OPTIMAL) {
-            System.out.println("The problem does not have an optimal solution!");
+            System.err.println("The problem does not have an optimal solution!");
             if (resultStatus == ResultStatus.FEASIBLE) {
-                System.out.println("A potentially suboptimal solution was found");
+                System.err.println("A potentially suboptimal solution was found");
             } else {
-                System.out.println("The solver could not solve the problem.");
+                System.err.println("The solver could not solve the problem.");
                 return;
             }
         }

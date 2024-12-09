@@ -21,52 +21,100 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"com.fosscut.type.Element",
+  "name":"com.fosscut.type.cutting.Element",
   "allDeclaredFields":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"setLength","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"getLength","parameterTypes":[] }, {"name":"setLength","parameterTypes":["java.lang.Integer"] }]
 },
 {
-  "name":"com.fosscut.type.ElementBeanInfo"
+  "name":"com.fosscut.type.cutting.ElementBeanInfo"
 },
 {
-  "name":"com.fosscut.type.ElementCustomizer"
+  "name":"com.fosscut.type.cutting.ElementCustomizer"
 },
 {
-  "name":"com.fosscut.type.Input",
-  "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.InputBeanInfo"
-},
-{
-  "name":"com.fosscut.type.InputCustomizer"
-},
-{
-  "name":"com.fosscut.type.Order",
+  "name":"com.fosscut.type.cutting.order.Order",
   "allDeclaredFields":true,
   "queryAllPublicMethods":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
 },
 {
-  "name":"com.fosscut.type.OrderBeanInfo"
+  "name":"com.fosscut.type.cutting.order.OrderBeanInfo"
 },
 {
-  "name":"com.fosscut.type.OrderCustomizer"
+  "name":"com.fosscut.type.cutting.order.OrderCustomizer"
 },
 {
-  "name":"com.fosscut.type.Output",
+  "name":"com.fosscut.type.cutting.order.OrderInput",
   "allDeclaredFields":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"setNumber","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.OutputBeanInfo"
+  "name":"com.fosscut.type.cutting.order.OrderInputBeanInfo"
 },
 {
-  "name":"com.fosscut.type.OutputCustomizer"
+  "name":"com.fosscut.type.cutting.order.OrderInputCustomizer"
+},
+{
+  "name":"com.fosscut.type.cutting.order.OrderOutput",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"setNumber","parameterTypes":["java.lang.Integer"] }]
+},
+{
+  "name":"com.fosscut.type.cutting.order.OrderOutputBeanInfo"
+},
+{
+  "name":"com.fosscut.type.cutting.order.OrderOutputCustomizer"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.CuttingPlan",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.type.cutting.plan.CuttingPlanBeanInfo"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.CuttingPlanCustomizer"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.Pattern",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getNumber","parameterTypes":[] }, {"name":"getPatternDefinition","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PatternBeanInfo"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PatternCustomizer"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PlanInput",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getPatterns","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PlanInputBeanInfo"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PlanInputCustomizer"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PlanOutput",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }, {"name":"getRelax","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PlanOutputBeanInfo"
+},
+{
+  "name":"com.fosscut.type.cutting.plan.PlanOutputCustomizer"
 },
 {
   "name":"com.fosscut.utils.PropertiesVersionProvider",
@@ -96,11 +144,17 @@
   "name":"java.lang.ObjectCustomizer"
 },
 {
+  "name":"java.nio.Buffer"
+},
+{
   "name":"java.nio.file.Path"
 },
 {
   "name":"java.nio.file.Paths",
   "methods":[{"name":"get","parameterTypes":["java.lang.String","java.lang.String[]"] }]
+},
+{
+  "name":"java.security.SecureRandomParameters"
 },
 {
   "name":"java.sql.Connection"
@@ -180,8 +234,11 @@
   "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
-  "name":"picocli.CommandLine$AutoHelpMixin",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "name":"sun.security.provider.NativePRNG",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 }
 ]

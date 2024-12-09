@@ -5,38 +5,42 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.type.Order;
+import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.type.cutting.order.Order;
+import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.utils.Defaults;
 import com.google.ortools.Loader;
-import com.google.ortools.init.OrToolsVersion;
 
 public class ColumnGeneration {
     private Double relaxCost;
+    private Order order;
+    private boolean quietModeRequested;
 
-    private Parameters param;
+    private Parameters params;
+    private CuttingPlanGeneration integerCuttingPlanGeneration;
 
-    public ColumnGeneration(Double relaxCost) {
+    public ColumnGeneration(Order order, Double relaxCost, boolean quietModeRequested) {
+        this.order = order;
         this.relaxCost = relaxCost;
+        this.quietModeRequested = quietModeRequested;
     }
 
-    public void run(Order order) {
-        System.out.println("");
-        System.out.println("Running cutting plan generation using column generation algorithm...");
+    public void run() {
+        if (!quietModeRequested) printIntro();
         Loader.loadNativeLibraries();
-        System.out.println("Google OR-Tools version: " + OrToolsVersion.getVersionString());
 
-        param = new Parameters(order);
+        params = new Parameters(order);
 
         double reducedCost;
         do {
-            CuttingPlanGeneration linearCuttingPlanGeneration = new CuttingPlanGeneration(order, param, false);
+            CuttingPlanGeneration linearCuttingPlanGeneration = new CuttingPlanGeneration(order, params, false, quietModeRequested);
             linearCuttingPlanGeneration.solve();
 
-            PatternGeneration patternGeneration = new PatternGeneration(order, linearCuttingPlanGeneration.getDualValues(), relaxCost);
+            PatternGeneration patternGeneration = new PatternGeneration(order, linearCuttingPlanGeneration.getDualValues(), relaxCost, quietModeRequested);
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
 
-            param.incrementNPatternMax();
+            params.incrementNPatternMax();
             if (relaxCost == null) copyPatterns(order, patternGeneration);
             else copyPatternsWithRelaxation(order, patternGeneration);
 
@@ -49,8 +53,18 @@ public class ColumnGeneration {
             .doubleValue() > 0
         );
 
-        CuttingPlanGeneration integerCuttingPlanGeneration = new CuttingPlanGeneration(order, param, true);
+        integerCuttingPlanGeneration = new CuttingPlanGeneration(order, params, true, quietModeRequested);
         integerCuttingPlanGeneration.solve();
+    }
+
+    public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
+        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params);
+        return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
+    }
+
+    private void printIntro() {
+        System.out.println("");
+        System.out.println("Running cutting plan generation using column generation algorithm...");
     }
 
     private void copyPatterns(Order order, PatternGeneration patternGeneration) {
@@ -59,7 +73,7 @@ public class ColumnGeneration {
             for (int o = 0; o < order.getOutputs().size(); o++) {
                 outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
             }
-            param.getNipo().get(i).add(outputsPattern);
+            params.getNipo().get(i).add(outputsPattern);
         }
     }
 
@@ -71,8 +85,8 @@ public class ColumnGeneration {
                 outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
                 relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()).intValue());
             }
-            param.getNipo().get(i).add(outputsPattern);
-            param.getRipo().get(i).add(relaxPattern);
+            params.getNipo().get(i).add(outputsPattern);
+            params.getRipo().get(i).add(relaxPattern);
         }
     }
 }

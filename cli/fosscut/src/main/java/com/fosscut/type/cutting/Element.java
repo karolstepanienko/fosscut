@@ -1,4 +1,4 @@
-package com.fosscut.type;
+package com.fosscut.type.cutting;
 
 public abstract class Element {
     private Integer length;

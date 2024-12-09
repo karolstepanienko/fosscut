@@ -1,40 +1,40 @@
-package com.fosscut.type;
+package com.fosscut.type.cutting.order;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class Order {
-    private List<Input> inputs;
-    private List<Output> outputs;
+    private List<OrderInput> inputs;
+    private List<OrderOutput> outputs;
 
-    public List<Input> getInputs() {
+    public List<OrderInput> getInputs() {
         return this.inputs;
     }
 
-    public void setInputs(List<Input> inputs) {
+    public void setInputs(List<OrderInput> inputs) {
         this.inputs = inputs;
     }
 
-    public List<Output> getOutputs() {
+    public List<OrderOutput> getOutputs() {
         return this.outputs;
     }
 
-    public void setOutputs(List<Output> outputs) {
+    public void setOutputs(List<OrderOutput> outputs) {
         this.outputs = outputs;
     }
 
     public Integer getInputsSumLength() {
         Integer sumLength = 0;
-        for (Input input : this.inputs) {
+        for (OrderInput input : this.inputs) {
             sumLength += input.getLength();
         }
         return sumLength;
     }
 
     public boolean isValid() {
-        Input longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
-        Output longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));
+        OrderInput longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
+        OrderOutput longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));
         return longestInput.getLength() >= longestOutput.getLength();
     }
 

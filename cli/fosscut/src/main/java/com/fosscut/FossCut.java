@@ -19,15 +19,25 @@ public class FossCut implements Runnable {
     @Option(names = {"-h", "--help"}, usageHelp = true,
         scope = CommandLine.ScopeType.INHERIT,
         description = "Show this help message and exit.")
-    boolean usageHelpRequested;
+    private boolean usageHelpRequested;
 
     @Option(names = {"-v", "--version"}, versionHelp = true,
         scope = CommandLine.ScopeType.INHERIT,
         description = "Print version information and exit.")
-    boolean versionInfoRequested;
+    private boolean versionInfoRequested;
+
+    @Option(names = {"-q", "--quiet", "-s", "--silent"},
+        scope = CommandLine.ScopeType.INHERIT,
+        description = "Quiet mode. Inhibits the usual output."
+    )
+    private boolean quietModeRequested;
 
     @Spec
     CommandSpec spec;
+
+    public boolean getQuietModeRequested() {
+        return this.quietModeRequested;
+    }
 
     @Override
     public void run() {

@@ -1,7 +1,7 @@
 inputs:
-  - length: 110
   - length: 90
   - length: 100
+  - length: 110
   - length: 115
 outputs:
   - length: 20
