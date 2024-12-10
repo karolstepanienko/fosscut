@@ -3,12 +3,10 @@ package com.fosscut.type.cutting.plan;
 public class PlanOutput {
     private Integer id;
     private Integer number;
-    private Double relax;
 
-    public PlanOutput(Integer id, Integer number, Double relax) {
+    public PlanOutput(Integer id, Integer number) {
         this.id = id;
         this.number = number;
-        this.relax = relax;
     }
 
     public Integer getId() {
@@ -25,13 +23,5 @@ public class PlanOutput {
 
     public void setNumber(Integer number) {
         this.number = number;
-    }
-
-    public Double getRelax() {
-        return relax;
-    }
-
-    public void setRelax(Double relax) {
-        this.relax = relax;
     }
 }

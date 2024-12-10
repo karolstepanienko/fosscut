@@ -1,5 +1,9 @@
 [
 {
+  "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"com.fosscut.FossCut",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
@@ -8,7 +12,7 @@
   "name":"com.fosscut.subcommand.Cg",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setRelaxCost","parameterTypes":["java.lang.Double"] }]
 },
 {
   "name":"com.fosscut.subcommand.Mwe",
@@ -18,103 +22,76 @@
 {
   "name":"com.fosscut.subcommand.Validate",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.Element",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
   "methods":[{"name":"getLength","parameterTypes":[] }, {"name":"setLength","parameterTypes":["java.lang.Integer"] }]
-},
-{
-  "name":"com.fosscut.type.cutting.ElementBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.ElementCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.order.Order",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
-},
-{
-  "name":"com.fosscut.type.cutting.order.OrderBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.order.OrderCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.order.OrderInput",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.cutting.order.OrderInputBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.order.OrderInputCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.order.OrderOutput",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"setNumber","parameterTypes":["java.lang.Integer"] }]
-},
-{
-  "name":"com.fosscut.type.cutting.order.OrderOutputBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.order.OrderOutputCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.plan.CuttingPlan",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.cutting.plan.CuttingPlanBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.plan.CuttingPlanCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.plan.Pattern",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getNumber","parameterTypes":[] }, {"name":"getPatternDefinition","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.cutting.plan.PatternBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.plan.PatternCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.plan.PlanInput",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getPatterns","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.cutting.plan.PlanInputBeanInfo"
-},
-{
-  "name":"com.fosscut.type.cutting.plan.PlanInputCustomizer"
 },
 {
   "name":"com.fosscut.type.cutting.plan.PlanOutput",
   "allDeclaredFields":true,
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }, {"name":"getRelax","parameterTypes":[] }]
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.PlanOutputBeanInfo"
+    "name":"com.fosscut.type.cutting.plan.PlanOutputInteger",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[{"name":"getRelax","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.PlanOutputCustomizer"
+  "name":"com.fosscut.type.cutting.plan.PlanOutputDouble",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getRelax","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.utils.PropertiesVersionProvider",
@@ -126,22 +103,36 @@
   "name":"groovy.lang.Closure"
 },
 {
-  "name":"java.beans.Introspector"
+  "name":"java.io.Serializable",
+  "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.beans.PropertyVetoException"
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Double",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.lang.Number",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.lang.Object",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true
+  "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.lang.ObjectBeanInfo"
+  "name":"java.lang.constant.Constable",
+  "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.lang.ObjectCustomizer"
+  "name":"java.lang.constant.ConstantDesc",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.nio.Buffer"
@@ -232,6 +223,10 @@
 {
   "name":"java.time.ZonedDateTime",
   "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicReference",
+  "fields":[{"name":"value"}]
 },
 {
   "name":"sun.security.provider.NativePRNG",

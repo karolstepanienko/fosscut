@@ -1,7 +1,9 @@
 package com.fosscut.utils;
 
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.exceptions.NotIntegerLPTaskException;
@@ -9,7 +11,10 @@ import com.fosscut.type.cutting.plan.CuttingPlan;
 
 public class YamlDumper {
     public String dump(ColumnGeneration columnGeneration) {
-        Yaml yaml = new Yaml();
+        YAMLFactory f = YAMLFactory.builder()
+        .disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
+        .build();
+        ObjectMapper yamlMapper = new ObjectMapper(f);
 
         CuttingPlan cuttingPlan = new CuttingPlan();
         try {
@@ -19,6 +24,15 @@ public class YamlDumper {
             System.exit(1);
         }
 
-        return yaml.dumpAs(cuttingPlan, Tag.MAP, null);
+        String cuttingPatternString = "";
+        try {
+            // Serialize object to YAML
+            cuttingPatternString = yamlMapper.writeValueAsString(cuttingPlan);
+        } catch (JsonProcessingException e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+
+        return cuttingPatternString;
     }
 }

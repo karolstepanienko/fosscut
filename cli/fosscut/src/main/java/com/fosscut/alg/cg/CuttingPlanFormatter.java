@@ -9,6 +9,8 @@ import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;
 import com.fosscut.type.cutting.plan.PlanInput;
 import com.fosscut.type.cutting.plan.PlanOutput;
+import com.fosscut.type.cutting.plan.PlanOutputDouble;
+import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 public class CuttingPlanFormatter {
     private Double relaxCost;
@@ -65,20 +67,13 @@ public class CuttingPlanFormatter {
     }
 
     private PlanOutput getPlanOutput(Integer outputNumber, int i, int p, int o) {
-        Double relax;
+        PlanOutput planOutput;
         if (relaxCost == null)
-            relax = 0.0;
-        // clean double relaxation values to remove any casting remainders like -0.0
+            planOutput = new PlanOutput(o, outputNumber);
         else if (integerRelax)
-            relax = Double.valueOf(params.getRipo().get(i).get(p).get(o).intValue());
+            planOutput = new PlanOutputInteger(o, outputNumber, params.getRipo().get(i).get(p).get(o).intValue());
         else
-            relax = params.getRipo().get(i).get(p).get(o);
-
-        PlanOutput planOutput = new PlanOutput(
-            o,
-            outputNumber,
-            relax
-        );
+            planOutput = new PlanOutputDouble(o, outputNumber, params.getRipo().get(i).get(p).get(o));
 
         return planOutput;
     }
