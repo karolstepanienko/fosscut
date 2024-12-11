@@ -86,6 +86,6 @@ public class Command {
     }
 
     private boolean isWindows() {
-        return System.getProperty("os.name").equals("Windows");
+        return System.getProperty("os.name").contains("Windows");
     }
 }
