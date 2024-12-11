@@ -17,7 +17,8 @@ public class RepetitiveTests {
         command.run();
         assert(command.getError().contains("Usage"));
         assert(command.getError().contains("Missing required parameter: '<order-path>'"));
-        assertEquals(2, command.getExitCode());
+        if (Utils.isLinux()) assertEquals(2, command.getExitCode());
+        if (Utils.isWindows()) assertEquals(1, command.getExitCode());
     }
 
     public static void testVersion(Command command) {

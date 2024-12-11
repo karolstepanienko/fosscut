@@ -2,14 +2,14 @@ package com.fosscut.test;
 
 import org.junit.Test;
 
-import com.fosscut.util.Defaults;
+import com.fosscut.util.Utils;
 
 public class Binary {
     @Test public void fosscutBinaryExists() {
-        assert(Defaults.getFosscutBinaryPath().exists());
+        assert(Utils.getFosscutBinaryPath().exists());
     }
 
     @Test public void fosscutBinaryCanExecute() {
-        assert(Defaults.getFosscutBinaryPath().canExecute());
+        assert(Utils.getFosscutBinaryPath().canExecute());
     }
 }

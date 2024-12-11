@@ -1,22 +1,9 @@
 package com.fosscut.util;
 
-import java.io.File;
-
 public class Defaults {
     public static final String FOSSCUT_BINARY_FOLDER_PATH = "./build/native/nativeCompile";
-    public static final String FOSSCUT_BINARY_NAME = "fosscut";
-
-    public static File getFosscutBinaryFolderPath() {
-        return new File(FOSSCUT_BINARY_FOLDER_PATH);
-    }
-
-    public static File getFosscutBinaryPath() {
-        return new File(FOSSCUT_BINARY_FOLDER_PATH + File.separator + FOSSCUT_BINARY_NAME);
-    }
-
-    public static String getFosscutBinaryExecutable() {
-        return "." + File.separator + FOSSCUT_BINARY_NAME;
-    }
+    public static final String FOSSCUT_LINUX_BINARY_NAME = "fosscut";
+    public static final String FOSSCUT_WINDOWS_BINARY_NAME = "fosscut.exe";
 
     public static final String LINUX_SHELL = "bash";
     public static final String LINUX_CMD_PASS_OPTION = "-c";

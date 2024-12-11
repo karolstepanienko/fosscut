@@ -17,7 +17,7 @@ public class Command {
     private int exitCode;
 
     public Command(String args) {
-        this.command = Defaults.getFosscutBinaryExecutable();
+        this.command = Utils.getFosscutBinaryExecutable();
         this.args = args;
         this.timeout = Defaults.DEFAULT_COMMAND_TIMEOUT;
     }
@@ -48,12 +48,12 @@ public class Command {
         try {
             // Define the command
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.directory(Defaults.getFosscutBinaryFolderPath());
+            processBuilder.directory(Utils.getFosscutBinaryFolderPath());
 
             String fullCommand = this.command + " " + this.args;
-            if (isLinux())
+            if (Utils.isLinux())
                 processBuilder.command(Defaults.LINUX_SHELL, Defaults.LINUX_CMD_PASS_OPTION, fullCommand);
-            else if (isWindows())
+            else if (Utils.isWindows())
                 processBuilder.command(Defaults.WINDOWS_SHELL, fullCommand);
             else {
                 System.err.println("Only linux and windows are supported.");
@@ -79,13 +79,5 @@ public class Command {
             System.err.println("Command run failed. Exception:");
             e.printStackTrace();
         }
-    }
-
-    private boolean isLinux() {
-        return System.getProperty("os.name").equals("Linux");
-    }
-
-    private boolean isWindows() {
-        return System.getProperty("os.name").contains("Windows");
     }
 }
