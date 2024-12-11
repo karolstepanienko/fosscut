@@ -15,6 +15,10 @@ public class Utils {
         return "." + File.separator + getFosscutBinaryName();
     }
 
+    public static String getAbsolutePath(String relativePath) {
+        return new File(relativePath).getAbsolutePath();
+    }
+
     public static boolean isLinux() {
         return System.getProperty("os.name").equals("Linux");
     }

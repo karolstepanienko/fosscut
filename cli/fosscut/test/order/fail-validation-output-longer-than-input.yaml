@@ -1,0 +1,7 @@
+# Longest input length has to be more or equal to longest output length
+inputs:
+  - length: 1
+outputs:
+  - length: 2
+    number: 1
+    maxRelax: 0

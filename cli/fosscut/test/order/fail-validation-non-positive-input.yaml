@@ -1,0 +1,8 @@
+# Input length needs to be positive (> 0)
+inputs:
+  - length: 0
+  - length: 1
+outputs:
+  - length: 1
+    number: 1
+    maxRelax: 0

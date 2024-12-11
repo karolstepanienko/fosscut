@@ -12,4 +12,8 @@ public class Defaults {
     public static final long DEFAULT_COMMAND_TIMEOUT = 5;
 
     public static final String VERSION_STRING = "fosscut version \"0.0.1\"";
+
+    public static final String FAIL_VALIDATION_NON_POSITIVE_INPUT = "./test/order/fail-validation-non-positive-input.yaml";
+    public static final String FAIL_VALIDATION_NON_POSITIVE_OUTPUT = "./test/order/fail-validation-non-positive-output.yaml";
+    public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail-validation-output-longer-than-input.yaml";
 }
