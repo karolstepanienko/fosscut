@@ -3,7 +3,7 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;

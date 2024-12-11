@@ -1,4 +1,4 @@
-package com.fosscut.utils;
+package com.fosscut.util;
 
 import picocli.CommandLine.IVersionProvider;
 

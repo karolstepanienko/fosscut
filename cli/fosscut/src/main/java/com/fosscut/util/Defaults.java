@@ -1,4 +1,4 @@
-package com.fosscut.utils;
+package com.fosscut.util;
 
 public final class Defaults {
     public static final String LINEAR_SOLVER = "GLOP";

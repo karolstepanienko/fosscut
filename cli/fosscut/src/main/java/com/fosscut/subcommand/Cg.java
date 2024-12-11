@@ -4,14 +4,14 @@ import java.io.File;
 
 import com.fosscut.FossCut;
 import com.fosscut.alg.cg.ColumnGeneration;
-import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.utils.OutputFormats;
-import com.fosscut.utils.PropertiesVersionProvider;
-import com.fosscut.utils.Save;
-import com.fosscut.utils.Validator;
-import com.fosscut.utils.YamlDumper;
-import com.fosscut.utils.YamlLoader;
+import com.fosscut.util.OutputFormats;
+import com.fosscut.util.PropertiesVersionProvider;
+import com.fosscut.util.Save;
+import com.fosscut.util.Validator;
+import com.fosscut.util.YamlDumper;
+import com.fosscut.util.YamlLoader;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

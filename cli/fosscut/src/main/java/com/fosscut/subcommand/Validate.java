@@ -4,9 +4,9 @@ import java.io.File;
 
 import com.fosscut.FossCut;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.utils.PropertiesVersionProvider;
-import com.fosscut.utils.Validator;
-import com.fosscut.utils.YamlLoader;
+import com.fosscut.util.PropertiesVersionProvider;
+import com.fosscut.util.Validator;
+import com.fosscut.util.YamlLoader;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

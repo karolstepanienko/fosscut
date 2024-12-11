@@ -1,4 +1,4 @@
-package com.fosscut.utils;
+package com.fosscut.util;
 
 public enum OutputFormats {
     json,

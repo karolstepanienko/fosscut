@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Double;
 
-import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.utils.Defaults;
+import com.fosscut.util.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;

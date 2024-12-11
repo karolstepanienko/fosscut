@@ -5,10 +5,10 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
-import com.fosscut.utils.Defaults;
+import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
 
 public class ColumnGeneration {

@@ -1,4 +1,4 @@
-package com.fosscut.utils;
+package com.fosscut.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
-import com.fosscut.exceptions.NotIntegerLPTaskException;
+import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 
 public class YamlDumper {

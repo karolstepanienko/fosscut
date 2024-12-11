@@ -1,7 +1,7 @@
 package com.fosscut.subcommand;
 
 import com.fosscut.mwe.OrTools;
-import com.fosscut.utils.PropertiesVersionProvider;
+import com.fosscut.util.PropertiesVersionProvider;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

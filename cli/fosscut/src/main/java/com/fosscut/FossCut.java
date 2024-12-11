@@ -3,7 +3,7 @@ package com.fosscut;
 import com.fosscut.subcommand.Cg;
 import com.fosscut.subcommand.Mwe;
 import com.fosscut.subcommand.Validate;
-import com.fosscut.utils.PropertiesVersionProvider;
+import com.fosscut.util.PropertiesVersionProvider;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
