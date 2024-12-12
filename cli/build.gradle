@@ -6,6 +6,9 @@ plugins {
     id 'org.graalvm.buildtools.native' version '0.10.3'
 }
 
+group = 'com.fosscut'
+version = '0.0.1'
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
