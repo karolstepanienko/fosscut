@@ -1,0 +1,11 @@
+# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+
+[versions]
+spring = "3.4.0"
+junit = "1.11.3"
+
+[libraries]
+springStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring" }
+springStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring" }
+springStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring" }
+junit = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
