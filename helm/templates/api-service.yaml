@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fosscut.fullname" . }}-api
+  labels:
+    {{- include "fosscut.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.api.type }}
+  ports:
+    - port: {{ .Values.service.api.port }}
+      targetPort: {{ .Values.service.api.name }}
+      protocol: TCP
+      name: {{ .Values.service.api.name }}
+  selector:
+    {{- include "fosscut.selectorLabels.param" (dict "Context" . "Name" "api") | nindent 4 }}

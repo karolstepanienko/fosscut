@@ -1,0 +1,13 @@
+resources:
+  api:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+tolerations: []
+# tolerations:
+#   - effect: NoSchedule
+#     key: node-role.kubernetes.io/control-plane

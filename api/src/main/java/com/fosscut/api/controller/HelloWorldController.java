@@ -13,4 +13,10 @@ public class HelloWorldController {
         return "Hello";
     }
 
+    @GetMapping("/health")
+    @ResponseBody
+    public String reportHealthy() {
+        return "OK";
+    }
+
 }

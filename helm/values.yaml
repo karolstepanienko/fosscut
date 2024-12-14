@@ -1,0 +1,136 @@
+replicaCount:
+  api: 1
+  gui: 1
+
+image:
+  api:
+    repository: karolstepanienko/fosscut-api-native
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  gui:
+    repository: karolstepanienko/fosscut-gui
+    pullPolicy: IfNotPresent
+    tag: ""
+
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  api:
+    name: https-api
+    type: ClusterIP
+    port: 6443
+  gui:
+    name: https-gui
+    type: ClusterIP
+    port: 6443
+
+ingress:
+  enabled: true
+  className: "haproxy"
+  annotations: {}
+  hosts:
+    - host: fosscut.com
+      paths:
+        - path: /api
+          pathType: Prefix
+          service:
+            name: api
+            port:
+              name: https-api
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  api: {}
+  gui: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: https-api
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: https-api
+
+autoscaling:
+  api:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  gui:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes:
+  api:
+  - name: api-application-properties
+    secret:
+      secretName: fosscut-api-application-properties
+      optional: false
+  gui: {}
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+  api:
+    - name: api-application-properties
+      mountPath: "/application.properties"
+      subPath: application.properties
+      readOnly: true
+  gui: {}
+
+# Path to api application properties that will be mounted as a secret
+apiPropertiesPath: secrets/application.properties
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

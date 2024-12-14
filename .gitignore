@@ -25,3 +25,7 @@ replay_pid*
 
 # editor configuration
 .vscode/
+
+# secrets used in deployment
+helm/secrets/
+helm/depreciated/
