@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FosscutApiApplication {
 
     public static void main(String[] args) {
+        new PropertiesLoader().run();
         SpringApplication.run(FosscutApiApplication.class, args);
     }
 
