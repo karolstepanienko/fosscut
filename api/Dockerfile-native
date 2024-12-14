@@ -4,13 +4,13 @@ RUN microdnf install findutils
 
 COPY gradle gradle
 COPY gradlew build.gradle settings.gradle ./
-RUN ./gradlew wrapper
+RUN ./gradlew --no-daemon wrapper
 COPY src src
 
-RUN ./gradlew nativeCompile
+RUN ./gradlew --no-daemon nativeCompile
 
 
-FROM alpine:3.21.0 as final
+FROM alpine:3.21.0 AS final
 
 RUN apk add libc6-compat
 
