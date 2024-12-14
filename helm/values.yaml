@@ -56,7 +56,11 @@ service:
 ingress:
   enabled: true
   className: "haproxy"
-  annotations: {}
+  annotations:
+    # use https when connecting to backend services
+    haproxy.org/server-ssl: "true"
+    # cert used to verify backend services certificate
+    haproxy.org/server-ca: "fosscut/fosscut-ca"
   hosts:
     - host: fosscut.com
       paths:
@@ -89,10 +93,12 @@ livenessProbe:
   httpGet:
     path: /api/health
     port: https-api
+    scheme: HTTPS
 readinessProbe:
   httpGet:
     path: /api/health
     port: https-api
+    scheme: HTTPS
 
 autoscaling:
   api:
@@ -115,6 +121,14 @@ volumes:
     secret:
       secretName: fosscut-api-application-properties
       optional: false
+  - name: api-keystore
+    secret:
+      secretName: fosscut-api-keystore
+      optional: false
+  - name: truststore
+    secret:
+      secretName: fosscut-truststore
+      optional: false
   gui: {}
 
 # Additional volumeMounts on the output Deployment definition.
@@ -124,10 +138,23 @@ volumeMounts:
       mountPath: "/application.properties"
       subPath: application.properties
       readOnly: true
+    - name: api-keystore
+      mountPath: "/keystore.p12"
+      subPath: keystore.p12
+      readOnly: true
+    - name: truststore
+      mountPath: "/truststore.p12"
+      subPath: truststore.p12
+      readOnly: true
   gui: {}
 
 # Path to api application properties that will be mounted as a secret
+CACertPath: secrets/ca.crt
+mTLSClientCertPath: secrets/client.crt
+mTLSClientKeyPath: secrets/client.key
 apiPropertiesPath: secrets/application.properties
+apiKeystorePath: secrets/keystore.p12
+truststorePath: secrets/truststore.p12
 
 nodeSelector: {}
 
