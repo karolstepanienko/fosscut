@@ -63,6 +63,8 @@ ingress:
     haproxy.org/server-ca: "fosscut/fosscut-ca"
     # client cert used by the loadbalancer
     haproxy.org/server-crt: "fosscut/fosscut-mtls-client-cert"
+    # enable sticky sessions
+    # cookie-persistence: "session-persistence-cookie"
   hosts:
     - host: fosscut.com
       paths:

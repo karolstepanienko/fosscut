@@ -17,6 +17,8 @@ import com.fosscut.api.JsonPayload;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Map;
@@ -35,6 +37,14 @@ public class HelloWorldController {
     @ResponseBody
     public String reportHealthy() {
         return "OK";
+    }
+
+    @GetMapping("/time")
+    @ResponseBody
+    public String track() {
+        String time = LocalDate.now().toString() + ":" + LocalTime.now();
+        System.out.println(time);
+        return time;
     }
 
     @RequestMapping(value = "/echo",
