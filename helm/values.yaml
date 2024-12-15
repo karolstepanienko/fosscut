@@ -61,6 +61,8 @@ ingress:
     haproxy.org/server-ssl: "true"
     # cert used to verify backend services certificate
     haproxy.org/server-ca: "fosscut/fosscut-ca"
+    # client cert used by the loadbalancer
+    haproxy.org/server-crt: "fosscut/fosscut-mtls-client-cert"
   hosts:
     - host: fosscut.com
       paths:
@@ -70,10 +72,10 @@ ingress:
             name: api
             port:
               name: https-api
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+   - secretName: fosscut.com-tls-secret
+     hosts:
+       - fosscut.com
 
 resources:
   api: {}
@@ -90,15 +92,15 @@ resources:
   #   memory: 128Mi
 
 livenessProbe:
-  httpGet:
-    path: /api/health
-    port: https-api
-    scheme: HTTPS
+  command: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/api/health | grep 200
+  time:
+    initialDelaySeconds: 5
+    periodSeconds: 5
 readinessProbe:
-  httpGet:
-    path: /api/health
-    port: https-api
-    scheme: HTTPS
+  command: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/api/health | grep 200
+  time:
+    initialDelaySeconds: 5
+    periodSeconds: 5
 
 autoscaling:
   api:
@@ -129,6 +131,14 @@ volumes:
     secret:
       secretName: fosscut-truststore
       optional: false
+  - name: ca-cert
+    secret:
+      secretName: fosscut-ca
+      optional: false
+  - name: mtls-client-cert
+    secret:
+      secretName: fosscut-mtls-client-cert
+      optional: false
   gui: {}
 
 # Additional volumeMounts on the output Deployment definition.
@@ -145,6 +155,18 @@ volumeMounts:
     - name: truststore
       mountPath: "/truststore.p12"
       subPath: truststore.p12
+      readOnly: true
+    - name: ca-cert
+      mountPath: "/ca.crt"
+      subPath: tls.crt
+      readOnly: true
+    - name: mtls-client-cert
+      mountPath: "/client.crt"
+      subPath: tls.crt
+      readOnly: true
+    - name: mtls-client-cert
+      mountPath: "/client.key"
+      subPath: tls.key
       readOnly: true
   gui: {}
 

@@ -41,9 +41,19 @@ spec:
               containerPort: {{ .Values.service.api.port }}
               protocol: TCP
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - {{ .Values.readinessProbe.command }}
+            {{- toYaml .Values.livenessProbe.time | nindent 12 }}
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - {{ .Values.readinessProbe.command }}
+            {{- toYaml .Values.readinessProbe.time | nindent 12 }}
           resources:
             {{- toYaml .Values.resources.api | nindent 12 }}
           {{- with .Values.volumeMounts.api }}

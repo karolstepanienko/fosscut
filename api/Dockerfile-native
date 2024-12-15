@@ -12,7 +12,7 @@ RUN ./gradlew --no-daemon nativeCompile
 
 FROM alpine:3.21.0 AS final
 
-RUN apk add libc6-compat
+RUN apk add libc6-compat curl
 
 COPY --from=build /app/build/native/nativeCompile/fosscut-api .
 
