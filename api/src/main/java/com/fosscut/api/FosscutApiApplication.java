@@ -3,6 +3,8 @@ package com.fosscut.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.fosscut.api.util.PropertiesLoader;
+
 @SpringBootApplication
 public class FosscutApiApplication {
 

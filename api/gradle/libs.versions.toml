@@ -3,9 +3,11 @@
 [versions]
 spring = "3.4.0"
 junit = "1.11.3"
+k8sClient = "7.0.0"
 
 [libraries]
 springStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring" }
 springStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring" }
 springStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring" }
 junit = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
+k8sClient = { module = "io.fabric8:tekton-client", version.ref = "k8sClient" }

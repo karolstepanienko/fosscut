@@ -26,12 +26,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
-public class HelloWorldController {
+public class Debug {
 
     @Autowired
     private HttpServletRequest request;
 
-    private static final Logger LOG = LoggerFactory.getLogger(HelloWorldController.class); 
+    private static final Logger LOG = LoggerFactory.getLogger(Debug.class); 
 
     @GetMapping("/health")
     @ResponseBody

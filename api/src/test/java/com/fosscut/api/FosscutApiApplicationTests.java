@@ -14,14 +14,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fosscut.api.controller.HelloWorldController;
+import com.fosscut.api.controller.Debug;
 
 @AutoConfigureMockMvc
 @SpringBootTest
 class FosscutApiApplicationTests {
 
     @Autowired
-    private HelloWorldController controller;
+    private Debug controller;
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,9 +33,9 @@ class FosscutApiApplicationTests {
 
     @Test
     void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/hello"))
+        this.mockMvc.perform(get("/health"))
             .andDo(print()).andExpect(status().isOk())
-            .andExpect(content().string(equalTo("Hello")));
+            .andExpect(content().string(equalTo("OK")));
     }
 
 }

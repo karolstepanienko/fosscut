@@ -21,6 +21,7 @@ repositories {
 dependencies {
     implementation libs.springStarter
     implementation libs.springStarterWeb
+    implementation libs.k8sClient
     testImplementation libs.springStarterTest
     testRuntimeOnly libs.junit
 }

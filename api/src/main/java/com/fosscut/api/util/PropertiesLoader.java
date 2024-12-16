@@ -1,4 +1,4 @@
-package com.fosscut.api;
+package com.fosscut.api.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +7,7 @@ import java.util.Properties;
 public class PropertiesLoader {
     public static final String DEFAULT_PROPERTIES_FILE_LOCATION = "/application.properties";
 
-    void run() {
+    public void run() {
         String propertiesFilePath = System.getProperty("properties.file");
 
         File propertiesFile;

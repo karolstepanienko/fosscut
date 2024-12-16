@@ -1,11 +1,11 @@
 resources:
   api:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 500m
+      memory: 2048Mi
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 500m
+      memory: 2048Mi
 
 tolerations: []
 # tolerations:
