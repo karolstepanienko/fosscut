@@ -16,4 +16,4 @@ RUN apk add libc6-compat curl
 
 COPY --from=build /app/build/native/nativeCompile/fosscut-api .
 
-ENTRYPOINT /fosscut-api
+ENTRYPOINT ["/fosscut-api"]

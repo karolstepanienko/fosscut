@@ -31,7 +31,7 @@ public class Debug {
     @Autowired
     private HttpServletRequest request;
 
-    private static final Logger LOG = LoggerFactory.getLogger(Debug.class); 
+    private static final Logger LOG = LoggerFactory.getLogger(Debug.class);
 
     @GetMapping("/health")
     @ResponseBody

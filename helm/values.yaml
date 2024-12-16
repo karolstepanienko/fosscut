@@ -9,7 +9,7 @@ image:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   gui:
-    repository: karolstepanienko/fosscut-gui
+    repository: karolstepanienko/fosscut-gui-native
     pullPolicy: IfNotPresent
     tag: ""
 
@@ -68,6 +68,12 @@ ingress:
   hosts:
     - host: fosscut.com
       paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: gui
+            port:
+              name: https-gui
         - path: /api
           pathType: Prefix
           service:
@@ -83,13 +89,15 @@ resources:
   api: {}
   gui: {}
 
+probeCommand:
+  api: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/api/health | grep 200
+  gui: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/health | grep 200
+
 livenessProbe:
-  command: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/api/health | grep 200
   time:
     initialDelaySeconds: 10
     periodSeconds: 5
 readinessProbe:
-  command: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/api/health | grep 200
   time:
     initialDelaySeconds: 10
     periodSeconds: 5
@@ -102,7 +110,7 @@ autoscaling:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
   gui:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 2
     targetCPUUtilizationPercentage: 80
@@ -111,27 +119,47 @@ autoscaling:
 # Additional volumes on the output Deployment definition.
 volumes:
   api:
-  - name: api-application-properties
-    secret:
-      secretName: fosscut-api-application-properties
-      optional: false
-  - name: api-keystore
-    secret:
-      secretName: fosscut-api-keystore
-      optional: false
-  - name: truststore
-    secret:
-      secretName: fosscut-truststore
-      optional: false
-  - name: ca-cert
-    secret:
-      secretName: fosscut-ca
-      optional: false
-  - name: mtls-client-cert
-    secret:
-      secretName: fosscut-mtls-client-cert
-      optional: false
-  gui: {}
+    - name: api-application-properties
+      secret:
+        secretName: fosscut-api-application-properties
+        optional: false
+    - name: api-keystore
+      secret:
+        secretName: fosscut-api-keystore
+        optional: false
+    - name: truststore
+      secret:
+        secretName: fosscut-truststore
+        optional: false
+    - name: ca-cert
+      secret:
+        secretName: fosscut-ca
+        optional: false
+    - name: mtls-client-cert
+      secret:
+        secretName: fosscut-mtls-client-cert
+        optional: false
+  gui:
+    - name: api-application-properties
+      secret:
+        secretName: fosscut-api-application-properties
+        optional: false
+    - name: api-keystore
+      secret:
+        secretName: fosscut-api-keystore
+        optional: false
+    - name: truststore
+      secret:
+        secretName: fosscut-truststore
+        optional: false
+    - name: ca-cert
+      secret:
+        secretName: fosscut-ca
+        optional: false
+    - name: mtls-client-cert
+      secret:
+        secretName: fosscut-mtls-client-cert
+        optional: false
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
@@ -160,7 +188,31 @@ volumeMounts:
       mountPath: "/client.key"
       subPath: tls.key
       readOnly: true
-  gui: {}
+  gui:
+    - name: api-application-properties
+      mountPath: "/application.properties"
+      subPath: application.properties
+      readOnly: true
+    - name: api-keystore
+      mountPath: "/keystore.p12"
+      subPath: keystore.p12
+      readOnly: true
+    - name: truststore
+      mountPath: "/truststore.p12"
+      subPath: truststore.p12
+      readOnly: true
+    - name: ca-cert
+      mountPath: "/ca.crt"
+      subPath: tls.crt
+      readOnly: true
+    - name: mtls-client-cert
+      mountPath: "/client.crt"
+      subPath: tls.crt
+      readOnly: true
+    - name: mtls-client-cert
+      mountPath: "/client.key"
+      subPath: tls.key
+      readOnly: true
 
 # Path to api application properties that will be mounted as a secret
 CACertPath: secrets/ca.crt

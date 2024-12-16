@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "fosscut.fullname" . }}-api
+  name: {{ include "fosscut.fullname" . }}-gui
   labels:
     {{- include "fosscut.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount.api }}
+  replicas: {{ .Values.replicaCount.gui }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "fosscut.selectorLabels.param" (dict "Context" . "Name" "api") | nindent 6 }}
+      {{- include "fosscut.selectorLabels.param" (dict "Context" . "Name" "gui") | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "fosscut.labels.param" (dict "Context" . "Name" "api") | nindent 8 }}
+        {{- include "fosscut.labels.param" (dict "Context" . "Name" "gui") | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,40 +27,39 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "fosscut.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.api.repository }}:{{ .Values.image.api.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.api.pullPolicy }}
+          image: "{{ .Values.image.gui.repository }}:{{ .Values.image.gui.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.gui.pullPolicy }}
           ports:
-            - name: {{ .Values.service.api.name }}
-              containerPort: {{ .Values.service.api.port }}
+            - name: {{ .Values.service.gui.name }}
+              containerPort: {{ .Values.service.gui.port }}
               protocol: TCP
           livenessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
-                - {{ .Values.probeCommand.api }}
+                - {{ .Values.probeCommand.gui }}
             {{- toYaml .Values.livenessProbe.time | nindent 12 }}
           readinessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
-                - {{ .Values.probeCommand.api }}
+                - {{ .Values.probeCommand.gui }}
             {{- toYaml .Values.readinessProbe.time | nindent 12 }}
           resources:
-            {{- toYaml .Values.resources.api | nindent 12 }}
-          {{- with .Values.volumeMounts.api }}
+            {{- toYaml .Values.resources.gui | nindent 12 }}
+          {{- with .Values.volumeMounts.gui }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.volumes.api }}
+      {{- with .Values.volumes.gui }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}

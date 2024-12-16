@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.graalvm.buildtools.native' version '0.10.3'
+}
+
+group = 'com.fosscut'
+version = '0.0.1'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.springStarter
+    implementation libs.springStarterWeb
+    testImplementation libs.springStarterTest
+    testRuntimeOnly libs.junit
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.register('buildGui') {
+    doLast {
+        exec {
+            workingDir '..'
+            commandLine 'deno', 'run', 'build'
+        }
+
+    }
+}
+
+task copyBuildGuiToStaticFolder(type: Copy) {
+    dependsOn buildGui
+    from '../client/dist'
+    into 'src/main/resources/static'
+}
+
+def stdout = new ByteArrayOutputStream()
+exec {
+    commandLine 'which', 'deno'
+    standardOutput = stdout
+    ignoreExitValue true
+}
+// build frontend only if deno command is available
+if (stdout.toString().contains('deno')) {
+    tasks.named('processResources') {
+        dependsOn copyBuildGuiToStaticFolder
+    }
+}

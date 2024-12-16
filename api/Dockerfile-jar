@@ -14,4 +14,4 @@ FROM openjdk:21 AS final
 
 COPY --from=build /build/libs/fosscut-api-*.jar fosscut-api.jar
 
-ENTRYPOINT java -jar /fosscut-api.jar
+ENTRYPOINT ["java", "-jar", "/fosscut-api.jar"]
