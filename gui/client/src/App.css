@@ -12,10 +12,19 @@
   padding-bottom: 10em;
 }
 
+.warning {
+  color: red;
+}
+
 .input-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.inputs-in-container {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Base styling for the input element */
@@ -28,6 +37,8 @@
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
 }
 
 .input-button {
@@ -56,11 +67,11 @@
   }
 }
 
-.todo-list {
+.list {
   margin-inline: 1em;
 }
 
-.todo-item {
+.item {
   display: flex;
   justify-content: space-between;
   margin-top: 0.5em;
@@ -68,13 +79,17 @@
   margin-inline: 1em;
 }
 
-.todo-item-name {
+.item-name {
   width: 12em;
   text-align: center;
   text-overflow: hidden;
 }
 
-.todo-item-button {
+.item-button {
   width: 2.5em;
   max-height: 2.5em;
+}
+
+.item-button.output {
+  margin-top: 2.5em;
 }
