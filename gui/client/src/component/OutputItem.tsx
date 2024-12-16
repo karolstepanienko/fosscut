@@ -10,14 +10,12 @@ type OutputItemProps = {
 const OutputItem: React.FC<OutputItemProps> = ({output, deleteOutput}) => {
   return (
   <div className="item">
-    <div className="todo-item-name-container">
+    <div className="item-name-container">
       <p className="item-name">Length: {output.length}</p>
       <p className="item-name">Number: {output.number}</p>
       <p className="item-name">MaxRelax: {output.maxRelax}</p>
     </div>
-    <button className="item-button output" onClick={() => deleteOutput(output.id)}>
-    x
-    </button>
+    <button className="item-button" onClick={() => deleteOutput(output.id)}>X</button>
   </div>
   )
 }

@@ -30,7 +30,7 @@
 
 /* Base styling for the input element */
 .styled-input {
-  width: 11em;
+  width: 12em;
   padding: 0.8em 1em;
   font-size: 16px;
   border: 2px solid gray;
@@ -75,22 +75,24 @@
 .item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  margin-inline: 1em;
+}
+
+.item-name-container {
+  width: 12em;
+  padding: 0.1em 1em;
+  border: 2px solid gray;
+  border-radius: 8px; /* Smooth rounded corners */
 }
 
 .item-name {
-  width: 12em;
   text-align: center;
   text-overflow: hidden;
 }
 
 .item-button {
-  width: 2.5em;
-  max-height: 2.5em;
-}
-
-.item-button.output {
-  margin-top: 2.5em;
+  margin-right: 1em;
+  padding: 0.6em 1em;
 }

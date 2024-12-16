@@ -10,10 +10,10 @@ type InputItemProps = {
 const InputItem: React.FC<InputItemProps> = ({input, deleteInput}) => {
   return (
   <div className="item">
-    <p className="item-name">Length: {input.length}</p>
-    <button className="item-button" onClick={() => deleteInput(input.id)}>
-    x
-    </button>
+    <div className="item-name-container">
+      <p className="item-name">Length: {input.length}</p>
+    </div>
+    <button className="item-button" onClick={() => deleteInput(input.id)}>X</button>
   </div>
   )
 }
