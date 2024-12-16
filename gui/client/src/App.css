@@ -1,0 +1,80 @@
+#root {
+  max-width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  padding-top: 2em;
+  padding-bottom: 10em;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base styling for the input element */
+.styled-input {
+  width: 11em;
+  padding: 0.8em 1em;
+  font-size: 16px;
+  border: 2px solid #ddd; /* Light gray border */
+  border-radius: 8px; /* Smooth rounded corners */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.input-button {
+  margin: 1em;
+  padding: 0.6em 1em;
+}
+
+/* Placeholder text styling */
+.styled-input::placeholder {
+  color: #aaa;
+  font-family: inherit;
+  font-style: italic;
+}
+
+/* On focus: better visual cue */
+.styled-input:focus {
+  border-color: #007BFF; /* Highlight border with blue */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.25); /* Stronger shadow */
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .styled-input {
+    width: 90%; /* Make it responsive on smaller screens */
+    font-size: 14px;
+  }
+}
+
+.todo-list {
+  margin-inline: 1em;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-inline: 1em;
+}
+
+.todo-item-name {
+  width: 12em;
+  text-align: center;
+  text-overflow: hidden;
+}
+
+.todo-item-button {
+  width: 2.5em;
+  max-height: 2.5em;
+}
