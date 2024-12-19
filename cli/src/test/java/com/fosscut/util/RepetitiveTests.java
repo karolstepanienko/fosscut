@@ -23,7 +23,7 @@ public class RepetitiveTests {
 
     public static void testVersion(Command command) {
         command.run();
-        assert(command.getOutput().contains(Defaults.VERSION_STRING));
+        assert(command.getOutput().contains(TestDefaults.VERSION_STRING));
         assert(command.getOutput().contains("Built: "));
         String dateString = extractAfter(command.getOutput(), "Built: ");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");

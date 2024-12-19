@@ -1,6 +1,6 @@
 package com.fosscut.util;
 
-public class Defaults {
+public class TestDefaults {
     public static final String FOSSCUT_BINARY_FOLDER_PATH = "./build/native/nativeCompile";
     public static final String FOSSCUT_LINUX_BINARY_NAME = "fosscut";
     public static final String FOSSCUT_WINDOWS_BINARY_NAME = "fosscut.exe";
@@ -16,4 +16,7 @@ public class Defaults {
     public static final String FAIL_VALIDATION_NON_POSITIVE_INPUT = "./test/order/fail-validation-non-positive-input.yaml";
     public static final String FAIL_VALIDATION_NON_POSITIVE_OUTPUT = "./test/order/fail-validation-non-positive-output.yaml";
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail-validation-output-longer-than-input.yaml";
+
+    public static final String SIMPLE_CG_ORDER = "./test/order/simple-cutting-order.yaml";
+    public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cutting-plan.yaml";
 }

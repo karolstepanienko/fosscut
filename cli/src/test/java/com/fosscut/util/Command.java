@@ -19,7 +19,7 @@ public class Command {
     public Command(String args) {
         this.command = Utils.getFosscutBinaryExecutable();
         this.args = args;
-        this.timeout = Defaults.DEFAULT_COMMAND_TIMEOUT;
+        this.timeout = TestDefaults.DEFAULT_COMMAND_TIMEOUT;
     }
 
     public Command(String command, String args, long timeout) {
@@ -52,9 +52,9 @@ public class Command {
 
             String fullCommand = this.command + " " + this.args;
             if (Utils.isLinux())
-                processBuilder.command(Defaults.LINUX_SHELL, Defaults.LINUX_CMD_PASS_OPTION, fullCommand);
+                processBuilder.command(TestDefaults.LINUX_SHELL, TestDefaults.LINUX_CMD_PASS_OPTION, fullCommand);
             else if (Utils.isWindows())
-                processBuilder.command(Defaults.WINDOWS_SHELL, fullCommand);
+                processBuilder.command(TestDefaults.WINDOWS_SHELL, fullCommand);
             else {
                 System.err.println("Only linux and windows are supported.");
                 System.exit(1);
