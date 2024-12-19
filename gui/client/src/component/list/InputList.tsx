@@ -47,7 +47,6 @@ const InputList = () => {
 
   return (
     <div className="list">
-      <p>Inputs</p>
       {renderWarning()}
       <div className="input-container">
         <input type="number" min="1" step="1" value={length}

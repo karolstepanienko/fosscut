@@ -54,7 +54,6 @@ const OutputList = () => {
 
   return (
     <div className="list">
-      <p>Outputs</p>
       {renderWarning()}
       <div className="input-container">
         <div className="inputs-in-container">
