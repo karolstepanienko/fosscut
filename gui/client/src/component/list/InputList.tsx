@@ -56,7 +56,7 @@ const InputList = () => {
           onChange={e => setLength(e.target.value)}
           onKeyDown={e => handleKeyDown(e)}
         />
-        <button className="input-button" onClick={() => addInput()}>
+        <button className="btn btn-secondary fosscut-button input-button" onClick={() => addInput()}>
           Add</button>
       </div>
       {inputs.map((input: Input) => (
@@ -67,7 +67,7 @@ const InputList = () => {
         />
       ))}
     </div>
-  )
+  );
 }
 
-export default InputList
+export default InputList;

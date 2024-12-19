@@ -1,10 +1,7 @@
-#root {
-  max-width: 70%;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .card {
+  border: 0; /* remove default border set by bootstrap */
+  text-align: center;
+  place-items: center;
   display: flex;
   flex-direction: row;
   flex-flow: wrap;
@@ -30,7 +27,7 @@
 
 /* Base styling for the input element */
 .styled-input {
-  width: 12em;
+  width: 14em;
   padding: 0.8em 1em;
   font-size: 16px;
   border: 2px solid gray;
@@ -42,16 +39,28 @@
   margin-bottom: 0.2em;
 }
 
+.fosscut-button {
+  border-radius: 0.4em;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.fosscut-button:hover {
+  border-color: #007BFF;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.25); /* Stronger shadow */
+}
+.fosscut-button:focus,
+.fosscut-button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
 .input-button {
   margin: 1em;
   padding: 0.6em 1em;
-}
-
-/* Placeholder text styling */
-.styled-input::placeholder {
-  color: #aaa;
-  font-family: inherit;
-  font-style: italic;
 }
 
 /* On focus: better visual cue */
@@ -81,7 +90,10 @@
 }
 
 .item-name-container {
-  width: 12em;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  width: 14em;
   padding: 0.1em 1em;
   border: 2px solid gray;
   border-radius: 8px; /* Smooth rounded corners */
@@ -90,6 +102,8 @@
 .item-name {
   text-align: center;
   text-overflow: hidden;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .item-button {

@@ -77,7 +77,7 @@ const OutputList = () => {
             onKeyDown={e => handleKeyDown(e)}
           />
         </div>
-        <button className="input-button" onClick={() => addOutput()}>
+        <button className="btn btn-secondary fosscut-button input-button" onClick={() => addOutput()}>
           Add</button>
       </div>
       {outputs.map((output: Output) => (
@@ -88,7 +88,7 @@ const OutputList = () => {
         />
       ))}
     </div>
-  )
+  );
 }
 
-export default OutputList
+export default OutputList;

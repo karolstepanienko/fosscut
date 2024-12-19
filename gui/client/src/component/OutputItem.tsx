@@ -15,9 +15,9 @@ const OutputItem: React.FC<OutputItemProps> = ({output, deleteOutput}) => {
       <p className="item-name">Number: {output.number}</p>
       <p className="item-name">MaxRelax: {output.maxRelax}</p>
     </div>
-    <button className="item-button" onClick={() => deleteOutput(output.id)}>X</button>
+    <button className="btn btn-secondary fosscut-button item-button" onClick={() => deleteOutput(output.id)}>X</button>
   </div>
-  )
+  );
 }
 
-export default OutputItem
+export default OutputItem;
