@@ -4,6 +4,7 @@ WORKDIR /gui
 COPY deno.json deno.lock vite.config.js ./
 COPY client/src client/src/
 COPY client/index.html client/
+COPY prod.properties.js client/properties.js
 RUN deno run build
 
 
