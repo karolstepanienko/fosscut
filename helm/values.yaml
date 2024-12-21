@@ -94,13 +94,23 @@ probeCommand:
   gui: curl --cacert ca.crt --cert /client.crt --key /client.key -f -s -o /dev/null -w "%{http_code}" https://localhost:6443/health | grep 200
 
 livenessProbe:
-  time:
-    initialDelaySeconds: 10
-    periodSeconds: 5
+  api:
+    time:
+      initialDelaySeconds: 20
+      periodSeconds: 5
+  gui:
+    time:
+      initialDelaySeconds: 5
+      periodSeconds: 5
 readinessProbe:
-  time:
-    initialDelaySeconds: 10
-    periodSeconds: 5
+  api:
+    time:
+      initialDelaySeconds: 20
+      periodSeconds: 5
+  gui:
+    time:
+      initialDelaySeconds: 5
+      periodSeconds: 5
 
 autoscaling:
   api:

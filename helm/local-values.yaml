@@ -1,6 +1,13 @@
 resources:
   api:
     limits:
+      cpu: 1000m
+      memory: 2048Mi
+    requests:
+      cpu: 1000m
+      memory: 2048Mi
+  gui:
+    limits:
       cpu: 500m
       memory: 2048Mi
     requests:

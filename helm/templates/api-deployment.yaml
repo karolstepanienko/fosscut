@@ -46,14 +46,14 @@ spec:
                 - /bin/sh
                 - -c
                 - {{ .Values.probeCommand.api }}
-            {{- toYaml .Values.livenessProbe.time | nindent 12 }}
+            {{- toYaml .Values.livenessProbe.api.time | nindent 12 }}
           readinessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
                 - {{ .Values.probeCommand.api }}
-            {{- toYaml .Values.readinessProbe.time | nindent 12 }}
+            {{- toYaml .Values.readinessProbe.api.time | nindent 12 }}
           resources:
             {{- toYaml .Values.resources.api | nindent 12 }}
           {{- with .Values.volumeMounts.api }}

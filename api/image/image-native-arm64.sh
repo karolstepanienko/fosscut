@@ -4,3 +4,5 @@ scp /img/fosscut-api-native.tar rpi-arch:/img/fosscut-api-native.tar
 ssh rpi-arch "ctr -n k8s.io image import /img/fosscut-api-native.tar" &
 scp /img/fosscut-api-native.tar arch-beta:/img/fosscut-api-native.tar
 ssh arch-beta "ctr -n k8s.io image import /img/fosscut-api-native.tar"
+scp /img/fosscut-api-native.tar arch-gamma:/img/fosscut-api-native.tar
+ssh arch-gamma "ctr -n k8s.io image import /img/fosscut-api-native.tar"
