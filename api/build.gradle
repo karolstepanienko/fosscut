@@ -22,6 +22,7 @@ dependencies {
     implementation libs.springStarter
     implementation libs.springStarterWeb
     implementation libs.k8sClient
+    implementation libs.springDataRedis
     testImplementation libs.springStarterTest
     testRuntimeOnly libs.junit
 }
