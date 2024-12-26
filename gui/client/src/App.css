@@ -21,14 +21,26 @@
 
 .action-container {
   display: flex;
-  flex-direction: row;
-  flex-flow: wrap;
-  text-align: center;
-  place-items: center;
+  flex-direction: column;
   border: 0; /* remove default border set by bootstrap */
   margin-top: 2em;
   margin-bottom: 10em;
   justify-content: center;
+  place-items: center;
+  text-align: center;
+}
+
+.action-content-container {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  justify-content: center;
+  text-align: center;
+  place-items: center;
+}
+
+.save-button {
+  width: 12em;
 }
 
 .warning {

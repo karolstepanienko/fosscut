@@ -2,11 +2,14 @@ import { useState } from "react";
 import Output from "../../type/Output.ts";
 import OutputItem from "../OutputItem.tsx";
 
-const OutputList = () => {
-  const [outputs, setOutputs] = useState<Output[]>([
-    { id: 0, length: 30, number: 2, maxRelax: 0 }
-  ])
+type SetOutputsFunction = (outputs: Output[]) => void;
 
+type OutputListProps = {
+  outputs: Output[],
+  setOutputs: SetOutputsFunction,
+}
+
+const OutputList: React.FC<OutputListProps> = ({outputs, setOutputs}) => {
   const [id, setId] = useState<number>(1)
   const [length, setLength] = useState<number>("")
   const [number, setNumber] = useState<number>("")

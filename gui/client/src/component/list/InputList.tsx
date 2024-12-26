@@ -2,11 +2,14 @@ import { useState } from "react";
 import Item from "../InputItem.tsx"
 import Input from "../../type/Input.ts";
 
-const InputList = () => {
-  const [inputs, setInputs] = useState<Input[]>([
-    { id: 0, length: 100 }
-  ])
+type SetInputsFunction = (inputs: Input[]) => void;
 
+type InputListProps = {
+  inputs: Input[],
+  setInputs: SetInputsFunction,
+}
+
+const InputList: React.FC<InputListProps> = ({inputs, setInputs}) => {
   const [id, setId] = useState<number>(1)
   const [length, setLength] = useState<number>("")
 

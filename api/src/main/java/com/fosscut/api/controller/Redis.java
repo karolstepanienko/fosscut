@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fosscut.api.util.Utils;
+import com.fosscut.api.type.OrderDTO;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -30,10 +33,22 @@ public class Redis {
     private static final String REDIS_STRING_ORDER_PREFIX = "order:";
     private static final String REDIS_STRING_PLAN_PREFIX = "plan:";
 
+    @GetMapping("/get/identifier")
+    @ResponseBody
+    public String getNewIdentifier() {
+        String id = "";
+        String value = "";
+        do {
+            id = Utils.generateRandomAlphanumericString(8);
+            value = template.opsForValue().get(REDIS_STRING_KEY_PREFIX + REDIS_STRING_ORDER_PREFIX + id);
+        } while (value != null);  // key has to be free
+        return id;
+    }
+
     @PutMapping("/save/order")
-    public void saveOrderToRedis(@RequestBody(required = true) String body) {
-        String key = REDIS_STRING_KEY_PREFIX + REDIS_STRING_ORDER_PREFIX + request.getRemoteAddr();
-        template.opsForValue().set(key, body);
+    public void saveOrderToRedis(@RequestBody(required = true) OrderDTO orderDto) {
+        String key = REDIS_STRING_KEY_PREFIX + REDIS_STRING_ORDER_PREFIX + orderDto.getIdentifier();
+        template.opsForValue().set(key, orderDto.getOrder());
     }
 
     @GetMapping("/get/plan")

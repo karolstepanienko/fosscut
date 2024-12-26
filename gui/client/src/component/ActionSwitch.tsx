@@ -1,19 +1,19 @@
 import { useState } from "react";
 import RadioButton from "./RadioButton.tsx";
-import Order from "./action/Order.tsx";
-import Generate from "./action/Generate.tsx";
-import Plan from "./action/Plan.tsx";
+import OrderAction from "./action/OrderAction.tsx";
+import GenerateAction from "./action/GenerateAction.tsx";
+import PlanAction from "./action/PlanAction.tsx";
 
 function ActionSwitch() {
   const [action, setAction] = useState<string>('Order');
 
   const renderAction = () => {
     if (action === 'Order')
-      return <Order />
+      return <OrderAction />
     else if (action === 'Generate')
-      return <Generate />
+      return <GenerateAction />
     else if (action === 'Plan')
-      return <Plan />
+      return <PlanAction />
   }
 
   return (
