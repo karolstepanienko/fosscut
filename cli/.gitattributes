@@ -9,3 +9,6 @@
 
 # Binary files should be left untouched
 *.jar           binary
+
+# Test files should use linux line endings
+*.yaml          text=lf
