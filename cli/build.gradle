@@ -18,6 +18,10 @@ dependencies {
     implementation libs.picocli
     implementation libs.ortools
     implementation libs.jackson
+    implementation libs.jedis
+    // slf4j necessary for jedis to stop warnings
+    implementation libs.slf4jApi
+    implementation libs.slf4jSimple
     annotationProcessor libs.picoclicodegen
     // Use JUnit test framework.
     testImplementation libs.junit

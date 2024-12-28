@@ -1,5 +1,7 @@
 package com.fosscut;
 
+import java.io.File;
+
 import com.fosscut.subcommand.Cg;
 import com.fosscut.subcommand.Mwe;
 import com.fosscut.subcommand.Validate;
@@ -31,6 +33,13 @@ public class FossCut implements Runnable {
         description = "Quiet mode. Inhibits the usual output."
     )
     private boolean quietModeRequested;
+
+    @Option(names = {"--redis-connection-secrets"},
+        scope = CommandLine.ScopeType.INHERIT,
+        description = "Allows configuration of a redis connection to dowload"
+            + " the order file."
+    )
+    private File redisConnectionSecrets;
 
     @Spec
     CommandSpec spec;
