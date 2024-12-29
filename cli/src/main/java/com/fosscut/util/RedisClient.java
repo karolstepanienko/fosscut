@@ -1,6 +1,15 @@
 package com.fosscut.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -25,7 +34,21 @@ public class RedisClient {
             redisConnectionSecrets.getPort()
         );
 
+        SSLSocketFactory sslFactory = null;
+        try {
+            sslFactory = createSslSocketFactory(
+                redisConnectionSecrets.getTruststorePath(),
+                redisConnectionSecrets.getTruststorePassword(),
+                redisConnectionSecrets.getKeystorePath(),
+                redisConnectionSecrets.getKeystorePassword()
+            );
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
+            System.exit(1);
+        }
+
         JedisClientConfig config = DefaultJedisClientConfig.builder()
+            .ssl(true).sslSocketFactory(sslFactory)
             .password(redisConnectionSecrets.getPassword())
             .build();
 
@@ -35,7 +58,6 @@ public class RedisClient {
         Integer intValue = Integer.parseInt(value);
         intValue += 1;
         jedis.set("welp", intValue.toString());
-
         System.out.println(value);
         jedis.close();
     }
@@ -49,9 +71,32 @@ public class RedisClient {
              RedisConnectionSecrets.class);
         }
         catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
+            System.err.println(e.getLocalizedMessage());
+            System.exit(1);
         }
         return redisConnectionSecrets;
+    }
+
+    private static SSLSocketFactory createSslSocketFactory(
+        String caCertPath, String caCertPassword, String userCertPath,
+        String userCertPassword) throws IOException, GeneralSecurityException {
+
+        KeyStore keyStore = KeyStore.getInstance("pkcs12");
+        keyStore.load(new FileInputStream(userCertPath), userCertPassword.toCharArray());
+
+        KeyStore trustStore = KeyStore.getInstance("pkcs12");
+        trustStore.load(new FileInputStream(caCertPath), caCertPassword.toCharArray());
+
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("X509");
+        trustManagerFactory.init(trustStore);
+
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("PKIX");
+        keyManagerFactory.init(keyStore, userCertPassword.toCharArray());
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+
+        return sslContext.getSocketFactory();
     }
 }
 
@@ -59,6 +104,10 @@ class RedisConnectionSecrets {
     private String hostname;
     private Integer port;
     private String password;
+    private String truststorePath;
+    private String truststorePassword;
+    private String keystorePath;
+    private String keystorePassword;
 
     public String getHostname() {
         return hostname;
@@ -70,5 +119,21 @@ class RedisConnectionSecrets {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getTruststorePath() {
+        return truststorePath;
+    }
+
+    public String getTruststorePassword() {
+        return truststorePassword;
+    }
+
+    public String getKeystorePath() {
+        return keystorePath;
+    }
+
+    public String getKeystorePassword() {
+        return keystorePassword;
     }
 }
