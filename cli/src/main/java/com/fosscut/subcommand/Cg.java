@@ -8,10 +8,11 @@ import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.OutputFormats;
 import com.fosscut.util.PropertiesVersionProvider;
-import com.fosscut.util.Save;
 import com.fosscut.util.Validator;
-import com.fosscut.util.YamlDumper;
-import com.fosscut.util.YamlLoader;
+import com.fosscut.util.load.OrderLoader;
+import com.fosscut.util.load.YamlLoader;
+import com.fosscut.util.save.Save;
+import com.fosscut.util.save.YamlDumper;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -26,8 +27,8 @@ import picocli.CommandLine.Spec;
 public class Cg implements Runnable {
 
     @Parameters(paramLabel = "<order-path>", arity = "1",
-        description = "Path to a YAML file containing an order.")
-    File orderFile;
+        description = "Path or a redis URL to a YAML file containing an order.")
+    String orderPath;
 
     @Option(names = { "-f", "--format" },
         defaultValue = "yaml",
@@ -68,8 +69,11 @@ public class Cg implements Runnable {
     public void run() {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
 
+        OrderLoader orderLoader = new OrderLoader(fossCut.getRedisConnectionSecrets(), quietModeRequested);
+        String orderString = orderLoader.load(orderPath);
+
         YamlLoader yamlLoader = new YamlLoader(quietModeRequested);
-        Order order = yamlLoader.loadOrder(orderFile);
+        Order order = yamlLoader.loadOrder(orderString);
 
         Validator validator = new Validator(quietModeRequested);
         validator.validateOrder(order);

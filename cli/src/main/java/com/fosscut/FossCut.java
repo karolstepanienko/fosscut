@@ -48,6 +48,10 @@ public class FossCut implements Runnable {
         return this.quietModeRequested;
     }
 
+    public File getRedisConnectionSecrets() {
+        return this.redisConnectionSecrets;
+    }
+
     @Override
     public void run() {
         // print the help menu if no subcommand is passed

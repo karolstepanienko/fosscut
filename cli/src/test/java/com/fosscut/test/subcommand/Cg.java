@@ -42,4 +42,21 @@ public class Cg {
         command.run();
         assert(command.getOutput().equals(Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)));
     }
+
+    @Test public void simpleCgRedis() {
+        Command command = new Command("cg "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH);
+        command.run();
+        assert(command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(command.getOutput().contains("Status: OPTIMAL"));
+    }
+
+    @Test public void simpleCgRedisQuiet() throws IOException {
+        Command command = new Command("cg -q "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH);
+        command.run();
+        assert(command.getOutput().equals(Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)));
+    }
 }

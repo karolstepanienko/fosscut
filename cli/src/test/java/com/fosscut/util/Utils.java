@@ -19,7 +19,7 @@ public class Utils {
     }
 
     public static String getAbsolutePath(String relativePath) {
-        return new File(relativePath).getAbsolutePath();
+        return new File(relativePath).getAbsolutePath() + " ";
     }
 
     public static String loadFile(String path) throws IOException {

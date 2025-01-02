@@ -13,9 +13,12 @@ public class TestDefaults {
 
     public static final String VERSION_STRING = "fosscut version \"0.0.1\"";
 
+    public static final String REDIS_ORDER_PATH = "redis://127.0.0.1:6379/example-order";
+
     public static final String FAIL_VALIDATION_NON_POSITIVE_INPUT = "./test/order/fail-validation-non-positive-input.yaml";
     public static final String FAIL_VALIDATION_NON_POSITIVE_OUTPUT = "./test/order/fail-validation-non-positive-output.yaml";
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail-validation-output-longer-than-input.yaml";
+    public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
 
     public static final String SIMPLE_CG_ORDER = "./test/order/simple-cutting-order.yaml";
     public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cutting-plan.yaml";

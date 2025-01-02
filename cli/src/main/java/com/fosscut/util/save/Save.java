@@ -1,4 +1,4 @@
-package com.fosscut.util;
+package com.fosscut.util.save;
 
 import java.io.File;
 import java.io.FileNotFoundException;

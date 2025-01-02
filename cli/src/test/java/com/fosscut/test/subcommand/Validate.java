@@ -31,6 +31,15 @@ public class Validate {
         RepetitiveTests.testVersion(new Command("validate --version"));
     }
 
+    @Test public void validateFromRedis() {
+        Command command = new Command("validate "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH);
+        command.run();
+        assert(command.getOutput().contains(Messages.ORDER_VALID));
+        assertEquals(0, command.getExitCode());
+    }
+
     @Test public void nonPositiveInput() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_INPUT));
         command.run();

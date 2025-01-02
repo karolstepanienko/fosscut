@@ -2,7 +2,8 @@
     "resources": {
         "includes": [
             { "pattern": "ortools-linux-x86-64/.*" },
-            { "pattern": "version.txt" }
+            { "pattern": "version.txt" },
+            { "pattern": "redis/clients/jedis/pom.properties" }
         ],
         "excludes": [ ]
     }

@@ -1,4 +1,4 @@
-package com.fosscut.util;
+package com.fosscut.util.save;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;

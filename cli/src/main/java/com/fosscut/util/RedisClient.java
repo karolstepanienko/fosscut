@@ -20,19 +20,15 @@ import redis.clients.jedis.JedisClientConfig;
 import redis.clients.jedis.JedisPooled;
 
 public class RedisClient {
+
     private RedisConnectionSecrets redisConnectionSecrets;
 
     public RedisClient(File redisConnectionSecretsFile) {
         this.redisConnectionSecrets = loadRedisConnectionSecrets(redisConnectionSecretsFile);
     }
 
-    public void run() {
-        System.out.println("Hello from redis.");
-
-        HostAndPort address = new HostAndPort(
-            redisConnectionSecrets.getHostname(),
-            redisConnectionSecrets.getPort()
-        );
+    public JedisPooled getClient(String hostname, Integer port) {
+        HostAndPort address = new HostAndPort(hostname, port);
 
         SSLSocketFactory sslFactory = null;
         try {
@@ -52,17 +48,10 @@ public class RedisClient {
             .password(redisConnectionSecrets.getPassword())
             .build();
 
-        JedisPooled jedis = new JedisPooled(address, config);
-
-        String value = jedis.get("welp");
-        Integer intValue = Integer.parseInt(value);
-        intValue += 1;
-        jedis.set("welp", intValue.toString());
-        System.out.println(value);
-        jedis.close();
+        return new JedisPooled(address, config);
     }
 
-    RedisConnectionSecrets loadRedisConnectionSecrets(File redisConnectionSecretsFile) {
+    private RedisConnectionSecrets loadRedisConnectionSecrets(File redisConnectionSecretsFile) {
         ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
         RedisConnectionSecrets redisConnectionSecrets = new RedisConnectionSecrets();
         try {
@@ -98,24 +87,15 @@ public class RedisClient {
 
         return sslContext.getSocketFactory();
     }
+
 }
 
 class RedisConnectionSecrets {
-    private String hostname;
-    private Integer port;
     private String password;
     private String truststorePath;
     private String truststorePassword;
     private String keystorePath;
     private String keystorePassword;
-
-    public String getHostname() {
-        return hostname;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
 
     public String getPassword() {
         return password;
