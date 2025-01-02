@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fosscut.api.JsonPayload;
+import com.fosscut.api.util.JsonPayload;
 
 import jakarta.servlet.http.HttpServletRequest;
 

@@ -1,4 +1,4 @@
-package com.fosscut.api;
+package com.fosscut.api.util;
 
 import java.util.HashMap;
 import java.util.Map;
