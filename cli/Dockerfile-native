@@ -11,8 +11,6 @@ COPY src src
 RUN ./gradlew --no-daemon nativeCompile
 
 
-FROM alpine:3.21.0 AS final
-
-RUN apk add libc6-compat curl
+FROM debian:12.8-slim
 
 COPY --from=build /app/build/native/nativeCompile/fosscut .

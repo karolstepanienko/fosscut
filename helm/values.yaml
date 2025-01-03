@@ -29,6 +29,19 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+tektonTask:
+  # Specifies whether a tekton task capable of running fosscut cli should be created
+  create: true
+  repository: karolstepanienko/fosscut-cli-native
+  tag: ""
+  workspaces:
+    - name: keystore
+      mountPath: "/keystore.p12"
+    - name: truststore
+      mountPath: "/truststore.p12"
+    - name: redis-connection-secrets
+      mountPath: "/redis-connection-secrets.yaml"
+
 podAnnotations: {}
 podLabels: {}
 
@@ -129,13 +142,13 @@ autoscaling:
 # Additional volumes on the output Deployment definition.
 volumes:
   api:
-    - name: api-application-properties
+    - name: application-yml
       secret:
-        secretName: fosscut-api-application-properties
+        secretName: fosscut-application-yml
         optional: false
-    - name: api-keystore
+    - name: keystore
       secret:
-        secretName: fosscut-api-keystore
+        secretName: fosscut-keystore
         optional: false
     - name: truststore
       secret:
@@ -150,13 +163,13 @@ volumes:
         secretName: fosscut-mtls-client-cert
         optional: false
   gui:
-    - name: api-application-properties
+    - name: application-yml
       secret:
-        secretName: fosscut-api-application-properties
+        secretName: fosscut-application-yml
         optional: false
-    - name: api-keystore
+    - name: keystore
       secret:
-        secretName: fosscut-api-keystore
+        secretName: fosscut-keystore
         optional: false
     - name: truststore
       secret:
@@ -174,11 +187,11 @@ volumes:
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
   api:
-    - name: api-application-properties
-      mountPath: "/application.properties"
-      subPath: application.properties
+    - name: application-yml
+      mountPath: "/application.yml"
+      subPath: application.yml
       readOnly: true
-    - name: api-keystore
+    - name: keystore
       mountPath: "/keystore.p12"
       subPath: keystore.p12
       readOnly: true
@@ -199,11 +212,11 @@ volumeMounts:
       subPath: tls.key
       readOnly: true
   gui:
-    - name: api-application-properties
-      mountPath: "/application.properties"
-      subPath: application.properties
+    - name: application-yml
+      mountPath: "/application.yml"
+      subPath: application.yml
       readOnly: true
-    - name: api-keystore
+    - name: keystore
       mountPath: "/keystore.p12"
       subPath: keystore.p12
       readOnly: true
@@ -228,9 +241,10 @@ volumeMounts:
 CACertPath: secrets/ca.crt
 mTLSClientCertPath: secrets/client.crt
 mTLSClientKeyPath: secrets/client.key
-apiPropertiesPath: secrets/application.properties
-apiKeystorePath: secrets/keystore.p12
+applicationYmlPath: secrets/application.yml
+keystorePath: secrets/keystore.p12
 truststorePath: secrets/truststore.p12
+redisConnectionSecretsPath: secrets/redis-connection-secrets.yaml
 
 nodeSelector: {}
 

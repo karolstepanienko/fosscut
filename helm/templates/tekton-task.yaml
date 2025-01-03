@@ -1,0 +1,24 @@
+{{- if .Values.tektonTask.create -}}
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: {{ include "fosscut.fullname" . }}
+spec:
+  {{- with .Values.tektonTask.workspaces }}
+  workspaces:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  params:
+    - name: subcommand
+      description: Subcommand that determines cutting plan generation algorithm.
+      type: string
+    - name: redisUrl
+      description: Redis url pointing to the order.
+      type: string
+  steps:
+    - name: generate
+      image: "{{ .Values.tektonTask.repository }}:{{ .Values.tektonTask.tag | default .Chart.AppVersion }}"
+      script: |
+        #!/bin/sh
+        /fosscut --redis-connection-secrets redis-connection-secrets.yaml $(params.subcommand) $(params.redisUrl)
+{{- end }}
