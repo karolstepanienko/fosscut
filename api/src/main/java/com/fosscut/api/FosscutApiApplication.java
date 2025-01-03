@@ -10,8 +10,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.fosscut.api.util.PropertiesLoader;
-
 @PropertySource("classpath:application.yml")
 @SpringBootApplication
 public class FosscutApiApplication {
@@ -23,7 +21,6 @@ public class FosscutApiApplication {
     private String corsMethods;
 
     public static void main(String[] args) {
-        new PropertiesLoader().run();
         SpringApplication.run(FosscutApiApplication.class, args);
     }
 
