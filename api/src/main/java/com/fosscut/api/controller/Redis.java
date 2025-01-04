@@ -6,20 +6,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fosscut.api.util.Utils;
 import com.fosscut.api.type.OrderDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@RestController
+@Controller
 @RequestMapping("/redis")
 public class Redis {
 
@@ -46,9 +47,10 @@ public class Redis {
     }
 
     @PutMapping("/save/order")
-    public void saveOrderToRedis(@RequestBody(required = true) OrderDTO orderDto) {
+    public void saveOrderToRedis(@RequestBody(required = true) OrderDTO orderDto, HttpServletResponse response) {
         String key = REDIS_STRING_KEY_PREFIX + REDIS_STRING_ORDER_PREFIX + orderDto.getIdentifier();
         template.opsForValue().set(key, orderDto.getOrder());
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @GetMapping("/get/plan")

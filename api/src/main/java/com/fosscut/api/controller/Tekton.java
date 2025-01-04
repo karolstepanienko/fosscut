@@ -3,17 +3,17 @@ package com.fosscut.api.controller;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fosscut.api.client.FosscutTektonClient;
 import com.fosscut.api.type.IdentifierDTO;
 import com.fosscut.api.type.TaskRunLogsDTO;
 
-@RestController
+@Controller
 @RequestMapping("/tekton")
 public class Tekton {
 

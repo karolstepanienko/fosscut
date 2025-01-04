@@ -1,8 +1,8 @@
 globalThis.ENV = {
     "api": {
         "protocol": "http",
-        "host": "localhost",
-        "port": "8080",
+        "host": "127.0.0.1",
+        "port": "1234",
         "path": "/api"
     }
 }
