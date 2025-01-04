@@ -1,42 +1,53 @@
 package com.fosscut.api.controller;
 
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientBuilder;
-import io.fabric8.tekton.client.DefaultTektonClient;
-import io.fabric8.tekton.client.TektonClient;
-import io.fabric8.tekton.v1beta1.TaskRun;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.fosscut.api.client.FosscutTektonClient;
+import com.fosscut.api.type.IdentifierDTO;
+import com.fosscut.api.type.TaskRunLogsDTO;
 
-@Controller
+@RestController
+@RequestMapping("/tekton")
 public class Tekton {
 
-    @GetMapping("/tekton/run")
+    @Autowired
+    private FosscutTektonClient ftkn;
+
+    @GetMapping("/taskRun/create")
+    public void taskRunCreate(@RequestBody(required = true) IdentifierDTO identifierDTO, HttpServletResponse response) {
+        if (ftkn.taskRunExists(identifierDTO.getIdentifier())) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        } else {
+            ftkn.createTaskRun(identifierDTO.getIdentifier());
+        }
+    }
+
+    @GetMapping("/taskRun/delete")
+    public void taskRunDelete(@RequestBody(required = true) IdentifierDTO identifierDTO, HttpServletResponse response) {
+        if (!ftkn.taskRunExists(identifierDTO.getIdentifier())) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        } else {
+            ftkn.deleteTaskRun(identifierDTO.getIdentifier());
+        }
+    }
+
+    @GetMapping("/taskRun/get/logs")
     @ResponseBody
-    public String runTekton() {
-        String namespace = "fosscut";
-        String podLogs = "";
-        TektonClient tkn = new DefaultTektonClient();
-        KubernetesClient k8sClient = new KubernetesClientBuilder().build();
-
-        TaskRun taskRun = tkn.v1beta1()
-            .taskRuns()
-            .inNamespace(namespace)
-            .withName("hello-task-run")
-            .get();
-
-        String podName = taskRun.getMetadata().getName() + "-pod"; // Adjust if needed
-        System.out.println(podName);
-        String logs = k8sClient.pods().inNamespace(namespace).withName(podName).inContainer("step-echo").getLog();
-        System.out.println(logs);
-
-        podLogs = podName + "\n" + logs;
-        tkn.close();
-
-        return podLogs;
+    public TaskRunLogsDTO getTaskRunLogs(@RequestBody(required = true) IdentifierDTO identifierDTO, HttpServletResponse response) {
+        TaskRunLogsDTO taskRunLogsDTO = null;
+        if (!ftkn.taskRunExists(identifierDTO.getIdentifier())) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        } else {
+            taskRunLogsDTO = ftkn.getTaskRunLogs(identifierDTO.getIdentifier());
+        }
+        return taskRunLogsDTO;
     }
 
 }

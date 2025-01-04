@@ -1,8 +1,8 @@
 {{- if .Values.tektonTask.create -}}
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: {{ include "fosscut.fullname" . }}
+  name: {{ include "fosscut.fullname" . }}-generate
 spec:
   {{- with .Values.tektonTask.workspaces }}
   workspaces:
