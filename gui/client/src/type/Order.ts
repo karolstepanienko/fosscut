@@ -1,5 +1,5 @@
-import NoIdInput from "./NoIdInput"
-import NoIdOutput from "./NoIdOutput"
+import NoIdInput from "./NoIdInput.ts"
+import NoIdOutput from "./NoIdOutput.ts"
 
 type Order = {
     inputs: NoIdInput[],

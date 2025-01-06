@@ -1,4 +1,4 @@
-import NoIdInput from './NoIdInput.tsx'
+import NoIdInput from './NoIdInput.ts'
 
 type Input = NoIdInput & {
   id: number

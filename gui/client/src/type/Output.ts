@@ -1,4 +1,4 @@
-import NoIdOutput from "./NoIdOutput";
+import NoIdOutput from "./NoIdOutput.ts";
 
 type Output = NoIdOutput & {
   id: number
