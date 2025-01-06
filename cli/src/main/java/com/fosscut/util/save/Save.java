@@ -5,12 +5,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import redis.clients.jedis.JedisPooled;
+
+import com.fosscut.type.OrderURI;
+import com.fosscut.util.Defaults;
+import com.fosscut.util.RedisClient;
+
 public class Save {
+
     private String cuttingPlan;
+    private OrderURI orderUri;
+    private File redisConnectionSecretsFile;
     private boolean quietModeRequested;
 
-    public Save(String cuttingPlan, boolean quietModeRequested) {
+    public Save(String cuttingPlan, OrderURI orderUri, File redisConnectionSecrets, boolean quietModeRequested) {
         this.cuttingPlan = cuttingPlan;
+        this.orderUri = orderUri;
+        this.redisConnectionSecretsFile = redisConnectionSecrets;
         this.quietModeRequested = quietModeRequested;
     }
 
@@ -19,6 +30,10 @@ public class Save {
             if (!quietModeRequested) printIntro();
             printCuttingPlan();
         } else saveCuttingPlanToFile(outputFile);
+
+        if (this.redisConnectionSecretsFile != null) {
+            saveCuttingPlanToRedis();
+        }
     }
 
     private void printIntro() {
@@ -43,4 +58,21 @@ public class Save {
             System.err.println(e.getMessage());
         }
     }
+
+    private void saveCuttingPlanToRedis() {
+        RedisClient redisClient = new RedisClient(redisConnectionSecretsFile);
+        JedisPooled jedis = redisClient.getWriteClient();
+        if (jedis != null) {
+            jedis.set(
+                Defaults.REDIS_STRING_KEY_PREFIX
+                + Defaults.REDIS_STRING_PLAN_PREFIX
+                + orderUri.getIdentifier(),
+                cuttingPlan
+            );
+            jedis.close();
+        } else {
+            if (!quietModeRequested) System.out.println("Skipping saving plan to redis. Write parameters not found in redis secrets file.");
+        }
+    }
+
 }

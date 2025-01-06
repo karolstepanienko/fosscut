@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.fosscut.type.OrderURI;
+
 public class OrderLoader {
 
     private File redisConnectionSecretsFile;
@@ -27,18 +29,32 @@ public class OrderLoader {
         return loader.load(orderPath);
     }
 
-    boolean isURI(String orderPath) {
+    public OrderURI getOrderUri(String orderPath) {
+        OrderURI orderUri = null;
+        if (redisConnectionSecretsFile != null && isURI(orderPath)) {
+            orderUri = getOrderUriFromPath(orderPath);
+        }
+        return orderUri;
+    }
+
+    private boolean isURI(String orderPath) {
+        if (getOrderUriFromPath(orderPath) == null) return false;
+        else {
+            if (!quietModeRequested) System.out.println("URI recognised. Attempting parsing...");
+            return true;
+        }
+    }
+
+    private OrderURI getOrderUriFromPath(String orderPath) {
+        URI uri = null;
         try {
-            new URI(orderPath);
+            uri = new URI(orderPath);
         } catch (URISyntaxException e) {
             System.err.println(e);
             System.err.println(e.getLocalizedMessage());
             if (!quietModeRequested) System.out.println("Not a URI. Parsing file path...");
-            return false;
         }
-
-        if (!quietModeRequested) System.out.println("URI recognised. Attempting parsing...");
-        return true;
+        return new OrderURI(uri);
     }
 
 }

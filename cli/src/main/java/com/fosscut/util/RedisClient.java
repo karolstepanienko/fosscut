@@ -27,10 +27,27 @@ public class RedisClient {
         this.redisConnectionSecrets = loadRedisConnectionSecrets(redisConnectionSecretsFile);
     }
 
-    public JedisPooled getClient(String hostname, Integer port) {
+    public JedisPooled getReadClient(String hostname, Integer port) {
         HostAndPort address = new HostAndPort(hostname, port);
+        JedisClientConfig config = getJedisClientConfig(redisConnectionSecrets.getPassword());
+        return new JedisPooled(address, config);
+    }
 
+    public JedisPooled getWriteClient() {
+        if (redisConnectionSecrets.getWriteHost() == null
+        || redisConnectionSecrets.getWritePort() == null
+        || redisConnectionSecrets.getWritePassword() == null) {
+            return null;
+        } else {
+            HostAndPort address = new HostAndPort(redisConnectionSecrets.getWriteHost(), redisConnectionSecrets.getWritePort());
+            JedisClientConfig config = getJedisClientConfig(redisConnectionSecrets.getWritePassword());
+            return new JedisPooled(address, config);
+        }
+    }
+
+    private SSLSocketFactory getSSLSocketFactory() {
         SSLSocketFactory sslFactory = null;
+
         try {
             sslFactory = createSslSocketFactory(
                 redisConnectionSecrets.getTruststorePath(),
@@ -43,12 +60,14 @@ public class RedisClient {
             System.exit(1);
         }
 
-        JedisClientConfig config = DefaultJedisClientConfig.builder()
-            .ssl(true).sslSocketFactory(sslFactory)
-            .password(redisConnectionSecrets.getPassword())
-            .build();
+        return sslFactory;
+    }
 
-        return new JedisPooled(address, config);
+    private JedisClientConfig getJedisClientConfig(String password) {
+        return DefaultJedisClientConfig.builder()
+            .ssl(true).sslSocketFactory(getSSLSocketFactory())
+            .password(password)
+            .build();
     }
 
     private RedisConnectionSecrets loadRedisConnectionSecrets(File redisConnectionSecretsFile) {
@@ -91,11 +110,15 @@ public class RedisClient {
 }
 
 class RedisConnectionSecrets {
+
     private String password;
     private String truststorePath;
     private String truststorePassword;
     private String keystorePath;
     private String keystorePassword;
+    private String writeHost;
+    private Integer writePort;
+    private String writePassword;
 
     public String getPassword() {
         return password;
@@ -116,4 +139,17 @@ class RedisConnectionSecrets {
     public String getKeystorePassword() {
         return keystorePassword;
     }
+
+    public String getWriteHost() {
+        return writeHost;
+    }
+
+    public Integer getWritePort() {
+        return writePort;
+    }
+
+    public String getWritePassword() {
+        return writePassword;
+    }
+
 }

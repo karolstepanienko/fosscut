@@ -68,8 +68,9 @@ public class Cg implements Runnable {
     @Override
     public void run() {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
+        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
 
-        OrderLoader orderLoader = new OrderLoader(fossCut.getRedisConnectionSecrets(), quietModeRequested);
+        OrderLoader orderLoader = new OrderLoader(redisConnectionSecrets, quietModeRequested);
         String orderString = orderLoader.load(orderPath);
 
         YamlLoader yamlLoader = new YamlLoader(quietModeRequested);
@@ -88,7 +89,8 @@ public class Cg implements Runnable {
             cuttingPlan = yamlDumper.dump(columnGeneration);
         }
 
-        Save save = new Save(cuttingPlan, quietModeRequested);
+        Save save = new Save(cuttingPlan, orderLoader.getOrderUri(orderPath),
+            redisConnectionSecrets, quietModeRequested);
         save.save(outputFile);
     }
 

@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.fosscut.type.OrderURI;
+import com.fosscut.util.Defaults;
 import com.fosscut.util.RedisClient;
 
 import redis.clients.jedis.JedisPooled;
@@ -11,9 +13,6 @@ import redis.clients.jedis.JedisPooled;
 public class OrderRedisLoader extends Loader {
 
     private File redisConnectionSecretsFile;
-
-    private static final String REDIS_STRING_KEY_PREFIX = "fosscut:";
-    private static final String REDIS_STRING_ORDER_PREFIX = "order:";
 
     public OrderRedisLoader(File redisConnectionSecretsFile) {
         this.redisConnectionSecretsFile = redisConnectionSecretsFile;
@@ -49,21 +48,20 @@ public class OrderRedisLoader extends Loader {
 
     @Override
     public String load(String orderPath) {
-        URI uri = null;
+        OrderURI orderUri = null;
         try {
-            uri = new URI(orderPath);
+            orderUri = new OrderURI(new URI(orderPath));
         } catch (URISyntaxException e) {}
 
         RedisClient redisClient = new RedisClient(redisConnectionSecretsFile);
-        JedisPooled jedis = redisClient.getClient(uri.getHost(), uri.getPort());
-        String orderString = jedis.get(REDIS_STRING_KEY_PREFIX + REDIS_STRING_ORDER_PREFIX + getIdentifier(uri));
+        JedisPooled jedis = redisClient.getReadClient(orderUri.getHost(), orderUri.getPort());
+        String orderString = jedis.get(
+            Defaults.REDIS_STRING_KEY_PREFIX
+            + Defaults.REDIS_STRING_ORDER_PREFIX
+            + orderUri.getIdentifier()
+        );
         jedis.close();
         return orderString;
-    }
-
-    private String getIdentifier(URI uri) {
-        // remove first character from string
-        return uri.getPath().substring(1);
     }
 
 }
