@@ -38,7 +38,7 @@ const PlanDetailsTable: React.FC<PlanOutputTableProps> = ({outputs}) => {
     [],
   );
 
-  const table = useMantineReactTable({
+  const table = useMantineReactTable<PlanTableOutputRow>({
     columns,
     data: outputs,
     enableRowActions: false

@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import { MantineReactTable, MRT_ColumnDef, MRT_Row, useMantineReactTable } from "mantine-react-table";
+import {
+  MantineReactTable,
+  useMantineReactTable,
+  type MRT_ColumnDef,
+  type MRT_Row
+} from "mantine-react-table";
 import PlanTableRow from "../type/PlanTableRow.tsx";
 import PlanDetailsTable from "./PlanDetailsTable.tsx";
 
@@ -47,7 +52,7 @@ const PlanTable: React.FC<PlanTableProps> = ({planTableData}) => {
     );
   }
 
-  const table = useMantineReactTable({
+  const table = useMantineReactTable<PlanTableRow>({
     columns,
     data: planTableData,
     enableRowActions: true,

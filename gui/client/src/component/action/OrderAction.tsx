@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import yaml from 'yaml';
 
 import { getApi } from "../../Config.ts";
@@ -46,7 +45,7 @@ const OrderAction: React.FC<OrderActionProps> = ({inputs, setInputs, outputs, se
         outputs: getNoIdOutputs(outputs)
     }
 
-    api.put("/redis/save/order", {
+    await api.put("/redis/save/order", {
       identifier: orderIdentifier,
       order: yaml.stringify(order)
     })
