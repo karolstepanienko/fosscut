@@ -5,7 +5,7 @@ import {
   type MRT_ColumnDef,
   type MRT_Row
 } from "mantine-react-table";
-import PlanTableRow from "../type/PlanTableRow.tsx";
+import PlanTableRow from "../type/PlanTableRow.ts";
 import PlanDetailsTable from "./PlanDetailsTable.tsx";
 
 type PlanTableProps = {

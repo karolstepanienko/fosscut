@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import yaml from 'yaml';
 
 import { getApi } from "../../Config.ts";
-import PlanTableRow, { getPlanTableDataFromCuttingPlan } from "../../type/PlanTableRow.tsx";
+import PlanTableRow, { getPlanTableDataFromCuttingPlan } from "../../type/PlanTableRow.ts";
 import CuttingPlan from "../../type/CuttingPlan.ts";
 import PlanTable from "../PlanTable.tsx";
 import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
