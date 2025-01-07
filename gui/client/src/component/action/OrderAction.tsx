@@ -9,14 +9,18 @@ import InputList from "../list/InputList.tsx";
 import OutputList from "../list/OutputList.tsx";
 import ActionCookieProps from "../../type/ActionCookieProps.ts";
 
-const OrderAction: React.FC<ActionCookieProps> = ({cookies, setCookie}) => {
+type SetInputsFunction = (inputs: Input[]) => void;
+type SetOutputsFunction = (inputs: Output[]) => void;
+
+type OrderActionProps = ActionCookieProps & {
+  inputs: Input[],
+  setInputs: SetInputsFunction
+  outputs: Output[],
+  setOutputs: SetOutputsFunction
+}
+
+const OrderAction: React.FC<OrderActionProps> = ({inputs, setInputs, outputs, setOutputs, cookies, setCookie}) => {
   const api = getApi();
-  const [inputs, setInputs] = useState<Input[]>([
-    { id: 0, length: 100 }
-  ])
-  const [outputs, setOutputs] = useState<Output[]>([
-    { id: 0, length: 30, number: 2, maxRelax: 0 }
-  ])
 
   const saveOrder = async () => {
     let orderIdentifier: string = ""
