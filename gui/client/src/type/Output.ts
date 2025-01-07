@@ -5,7 +5,7 @@ type Output = NoIdOutput & {
 }
 
 const getNoIdOutputs = (outputs: Output[]): NoIdOutput[] => {
-    var noIdOutputs: NoIdOutput[] = []
+    const noIdOutputs: NoIdOutput[] = []
     outputs.map((output: Output) => {
         noIdOutputs.push({
             length: output.length,

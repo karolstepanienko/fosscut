@@ -1,4 +1,4 @@
-function GenerateAction() {
+const GenerateAction = () => {
   return (
     <div className="action-container">
       <div className="action-content-container">

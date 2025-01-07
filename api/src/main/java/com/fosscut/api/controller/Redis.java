@@ -1,12 +1,10 @@
 package com.fosscut.api.controller;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,15 +15,11 @@ import org.springframework.web.server.ResponseStatusException;
 import com.fosscut.api.util.Utils;
 import com.fosscut.api.type.OrderDTO;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/redis")
 public class Redis {
-
-    @Autowired
-    private HttpServletRequest request;
 
     @Autowired
     private RedisTemplate<String, String> template;
@@ -55,16 +49,19 @@ public class Redis {
 
     @GetMapping("/get/plan")
     @ResponseBody
-    public Map.Entry<String, String> getPlanFromRedis() {
-        String key = REDIS_STRING_KEY_PREFIX + REDIS_STRING_PLAN_PREFIX + request.getRemoteAddr();
+    public String getPlanFromRedis(@CookieValue("fosscut_orderIdentifier") String identifier) {
+        if (identifier == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "identifier is null");
+        }
 
+        String key = REDIS_STRING_KEY_PREFIX + REDIS_STRING_PLAN_PREFIX + identifier;
         String value = template.opsForValue().get(key);
 
         if (value == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "key not found");
         }
 
-        return new SimpleEntry<String, String>(key, value);
+        return value;
     }
 
 }

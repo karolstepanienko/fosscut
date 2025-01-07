@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { CookiesProvider, useCookies } from 'react-cookie';
 import yaml from 'yaml';
 
 import { getApi } from "../../Config.ts";
@@ -8,8 +7,9 @@ import Input, { getNoIdInputs } from "../../type/Input.ts";
 import Output, { getNoIdOutputs } from "../../type/Output.ts";
 import InputList from "../list/InputList.tsx";
 import OutputList from "../list/OutputList.tsx";
+import ActionCookieProps from "../../type/ActionCookieProps.ts";
 
-function OrderAction() {
+const OrderAction: React.FC<ActionCookieProps> = ({cookies, setCookie}) => {
   const api = getApi();
   const [inputs, setInputs] = useState<Input[]>([
     { id: 0, length: 100 }
@@ -18,10 +18,8 @@ function OrderAction() {
     { id: 0, length: 30, number: 2, maxRelax: 0 }
   ])
 
-  const [cookies, setCookie] = useCookies(['fosscut_orderIdentifier']);
-
   const saveOrder = async () => {
-    var orderIdentifier: string = ""
+    let orderIdentifier: string = ""
 
     if (!cookies.fosscut_orderIdentifier) {
       orderIdentifier = await sendGetIdentifierRequest()
@@ -39,7 +37,7 @@ function OrderAction() {
   }
 
   const sendSaveOrderRequest = async (orderIdentifier: string) => {
-    var order: Order = {
+    const order: Order = {
         inputs: getNoIdInputs(inputs),
         outputs: getNoIdOutputs(outputs)
     }
@@ -51,16 +49,14 @@ function OrderAction() {
   }
 
   return (
-    <CookiesProvider>
-      <div className="action-container">
-        <div className="action-content-container">
-          <InputList inputs={inputs} setInputs={setInputs} />
-          <OutputList outputs={outputs} setOutputs={setOutputs} />
-        </div>
-        <button className="btn btn-secondary fosscut-button save-button" onClick={() => saveOrder()}>
-        Save</button>
+    <div className="action-container">
+      <div className="action-content-container">
+        <InputList inputs={inputs} setInputs={setInputs} />
+        <OutputList outputs={outputs} setOutputs={setOutputs} />
       </div>
-    </CookiesProvider>
+      <button className="btn btn-secondary fosscut-button save-button" onClick={() => saveOrder()}>
+      Save</button>
+    </div>
   );
 }
 
