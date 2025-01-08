@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { getApi } from "../../Config.ts";
-import TektonTaskRunLogsDTO from "../../type/TektonTaskRunLogsDTO.ts";
+import TektonTaskRunLogsDTO, { SetTektonTaskRunLogsDTOFunction } from "../../type/TektonTaskRunLogsDTO.ts";
 import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
 
-const GenerateAction = () => {
+type GenerateActionProps = {
+  tektonTaskRunLogsDTO: TektonTaskRunLogsDTO,
+  setTektonTaskRunLogsDTO: SetTektonTaskRunLogsDTOFunction
+}
+
+const GenerateAction: React.FC<GenerateActionProps>
+  = ({tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO}) => {
   const api = getApi();
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
   const [taskRunToBeDeleted, setTaskRunToBeDeleted] = useState<boolean>(false);
   const [taskRunToBeCreated, setTaskRunToBeCreated] = useState<boolean>(false);
   const [ticking, setTicking] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
-  const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(undefined);
 
   useEffect(() => { checkOrderAvailable() }, [])
   useEffect(() => { runTimer() }, [count, ticking])

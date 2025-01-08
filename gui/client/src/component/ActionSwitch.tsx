@@ -6,6 +6,7 @@ import GenerateAction from "./action/GenerateAction.tsx";
 import PlanAction from "./action/PlanAction.tsx";
 import Input from "../type/Input.ts";
 import Output from "../type/Output.ts";
+import TektonTaskRunLogsDTO from "../type/TektonTaskRunLogsDTO.ts";
 
 function ActionSwitch() {
   const [action, setAction] = useState<string>('Order');
@@ -20,6 +21,8 @@ function ActionSwitch() {
     { id: 0, length: 30, number: 2, maxRelax: 0 }
   ]);
 
+  const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(undefined);
+
   const renderAction = () => {
     if (action === 'Order')
       return <OrderAction
@@ -29,7 +32,9 @@ function ActionSwitch() {
         outputs={outputs} setOutputs={setOutputs}
         cookies={cookies} setCookie={setCookie} />
     else if (action === 'Generate')
-      return <GenerateAction />
+      return <GenerateAction
+      tektonTaskRunLogsDTO={tektonTaskRunLogsDTO}
+      setTektonTaskRunLogsDTO={setTektonTaskRunLogsDTO} />
     else if (action === 'Plan')
       return <PlanAction />
   }
