@@ -31,7 +31,7 @@ public class Redis {
         String id = "";
         String value = "";
         do {
-            id = Utils.generateRandomAlphanumericString(8);
+            id = Utils.generateRandomLowerCaseAlphanumericString(8);
             value = template.opsForValue().get(
                 ApiDefaults.REDIS_STRING_KEY_PREFIX
                 + ApiDefaults.REDIS_STRING_ORDER_PREFIX
