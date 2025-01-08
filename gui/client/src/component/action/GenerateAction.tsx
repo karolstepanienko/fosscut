@@ -45,9 +45,14 @@ const GenerateAction = () => {
         setTaskRunToBeCreated(true)
       })
     } catch (error: unknown | AxiosError) {
-      setTaskRunToBeDeleted(true)
-      if (isAxiosError(error) && error.response?.status != HttpStatusCode.Conflict) {
+      if (isAxiosError(error)) {
+        if (error.response?.status == HttpStatusCode.Conflict) {
+          setTaskRunToBeDeleted(false)
+          setTaskRunToBeCreated(true)
+        } else setTaskRunToBeDeleted(true)
+      } else {
         console.log("Unknown error:", error)
+        setTaskRunToBeDeleted(true)
       }
     }
   }
