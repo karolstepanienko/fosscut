@@ -57,7 +57,7 @@ const OrderAction: React.FC<OrderActionProps> = ({inputs, setInputs, outputs, se
         <InputList inputs={inputs} setInputs={setInputs} />
         <OutputList outputs={outputs} setOutputs={setOutputs} />
       </div>
-      <button className="btn btn-secondary fosscut-button save-button" onClick={() => saveOrder()}>
+      <button className="btn btn-secondary fosscut-button button-group" onClick={() => saveOrder()}>
       Save</button>
     </div>
   );

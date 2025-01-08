@@ -1,6 +1,6 @@
 package com.fosscut.api.type;
 
-public class TaskRunLogsDTO {
+public class TektonTaskRunLogsDTO {
 
     String status;
     String reason;

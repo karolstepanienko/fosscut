@@ -1,8 +1,17 @@
 package com.fosscut.api.type;
 
-public class OrderDTO extends IdentifierDTO {
+public class OrderDTO {
 
+    String identifier;
     String order;
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
 
     public String getOrder() {
         return order;

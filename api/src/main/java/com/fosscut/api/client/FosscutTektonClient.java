@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fosscut.api.type.TaskRunLogsDTO;
+import com.fosscut.api.type.TektonTaskRunLogsDTO;
 
 import io.fabric8.kubernetes.api.model.SecretVolumeSourceBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -23,7 +23,7 @@ public class FosscutTektonClient {
     private static final String TASK_NAME = "fosscut-generate";
     private static final String TASK_RUN_NAME_PREFIX = "fosscut-generate-";
     private static final String STEP_NAME = "step-generate";
-    private static final String REDIS_URL = "redis://redis-master.redis.svc.cluster.local:6379/";
+    private static final String REDIS_READ_URL = "redis://redis-replicas.redis.svc.cluster.local:6379/";
 
     @Autowired
     private TektonClient tkn;
@@ -75,7 +75,7 @@ public class FosscutTektonClient {
         List<Param> params = new ArrayList<Param>();
         params.add(new ParamBuilder()
             .withName("redisUrl")
-            .withNewValue(REDIS_URL + identifier)
+            .withNewValue(REDIS_READ_URL + identifier)
             .build()
         );
 
@@ -106,8 +106,8 @@ public class FosscutTektonClient {
             .delete();
     }
 
-    public TaskRunLogsDTO getTaskRunLogs(String identifier) {
-        TaskRunLogsDTO taskRunLogsDTO = new TaskRunLogsDTO();
+    public TektonTaskRunLogsDTO getTaskRunLogs(String identifier) {
+        TektonTaskRunLogsDTO taskRunLogsDTO = new TektonTaskRunLogsDTO();
 
         TaskRun taskRun = tkn.v1()
             .taskRuns()
