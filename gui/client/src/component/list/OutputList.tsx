@@ -1,16 +1,16 @@
 import { useState } from "react";
-import Output from "../../type/Output.ts";
+import Output, { SetOutputsFunction } from "../../type/Output.ts";
 import OutputItem from "../OutputItem.tsx";
-
-type SetOutputsFunction = (outputs: Output[]) => void;
+import SetIdFunction from "../../type/SetIdFunction.ts";
 
 type OutputListProps = {
+  outputId: number,
+  setOutputId: SetIdFunction,
   outputs: Output[],
   setOutputs: SetOutputsFunction,
 }
 
-const OutputList: React.FC<OutputListProps> = ({outputs, setOutputs}) => {
-  const [id, setId] = useState<number>(1)
+const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, setOutputs}) => {
   const [length, setLength] = useState<number>("")
   const [number, setNumber] = useState<number>("")
   const [maxRelax, setMaxRelax] = useState<number>("")
@@ -28,14 +28,14 @@ const OutputList: React.FC<OutputListProps> = ({outputs, setOutputs}) => {
     } else {
       setWarningVisible(false)
       const newOutput: Output = {
-        id: id,
+        id: outputId,
         length: length,
         number: number,
         maxRelax: maxRelax
       }
 
       setOutputs([...outputs, newOutput])
-      setId(id + 1)
+      setOutputId(outputId + 1)
       setLength("")
       setNumber("")
       setMaxRelax("")

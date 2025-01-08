@@ -1,5 +1,7 @@
 import NoIdOutput from "./NoIdOutput.ts";
 
+type SetOutputsFunction = (outputs: Output[]) => void;
+
 type Output = NoIdOutput & {
   id: number
 }
@@ -17,5 +19,6 @@ const getNoIdOutputs = (outputs: Output[]): NoIdOutput[] => {
 }
 
 export { getNoIdOutputs };
+export type { SetOutputsFunction };
 
 export default Output;

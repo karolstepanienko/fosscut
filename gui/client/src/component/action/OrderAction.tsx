@@ -2,23 +2,31 @@ import yaml from 'yaml';
 
 import { getApi } from "../../Config.ts";
 import Order from "../../type/Order.ts";
-import Input, { getNoIdInputs } from "../../type/Input.ts";
-import Output, { getNoIdOutputs } from "../../type/Output.ts";
+import Input, { getNoIdInputs, SetInputsFunction } from "../../type/Input.ts";
+import Output, { getNoIdOutputs, SetOutputsFunction } from "../../type/Output.ts";
 import InputList from "../list/InputList.tsx";
 import OutputList from "../list/OutputList.tsx";
 import ActionCookieProps from "../../type/ActionCookieProps.ts";
-
-type SetInputsFunction = (inputs: Input[]) => void;
-type SetOutputsFunction = (inputs: Output[]) => void;
+import SetIdFunction from "../../type/SetIdFunction.ts";
 
 type OrderActionProps = ActionCookieProps & {
+  inputId: number,
+  setInputId: SetIdFunction,
   inputs: Input[],
-  setInputs: SetInputsFunction
+  setInputs: SetInputsFunction,
+  outputId: number,
+  setOutputId: SetIdFunction,
   outputs: Output[],
   setOutputs: SetOutputsFunction
 }
 
-const OrderAction: React.FC<OrderActionProps> = ({inputs, setInputs, outputs, setOutputs, cookies, setCookie}) => {
+const OrderAction: React.FC<OrderActionProps> = ({
+    inputId, setInputId,
+    inputs, setInputs,
+    outputId, setOutputId,
+    outputs, setOutputs,
+    cookies, setCookie
+  }) => {
   const api = getApi();
 
   const saveOrder = async () => {
@@ -54,8 +62,14 @@ const OrderAction: React.FC<OrderActionProps> = ({inputs, setInputs, outputs, se
   return (
     <div className="action-container">
       <div className="action-content-container">
-        <InputList inputs={inputs} setInputs={setInputs} />
-        <OutputList outputs={outputs} setOutputs={setOutputs} />
+        <InputList
+          inputId={inputId} setInputId={setInputId}
+          inputs={inputs} setInputs={setInputs}
+        />
+        <OutputList
+          outputId={outputId} setOutputId={setOutputId}
+          outputs={outputs} setOutputs={setOutputs}
+        />
       </div>
       <button className="btn btn-secondary fosscut-button button-group" onClick={() => saveOrder()}>
       Save</button>

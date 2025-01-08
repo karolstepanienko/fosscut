@@ -1,16 +1,17 @@
 import { useState } from "react";
 import Item from "../InputItem.tsx"
-import Input from "../../type/Input.ts";
+import Input, { SetInputsFunction } from "../../type/Input.ts";
+import SetIdFunction from "../../type/SetIdFunction.ts";
 
-type SetInputsFunction = (inputs: Input[]) => void;
 
 type InputListProps = {
+  inputId: number,
+  setInputId: SetIdFunction,
   inputs: Input[],
   setInputs: SetInputsFunction,
 }
 
-const InputList: React.FC<InputListProps> = ({inputs, setInputs}) => {
-  const [id, setId] = useState<number>(1)
+const InputList: React.FC<InputListProps> = ({inputId, setInputId, inputs, setInputs}) => {
   const [length, setLength] = useState<number>("")
 
   const [warning, setWarning] = useState<string>("")
@@ -26,11 +27,11 @@ const InputList: React.FC<InputListProps> = ({inputs, setInputs}) => {
     } else {
       setWarningVisible(false)
       const newInput: Input = {
-        id: id,
+        id: inputId,
         length: length
       };
       setInputs([...inputs, newInput])
-      setId(id + 1)
+      setInputId(inputId + 1)
       setLength("")
     }
   }
