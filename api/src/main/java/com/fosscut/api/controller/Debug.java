@@ -31,7 +31,7 @@ public class Debug {
     @Autowired
     private HttpServletRequest request;
 
-    private static final Logger LOG = LoggerFactory.getLogger(Debug.class);
+    private static final Logger logger = LoggerFactory.getLogger(Debug.class);
 
     @GetMapping("/health")
     @ResponseBody
@@ -64,7 +64,7 @@ public class Debug {
         response.set(JsonPayload.PARAMETERS, request.getParameterMap());
         response.set(JsonPayload.PATH, request.getServletPath());
         response.set(JsonPayload.BODY, rawBody != null ? Base64.getEncoder().encodeToString(rawBody) : null);
-        LOG.info("REQUEST: {}", request.getParameterMap());
+        logger.info("REQUEST: {}", request.getParameterMap());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
