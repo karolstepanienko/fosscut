@@ -19,14 +19,14 @@ const getPlanTableDataFromCuttingPlan = (cuttingPlan: CuttingPlan): PlanTableRow
         localOutputs.push({
           id: planOutput.id,
           length: cuttingPlan.outputs[planOutput.id].length,
-          count: planOutput.number
+          count: planOutput.count
         })
       })
 
       planTableData.push({
         patternId: localId,
         inputLength: planInput.length,
-        count: pattern.number,
+        count: pattern.count,
         outputs: localOutputs
       })
       localId += 1

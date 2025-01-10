@@ -50,7 +50,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"setNumber","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"setCount","parameterTypes":["java.lang.Integer"] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.CuttingPlan",
@@ -64,7 +64,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getNumber","parameterTypes":[] }, {"name":"getPatternDefinition","parameterTypes":[] }]
+  "methods":[{"name":"getCount","parameterTypes":[] }, {"name":"getPatternDefinition","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.PlanInput",
@@ -77,7 +77,7 @@
   "name":"com.fosscut.type.cutting.plan.PlanOutput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getNumber","parameterTypes":[] }]
+  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }]
 },
 {
     "name":"com.fosscut.type.cutting.plan.PlanOutputInteger",

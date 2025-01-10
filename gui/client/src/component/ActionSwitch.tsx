@@ -18,7 +18,7 @@ function ActionSwitch() {
   ]);
   const [outputId, setOutputId] = useState<number>(1);
   const [outputs, setOutputs] = useState<Output[]>([
-    { id: 0, length: 30, number: 2, maxRelax: 0 }
+    { id: 0, length: 30, count: 2, maxRelax: 0 }
   ]);
 
   const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(undefined);

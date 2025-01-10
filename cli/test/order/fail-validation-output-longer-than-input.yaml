@@ -3,5 +3,5 @@ inputs:
   - length: 1
 outputs:
   - length: 2
-    number: 1
+    count: 1
     maxRelax: 0

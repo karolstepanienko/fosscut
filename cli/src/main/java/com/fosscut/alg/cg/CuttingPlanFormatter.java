@@ -46,34 +46,34 @@ public class CuttingPlanFormatter {
         List<Pattern> patterns = new ArrayList<>();
 
         for (int p = 0; p < params.getNPatternMax(); p++) {
-            Integer patternNumber = inputPatternUsage.get(i).get(p);
-            if (patternNumber > 0 ) patterns.add(getPattern(patternNumber, i, p));
+            Integer patternCount = inputPatternUsage.get(i).get(p);
+            if (patternCount > 0 ) patterns.add(getPattern(patternCount, i, p));
         }
         planInput.setPatterns(patterns);
         return planInput;
     }
 
-    private Pattern getPattern(Integer patternNumber, int i, int p) {
+    private Pattern getPattern(Integer patternCount, int i, int p) {
         Pattern pattern = new Pattern();
-        pattern.setNumber(patternNumber);
+        pattern.setCount(patternCount);
         List<PlanOutput> patternDefinition = new ArrayList<>();
 
         for (int o = 0; o < order.getOutputs().size(); o++) {
-            Integer outputNumber = params.getNipo().get(i).get(p).get(o);
-            if (outputNumber > 0) patternDefinition.add(getPlanOutput(outputNumber, i, p, o));
+            Integer outputCount = params.getNipo().get(i).get(p).get(o);
+            if (outputCount > 0) patternDefinition.add(getPlanOutput(outputCount, i, p, o));
         }
         pattern.setPatternDefinition(patternDefinition);
         return pattern;
     }
 
-    private PlanOutput getPlanOutput(Integer outputNumber, int i, int p, int o) {
+    private PlanOutput getPlanOutput(Integer outputCount, int i, int p, int o) {
         PlanOutput planOutput;
         if (relaxCost == null)
-            planOutput = new PlanOutput(o, outputNumber);
+            planOutput = new PlanOutput(o, outputCount);
         else if (integerRelax)
-            planOutput = new PlanOutputInteger(o, outputNumber, params.getRipo().get(i).get(p).get(o).intValue());
+            planOutput = new PlanOutputInteger(o, outputCount, params.getRipo().get(i).get(p).get(o).intValue());
         else
-            planOutput = new PlanOutputDouble(o, outputNumber, params.getRipo().get(i).get(p).get(o));
+            planOutput = new PlanOutputDouble(o, outputCount, params.getRipo().get(i).get(p).get(o));
 
         return planOutput;
     }

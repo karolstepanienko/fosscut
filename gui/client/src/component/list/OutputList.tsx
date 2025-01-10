@@ -12,17 +12,17 @@ type OutputListProps = {
 
 const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, setOutputs}) => {
   const [length, setLength] = useState<number>("")
-  const [number, setNumber] = useState<number>("")
+  const [count, setCount] = useState<number>("")
   const [maxRelax, setMaxRelax] = useState<number>("")
 
   const [warning, setWarning] = useState<string>("")
   const [warningVisible, setWarningVisible] = useState<boolean>(false)
 
   const addOutput = () => {
-    if (length === "" || number === "" || maxRelax === "") {
+    if (length === "" || count === "" || maxRelax === "") {
       setWarning("All fields need to be filled")
       setWarningVisible(true)
-    } else if (length < 1 || number < 1 || maxRelax < 0) {
+    } else if (length < 1 || count < 1 || maxRelax < 0) {
       setWarning("All values need to be positive integers")
       setWarningVisible(true)
     } else {
@@ -30,14 +30,14 @@ const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, 
       const newOutput: Output = {
         id: outputId,
         length: length,
-        number: number,
+        count: count,
         maxRelax: maxRelax
       }
 
       setOutputs([...outputs, newOutput])
       setOutputId(outputId + 1)
       setLength("")
-      setNumber("")
+      setCount("")
       setMaxRelax("")
     }
   }
@@ -66,10 +66,10 @@ const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, 
             onChange={e => setLength(e.target.value)}
             onKeyDown={e => handleKeyDown(e)}
           />
-          <input type="number" min="1" step="1" value={number}
+          <input type="number" min="1" step="1" value={count}
             className="styled-input"
-            placeholder="Output number..."
-            onChange={e => setNumber(e.target.value)}
+            placeholder="Output count..."
+            onChange={e => setCount(e.target.value)}
             onKeyDown={e => handleKeyDown(e)}
           />
           <input type="number" min="0" value={maxRelax}

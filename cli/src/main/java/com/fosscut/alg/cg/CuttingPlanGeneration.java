@@ -94,7 +94,7 @@ class CuttingPlanGeneration extends LPTask {
         List<MPConstraint> fillConstraints = new ArrayList<>();
         for (int o = 0; o < getOrder().getOutputs().size(); o++) {
             MPConstraint constraint = getSolver().makeConstraint(
-                getOrder().getOutputs().get(o).getNumber(), Double.POSITIVE_INFINITY, "Fill_o_" + o);
+                getOrder().getOutputs().get(o).getCount(), Double.POSITIVE_INFINITY, "Fill_o_" + o);
             for (int i = 0; i < getOrder().getInputs().size(); i++) {
                 for (int p = 0; p < params.getNPatternMax(); p++) {
                     constraint.setCoefficient(

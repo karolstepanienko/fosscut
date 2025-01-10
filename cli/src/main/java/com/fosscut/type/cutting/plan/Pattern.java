@@ -3,15 +3,15 @@ package com.fosscut.type.cutting.plan;
 import java.util.List;
 
 public class Pattern {
-    private Integer number;
+    private Integer count;
     private List<PlanOutput> patternDefinition;
 
-    public Integer getNumber() {
-        return number;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public List<PlanOutput> getPatternDefinition() {

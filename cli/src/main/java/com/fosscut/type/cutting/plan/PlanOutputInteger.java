@@ -3,8 +3,8 @@ package com.fosscut.type.cutting.plan;
 public class PlanOutputInteger extends PlanOutput {
     private Integer relax;
 
-    public PlanOutputInteger(Integer id, Integer number, Integer relax) {
-        super(id, number);
+    public PlanOutputInteger(Integer id, Integer count, Integer relax) {
+        super(id, count);
         this.relax = relax;
     }
 

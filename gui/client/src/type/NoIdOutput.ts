@@ -1,6 +1,6 @@
 type NoIdOutput = {
     length: number
-    number: number
+    count: number
     maxRelax: number
 }
 

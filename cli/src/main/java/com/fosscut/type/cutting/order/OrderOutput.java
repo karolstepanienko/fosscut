@@ -3,15 +3,16 @@ package com.fosscut.type.cutting.order;
 import com.fosscut.type.cutting.Element;
 
 public class OrderOutput extends Element {
-    private Integer number;
+
+    private Integer count;
     private Integer maxRelax;
 
-    public Integer getNumber() {
-        return this.number;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public Integer getMaxRelax() {
@@ -24,7 +25,8 @@ public class OrderOutput extends Element {
 
     public String toString() {
         return "Output: length = " + this.getLength()
-            + ", number = " + this.getNumber()
+            + ", count = " + this.getCount()
             + ", maxRelax = " + this.getMaxRelax();
     }
+
 }

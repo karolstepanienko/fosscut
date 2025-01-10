@@ -1,12 +1,13 @@
 package com.fosscut.type.cutting.plan;
 
 public class PlanOutput {
-    private Integer id;
-    private Integer number;
 
-    public PlanOutput(Integer id, Integer number) {
+    private Integer id;
+    private Integer count;
+
+    public PlanOutput(Integer id, Integer count) {
         this.id = id;
-        this.number = number;
+        this.count = count;
     }
 
     public Integer getId() {
@@ -17,11 +18,12 @@ public class PlanOutput {
         this.id = id;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setCount(Integer count) {
+        this.count = count;
     }
+
 }

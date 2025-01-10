@@ -11,7 +11,7 @@ const getNoIdOutputs = (outputs: Output[]): NoIdOutput[] => {
     outputs.map((output: Output) => {
         noIdOutputs.push({
             length: output.length,
-            number: output.number,
+            count: output.count,
             maxRelax: output.maxRelax
         })
     })

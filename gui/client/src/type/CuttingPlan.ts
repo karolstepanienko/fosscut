@@ -2,11 +2,11 @@ import Output from "./Output.ts";
 
 type PlanOutput = {
     id: number,
-    number: number
+    count: number
 }
 
 type Pattern = {
-    number: number
+    count: number
     patternDefinition: PlanOutput[]
 }
 

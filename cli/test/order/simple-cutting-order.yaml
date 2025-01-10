@@ -5,20 +5,20 @@ inputs:
   - length: 115
 outputs:
   - length: 20
-    number: 20
+    count: 20
     maxRelax: 0
   - length: 20
-    number: 38
+    count: 38
     maxRelax: 3
   - length: 45
-    number: 35
+    count: 35
     maxRelax: 0
   - length: 50
-    number: 24
+    count: 24
     maxRelax: 0
   - length: 55
-    number: 10
+    count: 10
     maxRelax: 0
   - length: 75
-    number: 8
+    count: 8
     maxRelax: 0

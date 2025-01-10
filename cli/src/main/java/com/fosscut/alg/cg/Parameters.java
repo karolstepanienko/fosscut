@@ -8,7 +8,7 @@ import com.fosscut.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.order.OrderOutput;
 
 public class Parameters {
-    // pattern definition, number of output elements for [input][pattern][output]
+    // pattern definition, number/count of output elements for [input][pattern][output]
     private List<List<List<Integer>>> nipo;
     // relaxation value for [input][pattern][output]
     private List<List<List<Double>>> ripo;
