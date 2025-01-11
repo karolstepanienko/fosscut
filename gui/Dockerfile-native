@@ -1,3 +1,11 @@
+FROM gradle:8.11.1-jdk21 AS gradle
+
+WORKDIR /app
+COPY gradle gradle
+COPY build.gradle .
+RUN gradle wrapper
+
+
 FROM denoland/deno:2.0.5 AS gui-build
 
 WORKDIR /gui
@@ -17,7 +25,7 @@ COPY gui/webserver/src src
 COPY gui/webserver/build.gradle .
 
 WORKDIR /app
-COPY gradle gradle
+COPY --from=gradle /app/gradle gradle
 COPY gradlew build.gradle settings.gradle ./
 
 COPY --from=gui-build /gui/client/dist /app/gui/webserver/src/main/resources/static

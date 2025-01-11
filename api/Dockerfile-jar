@@ -1,8 +1,16 @@
+FROM gradle:8.11.1-jdk21 AS gradle
+
+WORKDIR /app
+COPY gradle gradle
+COPY build.gradle .
+RUN gradle wrapper
+
+
 FROM openjdk:21 AS build
 
 RUN microdnf install findutils
 
-COPY gradle gradle
+COPY --from=gradle /app/gradle gradle
 COPY gradlew build.gradle settings.gradle ./
 COPY shared shared
 COPY api api
