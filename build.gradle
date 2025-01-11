@@ -1,0 +1,7 @@
+plugins {
+    id 'org.graalvm.buildtools.native' version '0.10.3'
+}
+
+subprojects {
+    apply plugin: 'org.graalvm.buildtools.native'
+}

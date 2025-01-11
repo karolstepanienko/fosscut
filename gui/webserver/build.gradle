@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.0'
     id 'io.spring.dependency-management' version '1.1.6'
-    id 'org.graalvm.buildtools.native' version '0.10.3'
 }
 
 group = 'com.fosscut'
@@ -22,11 +21,28 @@ dependencies {
     implementation libs.springStarter
     implementation libs.springStarterWeb
     testImplementation libs.springStarterTest
-    testRuntimeOnly libs.junit
+    testRuntimeOnly libs.junitPlatform
+}
+
+graalvmNative {
+    binaries {
+        main {
+            imageName.set('fosscut-gui') 
+        }
+    }
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.register('run') {
+    doLast {
+        exec {
+            workingDir '..'
+            commandLine 'deno', 'run', 'dev'
+        }
+    }
 }
 
 tasks.register('buildGui') {
@@ -35,7 +51,6 @@ tasks.register('buildGui') {
             workingDir '..'
             commandLine 'deno', 'run', 'build'
         }
-
     }
 }
 

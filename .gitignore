@@ -1,3 +1,9 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# java build folder
+build/
+
 # Compiled class file
 *.class
 

@@ -1,0 +1,4 @@
+rootProject.name = 'fosscut'
+include('api')
+include('cli')
+include('gui:webserver')
