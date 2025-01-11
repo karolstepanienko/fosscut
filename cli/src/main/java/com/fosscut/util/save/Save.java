@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.JedisPooled;
 
+import com.fosscut.shared.SharedDefaults;
 import com.fosscut.type.OrderURI;
-import com.fosscut.util.Defaults;
 import com.fosscut.util.RedisClient;
 
 public class Save {
@@ -59,8 +59,8 @@ public class Save {
         JedisPooled jedis = redisClient.getWriteClient();
         if (jedis != null) {
             jedis.set(
-                Defaults.REDIS_STRING_KEY_PREFIX
-                + Defaults.REDIS_STRING_PLAN_PREFIX
+                SharedDefaults.REDIS_STRING_KEY_PREFIX
+                + SharedDefaults.REDIS_STRING_PLAN_PREFIX
                 + orderUri.getIdentifier(),
                 cuttingPlan
             );

@@ -7,8 +7,8 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.shared.SharedDefaults;
 import com.fosscut.type.OrderURI;
-import com.fosscut.util.Defaults;
 import com.fosscut.util.RedisClient;
 
 import redis.clients.jedis.JedisPooled;
@@ -61,8 +61,8 @@ public class OrderRedisLoader extends Loader {
         RedisClient redisClient = new RedisClient(redisConnectionSecretsFile);
         JedisPooled jedis = redisClient.getReadClient(orderUri.getHost(), orderUri.getPort());
         String orderString = jedis.get(
-            Defaults.REDIS_STRING_KEY_PREFIX
-            + Defaults.REDIS_STRING_ORDER_PREFIX
+            SharedDefaults.REDIS_STRING_KEY_PREFIX
+            + SharedDefaults.REDIS_STRING_ORDER_PREFIX
             + orderUri.getIdentifier()
         );
         jedis.close();

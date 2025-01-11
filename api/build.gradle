@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':shared')
     implementation libs.springStarter
     implementation libs.springStarterWeb
     implementation libs.k8sClient

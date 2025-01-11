@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':shared')
     implementation libs.picocli
     implementation libs.ortools
     implementation libs.jackson
