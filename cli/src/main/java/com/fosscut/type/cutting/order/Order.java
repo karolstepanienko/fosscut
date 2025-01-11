@@ -4,10 +4,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.type.cutting.Element;
 import com.fosscut.util.Messages;
 
 public class Order {
+
+    private static final Logger logger = LoggerFactory.getLogger(Order.class);
+
     private List<OrderInput> inputs;
     private List<OrderOutput> outputs;
 
@@ -37,13 +43,13 @@ public class Order {
 
     public void validate() {
         if (!longestInputLongerThanLongestOutput()) {
-            System.err.println(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR);
+            logger.error(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR);
             System.exit(1);
         } else if (!lengthHasToBePositive(this.inputs)) {
-            System.err.println(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR);
+            logger.error(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR);
             System.exit(1);
         } else if (!lengthHasToBePositive(this.outputs)) {
-            System.err.println(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR);
+            logger.error(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR);
             System.exit(1);
         }
     }
@@ -64,4 +70,5 @@ public class Order {
         }
         return valid;
     }
+
 }

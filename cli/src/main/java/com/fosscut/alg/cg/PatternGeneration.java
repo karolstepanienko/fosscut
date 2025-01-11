@@ -3,6 +3,9 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -12,20 +15,21 @@ import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
 class PatternGeneration extends LPTask {
+
+    private static final Logger logger = LoggerFactory.getLogger(PatternGeneration.class);
+
     private List<Double> cuttingPlanDualValues;
     private Double relaxCost;
     private boolean integerRelax;
-    private boolean quietModeRequested;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
 
-    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean integerRelax, boolean quietModeRequested) {
+    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean integerRelax) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
         this.integerRelax = integerRelax;
-        this.quietModeRequested = quietModeRequested;
     }
 
     public List<List<MPVariable>> getUsageVariables() {
@@ -45,19 +49,15 @@ class PatternGeneration extends LPTask {
     }
 
     public void solve() {
-        if (!quietModeRequested) printIntro();
+        logger.info("");
+        logger.info("Starting pattern generation...");
 
         setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
         if (relaxCost == null) initModel();
         else initModelWithRelaxation();
         final ResultStatus resultStatus = getSolver().solve();
 
-        if (!quietModeRequested) printSolution(resultStatus);
-    }
-
-    private void printIntro() {
-        System.out.println("");
-        System.out.println("Starting pattern generation...");
+        printSolution(resultStatus);
     }
 
     private void initModel() {
@@ -146,4 +146,5 @@ class PatternGeneration extends LPTask {
         objective.setOffset(-getOrder().getInputsSumLength());
         objective.setMaximization();
     }
+
 }

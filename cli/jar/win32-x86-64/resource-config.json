@@ -3,7 +3,8 @@
         "includes": [
             { "pattern": "ortools-win32-x86-64/.*" },
             { "pattern": "version.txt" },
-            { "pattern": "redis/clients/jedis/pom.properties" }
+            { "pattern": "redis/clients/jedis/pom.properties" },
+            { "pattern": "logback.xml" }
         ],
         "excludes": [ ]
     }

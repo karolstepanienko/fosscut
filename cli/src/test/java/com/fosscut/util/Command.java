@@ -6,7 +6,13 @@ import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Command {
+
+    private static final Logger logger = LoggerFactory.getLogger(Command.class);
+
     private String command;
     private String args;
     private long timeout;
@@ -56,7 +62,7 @@ public class Command {
             else if (Utils.isWindows())
                 processBuilder.command(TestDefaults.WINDOWS_SHELL, fullCommand);
             else {
-                System.err.println("Only linux and windows are supported.");
+                logger.error("Only linux and windows are supported.");
                 System.exit(1);
             }
 
@@ -76,8 +82,9 @@ public class Command {
             this.exited = process.waitFor(this.timeout, TimeUnit.SECONDS);
             this.exitCode = process.waitFor();
         } catch (IOException | InterruptedException e) {
-            System.err.println("Command run failed. Exception:");
+            logger.error("Command run failed. Exception:");
             e.printStackTrace();
         }
     }
+
 }

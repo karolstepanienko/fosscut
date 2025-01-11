@@ -1,5 +1,8 @@
 package com.fosscut.test.subcommand;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
@@ -40,7 +43,33 @@ public class Cg {
     @Test public void simpleCgQuiet() throws IOException {
         Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
         command.run();
-        assert(command.getOutput().equals(Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)));
+        assert(command.getOutput().equals(""));
+    }
+
+    @Test public void simpleCgSavePlanToFile() throws IOException {
+        String testFileName = "simpleCgSavePlanToFile";
+        Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
+        command.run();
+        assert(command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(command.getOutput().contains("Status: OPTIMAL"));
+        assert(!command.getOutput().contains("Generated cutting plan:"));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)
+        );
+    }
+
+    @Test public void simpleCgQuietSavePlanToFile() throws IOException {
+        String testFileName = "simpleCgQuietSavePlanToFile";
+        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
+        command.run();
+        assert(!command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(!command.getOutput().contains("Status: OPTIMAL"));
+        assert(!command.getOutput().contains("Generated cutting plan:"));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)
+        );
     }
 
     @Test public void simpleCgRedis() {
@@ -57,6 +86,7 @@ public class Cg {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
-        assert(command.getOutput().equals(Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)));
+        assert(command.getOutput().equals(""));
     }
+
 }

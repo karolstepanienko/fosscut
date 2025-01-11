@@ -4,6 +4,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.type.OrderURI;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.RedisClient;
@@ -11,6 +14,8 @@ import com.fosscut.util.RedisClient;
 import redis.clients.jedis.JedisPooled;
 
 public class OrderRedisLoader extends Loader {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderRedisLoader.class);
 
     private File redisConnectionSecretsFile;
 
@@ -26,22 +31,22 @@ public class OrderRedisLoader extends Loader {
         } catch (URISyntaxException e) {}
 
         if (uri.getScheme() == null || !uri.getScheme().equals( "redis")) {
-            System.err.println("Incorrect protocol. Must be 'redis'.");
+            logger.error("Incorrect protocol. Must be 'redis'.");
             System.exit(1);
         }
 
         if (uri.getHost() == null) {
-            System.err.println("Error: Unable to read hostname.");
+            logger.error("Error: Unable to read hostname.");
             System.exit(1);
         }
 
         if (uri.getPort() <= 0) {
-            System.err.println("Error: Unable to read port.");
+            logger.error("Error: Unable to read port.");
             System.exit(1);
         }
 
         if (uri.getPath() == null) {
-            System.err.println("Error: Unable to read identifier.");
+            logger.error("Error: Unable to read identifier.");
             System.exit(1);
         }
     }

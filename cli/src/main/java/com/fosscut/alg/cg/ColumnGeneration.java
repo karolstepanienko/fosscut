@@ -5,6 +5,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
@@ -12,23 +15,26 @@ import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
 
 public class ColumnGeneration {
+
+    private static final Logger logger = LoggerFactory.getLogger(ColumnGeneration.class);
+
     private Double relaxCost;
     private Order order;
     private boolean integerRelax;
-    private boolean quietModeRequested;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
 
-    public ColumnGeneration(Order order, Double relaxCost, boolean integerRelax, boolean quietModeRequested) {
+    public ColumnGeneration(Order order, Double relaxCost, boolean integerRelax) {
         this.order = order;
         this.relaxCost = relaxCost;
         this.integerRelax = integerRelax;
-        this.quietModeRequested = quietModeRequested;
     }
 
     public void run() {
-        if (!quietModeRequested) printIntro();
+        logger.info("");
+        logger.info("Running cutting plan generation using column generation algorithm...");
+
         Loader.loadNativeLibraries();
 
         params = new Parameters(order);
@@ -36,12 +42,12 @@ public class ColumnGeneration {
         double reducedCost;
         do {
             CuttingPlanGeneration linearCuttingPlanGeneration =
-                new CuttingPlanGeneration(order, params, false, quietModeRequested);
+                new CuttingPlanGeneration(order, params, false);
             linearCuttingPlanGeneration.solve();
 
             PatternGeneration patternGeneration = new PatternGeneration(
                 order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
-                integerRelax, quietModeRequested
+                integerRelax
             );
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
@@ -59,18 +65,13 @@ public class ColumnGeneration {
             .doubleValue() > 0
         );
 
-        integerCuttingPlanGeneration = new CuttingPlanGeneration(order, params, true, quietModeRequested);
+        integerCuttingPlanGeneration = new CuttingPlanGeneration(order, params, true);
         integerCuttingPlanGeneration.solve();
     }
 
     public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params, integerRelax);
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
-    }
-
-    private void printIntro() {
-        System.out.println("");
-        System.out.println("Running cutting plan generation using column generation algorithm...");
     }
 
     private void copyPatterns(Order order, PatternGeneration patternGeneration) {
@@ -95,4 +96,5 @@ public class ColumnGeneration {
             params.getRipo().get(i).add(relaxPattern);
         }
     }
+
 }

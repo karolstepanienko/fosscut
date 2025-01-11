@@ -11,6 +11,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -20,6 +23,8 @@ import redis.clients.jedis.JedisClientConfig;
 import redis.clients.jedis.JedisPooled;
 
 public class RedisClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 
     private RedisConnectionSecrets redisConnectionSecrets;
 
@@ -56,7 +61,7 @@ public class RedisClient {
                 redisConnectionSecrets.getKeystorePassword()
             );
         } catch (Exception e) {
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
             System.exit(1);
         }
 
@@ -79,7 +84,7 @@ public class RedisClient {
              RedisConnectionSecrets.class);
         }
         catch (Exception e) {
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
             System.exit(1);
         }
         return redisConnectionSecrets;

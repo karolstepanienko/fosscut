@@ -2,6 +2,7 @@ package com.fosscut.subcommand;
 
 import com.fosscut.FossCut;
 import com.fosscut.type.cutting.order.Order;
+import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.Validator;
 import com.fosscut.util.load.OrderLoader;
@@ -24,15 +25,16 @@ public class Validate implements Runnable {
 
     @Override
     public void run() {
-        boolean quietModeRequested = fossCut.getQuietModeRequested();
+        LogFormatter logFormatter = new LogFormatter(fossCut.getQuietModeRequested());
+        logFormatter.configure();
 
-        OrderLoader orderLoader = new OrderLoader(fossCut.getRedisConnectionSecrets(), quietModeRequested);
+        OrderLoader orderLoader = new OrderLoader(fossCut.getRedisConnectionSecrets());
         String orderString = orderLoader.load(orderPath);
 
-        YamlLoader yamlLoader = new YamlLoader(quietModeRequested);
+        YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator(quietModeRequested);
+        Validator validator = new Validator();
         validator.validateOrder(order);
     }
 

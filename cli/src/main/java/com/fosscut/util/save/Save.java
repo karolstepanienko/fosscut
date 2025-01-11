@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import redis.clients.jedis.JedisPooled;
 
 import com.fosscut.type.OrderURI;
@@ -13,36 +16,28 @@ import com.fosscut.util.RedisClient;
 
 public class Save {
 
+    private static final Logger logger = LoggerFactory.getLogger(Save.class);
+
     private String cuttingPlan;
     private OrderURI orderUri;
     private File redisConnectionSecretsFile;
-    private boolean quietModeRequested;
 
-    public Save(String cuttingPlan, OrderURI orderUri, File redisConnectionSecrets, boolean quietModeRequested) {
+    public Save(String cuttingPlan, OrderURI orderUri, File redisConnectionSecrets) {
         this.cuttingPlan = cuttingPlan;
         this.orderUri = orderUri;
         this.redisConnectionSecretsFile = redisConnectionSecrets;
-        this.quietModeRequested = quietModeRequested;
     }
 
     public void save(File outputFile) {
         if (outputFile == null) {
-            if (!quietModeRequested) printIntro();
-            printCuttingPlan();
+            logger.info("");
+            logger.info("Generated cutting plan:");
+            logger.info(cuttingPlan);
         } else saveCuttingPlanToFile(outputFile);
 
         if (this.redisConnectionSecretsFile != null) {
             saveCuttingPlanToRedis();
         }
-    }
-
-    private void printIntro() {
-        System.out.println("");
-        System.out.println("Generated cutting plan:");
-    }
-
-    private void printCuttingPlan() {
-        System.out.println(cuttingPlan);
     }
 
     private void saveCuttingPlanToFile(File outputFile) {
@@ -52,10 +47,10 @@ public class Save {
             out.print(cuttingPlan);
             out.close();
         } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            System.err.println("Unable to save file.");
-            System.err.println(e.getMessage());
+            logger.error("Unable to save file.");
+            logger.error(e.getMessage());
         }
     }
 
@@ -71,7 +66,7 @@ public class Save {
             );
             jedis.close();
         } else {
-            if (!quietModeRequested) System.out.println("Skipping saving plan to redis. Write parameters not found in redis secrets file.");
+            logger.info("Skipping saving plan to redis. Write parameters not found in redis secrets file.");
         }
     }
 

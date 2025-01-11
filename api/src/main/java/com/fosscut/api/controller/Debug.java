@@ -43,7 +43,7 @@ public class Debug {
     @ResponseBody
     public String track() {
         String time = LocalDate.now().toString() + ":" + LocalTime.now();
-        System.out.println(time);
+        logger.info(time);
         return time;
     }
 

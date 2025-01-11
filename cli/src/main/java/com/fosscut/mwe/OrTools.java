@@ -2,6 +2,9 @@
 // example inspired by: https://github.com/or-tools/java_or-tools/blob/main/src/main/java/org/or_tools/example/BasicExample.java
 package com.fosscut.mwe;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.ortools.Loader;
 import com.google.ortools.init.OrToolsVersion;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -10,10 +13,13 @@ import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPVariable;
 
 public class OrTools {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrTools.class);
+
     public static void main() {
         Loader.loadNativeLibraries();
 
-        System.out.println("Google OR-Tools version: " + OrToolsVersion.getVersionString());
+        logger.info("Google OR-Tools version: " + OrToolsVersion.getVersionString());
 
         // Create the linear solver with the GLOP backend.
         MPSolver solver = MPSolver.createSolver("GLOP");
@@ -22,7 +28,7 @@ public class OrTools {
         MPVariable x = solver.makeIntVar(0.0, 10.0, "x");
         // 0.0 <= y <= 20.0
         MPVariable y = solver.makeIntVar(0.0, 20.0, "y");
-        System.out.println("Number of variables = " + solver.numVariables());
+        logger.info("Number of variables = " + solver.numVariables());
 
         double infinity = java.lang.Double.POSITIVE_INFINITY;
         // Create a linear constraint, x + 2y <= 5.
@@ -30,7 +36,7 @@ public class OrTools {
         MPConstraint constraint = solver.makeConstraint(-infinity, 5.0, "constraint");
         constraint.setCoefficient(x, 1);
         constraint.setCoefficient(y, 2);
-        System.out.println("Number of constraints = " + solver.numConstraints());
+        logger.info("Number of constraints = " + solver.numConstraints());
 
         // f(x,y) = 3x + 2y
         MPObjective objective = solver.objective();
@@ -38,27 +44,28 @@ public class OrTools {
         objective.setCoefficient(y, 10.5);
         objective.setMaximization();
 
-        System.out.println("Solving with " + solver.solverVersion());
+        logger.info("Solving with " + solver.solverVersion());
         final MPSolver.ResultStatus resultStatus = solver.solve();
 
-        System.out.println("Status: " + resultStatus);
+        logger.info("Status: " + resultStatus);
         if (resultStatus != MPSolver.ResultStatus.OPTIMAL) {
-            System.out.println("The problem does not have an optimal solution!");
+            logger.info("The problem does not have an optimal solution!");
             if (resultStatus == MPSolver.ResultStatus.FEASIBLE) {
-                System.out.println("A potentially suboptimal solution was found");
+                logger.info("A potentially suboptimal solution was found");
             } else {
-                System.out.println("The solver could not solve the problem.");
+                logger.info("The solver could not solve the problem.");
                 return;
             }
         }
 
-        System.out.println("");
-        System.out.println("Solution:");
-        System.out.println("Objective value = " + objective.value());
-        System.out.println("x = " + x.solutionValue());
-        System.out.println("y = " + y.solutionValue());
-        System.out.println("dual value = " + constraint.dualValue());
-        System.out.println("Problem solved in " + solver.wallTime() + " milliseconds");
-        System.out.println("Problem solved in " + solver.iterations() + " iterations");
+        logger.info("");
+        logger.info("Solution:");
+        logger.info("Objective value = " + objective.value());
+        logger.info("x = " + x.solutionValue());
+        logger.info("y = " + y.solutionValue());
+        logger.info("dual value = " + constraint.dualValue());
+        logger.info("Problem solved in " + solver.wallTime() + " milliseconds");
+        logger.info("Problem solved in " + solver.iterations() + " iterations");
     }
+
 }

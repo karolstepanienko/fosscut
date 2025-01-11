@@ -43,42 +43,42 @@ public class Validate {
     @Test public void nonPositiveInput() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_INPUT));
         command.run();
-        assert(command.getError().contains(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR));
+        assert(command.getOutput().contains(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void nonPositiveInputQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_INPUT));
         command.run();
-        assert(command.getError().equals(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR));
+        assert(command.getOutput().equals(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void nonPositiveOutput() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_OUTPUT));
         command.run();
-        assert(command.getError().contains(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR));
+        assert(command.getOutput().contains(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void nonPositiveOutputQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_OUTPUT));
         command.run();
-        assert(command.getError().equals(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR));
+        assert(command.getOutput().equals(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void outputLongerThanInput() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT));
         command.run();
-        assert(command.getError().contains(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR));
+        assert(command.getOutput().contains(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void outputLongerThanInputQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT));
         command.run();
-        assert(command.getError().equals(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR));
+        assert(command.getOutput().equals(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR));
         assertEquals(1, command.getExitCode());
     }
 }

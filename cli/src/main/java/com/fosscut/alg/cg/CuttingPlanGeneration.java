@@ -2,6 +2,10 @@ package com.fosscut.alg.cg;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.Double;
 
 import com.fosscut.exception.NotIntegerLPTaskException;
@@ -14,22 +18,24 @@ import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
 class CuttingPlanGeneration extends LPTask {
+
+    private static final Logger logger = LoggerFactory.getLogger(CuttingPlanGeneration.class);
+
     private Parameters params;
     private boolean integer;
-    private boolean quietModeRequested;
 
     private List<List<MPVariable>> patternsPerInputVariables;
     private List<MPConstraint> fillConstraints;
 
-    public CuttingPlanGeneration(Order order, Parameters params, boolean integer, boolean quietModeRequested) {
+    public CuttingPlanGeneration(Order order, Parameters params, boolean integer) {
         setOrder(order);
         this.params = params;
         this.integer = integer;
-        this.quietModeRequested = quietModeRequested;
     }
 
     public void solve() {
-        if (!quietModeRequested) printIntro();
+        logger.info("");
+        logger.info("Starting cutting plan generation...");
 
         setSolver(defineSolver());
         this.patternsPerInputVariables = defineVariables();
@@ -37,7 +43,7 @@ class CuttingPlanGeneration extends LPTask {
         setObjective(defineObjective());
         final ResultStatus resultStatus = getSolver().solve();
 
-        if (!quietModeRequested) printSolution(resultStatus);
+        printSolution(resultStatus);
     }
 
     public List<List<Integer>> getInputPatternUsage() throws NotIntegerLPTaskException {
@@ -62,11 +68,6 @@ class CuttingPlanGeneration extends LPTask {
             dualValues.add(Double.valueOf(fillConstraints.get(o).dualValue()));
         }
         return dualValues;
-    }
-
-    private void printIntro() {
-        System.out.println("");
-        System.out.println("Starting cutting plan generation...");
     }
 
     private MPSolver defineSolver() {

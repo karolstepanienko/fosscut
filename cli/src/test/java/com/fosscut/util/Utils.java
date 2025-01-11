@@ -23,7 +23,7 @@ public class Utils {
     }
 
     public static String loadFile(String path) throws IOException {
-        return Files.readString(Paths.get(TestDefaults.SIMPLE_CG_PLAN));
+        return Files.readString(Paths.get(path));
     }
 
     public static boolean isLinux() {

@@ -4,16 +4,18 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.type.OrderURI;
 
 public class OrderLoader {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderLoader.class);
     private File redisConnectionSecretsFile;
-    private boolean quietModeRequested;
 
-    public OrderLoader(File redisConnectionSecretsFile, boolean quietModeRequested) {
+    public OrderLoader(File redisConnectionSecretsFile) {
         this.redisConnectionSecretsFile = redisConnectionSecretsFile;
-        this.quietModeRequested = quietModeRequested;
     }
 
     public String load(String orderPath) {
@@ -40,7 +42,7 @@ public class OrderLoader {
     private boolean isURI(String orderPath) {
         if (getOrderUriFromPath(orderPath) == null) return false;
         else {
-            if (!quietModeRequested) System.out.println("URI recognised. Attempting parsing...");
+            logger.info("URI recognised. Attempting parsing...");
             return true;
         }
     }
@@ -50,9 +52,9 @@ public class OrderLoader {
         try {
             uri = new URI(orderPath);
         } catch (URISyntaxException e) {
-            System.err.println(e);
-            System.err.println(e.getLocalizedMessage());
-            if (!quietModeRequested) System.out.println("Not a URI. Parsing file path...");
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.info("Not a URI. Parsing file path...");
         }
         return new OrderURI(uri);
     }

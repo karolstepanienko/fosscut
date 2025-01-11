@@ -1,16 +1,21 @@
 package com.fosscut.alg.cg;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.type.cutting.order.Order;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
-
 
 /*
  * Linear programming task. Encapsulates all necessary fields for linear
  * programming tasks in column generation algorithm.
  */
 abstract class LPTask {
+
+    private static final Logger logger = LoggerFactory.getLogger(LPTask.class);
+
     private Order order;
     private MPSolver solver;
     private MPObjective objective;
@@ -40,24 +45,25 @@ abstract class LPTask {
     }
 
     protected void printSolution(ResultStatus resultStatus) {
-        System.out.println("Solved with " + getSolver().solverVersion());
+        logger.info("Solved with " + getSolver().solverVersion());
 
-        System.out.println("Status: " + resultStatus);
+        logger.info("Status: " + resultStatus);
         if (resultStatus != ResultStatus.OPTIMAL) {
-            System.err.println("The problem does not have an optimal solution!");
+            logger.error("The problem does not have an optimal solution!");
             if (resultStatus == ResultStatus.FEASIBLE) {
-                System.err.println("A potentially suboptimal solution was found");
+                logger.error("A potentially suboptimal solution was found");
             } else {
-                System.err.println("The solver could not solve the problem.");
+                logger.error("The solver could not solve the problem.");
                 return;
             }
         }
 
-        System.out.println("Number of variables = " + getSolver().numVariables());
-        System.out.println("Number of constraints = " + getSolver().numConstraints());
-        System.out.println("Solution:");
-        System.out.println("Objective value = " + getObjective().value());
-        System.out.println("Problem solved in " + getSolver().wallTime() + " milliseconds");
-        System.out.println("Problem solved in " + getSolver().iterations() + " iterations");
+        logger.info("Number of variables = " + getSolver().numVariables());
+        logger.info("Number of constraints = " + getSolver().numConstraints());
+        logger.info("Solution:");
+        logger.info("Objective value = " + getObjective().value());
+        logger.info("Problem solved in " + getSolver().wallTime() + " milliseconds");
+        logger.info("Problem solved in " + getSolver().iterations() + " iterations");
     }
+
 }

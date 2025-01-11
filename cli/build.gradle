@@ -21,7 +21,7 @@ dependencies {
     implementation libs.jedis
     // slf4j necessary for jedis to stop warnings
     implementation libs.slf4jApi
-    implementation libs.slf4jSimple
+    implementation libs.logback
     annotationProcessor libs.picoclicodegen
     // Use JUnit test framework.
     testImplementation libs.junit

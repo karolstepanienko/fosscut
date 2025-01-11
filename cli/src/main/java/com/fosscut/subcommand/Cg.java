@@ -6,6 +6,7 @@ import com.fosscut.FossCut;
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
+import com.fosscut.util.LogFormatter;
 import com.fosscut.util.OutputFormats;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.Validator;
@@ -70,17 +71,20 @@ public class Cg implements Runnable {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
         File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
 
-        OrderLoader orderLoader = new OrderLoader(redisConnectionSecrets, quietModeRequested);
+        LogFormatter logFormatter = new LogFormatter(quietModeRequested);
+        logFormatter.configure();
+
+        OrderLoader orderLoader = new OrderLoader(redisConnectionSecrets);
         String orderString = orderLoader.load(orderPath);
 
-        YamlLoader yamlLoader = new YamlLoader(quietModeRequested);
+        YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator(quietModeRequested);
+        Validator validator = new Validator();
         validator.validateOrder(order);
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
-            order, relaxCost, integerRelax, quietModeRequested);
+            order, relaxCost, integerRelax);
         columnGeneration.run();
 
         String cuttingPlan = null;
@@ -90,7 +94,7 @@ public class Cg implements Runnable {
         }
 
         Save save = new Save(cuttingPlan, orderLoader.getOrderUri(orderPath),
-            redisConnectionSecrets, quietModeRequested);
+            redisConnectionSecrets);
         save.save(outputFile);
     }
 
