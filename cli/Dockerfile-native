@@ -4,13 +4,12 @@ RUN microdnf install findutils
 
 COPY gradle gradle
 COPY gradlew build.gradle settings.gradle ./
-RUN ./gradlew --no-daemon wrapper
-COPY jar jar
-COPY src src
+COPY shared shared
+COPY cli cli
 
-RUN ./gradlew --no-daemon nativeCompile
+RUN ./gradlew --no-daemon cli:nativeCompile
 
 
 FROM debian:12.8-slim
 
-COPY --from=build /app/build/native/nativeCompile/fosscut .
+COPY --from=build /app/cli/build/native/nativeCompile/fosscut .

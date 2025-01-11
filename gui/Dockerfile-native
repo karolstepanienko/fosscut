@@ -1,10 +1,10 @@
 FROM denoland/deno:2.0.5 AS gui-build
 
 WORKDIR /gui
-COPY deno.json deno.lock vite.config.js ./
-COPY client/src client/src/
-COPY client/index.html client/
-COPY prod.properties.js client/properties.js
+COPY gui/deno.json gui/deno.lock gui/vite.config.js ./
+COPY gui/client/src client/src/
+COPY gui/client/index.html client/
+COPY gui/prod.properties.js client/properties.js
 RUN deno run build
 
 
@@ -12,14 +12,15 @@ FROM ghcr.io/graalvm/native-image-community:21 AS webserver-build
 
 RUN microdnf install findutils which
 
-WORKDIR /gui/webserver
-COPY webserver/gradle gradle
-COPY webserver/gradlew webserver/build.gradle webserver/settings.gradle ./
-RUN ./gradlew --no-daemon wrapper
+WORKDIR /app/gui/webserver
+COPY gui/webserver/src src
+COPY gui/webserver/build.gradle .
 
-COPY webserver/src src
+WORKDIR /app
+COPY gradle gradle
+COPY gradlew build.gradle settings.gradle ./
 
-COPY --from=gui-build /gui/client/dist /gui/webserver/src/main/resources/static
+COPY --from=gui-build /gui/client/dist /app/gui/webserver/src/main/resources/static
 
 RUN ./gradlew --no-daemon nativeCompile
 
@@ -28,6 +29,6 @@ FROM alpine:3.21.0 AS final
 
 RUN apk add libc6-compat curl
 
-COPY --from=webserver-build /gui/webserver/build/native/nativeCompile/fosscut-gui .
+COPY --from=webserver-build /app/gui/webserver/build/native/nativeCompile/fosscut-gui .
 
 ENTRYPOINT ["/fosscut-gui"]

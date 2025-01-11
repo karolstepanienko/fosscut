@@ -4,14 +4,14 @@ RUN microdnf install findutils
 
 COPY gradle gradle
 COPY gradlew build.gradle settings.gradle ./
-RUN ./gradlew --no-daemon wrapper
-COPY src /src
+COPY shared shared
+COPY api api
 
-RUN ./gradlew --no-daemon bootJar
+RUN ./gradlew --no-daemon api:bootJar
 
 
 FROM openjdk:21 AS final
 
-COPY --from=build /build/libs/fosscut-api-*.jar fosscut-api.jar
+COPY --from=build /api/build/libs/api-*.jar fosscut-api.jar
 
 ENTRYPOINT ["java", "-jar", "/fosscut-api.jar"]
