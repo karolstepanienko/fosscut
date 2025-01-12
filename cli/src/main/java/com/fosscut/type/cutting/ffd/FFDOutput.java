@@ -1,6 +1,7 @@
 package com.fosscut.type.cutting.ffd;
 
 import com.fosscut.type.cutting.Element;
+import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 public class FFDOutput extends Element {
 
@@ -37,6 +38,14 @@ public class FFDOutput extends Element {
 
     public void setRelax(Integer relax) {
         this.relax = relax;
+    }
+
+    public PlanOutputInteger getPlanOutputInteger() {
+        return new PlanOutputInteger(
+            this.getId(),
+            this.getCount(),
+            this.getRelax()
+        );
     }
 
 }

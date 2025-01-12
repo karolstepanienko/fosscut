@@ -11,7 +11,7 @@ import com.fosscut.type.cutting.ffd.FFDPattern;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.order.OrderOutput;
-
+import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.save.YamlDumper;
 
 public class FirstFitDecreasing {
@@ -19,16 +19,25 @@ public class FirstFitDecreasing {
     private static final Logger logger = LoggerFactory.getLogger(YamlDumper.class);
 
     private Order sortedOrder;
+    private Order unSortedOrder;
     private List<Integer> sortedOrderDemands;
+
+    List<FFDPattern> cuttingPlanPatterns;
 
     public FirstFitDecreasing(Order order) {
         this.sortedOrder = order;
+        this.unSortedOrder = new Order(order);
     }
 
     public void run() {
         sortedOrder.reverseSortOutputs();
         initSortedOrderDemands();
-        demandLoop();
+        cuttingPlanPatterns = demandLoop();
+    }
+
+    public CuttingPlan getCuttingPlan() {
+        FFDCuttingPlanFormatter ffdCuttingPlanFormatter = new FFDCuttingPlanFormatter(unSortedOrder);
+        return ffdCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns);
     }
 
     private void initSortedOrderDemands() {
@@ -38,7 +47,7 @@ public class FirstFitDecreasing {
         }
     }
 
-    private void demandLoop() {
+    private List<FFDPattern> demandLoop() {
         List<FFDPattern> cuttingPlanPatterns = new ArrayList<FFDPattern>();
         while (!isDemandSatisfied()) {
             List<FFDPattern> patternsForEachInput = generatePatterns();
@@ -48,6 +57,7 @@ public class FirstFitDecreasing {
             decreaseOrderOutputCount(minWastePattern);
             cuttingPlanPatterns.add(minWastePattern);
         }
+        return cuttingPlanPatterns;
     }
 
     private boolean isDemandSatisfied() {
@@ -85,7 +95,6 @@ public class FirstFitDecreasing {
 
                 if (relaxedItemFit > itemFit && relaxedItemFit >= 1) {
                     remainingSpace -= relaxedItemFit * relaxedLength;
-
                     ffdPatternDefinition.add(
                         new FFDOutput(
                             sortedOrder.getOutputId(output),

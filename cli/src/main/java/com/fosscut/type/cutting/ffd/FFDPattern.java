@@ -1,8 +1,10 @@
 package com.fosscut.type.cutting.ffd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fosscut.type.cutting.order.OrderInput;
+import com.fosscut.type.cutting.plan.PlanOutput;
 
 public class FFDPattern {
 
@@ -42,4 +44,13 @@ public class FFDPattern {
         }
         return this.input.getLength() - outputsSumLength;
     }
+
+    public List<PlanOutput> getSerialisableRelaxPatternDefinition() {
+        List<PlanOutput> serialisablePatternDefinition = new ArrayList<PlanOutput>();
+        for (FFDOutput ffdOutput : patternDefinition) {
+            serialisablePatternDefinition.add(ffdOutput.getPlanOutputInteger());
+        }
+        return serialisablePatternDefinition;
+    }
+
 }

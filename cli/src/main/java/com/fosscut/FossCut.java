@@ -36,7 +36,7 @@ public class FossCut implements Runnable {
 
     @Option(names = {"--redis-connection-secrets"},
         scope = CommandLine.ScopeType.INHERIT,
-        description = "Allows configuration of a redis connection to dowload"
+        description = "Allows configuration of a redis connection to download"
             + " the order file."
     )
     private File redisConnectionSecrets;
