@@ -62,7 +62,6 @@ public class Ffd implements Runnable {
         String cuttingPlan = null;
         if (outputFormat == OutputFormats.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
-            System.out.println("welp");
             cuttingPlan = yamlDumper.dump(firstFitDecreasing);
         }
 
