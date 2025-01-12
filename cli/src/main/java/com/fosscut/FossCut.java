@@ -2,9 +2,9 @@ package com.fosscut;
 
 import java.io.File;
 
-import com.fosscut.subcommand.Cg;
-import com.fosscut.subcommand.Ffd;
-import com.fosscut.subcommand.Mwe;
+import com.fosscut.subcommand.CG;
+import com.fosscut.subcommand.FFD;
+import com.fosscut.subcommand.MWE;
 import com.fosscut.subcommand.Validate;
 import com.fosscut.util.PropertiesVersionProvider;
 
@@ -16,7 +16,7 @@ import picocli.CommandLine.Spec;
 
 @Command(name = "fosscut",
     versionProvider = PropertiesVersionProvider.class,
-    subcommands = {Cg.class, Ffd.class, Validate.class, Mwe.class})
+    subcommands = {CG.class, FFD.class, Validate.class, MWE.class})
 public class FossCut implements Runnable {
 
     @Option(names = {"-h", "--help"}, usageHelp = true,

@@ -10,7 +10,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.ParentCommand;
 
 @Command(name = "mwe", versionProvider = PropertiesVersionProvider.class)
-public class Mwe {
+public class MWE {
 
     @ParentCommand
     private FossCut fossCut;
@@ -24,7 +24,7 @@ public class Mwe {
     }
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new Mwe()).execute(args);
+        int exitCode = new CommandLine(new MWE()).execute(args);
         System.exit(exitCode);
     }
 
