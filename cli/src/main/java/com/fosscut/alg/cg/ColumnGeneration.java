@@ -33,7 +33,7 @@ public class ColumnGeneration {
 
     public void run() {
         logger.info("");
-        logger.info("Running cutting plan generation using column generation algorithm...");
+        logger.info("Running cutting plan generation using a column generation algorithm...");
 
         Loader.loadNativeLibraries();
 

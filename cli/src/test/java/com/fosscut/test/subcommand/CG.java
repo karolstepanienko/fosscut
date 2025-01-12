@@ -12,7 +12,7 @@ import com.fosscut.util.TestDefaults;
 import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.Utils;
 
-public class Cg {
+public class CG {
     @Test public void cgCommand() {
         RepetitiveTests.testHelpWithOrderPath(new Command("cg"));
     }
@@ -36,7 +36,7 @@ public class Cg {
     @Test public void simpleCg() {
         Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
         command.run();
-        assert(command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 
@@ -50,7 +50,7 @@ public class Cg {
         String testFileName = "simpleCgSavePlanToFile";
         Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
         command.run();
-        assert(command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
@@ -63,7 +63,7 @@ public class Cg {
         String testFileName = "simpleCgQuietSavePlanToFile";
         Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
         command.run();
-        assert(!command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(!command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(!command.getOutput().contains("Status: OPTIMAL"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
@@ -77,7 +77,7 @@ public class Cg {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
-        assert(command.getOutput().contains("Running cutting plan generation using column generation algorithm..."));
+        assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 

@@ -12,11 +12,10 @@ import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.order.OrderOutput;
 import com.fosscut.type.cutting.plan.CuttingPlan;
-import com.fosscut.util.save.YamlDumper;
 
 public class FirstFitDecreasing {
 
-    private static final Logger logger = LoggerFactory.getLogger(YamlDumper.class);
+    private static final Logger logger = LoggerFactory.getLogger(FirstFitDecreasing.class);
 
     private Order sortedOrder;
     private Order unSortedOrder;
@@ -30,6 +29,8 @@ public class FirstFitDecreasing {
     }
 
     public void run() {
+        logger.info("");
+        logger.info("Running cutting plan generation using a first-fit-decreasing algorithm...");
         sortedOrder.reverseSortOutputs();
         initSortedOrderDemands();
         cuttingPlanPatterns = demandLoop();
@@ -56,6 +57,7 @@ public class FirstFitDecreasing {
             calculateMinWastePatternCount(minWastePattern);
             decreaseOrderOutputCount(minWastePattern);
             cuttingPlanPatterns.add(minWastePattern);
+            logger.info("Order demands: " + sortedOrderDemands);
         }
         return cuttingPlanPatterns;
     }
