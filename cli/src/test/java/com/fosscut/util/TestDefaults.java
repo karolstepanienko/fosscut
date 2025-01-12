@@ -20,6 +20,8 @@ public class TestDefaults {
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail-validation-output-longer-than-input.yaml";
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
 
-    public static final String SIMPLE_CG_ORDER = "./test/order/simple-cutting-order.yaml";
-    public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cutting-plan.yaml";
+    public static final String SIMPLE_ORDER = "./test/order/simple-cutting-order.yaml";
+    public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cg-cutting-plan.yaml";
+    public static final String SIMPLE_FFD_PLAN = "./test/plan/simple-ffd-cutting-plan.yaml";
+
 }

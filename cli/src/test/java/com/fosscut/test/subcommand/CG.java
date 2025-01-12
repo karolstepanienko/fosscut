@@ -13,6 +13,7 @@ import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.Utils;
 
 public class CG {
+
     @Test public void cgCommand() {
         RepetitiveTests.testHelpWithOrderPath(new Command("cg"));
     }
@@ -34,21 +35,21 @@ public class CG {
     }
 
     @Test public void simpleCg() {
-        Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
+        Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 
     @Test public void simpleCgQuiet() throws IOException {
-        Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
+        Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
     }
 
     @Test public void simpleCgSavePlanToFile() throws IOException {
         String testFileName = "simpleCgSavePlanToFile";
-        Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
+        Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
@@ -61,7 +62,7 @@ public class CG {
 
     @Test public void simpleCgQuietSavePlanToFile() throws IOException {
         String testFileName = "simpleCgQuietSavePlanToFile";
-        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_CG_ORDER));
+        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
         command.run();
         assert(!command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(!command.getOutput().contains("Status: OPTIMAL"));
