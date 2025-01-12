@@ -1,5 +1,6 @@
 package com.fosscut.type.cutting.order;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -17,6 +18,20 @@ public class Order {
     private List<OrderInput> inputs;
     private List<OrderOutput> outputs;
 
+    public Order() {}
+
+    public Order(Order order) {
+        this.inputs = new ArrayList<OrderInput>();
+        for (OrderInput input: order.getInputs()) {
+            this.inputs.add(new OrderInput(input));
+        }
+
+        this.outputs = new ArrayList<OrderOutput>();
+        for (OrderOutput output: order.getOutputs()) {
+            this.outputs.add(new OrderOutput(output));
+        }
+    }
+
     public List<OrderInput> getInputs() {
         return this.inputs;
     }
@@ -33,12 +48,29 @@ public class Order {
         this.outputs = outputs;
     }
 
+    public Integer getOutputId(OrderOutput orderOutput) {
+        Integer outputId = -1;
+        for (int i = 0; i < this.outputs.size(); i++) {
+            if (this.outputs.get(i).getLength() == orderOutput.getLength()
+                && this.outputs.get(i).getMaxRelax() == orderOutput.getMaxRelax()) {
+                    outputId = i;
+                    break;
+                }
+        }
+        return outputId;
+    }
+
     public Integer getInputsSumLength() {
         Integer sumLength = 0;
         for (OrderInput input : this.inputs) {
             sumLength += input.getLength();
         }
         return sumLength;
+    }
+
+    public void reverseSortOutputs() {
+        Collections.sort(outputs);
+        Collections.reverse(outputs);
     }
 
     public void validate() {

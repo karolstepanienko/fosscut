@@ -7,6 +7,14 @@ public class OrderOutput extends Element {
     private Integer count;
     private Integer maxRelax;
 
+    public OrderOutput() {}
+
+    public OrderOutput(OrderOutput orderOutput) {
+        this.setLength(orderOutput.getLength());
+        this.count = orderOutput.getCount();
+        this.maxRelax = orderOutput.getMaxRelax();
+    }
+
     public Integer getCount() {
         return count;
     }

@@ -27,7 +27,7 @@ dependencies {
 graalvmNative {
     binaries {
         main {
-            imageName.set('fosscut-gui') 
+            imageName.set('fosscut-gui')
         }
     }
 }
