@@ -18,14 +18,12 @@ public class FirstFitDecreasing {
     private static final Logger logger = LoggerFactory.getLogger(FirstFitDecreasing.class);
 
     private Order sortedOrder;
-    private Order unSortedOrder;
     private List<Integer> sortedOrderDemands;
 
     List<FFDPattern> cuttingPlanPatterns;
 
-    public FirstFitDecreasing(Order order) {
-        this.sortedOrder = order;
-        this.unSortedOrder = new Order(order);
+    public FirstFitDecreasing(Order sortedOrder) {
+        this.sortedOrder = sortedOrder;
     }
 
     public void run() {
@@ -37,7 +35,7 @@ public class FirstFitDecreasing {
     }
 
     public CuttingPlan getCuttingPlan() {
-        FFDCuttingPlanFormatter ffdCuttingPlanFormatter = new FFDCuttingPlanFormatter(unSortedOrder);
+        FFDCuttingPlanFormatter ffdCuttingPlanFormatter = new FFDCuttingPlanFormatter(sortedOrder);
         return ffdCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns);
     }
 
