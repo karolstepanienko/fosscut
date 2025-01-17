@@ -23,5 +23,6 @@ public class TestDefaults {
     public static final String SIMPLE_ORDER = "./test/order/simple-cutting-order.yaml";
     public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cg-cutting-plan.yaml";
     public static final String SIMPLE_FFD_PLAN = "./test/plan/simple-ffd-cutting-plan.yaml";
+    public static final String SIMPLE_GREEDY_PLAN = "./test/plan/simple-greedy-cutting-plan.yaml";
 
 }
