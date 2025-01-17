@@ -3,6 +3,8 @@ package com.fosscut.alg.greedy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.type.cutting.CHOutput;
+import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.order.OrderOutput;
 import com.fosscut.util.Defaults;
@@ -17,13 +19,19 @@ import com.google.ortools.linearsolver.MPVariable;
  */
 public class GreedyPatternGeneration extends GreedyLPTask {
 
+    private List<Integer> orderDemands;
     private OrderInput input;
 
     private List<MPVariable> usageVariables;
 
-    public GreedyPatternGeneration(List<OrderOutput> outputs, OrderInput input) {
+    public GreedyPatternGeneration(
+        OrderInput input,
+        List<OrderOutput> outputs,
+        List<Integer> orderDemands
+    ) {
         setOutputs(outputs);
         this.input = input;
+        this.orderDemands = orderDemands;
     }
 
     public List<MPVariable> getUsageVariables() {
@@ -40,6 +48,25 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         final ResultStatus resultStatus = getSolver().solve();
 
         printSolution(resultStatus);
+    }
+
+    public CHPattern getPattern() {
+        CHPattern pattern = new CHPattern();
+        pattern.setInput(input);
+        List<CHOutput> patternDefinition = new ArrayList<CHOutput>();
+        for (int o = 0; o < getOutputs().size(); o++) {
+            // Only add outputs with a count higher than 0 to pattern definition
+            if (this.usageVariables.get(o).solutionValue() > 0) {
+                patternDefinition.add(new CHOutput(
+                    o,
+                    getOutputs().get(o).getLength(),
+                    Double.valueOf(this.usageVariables.get(o).solutionValue()).intValue(),
+                    0
+                ));
+            }
+        }
+        pattern.setPatternDefinition(patternDefinition);
+        return pattern;
     }
 
     private void initModel() {
@@ -72,7 +99,9 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private void initOutputCountConstraints() {
         for (int o = 0; o < getOutputs().size(); o++) {
             MPConstraint outputCountConstraint = getSolver().makeConstraint(
-                -Double.POSITIVE_INFINITY, getOutputs().get(o).getCount(), "Count_output");
+                -Double.POSITIVE_INFINITY,
+                orderDemands.get(o),
+                "Count_output");
             outputCountConstraint.setCoefficient(usageVariables.get(o), 1);
         }
     }

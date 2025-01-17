@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.alg.ffd.FirstFitDecreasing;
+import com.fosscut.alg.greedy.Greedy;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 
@@ -21,6 +22,12 @@ public class YamlDumper {
     public String dump(FirstFitDecreasing firstFitDecreasing) {
         CuttingPlan cuttingPlan = new CuttingPlan();
         cuttingPlan = firstFitDecreasing.getCuttingPlan();
+        return serialiseCuttingPlan(cuttingPlan);
+    }
+
+    public String dump(Greedy greedy) {
+        CuttingPlan cuttingPlan = new CuttingPlan();
+        cuttingPlan = greedy.getCuttingPlan();
         return serialiseCuttingPlan(cuttingPlan);
     }
 

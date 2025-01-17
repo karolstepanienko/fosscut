@@ -1,4 +1,4 @@
-package com.fosscut.type.cutting.ffd;
+package com.fosscut.type.cutting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,14 @@ import java.util.List;
 import com.fosscut.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.plan.PlanOutput;
 
-public class FFDPattern {
+/*
+ * Constructive heuristic pattern.
+ */
+public class CHPattern {
 
     private OrderInput input;
     private Integer count;
-    private List<FFDOutput> patternDefinition;
+    private List<CHOutput> patternDefinition;
 
     public void setInput(OrderInput input) {
         this.input = input;
@@ -28,17 +31,17 @@ public class FFDPattern {
         this.count = count;
     }
 
-    public List<FFDOutput> getPatternDefinition() {
+    public List<CHOutput> getPatternDefinition() {
         return patternDefinition;
     }
 
-    public void setPatternDefinition(List<FFDOutput> patternDefinition) {
+    public void setPatternDefinition(List<CHOutput> patternDefinition) {
         this.patternDefinition = patternDefinition;
     }
 
     public Integer getWaist() {
         Integer outputsSumLength = 0;
-        for (FFDOutput ffdOutput : patternDefinition) {
+        for (CHOutput ffdOutput : patternDefinition) {
             Integer outputSumLength = ffdOutput.getLength() - ffdOutput.getRelax();
             outputsSumLength += ffdOutput.getCount() * outputSumLength;
         }
@@ -47,7 +50,7 @@ public class FFDPattern {
 
     public List<PlanOutput> getSerialisableRelaxPatternDefinition() {
         List<PlanOutput> serialisablePatternDefinition = new ArrayList<PlanOutput>();
-        for (FFDOutput ffdOutput : patternDefinition) {
+        for (CHOutput ffdOutput : patternDefinition) {
             serialisablePatternDefinition.add(ffdOutput.getPlanOutputInteger());
         }
         return serialisablePatternDefinition;
