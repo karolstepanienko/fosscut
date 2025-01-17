@@ -25,7 +25,12 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
 
-    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean forceIntegerRelax) {
+    public PatternGeneration(
+        Order order,
+        List<Double> cuttingPlanDualValues,
+        Double relaxCost,
+        boolean forceIntegerRelax
+    ) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
@@ -53,10 +58,11 @@ class PatternGeneration extends ColumnGenerationLPTask {
         logger.info("Starting pattern generation...");
 
         setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
+
         if (relaxCost == null) initModel();
         else initModelWithRelaxation();
-        final ResultStatus resultStatus = getSolver().solve();
 
+        final ResultStatus resultStatus = getSolver().solve();
         printSolution(resultStatus);
     }
 
@@ -77,7 +83,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
     }
 
     private void initVariablesWithRelaxation() {
-        setUsageVariables(defineVariables("usage", true));
+        initVariables();
         setRelaxVariables(defineVariables("relax", forceIntegerRelax));
     }
 

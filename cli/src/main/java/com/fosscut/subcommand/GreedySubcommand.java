@@ -14,9 +14,36 @@ import com.fosscut.util.save.Save;
 import com.fosscut.util.save.YamlDumper;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.ParameterException;
+import picocli.CommandLine.Spec;
 
 @Command(name = "greedy", versionProvider = PropertiesVersionProvider.class)
 public class GreedySubcommand extends Alg implements Runnable {
+
+    Double relaxCost;
+
+    @Option(names = { "-c", "--relaxation-cost" },
+    description = "Cost of relaxing the length of an output element by"
+    + " a single unit. Relaxation is off if this parameter is not set."
+    + " Allowed values: <0, infinity>.")
+    public void setRelaxCost(Double relaxCost) {
+        if (relaxCost != null && relaxCost < 0) {
+            throw new ParameterException(spec.commandLine(),
+                "Relaxation cost cannot be negative."
+                + " Allowed values: <0, infinity>.");
+        }
+        this.relaxCost = relaxCost;
+    }
+
+    @Option(names = { "-i", "--integer-relaxation" },
+    description = "Enforces integer constraints on relaxation values."
+     + " By default relaxation values can be floating point numbers.")
+    boolean forceIntegerRelax;
+
+    @Spec
+    CommandSpec spec;
 
     @Override
     public void run() {
@@ -35,7 +62,7 @@ public class GreedySubcommand extends Alg implements Runnable {
         Validator validator = new Validator();
         validator.validateOrder(order);
 
-        Greedy greedy = new Greedy(order);
+        Greedy greedy = new Greedy(order, relaxCost, forceIntegerRelax);
         greedy.run();
 
         String cuttingPlan = null;

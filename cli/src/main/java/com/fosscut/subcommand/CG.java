@@ -2,7 +2,6 @@ package com.fosscut.subcommand;
 
 import java.io.File;
 
-import com.fosscut.FossCut;
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
@@ -20,16 +19,10 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.ParameterException;
-import picocli.CommandLine.ParentCommand;
 import picocli.CommandLine.Spec;
 
 @Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
 public class CG extends Alg implements Runnable {
-
-    @Option(names = { "-i", "--integer-relaxation" },
-        description = "Enforces integer constraints on relaxation values."
-         + " By default relaxation values can be floating point numbers.")
-    boolean forceIntegerRelax;
 
     Double relaxCost;
 
@@ -46,11 +39,13 @@ public class CG extends Alg implements Runnable {
         this.relaxCost = relaxCost;
     }
 
+    @Option(names = { "-i", "--integer-relaxation" },
+        description = "Enforces integer constraints on relaxation values."
+         + " By default relaxation values can be floating point numbers.")
+    boolean forceIntegerRelax;
+
     @Spec
     CommandSpec spec;
-
-    @ParentCommand
-    private FossCut fossCut;
 
     @Override
     public void run() {

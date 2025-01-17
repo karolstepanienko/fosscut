@@ -18,8 +18,8 @@ public class ColumnGeneration {
 
     private static final Logger logger = LoggerFactory.getLogger(ColumnGeneration.class);
 
-    private Double relaxCost;
     private Order order;
+    private Double relaxCost;
     private boolean forceIntegerRelax;
 
     private Parameters params;

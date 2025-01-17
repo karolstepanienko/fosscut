@@ -19,9 +19,13 @@ public class Greedy extends ConstructiveHeuristic {
     private static final Logger logger = LoggerFactory.getLogger(Greedy.class);
 
     private Order order;
+    private Double relaxCost;
+    private boolean forceIntegerRelax;
 
-    public Greedy(Order order) {
+    public Greedy(Order order, Double relaxCost, boolean forceIntegerRelax) {
         this.order = order;
+        this.relaxCost = relaxCost;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan() {
@@ -52,7 +56,13 @@ public class Greedy extends ConstructiveHeuristic {
         List<CHPattern> patterns = new ArrayList<CHPattern>();
         for (OrderInput orderInput : order.getInputs()) {
             GreedyPatternGeneration greedyPatternGeneration =
-                new GreedyPatternGeneration(orderInput, order.getOutputs(), getOrderDemands());
+                new GreedyPatternGeneration(
+                    orderInput,
+                    order.getOutputs(),
+                    getOrderDemands(),
+                    relaxCost,
+                    forceIntegerRelax
+                );
             greedyPatternGeneration.solve();
             patterns.add(greedyPatternGeneration.getPattern());
         }

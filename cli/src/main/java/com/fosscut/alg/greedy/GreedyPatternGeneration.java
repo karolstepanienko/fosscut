@@ -19,61 +19,108 @@ import com.google.ortools.linearsolver.MPVariable;
  */
 public class GreedyPatternGeneration extends GreedyLPTask {
 
-    private List<Integer> orderDemands;
     private OrderInput input;
+    private List<Integer> orderDemands;
+    private Double relaxCost;
+    private boolean forceIntegerRelax;
 
     private List<MPVariable> usageVariables;
+    private List<MPVariable> relaxVariables;
 
     public GreedyPatternGeneration(
         OrderInput input,
         List<OrderOutput> outputs,
-        List<Integer> orderDemands
+        List<Integer> orderDemands,
+        Double relaxCost,
+        boolean forceIntegerRelax
     ) {
         setOutputs(outputs);
         this.input = input;
         this.orderDemands = orderDemands;
-    }
-
-    public List<MPVariable> getUsageVariables() {
-        return usageVariables;
+        this.relaxCost = relaxCost;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public void setUsageVariables(List<MPVariable> usageVariables) {
         this.usageVariables = usageVariables;
     }
 
+    public void setRelaxVariables(List<MPVariable> relaxVariables) {
+        this.relaxVariables = relaxVariables;
+    }
+
     public void solve() {
         setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
-        initModel();
-        final ResultStatus resultStatus = getSolver().solve();
 
+        if (relaxCost == null) initModel();
+        else initModelWithRelaxation();
+
+        final ResultStatus resultStatus = getSolver().solve();
         printSolution(resultStatus);
     }
 
     public CHPattern getPattern() {
         CHPattern pattern = new CHPattern();
         pattern.setInput(input);
+        if (relaxCost == null) pattern.setPatternDefinition(getPatternDefinition());
+        else pattern.setPatternDefinition(getPatternDefinitionWithRelaxation());
+        return pattern;
+    }
+
+    private List<CHOutput> getPatternDefinition() {
         List<CHOutput> patternDefinition = new ArrayList<CHOutput>();
         for (int o = 0; o < getOutputs().size(); o++) {
             // Only add outputs with a count higher than 0 to pattern definition
-            if (this.usageVariables.get(o).solutionValue() > 0) {
+            if (usageVariables.get(o).solutionValue() > 0) {
                 patternDefinition.add(new CHOutput(
                     o,
                     getOutputs().get(o).getLength(),
-                    Double.valueOf(this.usageVariables.get(o).solutionValue()).intValue(),
+                    Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
                     0
                 ));
             }
         }
-        pattern.setPatternDefinition(patternDefinition);
-        return pattern;
+        return patternDefinition;
+    }
+
+    private List<CHOutput> getPatternDefinitionWithRelaxation() {
+        List<CHOutput> patternDefinition = new ArrayList<CHOutput>();
+        for (int o = 0; o < getOutputs().size(); o++) {
+            // Only add outputs with a count higher than 0 to pattern definition
+            if (usageVariables.get(o).solutionValue() > 0) {
+                patternDefinition.add(new CHOutput(
+                    o,
+                    getOutputs().get(o).getLength(),
+                    Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
+                    Double.valueOf(relaxVariables.get(o).solutionValue()).intValue()
+                ));
+            }
+        }
+        return patternDefinition;
     }
 
     private void initModel() {
-        setUsageVariables(defineVariables("usage", true));
+        initVariables();
         initInputLengthConstraint();
         initOutputCountConstraints();
         initObjective();
+    }
+
+    private void initModelWithRelaxation() {
+        initVariablesWithRelaxation();
+        initInputLengthConstraintWithRelaxation();
+        initOutputCountConstraints();
+        initRelaxConstraints();
+        initObjectiveWithRelaxation();
+    }
+
+    private void initVariables() {
+        setUsageVariables(defineVariables("usage", true));
+    }
+
+    private void initVariablesWithRelaxation() {
+        initVariables();
+        setRelaxVariables(defineVariables("relax", forceIntegerRelax));
     }
 
     private List<MPVariable> defineVariables(String varName, boolean integerVariables) {
@@ -96,13 +143,41 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         }
     }
 
+    private void initInputLengthConstraintWithRelaxation() {
+        MPConstraint inputLengthConstraintWithRelaxation = getSolver().makeConstraint(
+            -Double.POSITIVE_INFINITY, input.getLength(), "Length_input");
+        for (int o = 0; o < getOutputs().size(); o++) {
+            inputLengthConstraintWithRelaxation.setCoefficient(
+                usageVariables.get(o),
+                getOutputs().get(o).getLength()
+            );
+            inputLengthConstraintWithRelaxation.setCoefficient(
+                relaxVariables.get(o),
+                -1
+            );
+        }
+    }
+
     private void initOutputCountConstraints() {
         for (int o = 0; o < getOutputs().size(); o++) {
             MPConstraint outputCountConstraint = getSolver().makeConstraint(
                 -Double.POSITIVE_INFINITY,
                 orderDemands.get(o),
-                "Count_output");
+                "Count_output"
+            );
             outputCountConstraint.setCoefficient(usageVariables.get(o), 1);
+        }
+    }
+
+    private void initRelaxConstraints() {
+        for (int o = 0; o < getOutputs().size(); o++) {
+            MPConstraint relaxConstraint = getSolver().makeConstraint(
+                0,
+                Double.POSITIVE_INFINITY,
+                "Relax_output"
+            );
+            relaxConstraint.setCoefficient(usageVariables.get(o), getOutputs().get(o).getMaxRelax());
+            relaxConstraint.setCoefficient(relaxVariables.get(o), -1);
         }
     }
 
@@ -112,6 +187,22 @@ public class GreedyPatternGeneration extends GreedyLPTask {
             objective.setCoefficient(
                 usageVariables.get(o),
                 getOutputs().get(o).getLength()
+            );
+        }
+        objective.setMaximization();
+        setObjective(objective);
+    }
+
+    private void initObjectiveWithRelaxation() {
+        MPObjective objective = getSolver().objective();
+        for (int o = 0; o < getOutputs().size(); o++) {
+            objective.setCoefficient(
+                usageVariables.get(o),
+                getOutputs().get(o).getLength()
+            );
+            objective.setCoefficient(
+                relaxVariables.get(o),
+                -1
             );
         }
         objective.setMaximization();
