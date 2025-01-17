@@ -1,6 +1,7 @@
 package com.fosscut.util;
 
 public class TestDefaults {
+
     public static final String FOSSCUT_BINARY_FOLDER_PATH = "./build/native/nativeCompile";
     public static final String FOSSCUT_LINUX_BINARY_NAME = "fosscut";
     public static final String FOSSCUT_WINDOWS_BINARY_NAME = "fosscut.exe";
@@ -23,5 +24,9 @@ public class TestDefaults {
     public static final String SIMPLE_ORDER = "./test/order/simple-cutting-order.yaml";
     public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cg-cutting-plan.yaml";
     public static final String SIMPLE_FFD_PLAN = "./test/plan/simple-ffd-cutting-plan.yaml";
+
+    public static final String SIMPLE_CG_RELAX_0_PLAN = "./test/plan/relax/simple-cg-relax-0-cutting-plan.yaml";
+    public static final String SIMPLE_CG_RELAX_1_PLAN = "./test/plan/relax/simple-cg-relax-1-cutting-plan.yaml";
+    public static final String SIMPLE_CG_INT_RELAX_1_PLAN = "./test/plan/relax/simple-cg-int-relax-1-cutting-plan.yaml";
 
 }
