@@ -17,7 +17,7 @@ import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
-class CuttingPlanGeneration extends LPTask {
+class CuttingPlanGeneration extends ColumnGenerationLPTask {
 
     private static final Logger logger = LoggerFactory.getLogger(CuttingPlanGeneration.class);
 

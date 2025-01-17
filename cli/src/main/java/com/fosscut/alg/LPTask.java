@@ -1,9 +1,8 @@
-package com.fosscut.alg.cg;
+package com.fosscut.alg;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fosscut.type.cutting.order.Order;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
@@ -12,21 +11,12 @@ import com.google.ortools.linearsolver.MPSolver.ResultStatus;
  * Linear programming task. Encapsulates all necessary fields for linear
  * programming tasks in column generation algorithm.
  */
-abstract class LPTask {
+public abstract class LPTask {
 
     private static final Logger logger = LoggerFactory.getLogger(LPTask.class);
 
-    private Order order;
     private MPSolver solver;
     private MPObjective objective;
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public MPSolver getSolver() {
         return solver;

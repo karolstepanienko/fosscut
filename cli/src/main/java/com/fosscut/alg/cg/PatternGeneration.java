@@ -14,7 +14,7 @@ import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
-class PatternGeneration extends LPTask {
+class PatternGeneration extends ColumnGenerationLPTask {
 
     private static final Logger logger = LoggerFactory.getLogger(PatternGeneration.class);
 
