@@ -43,7 +43,7 @@ public class CG implements Runnable {
     @Option(names = { "-i", "--integer-relaxation" },
         description = "Enforces integer constraints on relaxation values."
          + " By default relaxation values can be floating point numbers.")
-    boolean integerRelax;
+    boolean forceIntegerRelax;
 
     Double relaxCost;
 
@@ -84,7 +84,7 @@ public class CG implements Runnable {
         validator.validateOrder(order);
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
-            order, relaxCost, integerRelax);
+            order, relaxCost, forceIntegerRelax);
         columnGeneration.run();
 
         String cuttingPlan = null;

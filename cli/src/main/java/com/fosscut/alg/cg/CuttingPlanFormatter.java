@@ -16,13 +16,13 @@ public class CuttingPlanFormatter {
     private Double relaxCost;
     private Order order;
     private Parameters params;
-    private boolean integerRelax;
+    private boolean forceIntegerRelax;
 
-    public CuttingPlanFormatter(Double relaxCost, Order order, Parameters params, boolean integerRelax) {
+    public CuttingPlanFormatter(Double relaxCost, Order order, Parameters params, boolean forceIntegerRelax) {
         this.relaxCost = relaxCost;
         this.order = order;
         this.params = params;
-        this.integerRelax = integerRelax;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
@@ -70,7 +70,7 @@ public class CuttingPlanFormatter {
         PlanOutput planOutput;
         if (relaxCost == null)
             planOutput = new PlanOutput(o, outputCount);
-        else if (integerRelax)
+        else if (forceIntegerRelax)
             planOutput = new PlanOutputInteger(o, outputCount, params.getRipo().get(i).get(p).get(o).intValue());
         else
             planOutput = new PlanOutputDouble(o, outputCount, params.getRipo().get(i).get(p).get(o));

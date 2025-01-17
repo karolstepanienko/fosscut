@@ -20,15 +20,15 @@ public class ColumnGeneration {
 
     private Double relaxCost;
     private Order order;
-    private boolean integerRelax;
+    private boolean forceIntegerRelax;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
 
-    public ColumnGeneration(Order order, Double relaxCost, boolean integerRelax) {
+    public ColumnGeneration(Order order, Double relaxCost, boolean forceIntegerRelax) {
         this.order = order;
         this.relaxCost = relaxCost;
-        this.integerRelax = integerRelax;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public void run() {
@@ -47,7 +47,7 @@ public class ColumnGeneration {
 
             PatternGeneration patternGeneration = new PatternGeneration(
                 order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
-                integerRelax
+                forceIntegerRelax
             );
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
@@ -70,7 +70,7 @@ public class ColumnGeneration {
     }
 
     public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
-        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params, integerRelax);
+        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params, forceIntegerRelax);
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }
 

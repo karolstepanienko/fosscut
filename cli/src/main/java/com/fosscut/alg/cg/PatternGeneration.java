@@ -20,16 +20,16 @@ class PatternGeneration extends ColumnGenerationLPTask {
 
     private List<Double> cuttingPlanDualValues;
     private Double relaxCost;
-    private boolean integerRelax;
+    private boolean forceIntegerRelax;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
 
-    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean integerRelax) {
+    public PatternGeneration(Order order, List<Double> cuttingPlanDualValues, Double relaxCost, boolean forceIntegerRelax) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
-        this.integerRelax = integerRelax;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public List<List<MPVariable>> getUsageVariables() {
@@ -78,7 +78,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
 
     private void initVariablesWithRelaxation() {
         setUsageVariables(defineVariables("usage", true));
-        setRelaxVariables(defineVariables("relax", integerRelax));
+        setRelaxVariables(defineVariables("relax", forceIntegerRelax));
     }
 
     private List<List<MPVariable>> defineVariables(String varName, boolean integerVariables) {
