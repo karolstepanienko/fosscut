@@ -44,7 +44,6 @@ public class Greedy {
     @Test public void simpleGreedyQuiet() throws IOException {
         Command command = new Command("greedy -q " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
         command.run();
-        System.out.println(command.getOutput());
         assert(command.getOutput().equals(""));
     }
 

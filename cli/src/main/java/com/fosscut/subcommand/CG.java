@@ -20,25 +20,11 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.ParameterException;
-import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParentCommand;
 import picocli.CommandLine.Spec;
 
 @Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
-public class CG implements Runnable {
-
-    @Parameters(paramLabel = "<order-path>", arity = "1",
-        description = "Path or a redis URL to a YAML file containing an order.")
-    String orderPath;
-
-    @Option(names = { "-f", "--format" },
-        defaultValue = "yaml",
-        description = "Output format. One of: (${COMPLETION-CANDIDATES}).")
-    OutputFormats outputFormat;
-
-    @Option(names = { "-o", "--output" },
-        description = "Path to the file where the cutting plan will be saved.")
-    File outputFile;
+public class CG extends Alg implements Runnable {
 
     @Option(names = { "-i", "--integer-relaxation" },
         description = "Enforces integer constraints on relaxation values."
