@@ -202,7 +202,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
             );
             objective.setCoefficient(
                 relaxVariables.get(o),
-                -1
+                -relaxCost
             );
         }
         objective.setMaximization();
