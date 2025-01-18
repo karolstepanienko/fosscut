@@ -27,7 +27,14 @@ public class CuttingPlanFormatter {
 
     public CuttingPlan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
             throws NotIntegerLPTaskException {
-        CuttingPlan cuttingPlan = new CuttingPlan();
+        return new CuttingPlan(
+            getPlanInputs(integerCuttingPlanGeneration),
+            order.getOutputs()
+        );
+    }
+
+    private List<PlanInput> getPlanInputs(CuttingPlanGeneration integerCuttingPlanGeneration)
+            throws NotIntegerLPTaskException {
         List<List<Integer>> inputPatternUsage = integerCuttingPlanGeneration.getInputPatternUsage();
         List<PlanInput> planInputs = new ArrayList<>();
 
@@ -35,9 +42,7 @@ public class CuttingPlanFormatter {
             planInputs.add(getPlanInput(inputPatternUsage, i));
         }
 
-        cuttingPlan.setInputs(planInputs);
-        cuttingPlan.setOutputs(order.getOutputs());
-        return cuttingPlan;
+        return planInputs;
     }
 
     private PlanInput getPlanInput(List<List<Integer>> inputPatternUsage, int i) {

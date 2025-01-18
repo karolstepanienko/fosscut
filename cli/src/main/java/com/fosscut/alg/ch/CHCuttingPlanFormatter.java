@@ -19,10 +19,10 @@ public class CHCuttingPlanFormatter {
     }
 
     public CuttingPlan getCuttingPlan(List<CHPattern> cuttingPlanPatterns) {
-        CuttingPlan cuttingPlan = new CuttingPlan();
-        cuttingPlan.setInputs(getPlanInputs(cuttingPlanPatterns));
-        cuttingPlan.setOutputs(order.getOutputs());
-        return cuttingPlan;
+        return new CuttingPlan(
+            getPlanInputs(cuttingPlanPatterns),
+            order.getOutputs()
+        );
     }
 
     private List<PlanInput> getPlanInputs(List<CHPattern> cuttingPlanPatterns) {

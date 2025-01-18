@@ -20,19 +20,15 @@ public class YamlDumper {
     private static final Logger logger = LoggerFactory.getLogger(YamlDumper.class);
 
     public String dump(FirstFitDecreasing firstFitDecreasing) {
-        CuttingPlan cuttingPlan = new CuttingPlan();
-        cuttingPlan = firstFitDecreasing.getCuttingPlan();
-        return serialiseCuttingPlan(cuttingPlan);
+        return serialiseCuttingPlan(firstFitDecreasing.getCuttingPlan());
     }
 
     public String dump(Greedy greedy) {
-        CuttingPlan cuttingPlan = new CuttingPlan();
-        cuttingPlan = greedy.getCuttingPlan();
-        return serialiseCuttingPlan(cuttingPlan);
+        return serialiseCuttingPlan(greedy.getCuttingPlan());
     }
 
     public String dump(ColumnGeneration columnGeneration) {
-        CuttingPlan cuttingPlan = new CuttingPlan();
+        CuttingPlan cuttingPlan = null;
         try {
             cuttingPlan = columnGeneration.getCuttingPlan();
         } catch (NotIntegerLPTaskException e) {

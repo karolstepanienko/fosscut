@@ -95,7 +95,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }]
+  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.Pattern",
