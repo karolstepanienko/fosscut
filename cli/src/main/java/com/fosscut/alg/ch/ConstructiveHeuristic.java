@@ -19,8 +19,8 @@ public abstract class ConstructiveHeuristic {
     List<CHPattern> cuttingPlanPatterns;
 
     protected CuttingPlan getCuttingPlan(Order order) {
-        CHCuttingPlanFormatter ffdCuttingPlanFormatter = new CHCuttingPlanFormatter(order);
-        return ffdCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns);
+        CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order);
+        return chCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns);
     }
 
     protected List<Integer> getOrderDemands() {
@@ -84,12 +84,12 @@ public abstract class ConstructiveHeuristic {
      */
     protected void calculateMinWastePatternCount(CHPattern minWastePattern) {
         Integer patternCount = Integer.MAX_VALUE;
-        for (CHOutput ffdOutput : minWastePattern.getPatternDefinition()) {
-            if (ffdOutput.getCount() > 0) {
+        for (CHOutput chOutput : minWastePattern.getPatternDefinition()) {
+            if (chOutput.getCount() > 0) {
 
                 Integer maxPossiblePatternCount =
-                    orderDemands.get(ffdOutput.getId())
-                    / ffdOutput.getCount();
+                    orderDemands.get(chOutput.getId())
+                    / chOutput.getCount();
 
                 patternCount = Math.min(patternCount, maxPossiblePatternCount);
             }
@@ -98,21 +98,21 @@ public abstract class ConstructiveHeuristic {
     }
 
     protected void decreaseOrderOutputCount(CHPattern minWastePattern) {
-        for (CHOutput ffdOutput : minWastePattern.getPatternDefinition()) {
-            Integer demand = orderDemands.get(ffdOutput.getId());
-            demand -= minWastePattern.getCount() * ffdOutput.getCount();
-            orderDemands.set(ffdOutput.getId(), demand);
+        for (CHOutput chOutput : minWastePattern.getPatternDefinition()) {
+            Integer demand = orderDemands.get(chOutput.getId());
+            demand -= minWastePattern.getCount() * chOutput.getCount();
+            orderDemands.set(chOutput.getId(), demand);
         }
     }
 
     protected void debugGeneratedPatterns(List<CHPattern> patterns) {
         for (CHPattern pattern : patterns) {
             logger.info("Pattern input length:" + pattern.getInput().getLength());
-            for (CHOutput ffdOutput : pattern.getPatternDefinition()) {
-                logger.info("output id: " + ffdOutput.getId());
-                logger.info("output length: " + ffdOutput.getLength());
-                logger.info("output count: " + ffdOutput.getCount());
-                logger.info("output relax: " + ffdOutput.getRelax());
+            for (CHOutput chOutput : pattern.getPatternDefinition()) {
+                logger.info("output id: " + chOutput.getId());
+                logger.info("output length: " + chOutput.getLength());
+                logger.info("output count: " + chOutput.getCount());
+                logger.info("output relax: " + chOutput.getRelax());
             }
             logger.info("Pattern waist: " + pattern.getWaist().toString());
         }

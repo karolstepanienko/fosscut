@@ -46,12 +46,12 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
 
     @Override
     protected List<CHPattern> generatePatternForEachInput() {
-        List<CHPattern> ffdPatterns = new ArrayList<CHPattern>();
+        List<CHPattern> chPatterns = new ArrayList<CHPattern>();
         for (OrderInput input : sortedOrder.getInputs()) {
-            CHPattern ffdPattern = new CHPattern();
-            ffdPattern.setInput(new OrderInput(input));
+            CHPattern chPattern = new CHPattern();
+            chPattern.setInput(new OrderInput(input));
 
-            List<CHOutput> ffdPatternDefinition = new ArrayList<CHOutput>();
+            List<CHOutput> chPatternDefinition = new ArrayList<CHOutput>();
 
             Integer remainingSpace = input.getLength();
 
@@ -66,7 +66,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
 
                 if (relaxedItemFit > itemFit && relaxedItemFit >= 1) {
                     remainingSpace -= relaxedItemFit * relaxedLength;
-                    ffdPatternDefinition.add(
+                    chPatternDefinition.add(
                         new CHOutput(
                             sortedOrder.getOutputId(output),
                             output.getLength(),
@@ -76,7 +76,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
                     );
                 } else if (itemFit >= 1) {
                     remainingSpace -= itemFit * output.getLength();
-                    ffdPatternDefinition.add(
+                    chPatternDefinition.add(
                         new CHOutput(
                             sortedOrder.getOutputId(output),
                             output.getLength(),
@@ -89,11 +89,11 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
                 i += 1;
             }
 
-            ffdPattern.setPatternDefinition(ffdPatternDefinition);
-            ffdPatterns.add(ffdPattern);
+            chPattern.setPatternDefinition(chPatternDefinition);
+            chPatterns.add(chPattern);
         }
 
-        return ffdPatterns;
+        return chPatterns;
     }
 
     private int getItemFit(Integer remainingSpace, OrderOutput output) {
