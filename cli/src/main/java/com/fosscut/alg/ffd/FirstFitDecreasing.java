@@ -19,13 +19,17 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
     private static final Logger logger = LoggerFactory.getLogger(FirstFitDecreasing.class);
 
     private Order sortedOrder;
+    private boolean relaxEnabled;
+    private boolean forceIntegerRelax;
 
-    public FirstFitDecreasing(Order sortedOrder) {
+    public FirstFitDecreasing(Order sortedOrder, boolean relaxEnabled, boolean forceIntegerRelax) {
         this.sortedOrder = sortedOrder;
+        this.relaxEnabled = relaxEnabled;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan() {
-        return getCuttingPlan(sortedOrder);
+        return getCuttingPlan(sortedOrder, relaxEnabled, forceIntegerRelax);
     }
 
     public void run() {
@@ -71,7 +75,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
                             sortedOrder.getOutputId(output),
                             output.getLength(),
                             relaxedItemFit,
-                            output.getMaxRelax()
+                            Double.valueOf(output.getMaxRelax())
                         )
                     );
                 } else if (itemFit >= 1) {
@@ -81,7 +85,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
                             sortedOrder.getOutputId(output),
                             output.getLength(),
                             itemFit,
-                            0
+                            0.0
                         )
                     );
                 }

@@ -1,5 +1,7 @@
 package com.fosscut.type.cutting;
 
+import com.fosscut.type.cutting.plan.PlanOutput;
+import com.fosscut.type.cutting.plan.PlanOutputDouble;
 import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 /*
@@ -9,9 +11,9 @@ public class CHOutput extends Element {
 
     private Integer id;
     private Integer count;
-    private Integer relax;
+    private Double relax;
 
-    public CHOutput(Integer id, Integer length, Integer count, Integer relax) {
+    public CHOutput(Integer id, Integer length, Integer count, Double relax) {
         this.id = id;
         this.setLength(length);
         this.count = count;
@@ -34,19 +36,34 @@ public class CHOutput extends Element {
         this.count = count;
     }
 
-    public Integer getRelax() {
+    public Double getRelax() {
         return relax;
     }
 
-    public void setRelax(Integer relax) {
+    public void setRelax(Double relax) {
         this.relax = relax;
+    }
+
+    public PlanOutput getPlanOutput() {
+        return new PlanOutput(
+            this.getId(),
+            this.getCount()
+        );
+    }
+
+    public PlanOutputDouble getPlanOutputDouble() {
+        return new PlanOutputDouble(
+            this.getId(),
+            this.getCount(),
+            this.getRelax()
+        );
     }
 
     public PlanOutputInteger getPlanOutputInteger() {
         return new PlanOutputInteger(
             this.getId(),
             this.getCount(),
-            this.getRelax()
+            this.getRelax().intValue()
         );
     }
 

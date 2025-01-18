@@ -76,7 +76,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
                     o,
                     getOutputs().get(o).getLength(),
                     Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
-                    0
+                    0.0
                 ));
             }
         }
@@ -92,7 +92,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
                     o,
                     getOutputs().get(o).getLength(),
                     Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
-                    Double.valueOf(relaxVariables.get(o).solutionValue()).intValue()
+                    relaxVariables.get(o).solutionValue()
                 ));
             }
         }

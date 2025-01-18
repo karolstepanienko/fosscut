@@ -27,6 +27,11 @@ public abstract class Alg {
         description = "Path to the file where the cutting plan will be saved.")
     protected File outputFile;
 
+    @Option(names = { "-i", "--integer-relaxation" },
+        description = "Enforces integer constraints on relaxation values."
+         + " By default relaxation values can be floating point numbers.")
+    boolean forceIntegerRelax;
+
     @ParentCommand
     protected FossCut fossCut;
 

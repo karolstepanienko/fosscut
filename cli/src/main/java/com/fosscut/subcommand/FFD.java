@@ -16,9 +16,15 @@ import com.fosscut.util.save.YamlDumper;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command(name = "ffd", versionProvider = PropertiesVersionProvider.class)
 public class FFD extends Alg implements Runnable {
+
+    @Option(names = { "-r", "--relaxation-enabled" },
+        defaultValue = "false",
+        description = "Enables relaxation mechanism.")
+    boolean relaxEnabled;
 
     @Override
     public void run() {
@@ -37,7 +43,11 @@ public class FFD extends Alg implements Runnable {
         Validator validator = new Validator();
         validator.validateOrder(order);
 
-        FirstFitDecreasing firstFitDecreasing = new FirstFitDecreasing(order);
+        FirstFitDecreasing firstFitDecreasing = new FirstFitDecreasing(
+            order,
+            relaxEnabled,
+            forceIntegerRelax
+        );
         firstFitDecreasing.run();
 
         String cuttingPlan = null;

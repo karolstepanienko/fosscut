@@ -12,10 +12,14 @@ import com.fosscut.type.cutting.plan.PlanInput;
 
 public class CHCuttingPlanFormatter {
 
-    Order order;
+    private Order order;
+    private boolean relaxEnabled;
+    private boolean forceIntegerRelax;
 
-    public CHCuttingPlanFormatter(Order order) {
+    public CHCuttingPlanFormatter(Order order, boolean relaxEnabled, boolean forceIntegerRelax) {
         this.order = order;
+        this.relaxEnabled = relaxEnabled;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan(List<CHPattern> cuttingPlanPatterns) {
@@ -47,7 +51,7 @@ public class CHCuttingPlanFormatter {
             if (pattern.getInput().getLength() == orderInput.getLength()) {
                 patterns.add(new Pattern(
                     pattern.getCount(),
-                    pattern.getSerialisableRelaxPatternDefinition()
+                    pattern.getSerialisableRelaxPatternDefinition(relaxEnabled, forceIntegerRelax)
                 ));
             }
         }

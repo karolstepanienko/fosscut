@@ -39,19 +39,21 @@ public class CHPattern {
         this.patternDefinition = patternDefinition;
     }
 
-    public Integer getWaist() {
-        Integer outputsSumLength = 0;
+    public Double getWaist() {
+        Double outputsSumLength = 0.0;
         for (CHOutput chOutput : patternDefinition) {
-            Integer outputSumLength = chOutput.getLength() - chOutput.getRelax();
+            Double outputSumLength = chOutput.getLength() - chOutput.getRelax();
             outputsSumLength += chOutput.getCount() * outputSumLength;
         }
         return this.input.getLength() - outputsSumLength;
     }
 
-    public List<PlanOutput> getSerialisableRelaxPatternDefinition() {
+    public List<PlanOutput> getSerialisableRelaxPatternDefinition(boolean relaxEnabled, boolean forceIntegerRelax) {
         List<PlanOutput> serialisablePatternDefinition = new ArrayList<PlanOutput>();
         for (CHOutput chOutput : patternDefinition) {
-            serialisablePatternDefinition.add(chOutput.getPlanOutputInteger());
+            if (!relaxEnabled) serialisablePatternDefinition.add(chOutput.getPlanOutput());
+            else if (forceIntegerRelax) serialisablePatternDefinition.add(chOutput.getPlanOutputInteger());
+            else serialisablePatternDefinition.add(chOutput.getPlanOutputDouble());
         }
         return serialisablePatternDefinition;
     }

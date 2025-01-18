@@ -18,8 +18,8 @@ public abstract class ConstructiveHeuristic {
     private List<Integer> orderDemands;
     List<CHPattern> cuttingPlanPatterns;
 
-    protected CuttingPlan getCuttingPlan(Order order) {
-        CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order);
+    protected CuttingPlan getCuttingPlan(Order order, boolean relaxEnabled, boolean forceIntegerRelax) {
+        CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order, relaxEnabled, forceIntegerRelax);
         return chCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns);
     }
 
@@ -68,9 +68,9 @@ public abstract class ConstructiveHeuristic {
 
     protected CHPattern getMinWastePattern(List<CHPattern> patterns) {
         CHPattern minWastePattern = patterns.get(0);
-        Integer minWaist = patterns.get(0).getWaist();
+        Double minWaist = patterns.get(0).getWaist();
         for (CHPattern pattern : patterns) {
-            Integer waist = pattern.getWaist();
+            Double waist = pattern.getWaist();
             if (waist < minWaist) {
                 minWaist = waist;
                 minWastePattern = pattern;

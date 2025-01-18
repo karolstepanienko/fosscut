@@ -29,7 +29,8 @@ public class Greedy extends ConstructiveHeuristic {
     }
 
     public CuttingPlan getCuttingPlan() {
-        return getCuttingPlan(order);
+        boolean relaxEnabled = relaxCost != null;
+        return getCuttingPlan(order, relaxEnabled, forceIntegerRelax);
     }
 
     public void run() {
