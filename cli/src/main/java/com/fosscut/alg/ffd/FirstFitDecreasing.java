@@ -68,7 +68,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
                 Integer relaxedLength = output.getLength() - output.getMaxRelax();
                 int relaxedItemFit = getRelaxedItemFit(remainingSpace, relaxedLength, output);
 
-                if (relaxedItemFit > itemFit && relaxedItemFit >= 1) {
+                if (relaxEnabled && relaxedItemFit > itemFit && relaxedItemFit >= 1) {
                     remainingSpace -= relaxedItemFit * relaxedLength;
                     chPatternDefinition.add(
                         new CHOutput(

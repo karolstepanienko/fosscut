@@ -22,6 +22,7 @@ public class TestDefaults {
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
 
     public static final String EXAMPLE_ORDER = "./test/order/example-cutting-order.yaml";
+    public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/example-ffd-relax-cutting-order.yaml";
     public static final String CG_PLAN = "./test/plan/cg-cutting-plan.yaml";
     public static final String FFD_PLAN = "./test/plan/ffd-cutting-plan.yaml";
     public static final String GREEDY_PLAN = "./test/plan/greedy-cutting-plan.yaml";
@@ -29,6 +30,9 @@ public class TestDefaults {
     public static final String CG_RELAX_0_PLAN = "./test/plan/relax/cg-relax-0-cutting-plan.yaml";
     public static final String CG_RELAX_1_PLAN = "./test/plan/relax/cg-relax-1-cutting-plan.yaml";
     public static final String CG_INT_RELAX_1_PLAN = "./test/plan/relax/cg-int-relax-1-cutting-plan.yaml";
+
+    public static final String FFD_RELAX_PLAN = "./test/plan/relax/ffd-relax-cutting-plan.yaml";
+    public static final String FFD_INT_RELAX_PLAN = "./test/plan/relax/ffd-int-relax-cutting-plan.yaml";
 
     public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0-cutting-plan.yaml";
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1-cutting-plan.yaml";

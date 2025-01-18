@@ -90,4 +90,26 @@ public class FFD {
         assert(command.getOutput().equals(""));
     }
 
+    @Test public void simpleFFDRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "simpleFFDRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_RELAX_PLAN)
+        );
+    }
+
+    @Test public void simpleFFDIntegerRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "simpleFFDIntegerRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_INT_RELAX_PLAN)
+        );
+    }
+
 }
