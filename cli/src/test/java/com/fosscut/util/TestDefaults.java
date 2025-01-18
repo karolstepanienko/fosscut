@@ -21,13 +21,17 @@ public class TestDefaults {
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail-validation-output-longer-than-input.yaml";
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
 
-    public static final String SIMPLE_ORDER = "./test/order/simple-cutting-order.yaml";
-    public static final String SIMPLE_CG_PLAN = "./test/plan/simple-cg-cutting-plan.yaml";
-    public static final String SIMPLE_FFD_PLAN = "./test/plan/simple-ffd-cutting-plan.yaml";
-    public static final String SIMPLE_GREEDY_PLAN = "./test/plan/simple-greedy-cutting-plan.yaml";
+    public static final String EXAMPLE_ORDER = "./test/order/example-cutting-order.yaml";
+    public static final String CG_PLAN = "./test/plan/cg-cutting-plan.yaml";
+    public static final String FFD_PLAN = "./test/plan/ffd-cutting-plan.yaml";
+    public static final String GREEDY_PLAN = "./test/plan/greedy-cutting-plan.yaml";
 
-    public static final String SIMPLE_CG_RELAX_0_PLAN = "./test/plan/relax/simple-cg-relax-0-cutting-plan.yaml";
-    public static final String SIMPLE_CG_RELAX_1_PLAN = "./test/plan/relax/simple-cg-relax-1-cutting-plan.yaml";
-    public static final String SIMPLE_CG_INT_RELAX_1_PLAN = "./test/plan/relax/simple-cg-int-relax-1-cutting-plan.yaml";
+    public static final String CG_RELAX_0_PLAN = "./test/plan/relax/cg-relax-0-cutting-plan.yaml";
+    public static final String CG_RELAX_1_PLAN = "./test/plan/relax/cg-relax-1-cutting-plan.yaml";
+    public static final String CG_INT_RELAX_1_PLAN = "./test/plan/relax/cg-int-relax-1-cutting-plan.yaml";
+
+    public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0-cutting-plan.yaml";
+    public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1-cutting-plan.yaml";
+    public static final String GREEDY_INT_RELAX_0_PLAN = "./test/plan/relax/greedy-int-relax-0-cutting-plan.yaml";
 
 }

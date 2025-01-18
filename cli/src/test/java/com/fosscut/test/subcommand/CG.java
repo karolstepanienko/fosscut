@@ -35,41 +35,41 @@ public class CG {
     }
 
     @Test public void simpleCg() {
-        Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 
     @Test public void simpleCgQuiet() throws IOException {
-        Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
     }
 
     @Test public void simpleCgSavePlanToFile() throws IOException {
         String testFileName = "simpleCgSavePlanToFile";
-        Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)
+            Utils.loadFile(TestDefaults.CG_PLAN)
         );
     }
 
     @Test public void simpleCgQuietSavePlanToFile() throws IOException {
         String testFileName = "simpleCgQuietSavePlanToFile";
-        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(!command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(!command.getOutput().contains("Status: OPTIMAL"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_CG_PLAN)
+            Utils.loadFile(TestDefaults.CG_PLAN)
         );
     }
 
@@ -92,34 +92,34 @@ public class CG {
 
     @Test public void simpleCgRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "simpleCgRelaxCost0QuietSavePlanToFile";
-        Command command = new Command("cg -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_CG_RELAX_0_PLAN)
+            Utils.loadFile(TestDefaults.CG_RELAX_0_PLAN)
         );
     }
 
     @Test public void simpleCgRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "simpleCgRelaxCost1QuietSavePlanToFile";
-        Command command = new Command("cg -q -c 1 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg -q -c 1 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_CG_RELAX_1_PLAN)
+            Utils.loadFile(TestDefaults.CG_RELAX_1_PLAN)
         );
     }
 
     @Test public void simpleCgIntegerRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "simpleCgIntegerRelaxCost1QuietSavePlanToFile";
-        Command command = new Command("cg -q -c 1 -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("cg -q -c 1 -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_CG_INT_RELAX_1_PLAN)
+            Utils.loadFile(TestDefaults.CG_INT_RELAX_1_PLAN)
         );
     }
 

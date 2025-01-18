@@ -35,41 +35,41 @@ public class FFD {
     }
 
     @Test public void simpleFfd() {
-        Command command = new Command("ffd " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("ffd " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
     }
 
     @Test public void simpleFfdQuiet() throws IOException {
-        Command command = new Command("ffd -q " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("ffd -q " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
     }
 
     @Test public void simpleFfdSavePlanToFile() throws IOException {
         String testFileName = "simpleFfdSavePlanToFile";
-        Command command = new Command("ffd -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("ffd -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_FFD_PLAN)
+            Utils.loadFile(TestDefaults.FFD_PLAN)
         );
     }
 
     @Test public void simpleFfdQuietSavePlanToFile() throws IOException {
         String testFileName = "simpleFfdQuietSavePlanToFile";
-        Command command = new Command("ffd -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.SIMPLE_ORDER));
+        Command command = new Command("ffd -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(!command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(!command.getOutput().contains("Order demands"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SIMPLE_FFD_PLAN)
+            Utils.loadFile(TestDefaults.FFD_PLAN)
         );
     }
 
