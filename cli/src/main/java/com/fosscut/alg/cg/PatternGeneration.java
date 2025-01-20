@@ -149,7 +149,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
     }
 
     private void initGeneralObjective(MPObjective objective) {
-        objective.setOffset(-getOrder().getInputsSumLength());
+        objective.setOffset(-getOrder().calculateInputsSumLength());
         objective.setMaximization();
     }
 

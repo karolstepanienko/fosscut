@@ -3,6 +3,7 @@ package com.fosscut.type.cutting.plan;
 import java.util.List;
 
 import com.fosscut.type.cutting.order.OrderOutput;
+import com.fosscut.util.save.YamlDumper;
 
 public class CuttingPlan {
     private List<PlanInput> inputs;
@@ -34,6 +35,12 @@ public class CuttingPlan {
                 totalNeededInputLength += input.getLength() * pattern.getCount();
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        YamlDumper yamlDumper = new YamlDumper();
+        return yamlDumper.dump(this);
     }
 
 }

@@ -7,12 +7,14 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.alg.ffd.FirstFitDecreasing;
 import com.fosscut.alg.greedy.Greedy;
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 
 public class YamlDumper {
@@ -20,11 +22,11 @@ public class YamlDumper {
     private static final Logger logger = LoggerFactory.getLogger(YamlDumper.class);
 
     public String dump(FirstFitDecreasing firstFitDecreasing) {
-        return serialiseCuttingPlan(firstFitDecreasing.getCuttingPlan());
+        return serialize(firstFitDecreasing.getCuttingPlan());
     }
 
     public String dump(Greedy greedy) {
-        return serialiseCuttingPlan(greedy.getCuttingPlan());
+        return serialize(greedy.getCuttingPlan());
     }
 
     public String dump(ColumnGeneration columnGeneration) {
@@ -35,19 +37,30 @@ public class YamlDumper {
             logger.error(e.getMessage());
             System.exit(1);
         }
-        return serialiseCuttingPlan(cuttingPlan);
+        return serialize(cuttingPlan);
     }
 
-    private String serialiseCuttingPlan(CuttingPlan cuttingPlan) {
+    public String dump(Order order) {
+        return serialize(order);
+    }
+
+    public String dump(CuttingPlan cuttingPlan) {
+        return serialize(cuttingPlan);
+    }
+
+    private String serialize(Object object) {
         ObjectMapper yamlMapper = getObjectMapper();
+        yamlMapper.setSerializationInclusion(Include.NON_NULL);
+
         String cuttingPatternString = "";
         try {
             // Serialize object to YAML
-            cuttingPatternString = yamlMapper.writeValueAsString(cuttingPlan);
+            cuttingPatternString = yamlMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             logger.error(e.getMessage());
             System.exit(1);
         }
+
         return cuttingPatternString;
     }
 

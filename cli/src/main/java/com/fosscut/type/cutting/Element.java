@@ -6,6 +6,10 @@ public abstract class Element implements Comparable<Element> {
 
     public Element() {}
 
+    public Element(Integer length) {
+        this.length = length;
+    }
+
     public Element(Element element) {
         this.length = element.getLength();
     }

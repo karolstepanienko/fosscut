@@ -6,6 +6,10 @@ public class OrderInput extends Element {
 
     public OrderInput() {}
 
+    public OrderInput(Integer length) {
+        super(length);
+    }
+
     public OrderInput(OrderInput orderInput) {
         this.setLength(orderInput.getLength());
     }
@@ -13,4 +17,5 @@ public class OrderInput extends Element {
     public String toString() {
         return "Input: length = " + this.getLength();
     }
+
 }

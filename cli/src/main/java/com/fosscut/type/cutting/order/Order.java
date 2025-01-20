@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.type.cutting.Element;
 import com.fosscut.util.Messages;
+import com.fosscut.util.save.YamlDumper;
 
 public class Order {
 
@@ -19,6 +20,11 @@ public class Order {
     private List<OrderOutput> outputs;
 
     public Order() {}
+
+    public Order(List<OrderInput> inputs, List<OrderOutput> outputs) {
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
 
     public Order(Order order) {
         this.inputs = new ArrayList<OrderInput>();
@@ -48,6 +54,12 @@ public class Order {
         this.outputs = outputs;
     }
 
+    @Override
+    public String toString() {
+        YamlDumper yamlDumper = new YamlDumper();
+        return yamlDumper.dump(this);
+    }
+
     public Integer getOutputId(OrderOutput orderOutput) {
         Integer outputId = -1;
         for (int i = 0; i < this.outputs.size(); i++) {
@@ -60,7 +72,7 @@ public class Order {
         return outputId;
     }
 
-    public Integer getInputsSumLength() {
+    public Integer calculateInputsSumLength() {
         Integer sumLength = 0;
         for (OrderInput input : this.inputs) {
             sumLength += input.getLength();

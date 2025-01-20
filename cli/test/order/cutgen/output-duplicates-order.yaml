@@ -1,0 +1,11 @@
+inputs:
+- length: 20
+outputs:
+- length: 12
+  count: 1
+- length: 11
+  count: 13
+- length: 10
+  count: 12
+- length: 9
+  count: 24

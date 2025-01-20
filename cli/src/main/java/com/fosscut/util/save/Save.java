@@ -18,33 +18,34 @@ public class Save {
 
     private static final Logger logger = LoggerFactory.getLogger(Save.class);
 
-    private String cuttingPlan;
+    private String fileContent;
     private OrderURI orderUri;
     private File redisConnectionSecretsFile;
 
-    public Save(String cuttingPlan, OrderURI orderUri, File redisConnectionSecrets) {
-        this.cuttingPlan = cuttingPlan;
+    public Save(String fileContent) {
+        this.fileContent = fileContent;
+        this.orderUri = null;
+        this.redisConnectionSecretsFile = null;
+    }
+
+    public Save(String fileContent, OrderURI orderUri, File redisConnectionSecrets) {
+        this.fileContent = fileContent;
         this.orderUri = orderUri;
         this.redisConnectionSecretsFile = redisConnectionSecrets;
     }
 
     public void save(File outputFile) {
-        if (outputFile == null) {
-            logger.info("");
-            logger.info("Generated cutting plan:");
-            logger.info(cuttingPlan);
-        } else saveCuttingPlanToFile(outputFile);
-
-        if (this.redisConnectionSecretsFile != null) {
+        if (outputFile != null)
+            saveCuttingPlanToFile(outputFile);
+        else if (this.redisConnectionSecretsFile != null)
             saveCuttingPlanToRedis();
-        }
     }
 
     private void saveCuttingPlanToFile(File outputFile) {
         try {
             outputFile.createNewFile();  // will do nothing if file exists
             PrintWriter out = new PrintWriter(outputFile);
-            out.print(cuttingPlan);
+            out.print(fileContent);
             out.close();
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
@@ -62,7 +63,7 @@ public class Save {
                 SharedDefaults.REDIS_STRING_KEY_PREFIX
                 + SharedDefaults.REDIS_STRING_PLAN_PREFIX
                 + orderUri.getIdentifier(),
-                cuttingPlan
+                fileContent
             );
             jedis.close();
         } else {

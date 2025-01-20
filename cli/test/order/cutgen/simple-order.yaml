@@ -1,0 +1,23 @@
+inputs:
+- length: 1000
+outputs:
+- length: 688
+  count: 11
+- length: 686
+  count: 9
+- length: 679
+  count: 8
+- length: 676
+  count: 13
+- length: 675
+  count: 3
+- length: 593
+  count: 20
+- length: 464
+  count: 18
+- length: 433
+  count: 4
+- length: 383
+  count: 10
+- length: 302
+  count: 4

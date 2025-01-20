@@ -47,15 +47,44 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"com.fosscut.subcommand.AbstractAlg",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.fosscut.subcommand.AbstractFile",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"com.fosscut.subcommand.Cg",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setRelaxCost","parameterTypes":["java.lang.Double"] }]
 },
 {
-  "name":"com.fosscut.subcommand.Mwe",
+  "name":"com.fosscut.subcommand.CutGen",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.subcommand.FFD",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.subcommand.GreedySubcommand",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.subcommand.MWE",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.subcommand.Validate",
@@ -74,7 +103,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
 },
 {
   "name":"com.fosscut.type.cutting.order.OrderInput",
@@ -132,7 +161,7 @@
   "methods":[{"name":"getRelax","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.utils.PropertiesVersionProvider",
+  "name":"com.fosscut.util.PropertiesVersionProvider",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -145,7 +174,14 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"groovy.lang.Closure"
+},
+{
+  "name":"java.io.FilePermission"
 },
 {
   "name":"java.io.Serializable",
@@ -172,15 +208,17 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.lang.constant.Constable",
-  "queryAllDeclaredMethods":true
+  "name":"java.lang.RuntimePermission"
 },
 {
-  "name":"java.lang.constant.ConstantDesc",
-  "queryAllDeclaredMethods":true
+  "name":"java.net.NetPermission"
 },
 {
-  "name":"java.nio.Buffer"
+  "name":"java.net.SocketPermission"
+},
+{
+  "name":"java.net.URLPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
 },
 {
   "name":"java.nio.file.Path"
@@ -190,7 +228,10 @@
   "methods":[{"name":"get","parameterTypes":["java.lang.String","java.lang.String[]"] }]
 },
 {
-  "name":"java.security.SecureRandomParameters"
+  "name":"java.security.AllPermission"
+},
+{
+  "name":"java.security.SecurityPermission"
 },
 {
   "name":"java.sql.Connection"
@@ -270,8 +311,18 @@
   "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
+  "name":"java.util.PropertyPermission"
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicBoolean",
+  "fields":[{"name":"value"}]
+},
+{
   "name":"java.util.concurrent.atomic.AtomicReference",
   "fields":[{"name":"value"}]
+},
+{
+  "name":"javax.smartcardio.CardPermission"
 },
 {
   "name":"sun.security.provider.NativePRNG",

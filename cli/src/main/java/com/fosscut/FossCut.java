@@ -3,6 +3,7 @@ package com.fosscut;
 import java.io.File;
 
 import com.fosscut.subcommand.CG;
+import com.fosscut.subcommand.CutGen;
 import com.fosscut.subcommand.FFD;
 import com.fosscut.subcommand.GreedySubcommand;
 import com.fosscut.subcommand.MWE;
@@ -19,6 +20,7 @@ import picocli.CommandLine.Spec;
     versionProvider = PropertiesVersionProvider.class,
     subcommands = {
         CG.class,
+        CutGen.class,
         FFD.class,
         GreedySubcommand.class,
         Validate.class,

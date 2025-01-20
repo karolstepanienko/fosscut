@@ -7,6 +7,7 @@ import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.OutputFormats;
+import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.Validator;
 import com.fosscut.util.load.OrderLoader;
@@ -22,7 +23,7 @@ import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.Spec;
 
 @Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
-public class CG extends Alg implements Runnable {
+public class CG extends AbstractAlg implements Runnable {
 
     Double relaxCost;
 
@@ -72,6 +73,9 @@ public class CG extends Alg implements Runnable {
         Save save = new Save(cuttingPlan, orderLoader.getOrderUri(orderPath),
             redisConnectionSecrets);
         save.save(outputFile);
+
+        PrintResult printResult = new PrintResult("cutting plan", outputFile);
+        printResult.print(cuttingPlan);
     }
 
     public static void main(String[] args) throws NotIntegerLPTaskException {

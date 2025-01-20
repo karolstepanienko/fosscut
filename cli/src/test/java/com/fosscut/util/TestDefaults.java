@@ -38,4 +38,9 @@ public class TestDefaults {
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1-cutting-plan.yaml";
     public static final String GREEDY_INT_RELAX_0_PLAN = "./test/plan/relax/greedy-int-relax-0-cutting-plan.yaml";
 
+    public static final String CUTGEN_SIMPLE_ORDER = "./test/order/cutgen/simple-order.yaml";
+    public static final String CUTGEN_MULTI_INPUT_ORDER = "./test/order/cutgen/multi-input-order.yaml";
+    public static final String CUTGEN_ALLOW_INPUT_DUPLICATES = "./test/order/cutgen/input-duplicates-order.yaml";
+    public static final String CUTGEN_ALLOW_OUTPUT_DUPLICATES = "./test/order/cutgen/output-duplicates-order.yaml";
+
 }

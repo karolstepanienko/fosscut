@@ -9,6 +9,11 @@ public class OrderOutput extends Element {
 
     public OrderOutput() {}
 
+    public OrderOutput(Integer length, Integer count) {
+        super(length);
+        this.count = count;
+    }
+
     public OrderOutput(OrderOutput orderOutput) {
         this.setLength(orderOutput.getLength());
         this.count = orderOutput.getCount();
