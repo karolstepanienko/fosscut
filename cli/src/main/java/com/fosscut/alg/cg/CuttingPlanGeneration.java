@@ -9,8 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.lang.Double;
 
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.type.IntegerSolvers;
+import com.fosscut.type.LinearSolvers;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.util.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
@@ -23,14 +24,23 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
 
     private Parameters params;
     private boolean integer;
+    private LinearSolvers linearSolver;
+    private IntegerSolvers integerSolver;
+
 
     private List<List<MPVariable>> patternsPerInputVariables;
     private List<MPConstraint> fillConstraints;
 
-    public CuttingPlanGeneration(Order order, Parameters params, boolean integer) {
+    public CuttingPlanGeneration(Order order, Parameters params,
+        boolean integer,
+        LinearSolvers linearSolver,
+        IntegerSolvers integerSolver
+    ) {
         setOrder(order);
         this.params = params;
         this.integer = integer;
+        this.linearSolver = linearSolver;
+        this.integerSolver = integerSolver;
     }
 
     public void solve() {
@@ -72,8 +82,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
 
     private MPSolver defineSolver() {
         MPSolver solver;
-        if (integer) solver = MPSolver.createSolver(Defaults.INTEGER_SOLVER);
-        else solver = MPSolver.createSolver(Defaults.LINEAR_SOLVER);
+        if (integer) solver = MPSolver.createSolver(integerSolver.toString());
+        else solver = MPSolver.createSolver(linearSolver.toString());
         return solver;
     }
 

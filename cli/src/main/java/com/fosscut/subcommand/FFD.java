@@ -3,10 +3,9 @@ package com.fosscut.subcommand;
 import java.io.File;
 
 import com.fosscut.alg.ffd.FirstFitDecreasing;
-import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.LogFormatter;
-import com.fosscut.util.OutputFormats;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.Validator;
@@ -15,7 +14,6 @@ import com.fosscut.util.load.YamlLoader;
 import com.fosscut.util.save.Save;
 import com.fosscut.util.save.YamlDumper;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -25,7 +23,7 @@ public class FFD extends AbstractAlg implements Runnable {
     @Option(names = { "-r", "--relaxation-enabled" },
         defaultValue = "false",
         description = "Enables relaxation mechanism.")
-    boolean relaxEnabled;
+    private boolean relaxEnabled;
 
     @Override
     public void run() {
@@ -65,8 +63,4 @@ public class FFD extends AbstractAlg implements Runnable {
         printResult.print(cuttingPlan);
     }
 
-    public static void main(String[] args) throws NotIntegerLPTaskException {
-        int exitCode = new CommandLine(new FFD()).execute(args);
-        System.exit(exitCode);
-    }
 }

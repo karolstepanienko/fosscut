@@ -14,6 +14,8 @@ import com.fosscut.util.Utils;
 
 public class Greedy {
 
+    /******************************* Command **********************************/
+
     @Test public void greedyCommand() {
         RepetitiveTests.testHelpWithOrderPath(new Command("greedy"));
     }
@@ -34,21 +36,23 @@ public class Greedy {
         RepetitiveTests.testVersion(new Command("greedy --version"));
     }
 
-    @Test public void simpleGreedy() {
+    /******************************* General **********************************/
+
+    @Test public void greedy() {
         Command command = new Command("greedy " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a greedy algorithm..."));
         assert(command.getOutput().contains("Order demands"));
     }
 
-    @Test public void simpleGreedyQuiet() throws IOException {
+    @Test public void greedyQuiet() throws IOException {
         Command command = new Command("greedy -q " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
     }
 
-    @Test public void simpleGreedySavePlanToFile() throws IOException {
-        String testFileName = "simpleGreedySavePlanToFile";
+    @Test public void greedySavePlanToFile() throws IOException {
+        String testFileName = "greedySavePlanToFile";
         Command command = new Command("greedy -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a greedy algorithm..."));
@@ -60,20 +64,20 @@ public class Greedy {
         );
     }
 
-    @Test public void simpleGreedyQuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleGreedyQuietSavePlanToFile";
+    @Test public void greedyQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyQuietSavePlanToFile";
         Command command = new Command("greedy -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(!command.getOutput().contains("Running cutting plan generation using a greedy algorithm..."));
-        assert(!command.getOutput().contains("Order demands"));
-        assert(!command.getOutput().contains("Generated cutting plan:"));
+        assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.GREEDY_PLAN)
         );
     }
 
-    @Test public void simpleGreedyRedis() {
+    /******************************** Redis ***********************************/
+
+    @Test public void greedyRedis() {
         Command command = new Command("greedy "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
@@ -82,7 +86,7 @@ public class Greedy {
         assert(command.getOutput().contains("Order demands"));
     }
 
-    @Test public void simpleGreedyRedisQuiet() throws IOException {
+    @Test public void greedyRedisQuiet() throws IOException {
         Command command = new Command("greedy -q "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
@@ -90,8 +94,10 @@ public class Greedy {
         assert(command.getOutput().equals(""));
     }
 
-    @Test public void simpleGreedyRelaxCost0QuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleGreedyRelaxCost0QuietSavePlanToFile";
+    /***************************** Relaxation *********************************/
+
+    @Test public void greedyRelaxCost0QuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost0QuietSavePlanToFile";
         Command command = new Command("greedy -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -101,8 +107,8 @@ public class Greedy {
         );
     }
 
-    @Test public void simpleGreedyRelaxCost1QuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleGreedyRelaxCost1QuietSavePlanToFile";
+    @Test public void greedyRelaxCost1QuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost1QuietSavePlanToFile";
         Command command = new Command("greedy -q -c 1 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -112,14 +118,49 @@ public class Greedy {
         );
     }
 
-    @Test public void simpleGreedyIntegerRelaxCost0QuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleGreedyIntegerRelaxCost0QuietSavePlanToFile";
+    @Test public void greedyIntegerRelaxCost0QuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyIntegerRelaxCost0QuietSavePlanToFile";
         Command command = new Command("greedy -q -c 0 -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.GREEDY_INT_RELAX_0_PLAN)
+        );
+    }
+
+    /****************************** Solvers ***********************************/
+
+    @Test public void greedySolverCBC() throws IOException {
+        String testFileName = "greedySolverCBC";
+        Command command = new Command("greedy --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_PLAN)
+        );
+    }
+
+    @Test public void greedySolverSAT() throws IOException {
+        String testFileName = "greedySolverSAT";
+        Command command = new Command("greedy --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_SAT_PLAN)
+        );
+    }
+
+    @Test public void greedySolverSCIP() throws IOException {
+        String testFileName = "greedySolverSCIP";
+        Command command = new Command("greedy --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_PLAN)
         );
     }
 

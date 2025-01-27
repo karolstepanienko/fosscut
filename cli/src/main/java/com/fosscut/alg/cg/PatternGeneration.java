@@ -6,8 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.util.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
@@ -21,6 +21,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private List<Double> cuttingPlanDualValues;
     private Double relaxCost;
     private boolean forceIntegerRelax;
+    private IntegerSolvers integerSolver;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
@@ -29,12 +30,14 @@ class PatternGeneration extends ColumnGenerationLPTask {
         Order order,
         List<Double> cuttingPlanDualValues,
         Double relaxCost,
-        boolean forceIntegerRelax
+        boolean forceIntegerRelax,
+        IntegerSolvers integerSolver
     ) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
         this.forceIntegerRelax = forceIntegerRelax;
+        this.integerSolver = integerSolver;
     }
 
     public List<List<MPVariable>> getUsageVariables() {
@@ -57,7 +60,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         logger.info("");
         logger.info("Starting pattern generation...");
 
-        setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
+        setSolver(MPSolver.createSolver(integerSolver.toString()));
 
         if (relaxCost == null) initModel();
         else initModelWithRelaxation();

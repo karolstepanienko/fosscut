@@ -3,10 +3,12 @@ package com.fosscut.subcommand;
 import java.io.File;
 
 import com.fosscut.alg.cg.ColumnGeneration;
-import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.type.IntegerSolvers;
+import com.fosscut.type.LinearSolvers;
+import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
+import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
-import com.fosscut.util.OutputFormats;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.Validator;
@@ -15,7 +17,6 @@ import com.fosscut.util.load.YamlLoader;
 import com.fosscut.util.save.Save;
 import com.fosscut.util.save.YamlDumper;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
@@ -25,7 +26,7 @@ import picocli.CommandLine.Spec;
 @Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
 public class CG extends AbstractAlg implements Runnable {
 
-    Double relaxCost;
+    private Double relaxCost;
 
     @Option(names = { "-c", "--relaxation-cost" },
     description = "Cost of relaxing the length of an output element by"
@@ -40,8 +41,18 @@ public class CG extends AbstractAlg implements Runnable {
         this.relaxCost = relaxCost;
     }
 
+    @Option(names = { "--linear-solver" },
+        defaultValue = Defaults.DEFAULT_PARAM_LINEAR_SOLVER,
+        description = "One of: (${COMPLETION-CANDIDATES}).")
+    private LinearSolvers linearSolver;
+
+    @Option(names = { "--integer-solver" },
+        defaultValue = Defaults.DEFAULT_PARAM_INTEGER_SOLVER,
+        description = "One of: (${COMPLETION-CANDIDATES}).")
+    private IntegerSolvers integerSolver;
+
     @Spec
-    CommandSpec spec;
+    private CommandSpec spec;
 
     @Override
     public void run() {
@@ -61,7 +72,7 @@ public class CG extends AbstractAlg implements Runnable {
         validator.validateOrder(order);
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
-            order, relaxCost, forceIntegerRelax);
+            order, relaxCost, forceIntegerRelax, linearSolver, integerSolver);
         columnGeneration.run();
 
         String cuttingPlan = null;
@@ -78,8 +89,4 @@ public class CG extends AbstractAlg implements Runnable {
         printResult.print(cuttingPlan);
     }
 
-    public static void main(String[] args) throws NotIntegerLPTaskException {
-        int exitCode = new CommandLine(new CG()).execute(args);
-        System.exit(exitCode);
-    }
 }

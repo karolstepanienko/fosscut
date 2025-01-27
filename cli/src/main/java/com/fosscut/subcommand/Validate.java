@@ -8,7 +8,6 @@ import com.fosscut.util.Validator;
 import com.fosscut.util.load.OrderLoader;
 import com.fosscut.util.load.YamlLoader;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParentCommand;
@@ -38,8 +37,4 @@ public class Validate implements Runnable {
         validator.validateOrder(order);
     }
 
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new Validate()).execute(args);
-        System.exit(exitCode);
-    }
 }

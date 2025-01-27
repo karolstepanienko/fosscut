@@ -5,7 +5,6 @@ import com.fosscut.mwe.OrTools;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PropertiesVersionProvider;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ParentCommand;
 
@@ -21,11 +20,6 @@ public class MWE {
         logFormatter.configure();
 
         OrTools.main();
-    }
-
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new MWE()).execute(args);
-        System.exit(exitCode);
     }
 
 }

@@ -73,4 +73,5 @@ public class FossCut implements Runnable {
         int exitCode = new CommandLine(new FossCut()).execute(args);
         System.exit(exitCode);
     }
+
 }

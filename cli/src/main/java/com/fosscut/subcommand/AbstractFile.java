@@ -2,7 +2,7 @@ package com.fosscut.subcommand;
 
 import java.io.File;
 
-import com.fosscut.util.OutputFormats;
+import com.fosscut.type.OutputFormats;
 
 import picocli.CommandLine.Option;
 

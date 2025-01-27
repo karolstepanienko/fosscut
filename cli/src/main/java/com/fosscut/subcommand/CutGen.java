@@ -6,14 +6,13 @@ import org.slf4j.LoggerFactory;
 import com.fosscut.alg.cutgen.CutGenAlg;
 import com.fosscut.exception.DuplicatesAreNotAllowedException;
 import com.fosscut.exception.NotSupportedCutGenConfigException;
+import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.util.OutputFormats;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.save.Save;
 import com.fosscut.util.save.YamlDumper;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -113,11 +112,6 @@ public class CutGen extends AbstractFile implements Runnable {
 
         PrintResult printResult = new PrintResult("order", outputFile);
         printResult.print(orderString);
-    }
-
-    public static void main(String[] args) throws NotSupportedCutGenConfigException {
-        int exitCode = new CommandLine(new CutGen()).execute(args);
-        System.exit(exitCode);
     }
 
 }

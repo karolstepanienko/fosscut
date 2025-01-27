@@ -8,11 +8,13 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.fosscut.util.Command;
-import com.fosscut.util.TestDefaults;
 import com.fosscut.util.RepetitiveTests;
+import com.fosscut.util.TestDefaults;
 import com.fosscut.util.Utils;
 
 public class CG {
+
+    /******************************* Command **********************************/
 
     @Test public void cgCommand() {
         RepetitiveTests.testHelpWithOrderPath(new Command("cg"));
@@ -34,21 +36,23 @@ public class CG {
         RepetitiveTests.testVersion(new Command("cg --version"));
     }
 
-    @Test public void simpleCg() {
+    /******************************* General **********************************/
+
+    @Test public void cg() {
         Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 
-    @Test public void simpleCgQuiet() throws IOException {
+    @Test public void cgQuiet() throws IOException {
         Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
     }
 
-    @Test public void simpleCgSavePlanToFile() throws IOException {
-        String testFileName = "simpleCgSavePlanToFile";
+    @Test public void cgSavePlanToFile() throws IOException {
+        String testFileName = "cgSavePlanToFile";
         Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
@@ -56,24 +60,24 @@ public class CG {
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
         );
     }
 
-    @Test public void simpleCgQuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleCgQuietSavePlanToFile";
+    @Test public void cgQuietSavePlanToFile() throws IOException {
+        String testFileName = "cgQuietSavePlanToFile";
         Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(!command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
-        assert(!command.getOutput().contains("Status: OPTIMAL"));
-        assert(!command.getOutput().contains("Generated cutting plan:"));
+        assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
         );
     }
 
-    @Test public void simpleCgRedis() {
+    /******************************** Redis ***********************************/
+
+    @Test public void cgRedis() {
         Command command = new Command("cg "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
@@ -82,7 +86,7 @@ public class CG {
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 
-    @Test public void simpleCgRedisQuiet() throws IOException {
+    @Test public void cgRedisQuiet() throws IOException {
         Command command = new Command("cg -q "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
@@ -90,8 +94,10 @@ public class CG {
         assert(command.getOutput().equals(""));
     }
 
-    @Test public void simpleCgRelaxCost0QuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleCgRelaxCost0QuietSavePlanToFile";
+    /***************************** Relaxation *********************************/
+
+    @Test public void cgRelaxCost0QuietSavePlanToFile() throws IOException {
+        String testFileName = "cgRelaxCost0QuietSavePlanToFile";
         Command command = new Command("cg -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -101,8 +107,8 @@ public class CG {
         );
     }
 
-    @Test public void simpleCgRelaxCost1QuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleCgRelaxCost1QuietSavePlanToFile";
+    @Test public void cgRelaxCost1QuietSavePlanToFile() throws IOException {
+        String testFileName = "cgRelaxCost1QuietSavePlanToFile";
         Command command = new Command("cg -q -c 1 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -112,14 +118,124 @@ public class CG {
         );
     }
 
-    @Test public void simpleCgIntegerRelaxCost1QuietSavePlanToFile() throws IOException {
-        String testFileName = "simpleCgIntegerRelaxCost1QuietSavePlanToFile";
+    @Test public void cgIntegerRelaxCost1QuietSavePlanToFile() throws IOException {
+        String testFileName = "cgIntegerRelaxCost1QuietSavePlanToFile";
         Command command = new Command("cg -q -c 1 -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.CG_INT_RELAX_1_PLAN)
+        );
+    }
+
+    /****************************** Solvers ***********************************/
+
+    @Test public void cgLinearSolverCLPIntegerSolverCBC() throws IOException {
+        String testFileName = "cgLinearSolverCLPIntegerSolverCBC";
+        Command command = new Command("cg --linear-solver CLP --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_CLP_CBC_PLAN)
+        );
+    }
+
+    @Test public void cgLinearSolverCLPIntegerSolverSAT() throws IOException {
+        String testFileName = "cgLinearSolverCLPIntegerSolverSAT";
+        Command command = new Command("cg --linear-solver CLP --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+
+        // SAT solver is nondeterministic, it can randomly generate two different cutting plans
+        String result = Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName);
+        assert(
+            result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_1_PLAN))
+            || result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_2_PLAN))
+        );
+    }
+
+    @Test public void cgLinearSolverCLPIntegerSolverSCIP() throws IOException {
+        String testFileName = "cgLinearSolverCLPIntegerSolverSCIP";
+        Command command = new Command("cg --linear-solver CLP --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+        );
+    }
+
+    @Test public void cgLinearSolverGLOPIntegerSolverCBC() throws IOException {
+        String testFileName = "cgLinearSolverGLOPIntegerSolverCBC";
+        Command command = new Command("cg --linear-solver GLOP --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_GLOP_CBC_PLAN)
+        );
+    }
+
+    @Test public void cgLinearSolverGLOPIntegerSolverSAT() throws IOException {
+        String testFileName = "cgLinearSolverGLOPIntegerSolverSAT";
+        Command command = new Command("cg --linear-solver GLOP --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+
+        // SAT solver is nondeterministic, it can randomly generate two different cutting plans
+        String result = Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName);
+        assert(
+            result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_1_PLAN))
+            || result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_2_PLAN))
+        );
+    }
+
+    @Test public void cgLinearSolverGLOPIntegerSolverSCIP() throws IOException {
+        String testFileName = "cgLinearSolverGLOPIntegerSolverSCIP";
+        Command command = new Command("cg --linear-solver GLOP --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+        );
+    }
+
+    @Test public void cgLinearSolverPDLPIntegerSolverCBC() throws IOException {
+        String testFileName = "cgLinearSolverPDLPIntegerSolverCBC";
+        Command command = new Command("cg --linear-solver PDLP --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_PDLP_CBC_PLAN)
+        );
+    }
+
+    @Test public void cgLinearSolverPDLPIntegerSolverSAT() throws IOException {
+        String testFileName = "cgLinearSolverPDLPIntegerSolverSAT";
+        Command command = new Command("cg --linear-solver PDLP --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+
+        // SAT solver is nondeterministic, it can randomly generate two different cutting plans
+        String result = Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName);
+        assert(
+            result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_1_PLAN))
+            || result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_2_PLAN))
+        );
+    }
+
+    @Test public void cgLinearSolverPDLPIntegerSolverSCIP() throws IOException {
+        String testFileName = "cgLinearSolverPDLPIntegerSolverSCIP";
+        Command command = new Command("cg --linear-solver PDLP --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_PDLP_SCIP_PLAN)
         );
     }
 

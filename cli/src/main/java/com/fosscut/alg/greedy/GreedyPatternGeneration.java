@@ -3,11 +3,11 @@ package com.fosscut.alg.greedy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.order.OrderOutput;
-import com.fosscut.util.Defaults;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
@@ -23,6 +23,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private List<Integer> orderDemands;
     private Double relaxCost;
     private boolean forceIntegerRelax;
+    private IntegerSolvers integerSolver;
 
     private List<MPVariable> usageVariables;
     private List<MPVariable> relaxVariables;
@@ -32,13 +33,15 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         List<OrderOutput> outputs,
         List<Integer> orderDemands,
         Double relaxCost,
-        boolean forceIntegerRelax
+        boolean forceIntegerRelax,
+        IntegerSolvers integerSolver
     ) {
         setOutputs(outputs);
         this.input = input;
         this.orderDemands = orderDemands;
         this.relaxCost = relaxCost;
         this.forceIntegerRelax = forceIntegerRelax;
+        this.integerSolver = integerSolver;
     }
 
     public void setUsageVariables(List<MPVariable> usageVariables) {
@@ -50,7 +53,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     }
 
     public void solve() {
-        setSolver(MPSolver.createSolver(Defaults.INTEGER_SOLVER));
+        setSolver(MPSolver.createSolver(integerSolver.toString()));
 
         if (relaxCost == null) initModel();
         else initModelWithRelaxation();
@@ -163,7 +166,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
             MPConstraint outputCountConstraint = getSolver().makeConstraint(
                 -Double.POSITIVE_INFINITY,
                 orderDemands.get(o),
-                "Count_output"
+                "Count_output_" + o
             );
             outputCountConstraint.setCoefficient(usageVariables.get(o), 1);
         }

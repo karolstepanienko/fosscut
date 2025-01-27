@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.type.IntegerSolvers;
+import com.fosscut.type.LinearSolvers;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
@@ -21,14 +23,22 @@ public class ColumnGeneration {
     private Order order;
     private Double relaxCost;
     private boolean forceIntegerRelax;
+    private LinearSolvers linearSolver;
+    private IntegerSolvers integerSolver;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
 
-    public ColumnGeneration(Order order, Double relaxCost, boolean forceIntegerRelax) {
+    public ColumnGeneration(Order order, Double relaxCost,
+        boolean forceIntegerRelax,
+        LinearSolvers linearSolver,
+        IntegerSolvers integerSolver
+    ) {
         this.order = order;
         this.relaxCost = relaxCost;
         this.forceIntegerRelax = forceIntegerRelax;
+        this.linearSolver = linearSolver;
+        this.integerSolver = integerSolver;
     }
 
     public void run() {
@@ -42,12 +52,13 @@ public class ColumnGeneration {
         double reducedCost;
         do {
             CuttingPlanGeneration linearCuttingPlanGeneration =
-                new CuttingPlanGeneration(order, params, false);
+                new CuttingPlanGeneration(order, params, false,
+                    linearSolver, integerSolver);
             linearCuttingPlanGeneration.solve();
 
             PatternGeneration patternGeneration = new PatternGeneration(
                 order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
-                forceIntegerRelax
+                forceIntegerRelax, integerSolver
             );
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
@@ -65,7 +76,8 @@ public class ColumnGeneration {
             .doubleValue() > 0
         );
 
-        integerCuttingPlanGeneration = new CuttingPlanGeneration(order, params, true);
+        integerCuttingPlanGeneration = new CuttingPlanGeneration(
+            order, params, true, linearSolver, integerSolver);
         integerCuttingPlanGeneration.solve();
     }
 

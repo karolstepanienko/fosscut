@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.alg.ch.ConstructiveHeuristic;
+import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.order.OrderInput;
@@ -21,11 +22,15 @@ public class Greedy extends ConstructiveHeuristic {
     private Order order;
     private Double relaxCost;
     private boolean forceIntegerRelax;
+    private IntegerSolvers integerSolver;
 
-    public Greedy(Order order, Double relaxCost, boolean forceIntegerRelax) {
+    public Greedy(Order order, Double relaxCost, boolean forceIntegerRelax,
+        IntegerSolvers integerSolver
+    ) {
         this.order = order;
         this.relaxCost = relaxCost;
         this.forceIntegerRelax = forceIntegerRelax;
+        this.integerSolver = integerSolver;
     }
 
     public CuttingPlan getCuttingPlan() {
@@ -62,7 +67,8 @@ public class Greedy extends ConstructiveHeuristic {
                     order.getOutputs(),
                     getOrderDemands(),
                     relaxCost,
-                    forceIntegerRelax
+                    forceIntegerRelax,
+                    integerSolver
                 );
             greedyPatternGeneration.solve();
             patterns.add(greedyPatternGeneration.getPattern());
