@@ -11,16 +11,25 @@ import com.fosscut.type.cutting.plan.PlanOutput;
  */
 public class CHPattern {
 
+    private Integer inputId;
     private OrderInput input;
     private Integer count;
     private List<CHOutput> patternDefinition;
 
-    public void setInput(OrderInput input) {
-        this.input = input;
+    public Integer getInputId() {
+        return inputId;
+    }
+
+    public void setInputId(Integer inputId) {
+        this.inputId = inputId;
     }
 
     public OrderInput getInput() {
         return input;
+    }
+
+    public void setInput(OrderInput input) {
+        this.input = input;
     }
 
     public Integer getCount() {

@@ -23,13 +23,13 @@ public class TestDefaults {
 
     public static final String EXAMPLE_ORDER = "./test/order/example-cutting-order.yaml";
     public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/example-ffd-relax-cutting-order.yaml";
+    public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/input-count-cutting-order.yaml";
 
     public static final String CG_CLP_GLOP_SCIP_PLAN = "./test/plan/cg-CLP_GLOP-SCIP.yaml";
-
     public static final String CG_CLP_CBC_PLAN = "./test/plan/cg-CLP-CBC.yaml";
     public static final String CG_CLP_GLOP_SAT_1_PLAN = "./test/plan/cg-CLP_GLOP-SAT-1.yaml";
     public static final String CG_CLP_GLOP_SAT_2_PLAN = "./test/plan/cg-CLP_GLOP-SAT-2.yaml";
-    
+
     public static final String CG_GLOP_CBC_PLAN = "./test/plan/cg-GLOP-CBC.yaml";
 
     public static final String CG_PDLP_CBC_PLAN = "./test/plan/cg-PDLP-CBC.yaml";
@@ -51,6 +51,9 @@ public class TestDefaults {
     public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0.yaml";
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1.yaml";
     public static final String GREEDY_INT_RELAX_0_PLAN = "./test/plan/relax/greedy-int-relax-0.yaml";
+
+    public static final String FFD_INPUT_COUNT_PLAN = "./test/plan/ffd-input-count.yaml";
+    public static final String GREEDY_INPUT_COUNT_PLAN = "./test/plan/greedy-input-count.yaml";
 
     public static final String CUTGEN_SIMPLE_ORDER = "./test/order/cutgen/simple-order.yaml";
     public static final String CUTGEN_MULTI_INPUT_ORDER = "./test/order/cutgen/multi-input-order.yaml";

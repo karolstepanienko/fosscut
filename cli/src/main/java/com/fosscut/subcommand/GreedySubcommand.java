@@ -2,7 +2,11 @@ package com.fosscut.subcommand;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.alg.greedy.Greedy;
+import com.fosscut.exception.FosscutException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
@@ -24,6 +28,8 @@ import picocli.CommandLine.Spec;
 
 @Command(name = "greedy", versionProvider = PropertiesVersionProvider.class)
 public class GreedySubcommand extends AbstractAlg implements Runnable {
+
+    private static final Logger logger = LoggerFactory.getLogger(GreedySubcommand.class);
 
     private Double relaxCost;
 
@@ -50,6 +56,15 @@ public class GreedySubcommand extends AbstractAlg implements Runnable {
 
     @Override
     public void run() {
+        try {
+            runWithExceptions();
+        } catch (FosscutException e) {
+            logger.error(e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    private void runWithExceptions() throws FosscutException {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
         File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
 

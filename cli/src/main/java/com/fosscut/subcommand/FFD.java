@@ -2,7 +2,11 @@ package com.fosscut.subcommand;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fosscut.alg.ffd.FirstFitDecreasing;
+import com.fosscut.exception.FosscutException;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.LogFormatter;
@@ -20,6 +24,8 @@ import picocli.CommandLine.Option;
 @Command(name = "ffd", versionProvider = PropertiesVersionProvider.class)
 public class FFD extends AbstractAlg implements Runnable {
 
+    private static final Logger logger = LoggerFactory.getLogger(FFD.class);
+
     @Option(names = { "-r", "--relaxation-enabled" },
         defaultValue = "false",
         description = "Enables relaxation mechanism.")
@@ -27,6 +33,15 @@ public class FFD extends AbstractAlg implements Runnable {
 
     @Override
     public void run() {
+        try {
+            runWithExceptions();
+        } catch (FosscutException e) {
+            logger.error(e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    private void runWithExceptions() throws FosscutException {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
         File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
 

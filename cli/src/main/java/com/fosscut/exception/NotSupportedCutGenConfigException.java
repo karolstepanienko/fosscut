@@ -1,6 +1,6 @@
 package com.fosscut.exception;
 
-public class NotSupportedCutGenConfigException extends Exception {
+public class NotSupportedCutGenConfigException extends FosscutException {
 
     private static String staticMessage =
         "Unsupported parameter configuration for CUTGEN generator detected.";

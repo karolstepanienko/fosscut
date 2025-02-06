@@ -1,6 +1,6 @@
 package com.fosscut.exception;
 
-public class NotIntegerLPTaskException extends Exception {
+public class NotIntegerLPTaskException extends FosscutException {
 
     private static String staticMessage =
         "Linear programming task should use only integer variables for this"

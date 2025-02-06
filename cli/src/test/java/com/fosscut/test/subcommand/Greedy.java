@@ -164,4 +164,17 @@ public class Greedy {
         );
     }
 
+    /**************************** Input count *********************************/
+
+    @Test public void greedyInputCount() throws IOException {
+        String testFileName = "greedyInputCount";
+        Command command = new Command("greedy -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_INPUT_COUNT_PLAN)
+        );
+    }
+
 }

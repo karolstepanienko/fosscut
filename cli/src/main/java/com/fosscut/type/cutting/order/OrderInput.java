@@ -4,6 +4,8 @@ import com.fosscut.type.cutting.Element;
 
 public class OrderInput extends Element {
 
+    private Integer count;
+
     public OrderInput() {}
 
     public OrderInput(Integer length) {
@@ -12,6 +14,14 @@ public class OrderInput extends Element {
 
     public OrderInput(OrderInput orderInput) {
         this.setLength(orderInput.getLength());
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public String toString() {

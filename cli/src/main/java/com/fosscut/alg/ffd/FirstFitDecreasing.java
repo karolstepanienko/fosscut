@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.alg.ch.ConstructiveHeuristic;
+import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.Order;
@@ -18,105 +19,110 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
 
     private static final Logger logger = LoggerFactory.getLogger(FirstFitDecreasing.class);
 
-    private Order sortedOrder;
+    private Order orderSortedOutputs;
     private boolean relaxEnabled;
     private boolean forceIntegerRelax;
 
-    public FirstFitDecreasing(Order sortedOrder, boolean relaxEnabled, boolean forceIntegerRelax) {
-        this.sortedOrder = sortedOrder;
+    public FirstFitDecreasing(Order order, boolean relaxEnabled, boolean forceIntegerRelax) {
+        this.orderSortedOutputs = order;
         this.relaxEnabled = relaxEnabled;
         this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan() {
-        return getCuttingPlan(sortedOrder, relaxEnabled, forceIntegerRelax);
+        return getCuttingPlan(orderSortedOutputs, relaxEnabled, forceIntegerRelax);
     }
 
-    public void run() {
+    public void run() throws GeneratedPatternsCannotBeEmptyException {
         logger.info("");
         logger.info("Running cutting plan generation using a first-fit-decreasing algorithm...");
-        sortedOrder.reverseSortOutputs();
-        initSortedOrderDemands();
-        setCuttingPlanPatterns(demandLoop());
-    }
 
-    private void initSortedOrderDemands() {
-        List<Integer> sortedOrderDemands = new ArrayList<Integer>();
-        for (OrderOutput output : sortedOrder.getOutputs()) {
-            sortedOrderDemands.add(output.getCount());
-        }
-        setOrderDemands(sortedOrderDemands);
+        initInputCounts(orderSortedOutputs);
+        orderSortedOutputs.reverseSortOutputs();
+        initOrderDemands(orderSortedOutputs);
+
+        setCuttingPlanPatterns(demandLoop());
     }
 
     @Override
     protected List<CHPattern> generatePatternForEachInput() {
         List<CHPattern> chPatterns = new ArrayList<CHPattern>();
-        for (OrderInput input : sortedOrder.getInputs()) {
-            CHPattern chPattern = new CHPattern();
-            chPattern.setInput(new OrderInput(input));
+        for (Integer inputId = 0; inputId < orderSortedOutputs.getInputs().size(); ++inputId) {
+            Integer inputCount = getInputCounts().get(inputId);
+            if (inputCount == null || inputCount > 0) {
+                chPatterns.add(getPattern(inputId, orderSortedOutputs.getInputs().get(inputId)));
+            }
+        }
+        return chPatterns;
+    }
 
-            List<CHOutput> chPatternDefinition = new ArrayList<CHOutput>();
+    private CHPattern getPattern(Integer inputId, OrderInput input) {
+        CHPattern chPattern = new CHPattern();
+        chPattern.setInputId(inputId);
+        chPattern.setInput(new OrderInput(input));
+        chPattern.setPatternDefinition(getPatternDefinition(input));
+        return chPattern;
+    }
 
-            Integer remainingSpace = input.getLength();
+    private List<CHOutput> getPatternDefinition(OrderInput input) {
+        List<CHOutput> chPatternDefinition = new ArrayList<CHOutput>();
 
-            int i = 0;
-            while (i < sortedOrder.getOutputs().size() && remainingSpace > 0) {
-                OrderOutput output = sortedOrder.getOutputs().get(i);
+        Integer remainingSpace = input.getLength();
 
-                int itemFit = getItemFit(remainingSpace, output);
+        int i = 0;
+        while (i < orderSortedOutputs.getOutputs().size() && remainingSpace > 0) {
+            OrderOutput output = orderSortedOutputs.getOutputs().get(i);
 
-                Integer relaxedLength = null;
-                Integer relaxedItemFit = null;
-                if (output.getMaxRelax() != null){
-                    relaxedLength = output.getLength() - output.getMaxRelax();
-                    relaxedItemFit = getRelaxedItemFit(remainingSpace, relaxedLength, output);
-                }
+            int itemFit = getItemFit(remainingSpace, output);
 
-                if (relaxEnabled && relaxedLength != null
-                    && relaxedItemFit > itemFit && relaxedItemFit >= 1
-                ) {
-                    remainingSpace -= relaxedItemFit * relaxedLength;
-                    chPatternDefinition.add(
-                        new CHOutput(
-                            sortedOrder.getOutputId(output),
-                            output.getLength(),
-                            relaxedItemFit,
-                            Double.valueOf(output.getMaxRelax())
-                        )
-                    );
-                } else if (itemFit >= 1) {
-                    remainingSpace -= itemFit * output.getLength();
-                    chPatternDefinition.add(
-                        new CHOutput(
-                            sortedOrder.getOutputId(output),
-                            output.getLength(),
-                            itemFit,
-                            0.0
-                        )
-                    );
-                }
-
-                i += 1;
+            Integer relaxedLength = null;
+            Integer relaxedItemFit = null;
+            if (output.getMaxRelax() != null){
+                relaxedLength = output.getLength() - output.getMaxRelax();
+                relaxedItemFit = getRelaxedItemFit(remainingSpace, relaxedLength, output);
             }
 
-            chPattern.setPatternDefinition(chPatternDefinition);
-            chPatterns.add(chPattern);
+            if (relaxEnabled && relaxedLength != null
+                && relaxedItemFit > itemFit && relaxedItemFit >= 1
+            ) {
+                remainingSpace -= relaxedItemFit * relaxedLength;
+                chPatternDefinition.add(
+                    new CHOutput(
+                        orderSortedOutputs.getOutputId(output),
+                        output.getLength(),
+                        relaxedItemFit,
+                        Double.valueOf(output.getMaxRelax())
+                    )
+                );
+            } else if (itemFit >= 1) {
+                remainingSpace -= itemFit * output.getLength();
+                chPatternDefinition.add(
+                    new CHOutput(
+                        orderSortedOutputs.getOutputId(output),
+                        output.getLength(),
+                        itemFit,
+                        0.0
+                    )
+                );
+            }
+
+            i += 1;
         }
 
-        return chPatterns;
+        return chPatternDefinition;
     }
 
     private int getItemFit(Integer remainingSpace, OrderOutput output) {
         return Math.min(
             remainingSpace / output.getLength(),
-            getOrderDemands().get(sortedOrder.getOutputId(output))
+            getOrderDemands().get(orderSortedOutputs.getOutputId(output))
         );
     }
 
     private int getRelaxedItemFit(Integer remainingSpace, Integer relaxedLength, OrderOutput output) {
         return Math.min(
             remainingSpace / relaxedLength,
-            getOrderDemands().get(sortedOrder.getOutputId(output))
+            getOrderDemands().get(orderSortedOutputs.getOutputId(output))
         );
     }
 

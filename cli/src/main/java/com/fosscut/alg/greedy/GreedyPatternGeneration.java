@@ -19,6 +19,7 @@ import com.google.ortools.linearsolver.MPVariable;
  */
 public class GreedyPatternGeneration extends GreedyLPTask {
 
+    private Integer orderInputId;
     private OrderInput input;
     private List<Integer> orderDemands;
     private Double relaxCost;
@@ -29,6 +30,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private List<MPVariable> relaxVariables;
 
     public GreedyPatternGeneration(
+        Integer orderInputId,
         OrderInput input,
         List<OrderOutput> outputs,
         List<Integer> orderDemands,
@@ -37,6 +39,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         IntegerSolvers integerSolver
     ) {
         setOutputs(outputs);
+        this.orderInputId = orderInputId;
         this.input = input;
         this.orderDemands = orderDemands;
         this.relaxCost = relaxCost;
@@ -64,6 +67,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
 
     public CHPattern getPattern() {
         CHPattern pattern = new CHPattern();
+        pattern.setInputId(orderInputId);
         pattern.setInput(input);
         if (relaxCost == null) pattern.setPatternDefinition(getPatternDefinition());
         else pattern.setPatternDefinition(getPatternDefinitionWithRelaxation());

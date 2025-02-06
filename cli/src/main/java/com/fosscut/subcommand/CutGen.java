@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.alg.cutgen.CutGenAlg;
-import com.fosscut.exception.DuplicatesAreNotAllowedException;
-import com.fosscut.exception.NotSupportedCutGenConfigException;
+import com.fosscut.exception.FosscutException;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.PrintResult;
@@ -76,6 +75,15 @@ public class CutGen extends AbstractFile implements Runnable {
 
     @Override
     public void run() {
+        try {
+            runWithExceptions();
+        } catch (FosscutException e) {
+            logger.error(e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    private void runWithExceptions() throws FosscutException {
         CutGenAlg cutGenAlg = new CutGenAlg(
             outputTypeCount,
             outputLengthLowerBound,
@@ -91,15 +99,7 @@ public class CutGen extends AbstractFile implements Runnable {
         );
 
         Order order = null;
-        try {
-            order = cutGenAlg.nextOrder();
-        } catch (
-            NotSupportedCutGenConfigException
-            | DuplicatesAreNotAllowedException e
-        ) {
-            logger.error(e.getMessage());
-            System.exit(1);
-        }
+        order = cutGenAlg.nextOrder();
 
         String orderString = null;
         if (outputFormat == OutputFormats.yaml) {

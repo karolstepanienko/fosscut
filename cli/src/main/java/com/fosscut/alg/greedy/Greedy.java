@@ -7,11 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.alg.ch.ConstructiveHeuristic;
+import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.Order;
-import com.fosscut.type.cutting.order.OrderInput;
-import com.fosscut.type.cutting.order.OrderOutput;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.google.ortools.Loader;
 
@@ -38,40 +37,37 @@ public class Greedy extends ConstructiveHeuristic {
         return getCuttingPlan(order, relaxEnabled, forceIntegerRelax);
     }
 
-    public void run() {
+    public void run() throws GeneratedPatternsCannotBeEmptyException {
         logger.info("");
         logger.info("Running cutting plan generation using a greedy algorithm...");
 
-        initOrderDemands();
+        initInputCounts(order);
+        initOrderDemands(order);
 
         Loader.loadNativeLibraries();
 
         setCuttingPlanPatterns(demandLoop());
     }
 
-    private void initOrderDemands() {
-        List<Integer> orderDemands = new ArrayList<Integer>();
-        for (OrderOutput output : order.getOutputs()) {
-            orderDemands.add(output.getCount());
-        }
-        setOrderDemands(orderDemands);
-    }
-
     @Override
     protected List<CHPattern> generatePatternForEachInput() {
         List<CHPattern> patterns = new ArrayList<CHPattern>();
-        for (OrderInput orderInput : order.getInputs()) {
-            GreedyPatternGeneration greedyPatternGeneration =
-                new GreedyPatternGeneration(
-                    orderInput,
-                    order.getOutputs(),
-                    getOrderDemands(),
-                    relaxCost,
-                    forceIntegerRelax,
-                    integerSolver
-                );
-            greedyPatternGeneration.solve();
-            patterns.add(greedyPatternGeneration.getPattern());
+        for (Integer inputId = 0; inputId < order.getInputs().size(); ++inputId) {
+            Integer inputCount = getInputCounts().get(inputId);
+            if (inputCount == null || inputCount > 0) {
+                GreedyPatternGeneration greedyPatternGeneration =
+                    new GreedyPatternGeneration(
+                        inputId,
+                        order.getInputs().get(inputId),
+                        order.getOutputs(),
+                        getOrderDemands(),
+                        relaxCost,
+                        forceIntegerRelax,
+                        integerSolver
+                    );
+                greedyPatternGeneration.solve();
+                patterns.add(greedyPatternGeneration.getPattern());
+            }
         }
         return patterns;
     }

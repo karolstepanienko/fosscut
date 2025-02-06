@@ -118,4 +118,17 @@ public class FFD {
         );
     }
 
+    /**************************** Input count *********************************/
+
+    @Test public void ffdInputCount() throws IOException {
+        String testFileName = "ffdInputCount";
+        Command command = new Command("ffd -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_INPUT_COUNT_PLAN)
+        );
+    }
+
 }

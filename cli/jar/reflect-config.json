@@ -110,7 +110,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }, {"name":"setCount","parameterTypes":["java.lang.Integer"] }]
 },
 {
   "name":"com.fosscut.type.cutting.order.OrderOutput",
