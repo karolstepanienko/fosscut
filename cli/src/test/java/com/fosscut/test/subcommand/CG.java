@@ -148,11 +148,12 @@ public class CG {
         command.run();
         assert(command.getOutput().equals(""));
 
-        // SAT solver is nondeterministic, it can randomly generate two different cutting plans
+        // SAT solver is nondeterministic, it can randomly generate three different cutting plans
         String result = Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName);
         assert(
             result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_1_PLAN))
             || result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_2_PLAN))
+            || result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_3_PLAN))
         );
     }
 
@@ -184,11 +185,12 @@ public class CG {
         command.run();
         assert(command.getOutput().equals(""));
 
-        // SAT solver is nondeterministic, it can randomly generate two different cutting plans
+        // SAT solver is nondeterministic, it can randomly generate three different cutting plans
         String result = Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName);
         assert(
             result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_1_PLAN))
             || result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_2_PLAN))
+            || result.equals(Utils.loadFile(TestDefaults.CG_CLP_GLOP_SAT_3_PLAN))
         );
     }
 

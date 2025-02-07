@@ -32,6 +32,7 @@ public class TestDefaults {
     public static final String CG_CLP_CBC_PLAN = "./test/plan/cg-CLP-CBC.yaml";
     public static final String CG_CLP_GLOP_SAT_1_PLAN = "./test/plan/cg-CLP_GLOP-SAT-1.yaml";
     public static final String CG_CLP_GLOP_SAT_2_PLAN = "./test/plan/cg-CLP_GLOP-SAT-2.yaml";
+    public static final String CG_CLP_GLOP_SAT_3_PLAN = "./test/plan/cg-CLP_GLOP-SAT-3.yaml";
 
     public static final String CG_GLOP_CBC_PLAN = "./test/plan/cg-GLOP-CBC.yaml";
 
