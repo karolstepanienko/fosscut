@@ -1,31 +1,24 @@
 package com.fosscut.type.cutting.order;
 
-import com.fosscut.type.cutting.Element;
+public class OrderOutput extends OrderElement {
 
-public class OrderOutput extends Element {
-
-    private Integer count;
     private Integer maxRelax;
 
     public OrderOutput() {}
 
     public OrderOutput(Integer length, Integer count) {
-        super(length);
-        this.count = count;
+        super(length, count);
+    }
+
+    public OrderOutput(Integer length, Integer count, Integer maxRelax) {
+        super(length, count);
+        this.maxRelax = maxRelax;
     }
 
     public OrderOutput(OrderOutput orderOutput) {
         this.setLength(orderOutput.getLength());
-        this.count = orderOutput.getCount();
+        this.setCount(orderOutput.getCount());
         this.maxRelax = orderOutput.getMaxRelax();
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
     public Integer getMaxRelax() {

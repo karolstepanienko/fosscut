@@ -1,27 +1,20 @@
 package com.fosscut.type.cutting.order;
 
-import com.fosscut.type.cutting.Element;
-
-public class OrderInput extends Element {
-
-    private Integer count;
+public class OrderInput extends OrderElement {
 
     public OrderInput() {}
 
     public OrderInput(Integer length) {
-        super(length);
+        super(length, null);
+    }
+
+    public OrderInput(Integer length, Integer count) {
+        super(length, count);
     }
 
     public OrderInput(OrderInput orderInput) {
         this.setLength(orderInput.getLength());
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
+        this.setCount(orderInput.getCount());
     }
 
     public String toString() {

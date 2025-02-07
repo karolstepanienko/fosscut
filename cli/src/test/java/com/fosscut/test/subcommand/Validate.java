@@ -11,6 +11,7 @@ import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.Utils;
 
 public class Validate {
+
     @Test public void validateCommand() {
         RepetitiveTests.testHelpWithOrderPath(new Command("validate"));
     }
@@ -81,4 +82,19 @@ public class Validate {
         assert(command.getOutput().equals(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR));
         assertEquals(1, command.getExitCode());
     }
+
+    @Test public void sumInputLengthLongerThanSumOutputLength() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().contains(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void sumInputLengthLongerThanSumOutputLengthQuiet() {
+        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().equals(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
+        assertEquals(1, command.getExitCode());
+    }
+
 }

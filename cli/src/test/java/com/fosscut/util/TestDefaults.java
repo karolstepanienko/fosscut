@@ -15,15 +15,18 @@ public class TestDefaults {
     public static final String VERSION_STRING = "fosscut version \"0.0.1\"";
 
     public static final String REDIS_ORDER_PATH = "redis://127.0.0.1:6379/example-order";
-
-    public static final String FAIL_VALIDATION_NON_POSITIVE_INPUT = "./test/order/fail-validation-non-positive-input.yaml";
-    public static final String FAIL_VALIDATION_NON_POSITIVE_OUTPUT = "./test/order/fail-validation-non-positive-output.yaml";
-    public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail-validation-output-longer-than-input.yaml";
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
 
-    public static final String EXAMPLE_ORDER = "./test/order/example-cutting-order.yaml";
-    public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/example-ffd-relax-cutting-order.yaml";
-    public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/input-count-cutting-order.yaml";
+    public static final String FAIL_EXECUTION_INPUT_COUNT = "./test/order/fail/execution-input-count.yaml";
+
+    public static final String FAIL_VALIDATION_INPUT_COUNT = "./test/order/fail/validation-input-count.yaml";
+    public static final String FAIL_VALIDATION_NON_POSITIVE_INPUT = "./test/order/fail/validation-non-positive-input.yaml";
+    public static final String FAIL_VALIDATION_NON_POSITIVE_OUTPUT = "./test/order/fail/validation-non-positive-output.yaml";
+    public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail/validation-output-longer-than-input.yaml";
+
+    public static final String EXAMPLE_ORDER = "./test/order/success/example-cutting-order.yaml";
+    public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/example-ffd-relax-cutting-order.yaml";
+    public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/success/input-count-cutting-order.yaml";
 
     public static final String CG_CLP_GLOP_SCIP_PLAN = "./test/plan/cg-CLP_GLOP-SCIP.yaml";
     public static final String CG_CLP_CBC_PLAN = "./test/plan/cg-CLP-CBC.yaml";

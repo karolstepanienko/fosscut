@@ -95,6 +95,9 @@ public class Order {
         } else if (!lengthHasToBePositive(this.outputs)) {
             logger.error(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR);
             System.exit(1);
+        } else if (!sumInputLengthLongerThanSumOutputLength()) {
+            logger.error(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
+            System.exit(1);
         }
     }
 
@@ -113,6 +116,32 @@ public class Order {
             }
         }
         return valid;
+    }
+
+    private boolean sumInputLengthLongerThanSumOutputLength() {
+        boolean sumInputLongerThanSumOutput = false;
+        if (allInputCountsDefined())
+            sumInputLongerThanSumOutput =
+                calculateSumLength(inputs) >= calculateSumLength(outputs);
+        else sumInputLongerThanSumOutput = true;
+        return sumInputLongerThanSumOutput;
+    }
+
+    private boolean allInputCountsDefined() {
+        for (OrderInput input : this.inputs) {
+            if (input.getCount() == null) {
+                return false;
+            }
+         }
+         return true;
+    }
+
+    private Integer calculateSumLength(List<? extends OrderElement> elements) {
+        Integer sumLength = 0;
+        for (OrderElement element: elements) {
+            sumLength += element.getCount() * element.getLength();
+        }
+        return sumLength;
     }
 
 }

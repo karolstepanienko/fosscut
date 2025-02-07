@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.fosscut.util.Command;
+import com.fosscut.util.Messages;
 import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.TestDefaults;
 import com.fosscut.util.Utils;
@@ -129,6 +130,20 @@ public class FFD {
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.FFD_INPUT_COUNT_PLAN)
         );
+    }
+
+    @Test public void ffdInputCountExecutionError() {
+        Command command = new Command("ffd " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void ffdInputCountExecutionErrorQuiet() {
+        Command command = new Command("ffd -q " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assertEquals(1, command.getExitCode());
     }
 
 }

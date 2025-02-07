@@ -1,0 +1,8 @@
+inputs:
+  - length: 5
+    count: 3
+outputs:
+  - length: 4
+    count: 2
+  - length: 3
+    count: 2

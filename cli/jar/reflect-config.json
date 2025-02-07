@@ -57,7 +57,7 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"com.fosscut.subcommand.Cg",
+  "name":"com.fosscut.subcommand.CG",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setRelaxCost","parameterTypes":["java.lang.Double"] }]
@@ -103,21 +103,27 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getInputs","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
+},
+{
+  "name":"com.fosscut.type.cutting.order.OrderElement",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getCount","parameterTypes":[] }, {"name":"setCount","parameterTypes":["java.lang.Integer"] }]
 },
 {
   "name":"com.fosscut.type.cutting.order.OrderInput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }, {"name":"setCount","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.order.OrderOutput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"setCount","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.CuttingPlan",
