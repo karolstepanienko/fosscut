@@ -58,6 +58,7 @@ public class TestDefaults {
 
     public static final String FFD_INPUT_COUNT_PLAN = "./test/plan/ffd-input-count.yaml";
     public static final String GREEDY_INPUT_COUNT_PLAN = "./test/plan/greedy-input-count.yaml";
+    public static final String CG_INPUT_COUNT_PLAN = "./test/plan/cg-input-count.yaml";
 
     public static final String CUTGEN_SIMPLE_ORDER = "./test/order/cutgen/simple-order.yaml";
     public static final String CUTGEN_MULTI_INPUT_ORDER = "./test/order/cutgen/multi-input-order.yaml";

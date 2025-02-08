@@ -27,9 +27,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     private LinearSolvers linearSolver;
     private IntegerSolvers integerSolver;
 
-
     private List<List<MPVariable>> patternsPerInputVariables;
-    private List<MPConstraint> fillConstraints;
+    private List<MPConstraint> demandConstraints;
 
     public CuttingPlanGeneration(Order order, Parameters params,
         boolean integer,
@@ -49,7 +48,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
 
         setSolver(defineSolver());
         this.patternsPerInputVariables = defineVariables();
-        this.fillConstraints = defineConstraints();
+        this.demandConstraints = defineDemandConstraints();
+        defineInputCountConstraints();
         setObjective(defineObjective());
         final ResultStatus resultStatus = getSolver().solve();
 
@@ -75,7 +75,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     public List<Double> getDualValues() {
         List<Double> dualValues = new ArrayList<>();
         for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-            dualValues.add(Double.valueOf(fillConstraints.get(o).dualValue()));
+            dualValues.add(Double.valueOf(demandConstraints.get(o).dualValue()));
         }
         return dualValues;
     }
@@ -101,11 +101,11 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         return patternsPerInputVariables;
     }
 
-    private List<MPConstraint> defineConstraints() {
-        List<MPConstraint> fillConstraints = new ArrayList<>();
+    private List<MPConstraint> defineDemandConstraints() {
+        List<MPConstraint> demandConstraints = new ArrayList<>();
         for (int o = 0; o < getOrder().getOutputs().size(); o++) {
             MPConstraint constraint = getSolver().makeConstraint(
-                getOrder().getOutputs().get(o).getCount(), Double.POSITIVE_INFINITY, "Fill_o_" + o);
+                getOrder().getOutputs().get(o).getCount(), Double.POSITIVE_INFINITY, "Demand_o_" + o);
             for (int i = 0; i < getOrder().getInputs().size(); i++) {
                 for (int p = 0; p < params.getNPatternMax(); p++) {
                     constraint.setCoefficient(
@@ -114,9 +114,23 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
                     );
                 }
             }
-            fillConstraints.add(constraint);
+            demandConstraints.add(constraint);
         }
-        return fillConstraints;
+        return demandConstraints;
+    }
+
+    private void defineInputCountConstraints() {
+        for (int i = 0; i < getOrder().getInputs().size(); i++) {
+            Integer inputCount = getOrder().getInputs().get(i).getCount();
+            if (inputCount != null && inputCount >= 0) {
+                MPConstraint constraint = getSolver().makeConstraint(
+                    0, inputCount, "InputCount_i_" + i);
+                for (int p = 0; p < params.getNPatternMax(); p++) {
+                    constraint.setCoefficient(
+                        patternsPerInputVariables.get(i).get(p), 1);
+                }
+            }
+        }
     }
 
     private MPObjective defineObjective() {

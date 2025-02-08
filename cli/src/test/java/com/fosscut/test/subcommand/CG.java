@@ -241,4 +241,17 @@ public class CG {
         );
     }
 
+    /**************************** Input count *********************************/
+
+    @Test public void cgInputCount() throws IOException {
+        String testFileName = "cgInputCount";
+        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_INPUT_COUNT_PLAN)
+        );
+    }
+
 }

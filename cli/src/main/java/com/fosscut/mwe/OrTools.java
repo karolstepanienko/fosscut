@@ -30,10 +30,9 @@ public class OrTools {
         MPVariable y = solver.makeIntVar(0.0, 20.0, "y");
         logger.info("Number of variables = " + solver.numVariables());
 
-        double infinity = java.lang.Double.POSITIVE_INFINITY;
         // Create a linear constraint, x + 2y <= 5.
         // https://developers.google.com/optimization/lp/lp_example#java_3
-        MPConstraint constraint = solver.makeConstraint(-infinity, 5.0, "constraint");
+        MPConstraint constraint = solver.makeConstraint(java.lang.Double.NEGATIVE_INFINITY, 5.0, "constraint");
         constraint.setCoefficient(x, 1);
         constraint.setCoefficient(y, 2);
         logger.info("Number of constraints = " + solver.numConstraints());
