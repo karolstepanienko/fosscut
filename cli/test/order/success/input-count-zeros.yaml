@@ -1,0 +1,22 @@
+inputs:
+  - length: 90
+    count: 0
+  - length: 100
+    count: 0
+  - length: 110
+    count: 1
+  - length: 115
+    count: 3
+outputs:
+  - length: 20
+    count: 5
+    maxRelax: 0
+  - length: 35
+    count: 0
+    maxRelax: 0
+  - length: 45
+    count: 2
+    maxRelax: 0
+  - length: 75
+    count: 2
+    maxRelax: 0

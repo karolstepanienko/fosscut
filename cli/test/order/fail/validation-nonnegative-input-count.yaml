@@ -1,4 +1,4 @@
-# Input count needs to be nonnegative (>=0)
+# Input count needs to be nonnegative (>= 0)
 inputs:
   - length: 1
     count: -1

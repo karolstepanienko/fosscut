@@ -10,6 +10,7 @@ import com.fosscut.exception.FosscutException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
+import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PrintResult;
@@ -79,6 +80,9 @@ public class GreedySubcommand extends AbstractAlg implements Runnable {
 
         Validator validator = new Validator();
         validator.validateOrder(order);
+
+        Cleaner cleaner = new Cleaner();
+        cleaner.cleanOrder(order);
 
         Greedy greedy = new Greedy(order, relaxCost, forceIntegerRelax,
             integerSolver);

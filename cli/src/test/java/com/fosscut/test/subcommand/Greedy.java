@@ -178,6 +178,17 @@ public class Greedy {
         );
     }
 
+    @Test public void greedyInputCountZeros() throws IOException {
+        String testFileName = "greedyInputCountZeros";
+        Command command = new Command("greedy -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_CG_INPUT_COUNT_ZEROS_PLAN)
+        );
+    }
+
     @Test public void greedyInputCountExecutionError() {
         Command command = new Command("greedy " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();

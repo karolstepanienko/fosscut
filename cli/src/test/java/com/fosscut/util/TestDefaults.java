@@ -26,9 +26,10 @@ public class TestDefaults {
     public static final String FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT = "./test/order/fail/validation-nonnegative-output-count.yaml";
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail/validation-output-longer-than-input.yaml";
 
-    public static final String EXAMPLE_ORDER = "./test/order/success/example-cutting-order.yaml";
-    public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/example-ffd-relax-cutting-order.yaml";
-    public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/success/input-count-cutting-order.yaml";
+    public static final String EXAMPLE_ORDER = "./test/order/success/default.yaml";
+    public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/default-ffd-relax.yaml";
+    public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/success/input-count.yaml";
+    public static final String EXAMPLE_INPUT_COUNT_ZEROS_ORDER = "./test/order/success/input-count-zeros.yaml";
 
     public static final String CG_CLP_GLOP_SCIP_PLAN = "./test/plan/cg-CLP_GLOP-SCIP.yaml";
     public static final String CG_CLP_CBC_PLAN = "./test/plan/cg-CLP-CBC.yaml";
@@ -61,6 +62,9 @@ public class TestDefaults {
     public static final String FFD_INPUT_COUNT_PLAN = "./test/plan/ffd-input-count.yaml";
     public static final String GREEDY_INPUT_COUNT_PLAN = "./test/plan/greedy-input-count.yaml";
     public static final String CG_INPUT_COUNT_PLAN = "./test/plan/cg-input-count.yaml";
+
+    public static final String FFD_INPUT_COUNT_ZEROS_PLAN = "./test/plan/ffd-input-count-zeros.yaml";
+    public static final String GREEDY_CG_INPUT_COUNT_ZEROS_PLAN = "./test/plan/greedy-cg-input-count-zeros.yaml";
 
     public static final String CUTGEN_SIMPLE_ORDER = "./test/order/cutgen/simple-order.yaml";
     public static final String CUTGEN_MULTI_INPUT_ORDER = "./test/order/cutgen/multi-input-order.yaml";

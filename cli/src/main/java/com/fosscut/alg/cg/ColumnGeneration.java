@@ -50,12 +50,17 @@ public class ColumnGeneration {
 
         params = new Parameters(order);
 
+        double previousLinearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
+        double linearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
         double reducedCost;
         do {
+            previousLinearCuttingPlanObjectiveValue = linearCuttingPlanObjectiveValue;
+
             CuttingPlanGeneration linearCuttingPlanGeneration =
                 new CuttingPlanGeneration(order, params, false,
                     linearSolver, integerSolver);
             linearCuttingPlanGeneration.solve();
+            linearCuttingPlanObjectiveValue = linearCuttingPlanGeneration.getObjective().value();
 
             PatternGeneration patternGeneration = new PatternGeneration(
                 order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
@@ -75,6 +80,7 @@ public class ColumnGeneration {
             BigDecimal.valueOf(reducedCost)
             .setScale(Defaults.CG_REDUCED_COST_PRECISION_PLACES, RoundingMode.FLOOR)
             .doubleValue() > 0
+            && previousLinearCuttingPlanObjectiveValue > linearCuttingPlanObjectiveValue
         );
 
         integerCuttingPlanGeneration = new CuttingPlanGeneration(

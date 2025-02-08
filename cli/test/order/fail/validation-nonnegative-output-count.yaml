@@ -1,7 +1,7 @@
 inputs:
   - length: 1
     count: 1
-# Output count needs to be nonnegative (>=0)
+# Output count needs to be nonnegative (>= 0)
 outputs:
   - length: 1
     count: -1

@@ -9,6 +9,7 @@ import com.fosscut.alg.ffd.FirstFitDecreasing;
 import com.fosscut.exception.FosscutException;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
+import com.fosscut.util.Cleaner;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -56,6 +57,9 @@ public class FFD extends AbstractAlg implements Runnable {
 
         Validator validator = new Validator();
         validator.validateOrder(order);
+
+        Cleaner cleaner = new Cleaner();
+        cleaner.cleanOrder(order);
 
         FirstFitDecreasing firstFitDecreasing = new FirstFitDecreasing(
             order,

@@ -255,6 +255,17 @@ public class CG {
         );
     }
 
+    @Test public void cgInputCountZeros() throws IOException {
+        String testFileName = "cgInputCountZeros";
+        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_CG_INPUT_COUNT_ZEROS_PLAN)
+        );
+    }
+
     @Test public void cgInputCountExecutionError() {
         Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
