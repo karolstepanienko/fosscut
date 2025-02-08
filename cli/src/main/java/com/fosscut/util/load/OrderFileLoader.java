@@ -5,25 +5,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fosscut.exception.OrderFileDoesNotExistException;
+import com.fosscut.exception.OrderFileIsADirectoryException;
 
 public class OrderFileLoader implements Loader {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderFileLoader.class);
-
     @Override
-    public void validate(String orderPath) {
+    public void validate(String orderPath)
+        throws OrderFileIsADirectoryException, OrderFileDoesNotExistException
+    {
         File orderFile = new File(orderPath);
 
         if (orderFile.isDirectory()) {
-            logger.error("Order path points to a directory. Order can only be read from a file.");
-            System.exit(1);
+            throw new OrderFileIsADirectoryException();
         }
 
         if (!orderFile.exists()) {
-            logger.error("Failed to load order file, because it does not exist.");
-            System.exit(1);
+            throw new OrderFileDoesNotExistException();
         }
     }
 

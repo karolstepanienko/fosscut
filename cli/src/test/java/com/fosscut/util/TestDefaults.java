@@ -14,6 +14,8 @@ public class TestDefaults {
 
     public static final String VERSION_STRING = "fosscut version \"0.0.1\"";
 
+    public static final String EXAMPLE_DIRECTORY = "./test";
+
     public static final String REDIS_ORDER_PATH = "redis://127.0.0.1:6379/example-order";
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
 

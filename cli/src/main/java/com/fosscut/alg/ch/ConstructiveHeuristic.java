@@ -64,11 +64,8 @@ public abstract class ConstructiveHeuristic {
         setOrderDemands(orderDemands);
     }
 
-    protected List<CHPattern> generatePatternForEachInput() throws LPUnfeasibleException {
-        logger.error("Method generatePatternForEachInput() needs to be overridden.");
-        System.exit(1);
-        return null;
-    }
+    protected abstract List<CHPattern> generatePatternForEachInput()
+        throws LPUnfeasibleException;
 
     protected List<CHPattern> demandLoop()
         throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException

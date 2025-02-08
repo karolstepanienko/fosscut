@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.exception.OrderFileDoesNotExistException;
+import com.fosscut.exception.OrderFileIsADirectoryException;
 import com.fosscut.type.OrderURI;
 
 public class OrderLoader {
@@ -19,7 +21,10 @@ public class OrderLoader {
         this.redisConnectionSecretsFile = redisConnectionSecretsFile;
     }
 
-    public String load(String orderPath) throws IOException {
+    public String load(String orderPath)
+        throws IOException, OrderFileIsADirectoryException,
+        OrderFileDoesNotExistException
+    {
         Loader loader;
 
         if (redisConnectionSecretsFile != null && isURI(orderPath)) {

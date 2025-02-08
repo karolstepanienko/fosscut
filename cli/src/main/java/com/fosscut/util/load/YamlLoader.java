@@ -13,21 +13,11 @@ public class YamlLoader {
 
     private static final Logger logger = LoggerFactory.getLogger(YamlLoader.class);
 
-    public Order loadOrder(String orderString) {
+    public Order loadOrder(String orderString) throws JsonProcessingException {
         logger.info("Loading order...");
-
         ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
         Order order = new Order();
-        try {
-            order = yamlMapper.readValue(orderString, Order.class);
-        } catch (JsonProcessingException e) {
-            logger.error("Failed to load order file. Incorrect syntax.");
-            logger.error("Exception:");
-            logger.error(e.getClass().getCanonicalName());
-            logger.error(e.toString());
-            System.exit(1);
-        }
-
+        order = yamlMapper.readValue(orderString, Order.class);
         logger.info("Order loaded.");
         return order;
     }

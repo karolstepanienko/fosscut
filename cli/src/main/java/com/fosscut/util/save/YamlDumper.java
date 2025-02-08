@@ -29,15 +29,8 @@ public class YamlDumper {
         return serialize(greedy.getCuttingPlan());
     }
 
-    public String dump(ColumnGeneration columnGeneration) {
-        CuttingPlan cuttingPlan = null;
-        try {
-            cuttingPlan = columnGeneration.getCuttingPlan();
-        } catch (NotIntegerLPTaskException e) {
-            logger.error(e.getMessage());
-            System.exit(1);
-        }
-        return serialize(cuttingPlan);
+    public String dump(ColumnGeneration columnGeneration) throws NotIntegerLPTaskException {
+        return serialize(columnGeneration.getCuttingPlan());
     }
 
     public String dump(Order order) {

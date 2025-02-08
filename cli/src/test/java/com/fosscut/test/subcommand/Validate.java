@@ -32,6 +32,20 @@ public class Validate {
         RepetitiveTests.testVersion(new Command("validate --version"));
     }
 
+    @Test public void orderFileIsADirectory() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_DIRECTORY));
+        command.run();
+        assert(command.getOutput().equals(Messages.ORDER_FILE_IS_A_DIRECTORY_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void orderFileDoesNotExist() {
+        Command command = new Command("validate thisFileDoesNotExist");
+        command.run();
+        assert(command.getOutput().equals(Messages.ORDER_FILE_DOES_NOT_EXIST_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
     @Test public void validateFromRedis() {
         Command command = new Command("validate "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
