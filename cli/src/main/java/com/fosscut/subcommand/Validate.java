@@ -1,6 +1,9 @@
 package com.fosscut.subcommand;
 
-import com.fosscut.FossCut;
+import java.io.IOException;
+
+import com.fosscut.exception.FosscutException;
+import com.fosscut.subcommand.abs.AbstractInputFile;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -9,21 +12,12 @@ import com.fosscut.util.load.OrderLoader;
 import com.fosscut.util.load.YamlLoader;
 
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Parameters;
-import picocli.CommandLine.ParentCommand;
 
 @Command(name = "validate", versionProvider = PropertiesVersionProvider.class)
-public class Validate implements Runnable {
-
-    @Parameters(paramLabel = "<order-path>", arity = "1",
-        description = "Path or a redis URL to a YAML file containing an order.")
-    String orderPath;
-
-    @ParentCommand
-    private FossCut fossCut;
+public class Validate extends AbstractInputFile {
 
     @Override
-    public void run() {
+    protected void runWithExceptions() throws FosscutException, IOException {
         LogFormatter logFormatter = new LogFormatter(fossCut.getQuietModeRequested());
         logFormatter.configure();
 

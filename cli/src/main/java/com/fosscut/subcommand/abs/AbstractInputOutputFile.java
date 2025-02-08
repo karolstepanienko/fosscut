@@ -1,12 +1,22 @@
-package com.fosscut.subcommand;
+package com.fosscut.subcommand.abs;
 
 import java.io.File;
 
+import com.fosscut.FossCut;
 import com.fosscut.type.OutputFormats;
 
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
+import picocli.CommandLine.ParentCommand;
 
-public abstract class AbstractFile {
+public abstract class AbstractInputOutputFile extends AbstractRunnable {
+
+    @ParentCommand
+    protected FossCut fossCut;
+
+    @Parameters(paramLabel = "<order-path>", arity = "1",
+        description = "Path or a redis URL to a YAML file containing an order.")
+    protected String orderPath;
 
     @Option(names = { "-f", "--format" },
         defaultValue = "yaml",

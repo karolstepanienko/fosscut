@@ -47,16 +47,6 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"com.fosscut.subcommand.AbstractAlg",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
-},
-{
-  "name":"com.fosscut.subcommand.AbstractFile",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
-},
-{
   "name":"com.fosscut.subcommand.CG",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -75,7 +65,7 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.subcommand.GreedySubcommand",
+  "name":"com.fosscut.subcommand.Greedy",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]

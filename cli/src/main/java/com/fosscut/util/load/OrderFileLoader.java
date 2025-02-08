@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OrderFileLoader extends Loader {
+public class OrderFileLoader implements Loader {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderFileLoader.class);
 
@@ -28,17 +28,8 @@ public class OrderFileLoader extends Loader {
     }
 
     @Override
-    public String load(String orderPath) {
-        String orderString = null;
-
-        try {
-            orderString = Files.readString(Paths.get(orderPath));
-        } catch (IOException e) {
-            logger.error(e.toString());
-            System.exit(1);
-        }
-
-        return orderString;
+    public String load(String orderPath) throws IOException {
+        return Files.readString(Paths.get(orderPath));
     }
 
 }

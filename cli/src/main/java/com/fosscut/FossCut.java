@@ -5,7 +5,7 @@ import java.io.File;
 import com.fosscut.subcommand.CG;
 import com.fosscut.subcommand.CutGen;
 import com.fosscut.subcommand.FFD;
-import com.fosscut.subcommand.GreedySubcommand;
+import com.fosscut.subcommand.Greedy;
 import com.fosscut.subcommand.MWE;
 import com.fosscut.subcommand.Validate;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -22,7 +22,7 @@ import picocli.CommandLine.Spec;
         CG.class,
         CutGen.class,
         FFD.class,
-        GreedySubcommand.class,
+        Greedy.class,
         Validate.class,
         MWE.class
     }

@@ -1,6 +1,7 @@
 package com.fosscut.util.load;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -18,7 +19,7 @@ public class OrderLoader {
         this.redisConnectionSecretsFile = redisConnectionSecretsFile;
     }
 
-    public String load(String orderPath) {
+    public String load(String orderPath) throws IOException {
         Loader loader;
 
         if (redisConnectionSecretsFile != null && isURI(orderPath)) {

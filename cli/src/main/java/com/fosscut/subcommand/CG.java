@@ -1,12 +1,11 @@
 package com.fosscut.subcommand;
 
 import java.io.File;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.exception.FosscutException;
+import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
 import com.fosscut.type.OutputFormats;
@@ -29,9 +28,7 @@ import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.Spec;
 
 @Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
-public class CG extends AbstractAlg implements Runnable {
-
-    private static final Logger logger = LoggerFactory.getLogger(CG.class);
+public class CG extends AbstractAlg {
 
     private Double relaxCost;
 
@@ -62,16 +59,7 @@ public class CG extends AbstractAlg implements Runnable {
     private CommandSpec spec;
 
     @Override
-    public void run() {
-        try {
-            runWithExceptions();
-        } catch (FosscutException e) {
-            logger.error(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    private void runWithExceptions() throws FosscutException {
+    protected void runWithExceptions() throws FosscutException, IOException {
         boolean quietModeRequested = fossCut.getQuietModeRequested();
         File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
 

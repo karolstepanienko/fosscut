@@ -15,16 +15,16 @@ import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.google.ortools.Loader;
 
-public class Greedy extends ConstructiveHeuristic {
+public class GreedyAlg extends ConstructiveHeuristic {
 
-    private static final Logger logger = LoggerFactory.getLogger(Greedy.class);
+    private static final Logger logger = LoggerFactory.getLogger(GreedyAlg.class);
 
     private Order order;
     private Double relaxCost;
     private boolean forceIntegerRelax;
     private IntegerSolvers integerSolver;
 
-    public Greedy(Order order, Double relaxCost, boolean forceIntegerRelax,
+    public GreedyAlg(Order order, Double relaxCost, boolean forceIntegerRelax,
         IntegerSolvers integerSolver
     ) {
         this.order = order;

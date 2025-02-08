@@ -13,7 +13,7 @@ import com.fosscut.util.RedisClient;
 
 import redis.clients.jedis.JedisPooled;
 
-public class OrderRedisLoader extends Loader {
+public class OrderRedisLoader implements Loader {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderRedisLoader.class);
 

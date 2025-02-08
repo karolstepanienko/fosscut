@@ -1,10 +1,8 @@
 package com.fosscut.subcommand;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fosscut.alg.cutgen.CutGenAlg;
 import com.fosscut.exception.FosscutException;
+import com.fosscut.subcommand.abs.AbstractOutputFile;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.PrintResult;
@@ -16,9 +14,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(name = "cutgen", versionProvider = PropertiesVersionProvider.class)
-public class CutGen extends AbstractFile implements Runnable {
-
-    private static final Logger logger = LoggerFactory.getLogger(CutGen.class);
+public class CutGen extends AbstractOutputFile {
 
     @Option(names = { "-ot", "--output-type-count" },
         required = true,
@@ -74,16 +70,7 @@ public class CutGen extends AbstractFile implements Runnable {
     private boolean allowInputTypeDuplicates;
 
     @Override
-    public void run() {
-        try {
-            runWithExceptions();
-        } catch (FosscutException e) {
-            logger.error(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    private void runWithExceptions() throws FosscutException {
+    protected void runWithExceptions() throws FosscutException {
         CutGenAlg cutGenAlg = new CutGenAlg(
             outputTypeCount,
             outputLengthLowerBound,
