@@ -2,19 +2,11 @@ package com.fosscut.type.cutting.order;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fosscut.type.cutting.Element;
-import com.fosscut.util.Messages;
 import com.fosscut.util.save.YamlDumper;
 
 public class Order {
-
-    private static final Logger logger = LoggerFactory.getLogger(Order.class);
 
     private List<OrderInput> inputs;
     private List<OrderOutput> outputs;
@@ -83,81 +75,6 @@ public class Order {
     public void reverseSortOutputs() {
         Collections.sort(outputs);
         Collections.reverse(outputs);
-    }
-
-    public void validate() {
-        if (!lengthHasToBePositive(inputs)) {
-            logger.error(Messages.NONPOSITIVE_INPUT_LENGTH_ERROR);
-            System.exit(1);
-        } else if (!lengthHasToBePositive(outputs)) {
-            logger.error(Messages.NONPOSITIVE_OUTPUT_LENGTH_ERROR);
-            System.exit(1);
-        } else if (!countHasToBePositive(inputs)) {
-            logger.error(Messages.NONNEGATIVE_INPUT_COUNT_ERROR);
-            System.exit(1);
-        } else if (!countHasToBePositive(outputs)) {
-            logger.error(Messages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
-            System.exit(1);
-        } else if (!longestInputLongerThanLongestOutput()) {
-            logger.error(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR);
-            System.exit(1);
-        } else if (!sumInputLengthLongerThanSumOutputLength()) {
-            logger.error(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
-            System.exit(1);
-        }
-    }
-
-    private boolean lengthHasToBePositive(List<? extends Element> elements) {
-        boolean valid = true;
-        for (Element element: elements) {
-            if (element.getLength() <= 0) {
-                valid = false;
-                break;
-            }
-        }
-        return valid;
-    }
-
-    private boolean countHasToBePositive(List<? extends OrderElement> orderElements) {
-        boolean valid = true;
-        for (OrderElement element: orderElements) {
-            if (element.getCount() != null && element.getCount() < 0) {
-                valid = false;
-            }
-        }
-        return valid;
-    }
-
-    private boolean longestInputLongerThanLongestOutput() {
-        OrderInput longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
-        OrderOutput longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));
-        return longestInput.getLength() >= longestOutput.getLength();
-    }
-
-    private boolean sumInputLengthLongerThanSumOutputLength() {
-        boolean sumInputLongerThanSumOutput = false;
-        if (allInputCountsDefined())
-            sumInputLongerThanSumOutput =
-                calculateSumLength(inputs) >= calculateSumLength(outputs);
-        else sumInputLongerThanSumOutput = true;
-        return sumInputLongerThanSumOutput;
-    }
-
-    private boolean allInputCountsDefined() {
-        for (OrderInput input : this.inputs) {
-            if (input.getCount() == null) {
-                return false;
-            }
-         }
-         return true;
-    }
-
-    private Integer calculateSumLength(List<? extends OrderElement> orderElements) {
-        Integer sumLength = 0;
-        for (OrderElement element: orderElements) {
-            sumLength += element.getCount() * element.getLength();
-        }
-        return sumLength;
     }
 
 }
