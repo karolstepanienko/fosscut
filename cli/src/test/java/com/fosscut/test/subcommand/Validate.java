@@ -41,31 +41,59 @@ public class Validate {
         assertEquals(0, command.getExitCode());
     }
 
-    @Test public void nonPositiveInput() {
-        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_INPUT));
+    @Test public void nonPositiveInputLength() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH));
         command.run();
-        assert(command.getOutput().contains(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR));
+        assert(command.getOutput().contains(Messages.NONPOSITIVE_INPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
-    @Test public void nonPositiveInputQuiet() {
-        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_INPUT));
+    @Test public void nonPositiveInputLengthQuiet() {
+        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH));
         command.run();
-        assert(command.getOutput().equals(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR));
+        assert(command.getOutput().equals(Messages.NONPOSITIVE_INPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
-    @Test public void nonPositiveOutput() {
-        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_OUTPUT));
+    @Test public void nonPositiveOutputLength() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_OUTPUT_LENGTH));
         command.run();
-        assert(command.getOutput().contains(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR));
+        assert(command.getOutput().contains(Messages.NONPOSITIVE_OUTPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
     }
 
-    @Test public void nonPositiveOutputQuiet() {
-        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NON_POSITIVE_OUTPUT));
+    @Test public void nonPositiveOutputLengthQuiet() {
+        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_OUTPUT_LENGTH));
         command.run();
-        assert(command.getOutput().equals(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR));
+        assert(command.getOutput().equals(Messages.NONPOSITIVE_OUTPUT_LENGTH_ERROR));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void nonNegativeInputCount() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().contains(Messages.NONNEGATIVE_INPUT_COUNT_ERROR));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void nonNegativeInputCountQuiet() {
+        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().equals(Messages.NONNEGATIVE_INPUT_COUNT_ERROR));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void nonNegativeOutputCount() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT));
+        command.run();
+        assert(command.getOutput().contains(Messages.NONNEGATIVE_OUTPUT_COUNT_ERROR));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void nonNegativeOutputCountQuiet() {
+        Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT));
+        command.run();
+        assert(command.getOutput().equals(Messages.NONNEGATIVE_OUTPUT_COUNT_ERROR));
         assertEquals(1, command.getExitCode());
     }
 

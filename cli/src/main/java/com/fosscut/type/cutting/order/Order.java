@@ -86,25 +86,25 @@ public class Order {
     }
 
     public void validate() {
-        if (!longestInputLongerThanLongestOutput()) {
+        if (!lengthHasToBePositive(inputs)) {
+            logger.error(Messages.NONPOSITIVE_INPUT_LENGTH_ERROR);
+            System.exit(1);
+        } else if (!lengthHasToBePositive(outputs)) {
+            logger.error(Messages.NONPOSITIVE_OUTPUT_LENGTH_ERROR);
+            System.exit(1);
+        } else if (!countHasToBePositive(inputs)) {
+            logger.error(Messages.NONNEGATIVE_INPUT_COUNT_ERROR);
+            System.exit(1);
+        } else if (!countHasToBePositive(outputs)) {
+            logger.error(Messages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
+            System.exit(1);
+        } else if (!longestInputLongerThanLongestOutput()) {
             logger.error(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR);
-            System.exit(1);
-        } else if (!lengthHasToBePositive(this.inputs)) {
-            logger.error(Messages.NON_POSITIVE_INPUT_LENGTH_ERROR);
-            System.exit(1);
-        } else if (!lengthHasToBePositive(this.outputs)) {
-            logger.error(Messages.NON_POSITIVE_OUTPUT_LENGTH_ERROR);
             System.exit(1);
         } else if (!sumInputLengthLongerThanSumOutputLength()) {
             logger.error(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
             System.exit(1);
         }
-    }
-
-    private boolean longestInputLongerThanLongestOutput() {
-        OrderInput longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
-        OrderOutput longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));
-        return longestInput.getLength() >= longestOutput.getLength();
     }
 
     private boolean lengthHasToBePositive(List<? extends Element> elements) {
@@ -116,6 +116,22 @@ public class Order {
             }
         }
         return valid;
+    }
+
+    private boolean countHasToBePositive(List<? extends OrderElement> orderElements) {
+        boolean valid = true;
+        for (OrderElement element: orderElements) {
+            if (element.getCount() != null && element.getCount() < 0) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    private boolean longestInputLongerThanLongestOutput() {
+        OrderInput longestInput = Collections.max(this.inputs, Comparator.comparing(i -> i.getLength()));
+        OrderOutput longestOutput = Collections.max(this.outputs, Comparator.comparing(i -> i.getLength()));
+        return longestInput.getLength() >= longestOutput.getLength();
     }
 
     private boolean sumInputLengthLongerThanSumOutputLength() {
@@ -136,9 +152,9 @@ public class Order {
          return true;
     }
 
-    private Integer calculateSumLength(List<? extends OrderElement> elements) {
+    private Integer calculateSumLength(List<? extends OrderElement> orderElements) {
         Integer sumLength = 0;
-        for (OrderElement element: elements) {
+        for (OrderElement element: orderElements) {
             sumLength += element.getCount() * element.getLength();
         }
         return sumLength;

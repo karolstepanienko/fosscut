@@ -20,8 +20,10 @@ public class TestDefaults {
     public static final String FAIL_EXECUTION_INPUT_COUNT = "./test/order/fail/execution-input-count.yaml";
 
     public static final String FAIL_VALIDATION_INPUT_COUNT = "./test/order/fail/validation-input-count.yaml";
-    public static final String FAIL_VALIDATION_NON_POSITIVE_INPUT = "./test/order/fail/validation-non-positive-input.yaml";
-    public static final String FAIL_VALIDATION_NON_POSITIVE_OUTPUT = "./test/order/fail/validation-non-positive-output.yaml";
+    public static final String FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH = "./test/order/fail/validation-nonpositive-input-length.yaml";
+    public static final String FAIL_VALIDATION_NONPOSITIVE_OUTPUT_LENGTH = "./test/order/fail/validation-nonpositive-output-length.yaml";
+    public static final String FAIL_VALIDATION_NONNEGATIVE_INPUT_COUNT = "./test/order/fail/validation-nonnegative-input-count.yaml";
+    public static final String FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT = "./test/order/fail/validation-nonnegative-output-count.yaml";
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail/validation-output-longer-than-input.yaml";
 
     public static final String EXAMPLE_ORDER = "./test/order/success/example-cutting-order.yaml";
