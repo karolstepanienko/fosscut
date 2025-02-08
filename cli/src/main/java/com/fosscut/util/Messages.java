@@ -7,4 +7,5 @@ public class Messages {
     public static final String NON_POSITIVE_INPUT_LENGTH_ERROR = "All input lengths have to be positive.";
     public static final String NON_POSITIVE_OUTPUT_LENGTH_ERROR = "All output lengths have to be positive.";
     public static final String UNABLE_TO_GENERATE_NEW_PATTERNS = "Algorithm was not able to generate new patterns. Specified numer of input elements is not enough to generate a cutting plan. Please increase the 'count' field value of input elements.";
+    public static final String LP_UNFEASIBLE_EXCEPTION = "UNFEASIBLE: The solver could not solve the problem. Try increasing the 'count' field value of input elements.";
 }

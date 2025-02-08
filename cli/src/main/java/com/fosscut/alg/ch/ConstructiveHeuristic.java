@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
+import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.Order;
@@ -63,13 +64,15 @@ public abstract class ConstructiveHeuristic {
         setOrderDemands(orderDemands);
     }
 
-    protected List<CHPattern> generatePatternForEachInput() {
+    protected List<CHPattern> generatePatternForEachInput() throws LPUnfeasibleException {
         logger.error("Method generatePatternForEachInput() needs to be overridden.");
         System.exit(1);
         return null;
     }
 
-    protected List<CHPattern> demandLoop() throws GeneratedPatternsCannotBeEmptyException {
+    protected List<CHPattern> demandLoop()
+        throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException
+    {
         List<CHPattern> cuttingPlanPatterns = new ArrayList<CHPattern>();
         while (!isDemandSatisfied()) {
             List<CHPattern> patternsForEachInput = generatePatternForEachInput();

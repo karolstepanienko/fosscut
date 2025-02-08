@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.fosscut.util.Command;
+import com.fosscut.util.Messages;
 import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.TestDefaults;
 import com.fosscut.util.Utils;
@@ -252,6 +253,20 @@ public class CG {
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.CG_INPUT_COUNT_PLAN)
         );
+    }
+
+    @Test public void cgInputCountExecutionError() {
+        Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void cgInputCountExecutionErrorQuiet() {
+        Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
+        command.run();
+        assert(command.getOutput().equals(Messages.LP_UNFEASIBLE_EXCEPTION));
+        assertEquals(1, command.getExitCode());
     }
 
 }

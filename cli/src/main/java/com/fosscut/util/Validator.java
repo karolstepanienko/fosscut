@@ -12,7 +12,7 @@ public class Validator {
     public void validateOrder(Order order) {
         logger.info("Running order validation...");
         order.validate();
-        logger.info("Order valid.");
+        logger.info(Messages.ORDER_VALID);
     }
 
 }

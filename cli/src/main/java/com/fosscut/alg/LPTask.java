@@ -3,6 +3,7 @@ package com.fosscut.alg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.exception.LPUnfeasibleException;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
@@ -34,17 +35,15 @@ public abstract class LPTask {
         this.objective = objective;
     }
 
-    protected void printSolution(ResultStatus resultStatus) {
+    protected void printSolution(ResultStatus resultStatus) throws LPUnfeasibleException {
         logger.info("Solved with " + getSolver().solverVersion());
 
         logger.info("Status: " + resultStatus);
         if (resultStatus != ResultStatus.OPTIMAL) {
-            logger.error("The problem does not have an optimal solution!");
             if (resultStatus == ResultStatus.FEASIBLE) {
-                logger.error("A potentially suboptimal solution was found");
+                logger.warn("A potentially suboptimal solution was found.");
             } else {
-                logger.error("The solver could not solve the problem.");
-                return;
+                throw new LPUnfeasibleException("");
             }
         }
 

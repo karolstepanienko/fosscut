@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.order.Order;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -56,7 +57,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         this.relaxVariables = relaxVariables;
     }
 
-    public void solve() {
+    public void solve() throws LPUnfeasibleException {
         logger.info("");
         logger.info("Starting pattern generation...");
 

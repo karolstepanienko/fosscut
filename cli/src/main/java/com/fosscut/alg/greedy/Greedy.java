@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.alg.ch.ConstructiveHeuristic;
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
+import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.Order;
@@ -37,7 +38,7 @@ public class Greedy extends ConstructiveHeuristic {
         return getCuttingPlan(order, relaxEnabled, forceIntegerRelax);
     }
 
-    public void run() throws GeneratedPatternsCannotBeEmptyException {
+    public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {
         logger.info("");
         logger.info("Running cutting plan generation using a greedy algorithm...");
 
@@ -50,7 +51,7 @@ public class Greedy extends ConstructiveHeuristic {
     }
 
     @Override
-    protected List<CHPattern> generatePatternForEachInput() {
+    protected List<CHPattern> generatePatternForEachInput() throws LPUnfeasibleException {
         List<CHPattern> patterns = new ArrayList<CHPattern>();
         for (Integer inputId = 0; inputId < order.getInputs().size(); ++inputId) {
             Integer inputCount = getInputCounts().get(inputId);

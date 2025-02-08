@@ -3,6 +3,7 @@ package com.fosscut.alg.greedy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
@@ -55,7 +56,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.relaxVariables = relaxVariables;
     }
 
-    public void solve() {
+    public void solve() throws LPUnfeasibleException {
         setSolver(MPSolver.createSolver(integerSolver.toString()));
 
         if (relaxCost == null) initModel();

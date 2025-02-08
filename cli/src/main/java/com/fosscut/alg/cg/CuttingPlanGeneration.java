@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.Double;
 
+import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
@@ -42,7 +43,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         this.integerSolver = integerSolver;
     }
 
-    public void solve() {
+    public void solve() throws LPUnfeasibleException {
         logger.info("");
         logger.info("Starting cutting plan generation...");
 

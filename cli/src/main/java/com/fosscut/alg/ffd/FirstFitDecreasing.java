@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.alg.ch.ConstructiveHeuristic;
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
+import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.order.Order;
@@ -33,7 +34,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
         return getCuttingPlan(orderSortedOutputs, relaxEnabled, forceIntegerRelax);
     }
 
-    public void run() throws GeneratedPatternsCannotBeEmptyException {
+    public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {
         logger.info("");
         logger.info("Running cutting plan generation using a first-fit-decreasing algorithm...");
 
