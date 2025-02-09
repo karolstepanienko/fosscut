@@ -4,18 +4,15 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.fosscut.exception.RedisConfigException;
 import com.fosscut.shared.SharedDefaults;
 import com.fosscut.type.OrderURI;
+import com.fosscut.util.Messages;
 import com.fosscut.util.RedisClient;
 
 import redis.clients.jedis.JedisPooled;
 
 public class OrderRedisLoader implements Loader {
-
-    private static final Logger logger = LoggerFactory.getLogger(OrderRedisLoader.class);
 
     private File redisConnectionSecretsFile;
 
@@ -24,31 +21,23 @@ public class OrderRedisLoader implements Loader {
     }
 
     @Override
-    public void validate(String orderPath) {
+    public void validate(String orderPath) throws RedisConfigException {
         URI uri = null;
         try {
             uri = new URI(orderPath);
         } catch (URISyntaxException e) {}
 
-        if (uri.getScheme() == null || !uri.getScheme().equals( "redis")) {
-            logger.error("Incorrect protocol. Must be 'redis'.");
-            System.exit(1);
-        }
+        if (uri.getScheme() == null || !uri.getScheme().equals( "redis"))
+            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION);
 
-        if (uri.getHost() == null) {
-            logger.error("Error: Unable to read hostname.");
-            System.exit(1);
-        }
+        if (uri.getHost() == null)
+            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION);
 
-        if (uri.getPort() <= 0) {
-            logger.error("Error: Unable to read port.");
-            System.exit(1);
-        }
+        if (uri.getPort() <= 0)
+            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PORT_EXCEPTION);
 
-        if (uri.getPath() == null) {
-            logger.error("Error: Unable to read identifier.");
-            System.exit(1);
-        }
+        if (uri.getPath() == null || uri.getPath().equals("/") || uri.getPath().equals(""))
+            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION);
     }
 
     @Override

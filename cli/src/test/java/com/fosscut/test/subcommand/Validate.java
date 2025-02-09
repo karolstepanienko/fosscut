@@ -55,6 +55,42 @@ public class Validate {
         assertEquals(0, command.getExitCode());
     }
 
+    @Test public void validateRedisProtocolException() {
+        Command command = new Command("validate -q "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION);
+        command.run();
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void validateRedisHostnameException() {
+        Command command = new Command("validate -q "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION);
+        command.run();
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void validateRedisPortException() {
+        Command command = new Command("validate -q "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH_PORT_EXCEPTION);
+        command.run();
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PORT_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void validateRedisIdentifierException() {
+        Command command = new Command("validate -q "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + TestDefaults.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION);
+        command.run();
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
     @Test public void nonPositiveInputLength() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH));
         command.run();

@@ -18,6 +18,10 @@ public class TestDefaults {
 
     public static final String REDIS_ORDER_PATH = "redis://127.0.0.1:6379/example-order";
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
+    public static final String REDIS_ORDER_PATH_PROTOCOL_EXCEPTION = "welp://127.0.0.1:6379/example-order";
+    public static final String REDIS_ORDER_PATH_HOSTNAME_EXCEPTION = "redis://:6379/example-order";
+    public static final String REDIS_ORDER_PATH_PORT_EXCEPTION = "redis://127.0.0.1/example-order";
+    public static final String REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION = "redis://127.0.0.1:6379/";
 
     public static final String FAIL_EXECUTION_INPUT_COUNT = "./test/order/fail/execution-input-count.yaml";
 
