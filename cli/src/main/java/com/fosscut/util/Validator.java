@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.exception.OrderValidationException;
 import com.fosscut.type.cutting.Element;
 import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.order.OrderElement;
@@ -17,32 +18,19 @@ public class Validator {
 
     private static final Logger logger = LoggerFactory.getLogger(Validator.class);
 
-    public void validateOrder(Order order) {
+    public void validateOrder(Order order) throws OrderValidationException {
         logger.info("Running order validation...");
         validate(order);
         logger.info(Messages.ORDER_VALID);
     }
 
-    private void validate(Order order) {
-        if (!lengthHasToBePositive(order.getInputs())) {
-            logger.error(Messages.NONPOSITIVE_INPUT_LENGTH_ERROR);
-            System.exit(1);
-        } else if (!lengthHasToBePositive(order.getOutputs())) {
-            logger.error(Messages.NONPOSITIVE_OUTPUT_LENGTH_ERROR);
-            System.exit(1);
-        } else if (!countHasToBePositive(order.getInputs())) {
-            logger.error(Messages.NONNEGATIVE_INPUT_COUNT_ERROR);
-            System.exit(1);
-        } else if (!countHasToBePositive(order.getOutputs())) {
-            logger.error(Messages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
-            System.exit(1);
-        } else if (!longestInputLongerThanLongestOutput(order)) {
-            logger.error(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR);
-            System.exit(1);
-        } else if (!sumInputLengthLongerThanSumOutputLength(order)) {
-            logger.error(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
-            System.exit(1);
-        }
+    private void validate(Order order) throws OrderValidationException {
+        if (!lengthHasToBePositive(order.getInputs())) throw new OrderValidationException(Messages.NONPOSITIVE_INPUT_LENGTH_ERROR);
+        else if (!lengthHasToBePositive(order.getOutputs())) throw new OrderValidationException(Messages.NONPOSITIVE_OUTPUT_LENGTH_ERROR);
+        else if (!countHasToBePositive(order.getInputs())) throw new OrderValidationException(Messages.NONNEGATIVE_INPUT_COUNT_ERROR);
+        else if (!countHasToBePositive(order.getOutputs())) throw new OrderValidationException(Messages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
+        else if (!longestInputLongerThanLongestOutput(order)) throw new OrderValidationException(Messages.OUTPUT_LONGER_THAN_INPUT_ERROR);
+        else if (!sumInputLengthLongerThanSumOutputLength(order)) throw new OrderValidationException(Messages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
     }
 
     private boolean lengthHasToBePositive(List<? extends Element> elements) {
