@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.fosscut.exception.RedisConfigException;
+import com.fosscut.exception.RedisOrderPathException;
 import com.fosscut.shared.SharedDefaults;
 import com.fosscut.type.OrderURI;
 import com.fosscut.util.Messages;
@@ -21,23 +21,23 @@ public class OrderRedisLoader implements Loader {
     }
 
     @Override
-    public void validate(String orderPath) throws RedisConfigException {
+    public void validate(String orderPath) throws RedisOrderPathException {
         URI uri = null;
         try {
             uri = new URI(orderPath);
         } catch (URISyntaxException e) {}
 
         if (uri.getScheme() == null || !uri.getScheme().equals( "redis"))
-            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION);
+            throw new RedisOrderPathException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION);
 
         if (uri.getHost() == null)
-            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION);
+            throw new RedisOrderPathException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION);
 
         if (uri.getPort() <= 0)
-            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PORT_EXCEPTION);
+            throw new RedisOrderPathException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PORT_EXCEPTION);
 
         if (uri.getPath() == null || uri.getPath().equals("/") || uri.getPath().equals(""))
-            throw new RedisConfigException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION);
+            throw new RedisOrderPathException(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION);
     }
 
     @Override

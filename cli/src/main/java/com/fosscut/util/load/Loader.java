@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import com.fosscut.exception.OrderFileDoesNotExistException;
 import com.fosscut.exception.OrderFileIsADirectoryException;
-import com.fosscut.exception.RedisConfigException;
+import com.fosscut.exception.RedisOrderPathException;
 
 public abstract interface Loader {
     public abstract void validate(String orderPath)
         throws
             OrderFileIsADirectoryException,
             OrderFileDoesNotExistException,
-            RedisConfigException;
+            RedisOrderPathException;
     public abstract String load(String orderPath) throws IOException;
 }

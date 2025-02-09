@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.OrderFileDoesNotExistException;
 import com.fosscut.exception.OrderFileIsADirectoryException;
-import com.fosscut.exception.RedisConfigException;
+import com.fosscut.exception.RedisOrderPathException;
 import com.fosscut.type.OrderURI;
 
 public class OrderLoader {
@@ -24,7 +24,7 @@ public class OrderLoader {
 
     public String load(String orderPath)
         throws IOException, OrderFileIsADirectoryException,
-        OrderFileDoesNotExistException, RedisConfigException
+        OrderFileDoesNotExistException, RedisOrderPathException
     {
         Loader loader;
 
