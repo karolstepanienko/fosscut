@@ -4,22 +4,22 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
-import com.fosscut.exception.FosscutException;
+import com.fosscut.shared.exception.FosscutException;
+import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.util.Validator;
+import com.fosscut.shared.util.load.YamlLoader;
+import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
 import com.fosscut.type.OutputFormats;
-import com.fosscut.type.cutting.order.Order;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
-import com.fosscut.util.Validator;
 import com.fosscut.util.load.OrderLoader;
-import com.fosscut.util.load.YamlLoader;
 import com.fosscut.util.save.Save;
-import com.fosscut.util.save.YamlDumper;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -85,7 +85,7 @@ public class CG extends AbstractAlg {
         String cuttingPlan = null;
         if (outputFormat == OutputFormats.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
-            cuttingPlan = yamlDumper.dump(columnGeneration);
+            cuttingPlan = yamlDumper.dump(columnGeneration.getCuttingPlan());
         }
 
         Save save = new Save(cuttingPlan, orderLoader.getOrderUri(orderPath),

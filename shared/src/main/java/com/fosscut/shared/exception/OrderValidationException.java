@@ -1,4 +1,4 @@
-package com.fosscut.exception;
+package com.fosscut.shared.exception;
 
 public class OrderValidationException extends FosscutException {
 

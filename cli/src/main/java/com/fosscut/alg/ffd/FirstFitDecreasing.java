@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import com.fosscut.alg.ch.ConstructiveHeuristic;
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.exception.LPUnfeasibleException;
+import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
-import com.fosscut.type.cutting.order.Order;
-import com.fosscut.type.cutting.order.OrderInput;
-import com.fosscut.type.cutting.order.OrderOutput;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 
 public class FirstFitDecreasing extends ConstructiveHeuristic {

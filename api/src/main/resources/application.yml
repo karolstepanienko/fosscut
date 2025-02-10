@@ -1,11 +1,27 @@
 spring:
   application:
     name: fosscut-api
+  ssl:
+    bundle:
+      jks:
+        server:
+          key:
+            alias: fosscut-server
+          keystore:
+            location: file:./../helm/secrets/keystore.p12
+            password: password
+            type: PKCS12
+          truststore:
+            location: file:./../helm/secrets/truststore.p12
+            password: password
+            type: PKCS12
   data:
     redis:
       host: 127.0.0.1
       port: 6379
       password: password
+      ssl:
+        bundle: "server"
 
 server:
   servlet:

@@ -1,4 +1,4 @@
-package com.fosscut.type.cutting;
+package com.fosscut.shared.type.cutting;
 
 public abstract class Element implements Comparable<Element> {
 

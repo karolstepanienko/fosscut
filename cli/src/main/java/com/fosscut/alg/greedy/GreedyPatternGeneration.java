@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fosscut.exception.LPUnfeasibleException;
+import com.fosscut.shared.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
-import com.fosscut.type.cutting.order.OrderInput;
-import com.fosscut.type.cutting.order.OrderOutput;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;

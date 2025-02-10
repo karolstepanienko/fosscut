@@ -1,5 +1,6 @@
 package com.fosscut.type.cutting;
 
+import com.fosscut.shared.type.cutting.Element;
 import com.fosscut.type.cutting.plan.PlanOutput;
 import com.fosscut.type.cutting.plan.PlanOutputDouble;
 import com.fosscut.type.cutting.plan.PlanOutputInteger;

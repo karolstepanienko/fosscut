@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fosscut.exception.NotIntegerLPTaskException;
-import com.fosscut.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;
 import com.fosscut.type.cutting.plan.PlanInput;

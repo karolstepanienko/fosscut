@@ -2,7 +2,7 @@ package com.fosscut.type.cutting.plan;
 
 import java.util.List;
 
-import com.fosscut.type.cutting.Element;
+import com.fosscut.shared.type.cutting.Element;
 
 public class PlanInput extends Element {
     private List<Pattern> patterns;

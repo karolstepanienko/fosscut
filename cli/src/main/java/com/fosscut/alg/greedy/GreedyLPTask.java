@@ -3,7 +3,7 @@ package com.fosscut.alg.greedy;
 import java.util.List;
 
 import com.fosscut.alg.LPTask;
-import com.fosscut.type.cutting.order.OrderOutput;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 
 public class GreedyLPTask extends LPTask {
 

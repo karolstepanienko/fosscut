@@ -9,9 +9,9 @@ import java.util.Random;
 
 import com.fosscut.exception.DuplicatesAreNotAllowedException;
 import com.fosscut.exception.NotSupportedCutGenConfigException;
-import com.fosscut.type.cutting.order.Order;
-import com.fosscut.type.cutting.order.OrderInput;
-import com.fosscut.type.cutting.order.OrderOutput;
+import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 
 /**
  * MLCSP order generator based on:

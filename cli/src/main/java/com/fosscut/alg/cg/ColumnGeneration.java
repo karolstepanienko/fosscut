@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
-import com.fosscut.type.cutting.order.Order;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;

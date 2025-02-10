@@ -1,4 +1,4 @@
-package com.fosscut.exception;
+package com.fosscut.shared.exception;
 
 /*
  * General exception parent class used by all specific exceptions.

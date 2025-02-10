@@ -1,7 +1,7 @@
 package com.fosscut.alg.cg;
 
 import com.fosscut.alg.LPTask;
-import com.fosscut.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.Order;
 
 public class ColumnGenerationLPTask extends LPTask {
 

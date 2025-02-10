@@ -6,8 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fosscut.type.cutting.order.Order;
-import com.fosscut.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.OrderInput;
 
 public class Cleaner {
 

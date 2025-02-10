@@ -2,8 +2,8 @@ package com.fosscut.type.cutting.plan;
 
 import java.util.List;
 
-import com.fosscut.type.cutting.order.OrderOutput;
-import com.fosscut.util.save.YamlDumper;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.shared.util.save.YamlDumper;
 
 public class CuttingPlan {
     private List<PlanInput> inputs;

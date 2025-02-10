@@ -1,4 +1,4 @@
-package com.fosscut.type.cutting.order;
+package com.fosscut.shared.type.cutting.order;
 
 public class OrderInput extends OrderElement {
 

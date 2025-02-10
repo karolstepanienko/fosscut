@@ -1,4 +1,4 @@
-package com.fosscut.util.save;
+package com.fosscut.shared.util.save;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -10,38 +10,11 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import com.fosscut.alg.cg.ColumnGeneration;
-import com.fosscut.alg.ffd.FirstFitDecreasing;
-import com.fosscut.alg.greedy.GreedyAlg;
-import com.fosscut.exception.NotIntegerLPTaskException;
-import com.fosscut.type.cutting.order.Order;
-import com.fosscut.type.cutting.plan.CuttingPlan;
-
 public class YamlDumper {
 
     private static final Logger logger = LoggerFactory.getLogger(YamlDumper.class);
 
-    public String dump(FirstFitDecreasing firstFitDecreasing) {
-        return serialize(firstFitDecreasing.getCuttingPlan());
-    }
-
-    public String dump(GreedyAlg greedy) {
-        return serialize(greedy.getCuttingPlan());
-    }
-
-    public String dump(ColumnGeneration columnGeneration) throws NotIntegerLPTaskException {
-        return serialize(columnGeneration.getCuttingPlan());
-    }
-
-    public String dump(Order order) {
-        return serialize(order);
-    }
-
-    public String dump(CuttingPlan cuttingPlan) {
-        return serialize(cuttingPlan);
-    }
-
-    private String serialize(Object object) {
+    public String dump(Object object) {
         ObjectMapper yamlMapper = getObjectMapper();
         yamlMapper.setSerializationInclusion(Include.NON_NULL);
 

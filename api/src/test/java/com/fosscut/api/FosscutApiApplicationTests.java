@@ -33,7 +33,7 @@ class FosscutApiApplicationTests {
 
     @Test
     void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/health"))
+        mockMvc.perform(get("/health"))
             .andDo(print()).andExpect(status().isOk())
             .andExpect(content().string(equalTo("OK")));
     }

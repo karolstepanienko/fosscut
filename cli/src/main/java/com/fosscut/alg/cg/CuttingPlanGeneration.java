@@ -10,9 +10,9 @@ import java.lang.Double;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
-import com.fosscut.type.cutting.order.Order;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;

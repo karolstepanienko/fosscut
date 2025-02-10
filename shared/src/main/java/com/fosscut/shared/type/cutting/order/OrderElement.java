@@ -1,6 +1,6 @@
-package com.fosscut.type.cutting.order;
+package com.fosscut.shared.type.cutting.order;
 
-import com.fosscut.type.cutting.Element;
+import com.fosscut.shared.type.cutting.Element;
 
 public class OrderElement extends Element {
 

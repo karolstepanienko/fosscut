@@ -1,5 +1,7 @@
 package com.fosscut.exception;
 
+import com.fosscut.shared.exception.FosscutException;
+
 public class DuplicatesAreNotAllowedException extends FosscutException {
 
     private static String staticMessage = "Duplicates detected while generating ";

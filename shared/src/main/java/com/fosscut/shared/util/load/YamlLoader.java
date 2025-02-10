@@ -1,4 +1,4 @@
-package com.fosscut.util.load;
+package com.fosscut.shared.util.load;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
-import com.fosscut.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.Order;
 
 public class YamlLoader {
 

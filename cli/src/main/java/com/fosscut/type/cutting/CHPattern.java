@@ -3,7 +3,7 @@ package com.fosscut.type.cutting;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.type.cutting.plan.PlanOutput;
 
 /*

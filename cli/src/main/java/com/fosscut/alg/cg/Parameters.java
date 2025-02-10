@@ -3,9 +3,9 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.type.cutting.order.Order;
-import com.fosscut.type.cutting.order.OrderInput;
-import com.fosscut.type.cutting.order.OrderOutput;
+import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 
 public class Parameters {
     // pattern definition, number/count of output elements for [input][pattern][output]

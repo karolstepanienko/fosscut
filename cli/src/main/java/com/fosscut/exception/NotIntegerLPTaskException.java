@@ -1,5 +1,7 @@
 package com.fosscut.exception;
 
+import com.fosscut.shared.exception.FosscutException;
+
 public class NotIntegerLPTaskException extends FosscutException {
 
     private static String staticMessage =

@@ -83,33 +83,33 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.Element",
+  "name":"com.fosscut.shared.type.cutting.Element",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"getLength","parameterTypes":[] }, {"name":"setLength","parameterTypes":["java.lang.Integer"] }]
 },
 {
-  "name":"com.fosscut.type.cutting.order.Order",
+  "name":"com.fosscut.shared.type.cutting.order.Order",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getInputs","parameterTypes":[] }, {"name":"setInputs","parameterTypes":["java.util.List"] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"setOutputs","parameterTypes":["java.util.List"] }]
 },
 {
-  "name":"com.fosscut.type.cutting.order.OrderElement",
+  "name":"com.fosscut.shared.type.cutting.order.OrderElement",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"getCount","parameterTypes":[] }, {"name":"setCount","parameterTypes":["java.lang.Integer"] }]
 },
 {
-  "name":"com.fosscut.type.cutting.order.OrderInput",
+  "name":"com.fosscut.shared.type.cutting.order.OrderInput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.order.OrderOutput",
+  "name":"com.fosscut.shared.type.cutting.order.OrderOutput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
