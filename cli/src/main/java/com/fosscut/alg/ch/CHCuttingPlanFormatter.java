@@ -37,6 +37,7 @@ public class CHCuttingPlanFormatter {
             if (!patterns.isEmpty()) {
                 PlanInput input = new PlanInput();
                 input.setLength(orderInput.getLength());
+                input.setCost(orderInput.getCost());
                 input.setPatterns(patterns);
                 inputs.add(input);
             }

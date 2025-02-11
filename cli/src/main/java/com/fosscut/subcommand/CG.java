@@ -12,6 +12,7 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
+import com.fosscut.type.OptimizationCriterion;
 import com.fosscut.type.OutputFormats;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
@@ -44,6 +45,11 @@ public class CG extends AbstractAlg {
         }
         this.relaxCost = relaxCost;
     }
+
+    @Option(names = { "--optimization-criterion"},
+        defaultValue = Defaults.DEFAULT_PARAM_OPTIMIZATION_CRITERION,
+        description = "One of: (${COMPLETION-CANDIDATES}).")
+    private OptimizationCriterion optimizationCriterion;
 
     @Option(names = { "--linear-solver" },
         defaultValue = Defaults.DEFAULT_PARAM_LINEAR_SOLVER,
@@ -79,7 +85,8 @@ public class CG extends AbstractAlg {
         cleaner.cleanOrder(order);
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
-            order, relaxCost, forceIntegerRelax, linearSolver, integerSolver);
+            order, relaxCost, optimizationCriterion,
+            linearSolver, integerSolver, forceIntegerRelax);
         columnGeneration.run();
 
         String cuttingPlan = null;

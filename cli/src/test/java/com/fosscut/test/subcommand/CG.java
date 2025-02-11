@@ -280,4 +280,31 @@ public class CG {
         assertEquals(1, command.getExitCode());
     }
 
+    /******************************* Cost *************************************/
+
+    @Test public void cgCost() throws IOException {
+        String testFileName = "cgCost";
+        Command command = new Command("cg -q --optimization-criterion MIN_COST -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_INPUT_COST_PLAN)
+        );
+    }
+
+    @Test public void cgNullCostException() {
+        Command command = new Command("cg --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().contains(Messages.NULL_COST_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void cgNullCostExceptionQuiet() {
+        Command command = new Command("cg -q --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(Messages.NULL_COST_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
 }

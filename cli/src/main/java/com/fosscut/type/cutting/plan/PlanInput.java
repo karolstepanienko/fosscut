@@ -5,7 +5,17 @@ import java.util.List;
 import com.fosscut.shared.type.cutting.Element;
 
 public class PlanInput extends Element {
+
+    private Double cost;
     private List<Pattern> patterns;
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
 
     public List<Pattern> getPatterns() {
         return patterns;
@@ -14,4 +24,5 @@ public class PlanInput extends Element {
     public void setPatterns(List<Pattern> patterns) {
         this.patterns = patterns;
     }
+
 }

@@ -106,7 +106,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCost","parameterTypes":[] }, {"name":"setCost","parameterTypes":["java.lang.Double"] }]
 },
 {
   "name":"com.fosscut.shared.type.cutting.order.OrderOutput",
@@ -120,7 +120,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }]
+  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.Pattern",
@@ -134,7 +134,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getPatterns","parameterTypes":[] }]
+  "methods":[{"name":"getPatterns","parameterTypes":[] }, {"name":"getCost","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.PlanOutput",
@@ -143,11 +143,11 @@
   "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }]
 },
 {
-    "name":"com.fosscut.type.cutting.plan.PlanOutputInteger",
-    "allDeclaredFields":true,
-    "queryAllDeclaredMethods":true,
-    "queryAllDeclaredConstructors":true,
-    "methods":[{"name":"getRelax","parameterTypes":[] }]
+  "name":"com.fosscut.type.cutting.plan.PlanOutputInteger",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getRelax","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.PlanOutputDouble",

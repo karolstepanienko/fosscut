@@ -2,6 +2,8 @@ package com.fosscut.shared.type.cutting.order;
 
 public class OrderInput extends OrderElement {
 
+    private Double cost;
+
     public OrderInput() {}
 
     public OrderInput(Integer length) {
@@ -15,6 +17,14 @@ public class OrderInput extends OrderElement {
     public OrderInput(OrderInput orderInput) {
         this.setLength(orderInput.getLength());
         this.setCount(orderInput.getCount());
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
     public String toString() {

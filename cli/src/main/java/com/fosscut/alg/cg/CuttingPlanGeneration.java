@@ -10,9 +10,11 @@ import java.lang.Double;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.exception.NullCostException;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
+import com.fosscut.type.OptimizationCriterion;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
@@ -25,6 +27,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
 
     private Parameters params;
     private boolean integer;
+    private OptimizationCriterion optimizationCriterion;
     private LinearSolvers linearSolver;
     private IntegerSolvers integerSolver;
 
@@ -33,17 +36,19 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
 
     public CuttingPlanGeneration(Order order, Parameters params,
         boolean integer,
+        OptimizationCriterion optimizationCriterion,
         LinearSolvers linearSolver,
         IntegerSolvers integerSolver
     ) {
         setOrder(order);
         this.params = params;
         this.integer = integer;
+        this.optimizationCriterion = optimizationCriterion;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
     }
 
-    public void solve() throws LPUnfeasibleException {
+    public void solve() throws LPUnfeasibleException, NullCostException {
         logger.info("");
         logger.info("Starting cutting plan generation...");
 
@@ -51,7 +56,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         this.patternsPerInputVariables = defineVariables();
         this.demandConstraints = defineDemandConstraints();
         defineInputCountConstraints();
-        setObjective(defineObjective());
+        setObjective(defineObjective(this.optimizationCriterion));
         final ResultStatus resultStatus = getSolver().solve();
 
         printSolution(resultStatus);
@@ -134,14 +139,25 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         }
     }
 
-    private MPObjective defineObjective() {
+    private MPObjective defineObjective(OptimizationCriterion criterion) throws NullCostException {
         MPObjective objective = getSolver().objective();
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
             for (int p = 0; p < params.getNPatternMax(); p++) {
-                objective.setCoefficient(patternsPerInputVariables.get(i).get(p), getOrder().getInputs().get(i).getLength());
+                if (criterion == OptimizationCriterion.MIN_WASTE)
+                    objective.setCoefficient(
+                        patternsPerInputVariables.get(i).get(p),
+                        getOrder().getInputs().get(i).getLength()
+                    );
+                else if (getOrder().getInputs().get(i).getCost() != null)
+                    objective.setCoefficient(
+                        patternsPerInputVariables.get(i).get(p),
+                        getOrder().getInputs().get(i).getCost()
+                    );
+                else throw new NullCostException();
             }
         }
         objective.setMinimization();
         return objective;
     }
+
 }

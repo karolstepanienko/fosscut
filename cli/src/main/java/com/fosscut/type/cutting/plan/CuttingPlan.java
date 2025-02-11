@@ -9,11 +9,13 @@ public class CuttingPlan {
     private List<PlanInput> inputs;
     private List<OrderOutput> outputs;
     private Integer totalNeededInputLength;
+    private Double totalCost;
 
     public CuttingPlan(List<PlanInput> inputs, List<OrderOutput> outputs) {
         this.inputs = inputs;
         this.outputs = outputs;
         calculateTotalNeededInputLength();
+        calculateTotalCost();
     }
 
     public List<PlanInput> getInputs() {
@@ -28,11 +30,30 @@ public class CuttingPlan {
         return totalNeededInputLength;
     }
 
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
     private void calculateTotalNeededInputLength() {
         totalNeededInputLength = 0;
         for (PlanInput input : inputs) {
             for (Pattern pattern: input.getPatterns()) {
                 totalNeededInputLength += input.getLength() * pattern.getCount();
+            }
+        }
+    }
+
+    private void calculateTotalCost() {
+        totalCost = 0.0;
+        for (PlanInput input : inputs) {
+            Double inputCost = input.getCost();
+            if (inputCost != null) {
+                for (Pattern pattern: input.getPatterns()) {
+                    totalCost += inputCost * pattern.getCount();
+                }
+            } else {
+                totalCost = null;
+                return;
             }
         }
     }

@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
+import com.fosscut.exception.NullCostException;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.IntegerSolvers;
 import com.fosscut.type.LinearSolvers;
+import com.fosscut.type.OptimizationCriterion;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
@@ -23,26 +25,29 @@ public class ColumnGeneration {
 
     private Order order;
     private Double relaxCost;
-    private boolean forceIntegerRelax;
+    private OptimizationCriterion optimizationCriterion;
     private LinearSolvers linearSolver;
     private IntegerSolvers integerSolver;
+    private boolean forceIntegerRelax;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
 
     public ColumnGeneration(Order order, Double relaxCost,
-        boolean forceIntegerRelax,
+        OptimizationCriterion optimizationCriterion,
         LinearSolvers linearSolver,
-        IntegerSolvers integerSolver
+        IntegerSolvers integerSolver,
+        boolean forceIntegerRelax
     ) {
         this.order = order;
         this.relaxCost = relaxCost;
-        this.forceIntegerRelax = forceIntegerRelax;
+        this.optimizationCriterion = optimizationCriterion;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
+        this.forceIntegerRelax = forceIntegerRelax;
     }
 
-    public void run() throws LPUnfeasibleException {
+    public void run() throws LPUnfeasibleException, NullCostException {
         logger.info("");
         logger.info("Running cutting plan generation using a column generation algorithm...");
 
@@ -58,7 +63,7 @@ public class ColumnGeneration {
 
             CuttingPlanGeneration linearCuttingPlanGeneration =
                 new CuttingPlanGeneration(order, params, false,
-                    linearSolver, integerSolver);
+                    optimizationCriterion, linearSolver, integerSolver);
             linearCuttingPlanGeneration.solve();
             linearCuttingPlanObjectiveValue = linearCuttingPlanGeneration.getObjective().value();
 
@@ -84,7 +89,8 @@ public class ColumnGeneration {
         );
 
         integerCuttingPlanGeneration = new CuttingPlanGeneration(
-            order, params, true, linearSolver, integerSolver);
+            order, params, true, optimizationCriterion,
+            linearSolver, integerSolver);
         integerCuttingPlanGeneration.solve();
     }
 

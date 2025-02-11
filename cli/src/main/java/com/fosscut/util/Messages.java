@@ -1,6 +1,7 @@
 package com.fosscut.util;
 
 public class Messages {
+
     public static final String ORDER_FILE_IS_A_DIRECTORY_EXCEPTION = "Order path points to a directory. Order can only be read from a file.";
     public static final String ORDER_FILE_DOES_NOT_EXIST_EXCEPTION = "Failed to load order file, because it does not exist.";
 
@@ -12,4 +13,6 @@ public class Messages {
 
     public static final String UNABLE_TO_GENERATE_NEW_PATTERNS = "Algorithm was not able to generate new patterns. Specified numer of input elements is not enough to generate a cutting plan. Please increase the 'count' field value of input elements.";
     public static final String LP_UNFEASIBLE_EXCEPTION = "UNFEASIBLE: The solver could not solve the problem. Try increasing the 'count' field value of input elements.";
+    public static final String NULL_COST_EXCEPTION = "When minimizing cutting plan cost, cost has to be defined for all input elements.";
+
 }
