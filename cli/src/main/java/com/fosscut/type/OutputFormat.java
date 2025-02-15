@@ -1,6 +1,6 @@
 package com.fosscut.type;
 
-public enum OutputFormats {
+public enum OutputFormat {
     json,
     yaml;
 }

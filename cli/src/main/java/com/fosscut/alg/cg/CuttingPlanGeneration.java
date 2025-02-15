@@ -12,8 +12,8 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.exception.NullCostException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.type.IntegerSolvers;
-import com.fosscut.type.LinearSolvers;
+import com.fosscut.type.IntegerSolver;
+import com.fosscut.type.LinearSolver;
 import com.fosscut.type.OptimizationCriterion;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
@@ -28,8 +28,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     private Parameters params;
     private boolean integer;
     private OptimizationCriterion optimizationCriterion;
-    private LinearSolvers linearSolver;
-    private IntegerSolvers integerSolver;
+    private LinearSolver linearSolver;
+    private IntegerSolver integerSolver;
 
     private List<List<MPVariable>> patternsPerInputVariables;
     private List<MPConstraint> demandConstraints;
@@ -37,8 +37,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     public CuttingPlanGeneration(Order order, Parameters params,
         boolean integer,
         OptimizationCriterion optimizationCriterion,
-        LinearSolvers linearSolver,
-        IntegerSolvers integerSolver
+        LinearSolver linearSolver,
+        IntegerSolver integerSolver
     ) {
         setOrder(order);
         this.params = params;

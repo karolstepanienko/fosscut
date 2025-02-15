@@ -12,8 +12,8 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.exception.NullCostException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.type.IntegerSolvers;
-import com.fosscut.type.LinearSolvers;
+import com.fosscut.type.IntegerSolver;
+import com.fosscut.type.LinearSolver;
 import com.fosscut.type.OptimizationCriterion;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
@@ -26,8 +26,8 @@ public class ColumnGeneration {
     private Order order;
     private Double relaxCost;
     private OptimizationCriterion optimizationCriterion;
-    private LinearSolvers linearSolver;
-    private IntegerSolvers integerSolver;
+    private LinearSolver linearSolver;
+    private IntegerSolver integerSolver;
     private boolean forceIntegerRelax;
 
     private Parameters params;
@@ -35,8 +35,8 @@ public class ColumnGeneration {
 
     public ColumnGeneration(Order order, Double relaxCost,
         OptimizationCriterion optimizationCriterion,
-        LinearSolvers linearSolver,
-        IntegerSolvers integerSolver,
+        LinearSolver linearSolver,
+        IntegerSolver integerSolver,
         boolean forceIntegerRelax
     ) {
         this.order = order;

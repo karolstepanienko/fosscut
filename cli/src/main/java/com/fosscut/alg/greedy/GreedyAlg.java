@@ -10,7 +10,7 @@ import com.fosscut.alg.ch.ConstructiveHeuristic;
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.type.IntegerSolvers;
+import com.fosscut.type.IntegerSolver;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.google.ortools.Loader;
@@ -22,10 +22,10 @@ public class GreedyAlg extends ConstructiveHeuristic {
     private Order order;
     private Double relaxCost;
     private boolean forceIntegerRelax;
-    private IntegerSolvers integerSolver;
+    private IntegerSolver integerSolver;
 
     public GreedyAlg(Order order, Double relaxCost, boolean forceIntegerRelax,
-        IntegerSolvers integerSolver
+        IntegerSolver integerSolver
     ) {
         this.order = order;
         this.relaxCost = relaxCost;

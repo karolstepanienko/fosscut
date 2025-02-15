@@ -7,7 +7,7 @@ package com.fosscut.type;
  * Linear solvers are used only by column generation algorithm and need
  * to be able to provide dual variables.
  */
-public enum LinearSolvers {
+public enum LinearSolver {
     CLP,
     GLOP,
     PDLP

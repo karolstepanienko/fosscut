@@ -10,8 +10,8 @@ import com.fosscut.shared.util.Validator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
-import com.fosscut.type.IntegerSolvers;
-import com.fosscut.type.OutputFormats;
+import com.fosscut.type.IntegerSolver;
+import com.fosscut.type.OutputFormat;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
@@ -47,7 +47,7 @@ public class Greedy extends AbstractAlg {
     @Option(names = { "--integer-solver" },
         defaultValue = Defaults.DEFAULT_PARAM_INTEGER_SOLVER,
         description = "One of: (${COMPLETION-CANDIDATES}).")
-    private IntegerSolvers integerSolver;
+    private IntegerSolver integerSolver;
 
     @Spec
     private CommandSpec spec;
@@ -77,7 +77,7 @@ public class Greedy extends AbstractAlg {
         greedy.run();
 
         String cuttingPlan = null;
-        if (outputFormat == OutputFormats.yaml) {
+        if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
             cuttingPlan = yamlDumper.dump(greedy.getCuttingPlan());
         }

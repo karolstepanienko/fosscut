@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.type.IntegerSolvers;
+import com.fosscut.type.IntegerSolver;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
@@ -22,7 +22,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private List<Double> cuttingPlanDualValues;
     private Double relaxCost;
     private boolean forceIntegerRelax;
-    private IntegerSolvers integerSolver;
+    private IntegerSolver integerSolver;
 
     private List<List<MPVariable>> usageVariables;
     private List<List<MPVariable>> relaxVariables;
@@ -32,7 +32,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         List<Double> cuttingPlanDualValues,
         Double relaxCost,
         boolean forceIntegerRelax,
-        IntegerSolvers integerSolver
+        IntegerSolver integerSolver
     ) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;

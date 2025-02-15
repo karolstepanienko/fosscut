@@ -5,7 +5,7 @@ import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractOutputFile;
-import com.fosscut.type.OutputFormats;
+import com.fosscut.type.OutputFormat;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.save.Save;
@@ -89,7 +89,7 @@ public class CutGen extends AbstractOutputFile {
         order = cutGenAlg.nextOrder();
 
         String orderString = null;
-        if (outputFormat == OutputFormats.yaml) {
+        if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
             orderString = yamlDumper.dump(order);
         }

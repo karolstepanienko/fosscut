@@ -10,7 +10,7 @@ import com.fosscut.shared.util.Validator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
-import com.fosscut.type.OutputFormats;
+import com.fosscut.type.OutputFormat;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PrintResult;
@@ -57,7 +57,7 @@ public class FFD extends AbstractAlg {
         firstFitDecreasing.run();
 
         String cuttingPlan = null;
-        if (outputFormat == OutputFormats.yaml) {
+        if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
             cuttingPlan = yamlDumper.dump(firstFitDecreasing.getCuttingPlan());
         }

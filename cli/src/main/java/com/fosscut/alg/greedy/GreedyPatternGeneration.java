@@ -6,7 +6,7 @@ import java.util.List;
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
-import com.fosscut.type.IntegerSolvers;
+import com.fosscut.type.IntegerSolver;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -25,7 +25,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private List<Integer> orderDemands;
     private Double relaxCost;
     private boolean forceIntegerRelax;
-    private IntegerSolvers integerSolver;
+    private IntegerSolver integerSolver;
 
     private List<MPVariable> usageVariables;
     private List<MPVariable> relaxVariables;
@@ -37,7 +37,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         List<Integer> orderDemands,
         Double relaxCost,
         boolean forceIntegerRelax,
-        IntegerSolvers integerSolver
+        IntegerSolver integerSolver
     ) {
         setOutputs(outputs);
         this.orderInputId = orderInputId;
