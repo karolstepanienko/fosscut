@@ -7,9 +7,10 @@ import PlanAction from "./action/PlanAction.tsx";
 import Input from "../type/Input.ts";
 import Output from "../type/Output.ts";
 import TektonTaskRunLogsDTO from "../type/TektonTaskRunLogsDTO.ts";
+import Action from "../enum/Action.ts";
 
 function ActionSwitch() {
-  const [action, setAction] = useState<string>('Order');
+  const [action, setAction] = useState<string>(Action.ORDER);
   const [cookies, setCookie] = useCookies(['fosscut_orderIdentifier']);
 
   const [inputId, setInputId] = useState<number>(1);
@@ -22,27 +23,34 @@ function ActionSwitch() {
   ]);
 
   const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(undefined);
+  const [settingsExtended, setSettingsExtended] = useState<boolean>(true);
 
   const renderAction = () => {
-    if (action === 'Order')
+    if (action === Action.ORDER)
       return <OrderAction
         inputId={inputId} setInputId={setInputId}
         inputs={inputs} setInputs={setInputs}
         outputId={outputId} setOutputId={setOutputId}
         outputs={outputs} setOutputs={setOutputs}
         cookies={cookies} setCookie={setCookie} />
-    else if (action === 'Generate')
+    else if (action === Action.GENERATE)
       return <GenerateAction
-      tektonTaskRunLogsDTO={tektonTaskRunLogsDTO}
-      setTektonTaskRunLogsDTO={setTektonTaskRunLogsDTO} />
-    else if (action === 'Plan')
+      tektonTaskRunLogsDTO={tektonTaskRunLogsDTO} setTektonTaskRunLogsDTO={setTektonTaskRunLogsDTO}
+      settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended}
+      />
+    else if (action === Action.PLAN)
       return <PlanAction />
   }
 
   return (
     <CookiesProvider>
       <div className="action-switch-container">
-        <RadioButton action={action} setAction={setAction} />
+        <RadioButton
+          currentValue={action}
+          setCurrentValue={setAction}
+          values={Object.values(Action)}
+          keyPrefix="action"
+        />
         {renderAction()}
       </div>
     </CookiesProvider>

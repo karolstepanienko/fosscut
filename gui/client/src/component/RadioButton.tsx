@@ -3,39 +3,36 @@ import { ButtonGroup } from "npm:react-bootstrap/ButtonGroup";
 // @ts-types="npm:@types/react-bootstrap/ToggleButton"
 import { ToggleButton } from "npm:react-bootstrap/ToggleButton";
 
-
-type RadioButtonFunction = (action: string) => void;
+type SetCurrentValueFunction = (currentValue: string) => void;
 
 type RadioButtonProps = {
-  action: string,
-  setAction: RadioButtonFunction,
+  currentValue: string,
+  setCurrentValue: SetCurrentValueFunction,
+  values: string[],
+  keyPrefix: string
 }
 
-const RadioButton: React.FC<RadioButtonProps> = ({action, setAction}) => {
-  const buttons = [
-    { name: 'Order' },
-    { name: 'Generate' },
-    { name: 'Plan' },
-  ];
+const RadioButton: React.FC<RadioButtonProps>
+  = ({currentValue, setCurrentValue, values, keyPrefix}) => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAction(e.currentTarget.value)
+    setCurrentValue(e.currentTarget.value);
   }
 
   return (
     <ButtonGroup className="button-group">
-      {buttons.map((button, idx) => (
+      {values.map((value, idx) => (
         <ToggleButton
-          key={idx}
-          id={`radio-button-${idx}`}
+          key={keyPrefix + "-" + idx}
+          id={`${keyPrefix}-radio-button-${idx}`}
           type="radio"
           variant="secondary"
-          name="radio"
-          value={button.name}
-          checked={action === button.name}
+          name={`${keyPrefix}-radio`}
+          value={value}
+          checked={currentValue === value}
           onChange={onChange}
         >
-          {button.name}
+          {value}
         </ToggleButton>
       ))}
     </ButtonGroup>

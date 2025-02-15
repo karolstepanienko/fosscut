@@ -28,6 +28,7 @@
   justify-content: center;
   place-items: center;
   text-align: center;
+  width: 100%;
 }
 
 .action-content-container {
@@ -139,6 +140,50 @@
 .item-button {
   margin-right: 1em;
   padding: 0.6em 1em;
+}
+
+.settings-container {
+  min-width: 16em;
+  width: 60%;
+  margin-bottom: 1em;
+}
+
+.settings-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.settings-item-text {
+  cursor: inherit;
+  transition: none;
+  animation: none;
+  border: none;
+  user-select: text;
+}
+
+.settings-item-text-invisible {
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.accordion-button {
+  color: black;
+  background-color: lightgray;
+}
+
+.accordion-button:not(.collapsed) {
+  color: black;
+  background-color: lightgray;
+}
+
+.accordion-button:focus {
+  color: black;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .summary-container {

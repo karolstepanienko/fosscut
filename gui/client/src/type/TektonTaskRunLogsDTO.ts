@@ -1,4 +1,4 @@
-type SetTektonTaskRunLogsDTOFunction = (tektonTaskRunLogsDTO: TektonTaskRunLogsDTO) => void;
+type SetTektonTaskRunLogsDTOFunction = (tektonTaskRunLogsDTO: TektonTaskRunLogsDTO | undefined) => void;
 
 type TektonTaskRunLogsDTO = {
   status: string,

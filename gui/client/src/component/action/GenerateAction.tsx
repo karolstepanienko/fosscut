@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { getApi } from "../../Config.ts";
 import TektonTaskRunLogsDTO, { SetTektonTaskRunLogsDTOFunction } from "../../type/TektonTaskRunLogsDTO.ts";
 import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
+import Settings from "../Settings.tsx";
+import { SetSettingsExtendedFunction } from "../../type/SettingsExtended.ts";
 
 type GenerateActionProps = {
   tektonTaskRunLogsDTO: TektonTaskRunLogsDTO,
-  setTektonTaskRunLogsDTO: SetTektonTaskRunLogsDTOFunction
+  setTektonTaskRunLogsDTO: SetTektonTaskRunLogsDTOFunction,
+  settingsExtended: boolean,
+  setSettingsExtended: SetSettingsExtendedFunction
 }
 
 const GenerateAction: React.FC<GenerateActionProps>
-  = ({tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO}) => {
+  = ({tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO, settingsExtended, setSettingsExtended}) => {
   const api = getApi();
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
   const [taskRunToBeDeleted, setTaskRunToBeDeleted] = useState<boolean>(false);
@@ -127,6 +131,7 @@ const GenerateAction: React.FC<GenerateActionProps>
 
   return (
     <div className="action-container">
+      <Settings settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended} />
       <button className="btn btn-secondary fosscut-button button-group"
         disabled={!orderAvailable} onClick={() => generatePlan()}>
         Generate
