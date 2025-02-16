@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.fosscut.alg.ch.ConstructiveHeuristic;
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.exception.LPUnfeasibleException;
+import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.IntegerSolver;
 import com.fosscut.type.cutting.CHPattern;
@@ -21,15 +22,15 @@ public class GreedyAlg extends ConstructiveHeuristic {
 
     private Order order;
     private Double relaxCost;
-    private boolean forceIntegerRelax;
     private IntegerSolver integerSolver;
 
-    public GreedyAlg(Order order, Double relaxCost, boolean forceIntegerRelax,
-        IntegerSolver integerSolver
+    public GreedyAlg(Order order, Double relaxCost,
+        OptimizationCriterion optimizationCriterion,
+        IntegerSolver integerSolver, boolean forceIntegerRelax
     ) {
+        super(optimizationCriterion, forceIntegerRelax);
         this.order = order;
         this.relaxCost = relaxCost;
-        this.forceIntegerRelax = forceIntegerRelax;
         this.integerSolver = integerSolver;
     }
 

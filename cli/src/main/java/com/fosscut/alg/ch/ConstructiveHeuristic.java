@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.exception.LPUnfeasibleException;
+import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
@@ -19,9 +20,19 @@ public abstract class ConstructiveHeuristic {
 
     private static final Logger logger = LoggerFactory.getLogger(ConstructiveHeuristic.class);
 
+    protected OptimizationCriterion optimizationCriterion;
+    protected boolean forceIntegerRelax;
+
     private List<Integer> inputCounts;
     private List<Integer> orderDemands;
     private List<CHPattern> cuttingPlanPatterns;
+
+    protected ConstructiveHeuristic(OptimizationCriterion optimizationCriterion,
+        boolean forceIntegerRelax
+    ) {
+        this.optimizationCriterion = optimizationCriterion;
+        this.forceIntegerRelax = forceIntegerRelax;
+    }
 
     protected CuttingPlan getCuttingPlan(Order order, boolean relaxEnabled, boolean forceIntegerRelax) {
         CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order, relaxEnabled, forceIntegerRelax);
@@ -78,16 +89,27 @@ public abstract class ConstructiveHeuristic {
                 throw new GeneratedPatternsCannotBeEmptyException("");
 
             // debugGeneratedPatterns(patternsForEachInput);
-            CHPattern minWastePattern = getMinWastePattern(patternsForEachInput);
-            calculateMinWastePatternCount(minWastePattern);
-            decreaseOrderInputCount(minWastePattern);
-            decreaseOrderOutputCount(minWastePattern);
+            CHPattern bestPattern;
+            if (optimizationCriterion == OptimizationCriterion.MIN_COST)
+                bestPattern = getMostEfficientPattern(patternsForEachInput);
+            else bestPattern = getMinWastePattern(patternsForEachInput);
 
-            cuttingPlanPatterns.add(minWastePattern);
-            logger.info("Input count: " + inputCounts);
+            calculateBestPatternCount(bestPattern);
+            decreaseOrderInputCount(bestPattern);
+            decreaseOrderOutputCount(bestPattern);
+
+            cuttingPlanPatterns.add(bestPattern);
+            if (inputCountDefined()) logger.info("Input count: " + inputCounts);
             logger.info("Order demands: " + orderDemands);
         }
         return cuttingPlanPatterns;
+    }
+
+    private boolean inputCountDefined() {
+        for (Integer inputCount : getInputCounts()) {
+           if (inputCount != null && inputCount > 0) return true;
+        }
+        return false;
     }
 
     private boolean isDemandSatisfied() {
@@ -114,23 +136,37 @@ public abstract class ConstructiveHeuristic {
         return minWastePattern;
     }
 
-    private void calculateMinWastePatternCount(CHPattern minWastePattern) {
-        Integer patternCountFromInput = inputCounts.get(minWastePattern.getInputId());
-        Integer patternCountFromOutputDemand = getMinWastePatternCountFromOutputDemand(minWastePattern);
+    private CHPattern getMostEfficientPattern(List<CHPattern> patterns) {
+        CHPattern mostEfficientPattern = patterns.get(0);
+        Double minCost = patterns.get(0).getOutputLengthUnitCost();
+        for (CHPattern pattern : patterns) {
+            Double cost = pattern.getOutputLengthUnitCost();
+            if (cost < minCost) {
+                minCost = cost;
+                mostEfficientPattern = pattern;
+            }
+        }
+        return mostEfficientPattern;
+    }
+
+    private void calculateBestPatternCount(CHPattern bestPattern) {
+        Integer patternCountFromInput = inputCounts.get(bestPattern.getInputId());
+        Integer patternCountFromOutputDemand = getBestPatternCountFromOutputDemand(bestPattern);
         if (patternCountFromInput == null)
-            minWastePattern.setCount(patternCountFromOutputDemand);
+            bestPattern.setCount(patternCountFromOutputDemand);
         else
-            minWastePattern.setCount(
+            bestPattern.setCount(
                 Math.min(patternCountFromInput, patternCountFromOutputDemand)
             );
     }
 
-    private Integer getMinWastePatternCountFromOutputDemand(CHPattern minWastePattern) {
+    private Integer getBestPatternCountFromOutputDemand(CHPattern besPattern) {
         Integer patternCount = Integer.MAX_VALUE;
 
-        for (CHOutput chOutput : minWastePattern.getPatternDefinition()) {
+        for (CHOutput chOutput : besPattern.getPatternDefinition()) {
             if (chOutput.getCount() > 0) {
 
+                // Ignores the remainder, rounds down, eg. 16/9 = 1.(7) => 1
                 Integer maxPossiblePatternCount =
                     orderDemands.get(chOutput.getId())
                     / chOutput.getCount();
@@ -142,18 +178,18 @@ public abstract class ConstructiveHeuristic {
         return patternCount;
     }
 
-    private void decreaseOrderInputCount(CHPattern minWastePattern) {
-        Integer inputCount = inputCounts.get(minWastePattern.getInputId());
+    private void decreaseOrderInputCount(CHPattern bestPattern) {
+        Integer inputCount = inputCounts.get(bestPattern.getInputId());
         if (inputCount != null) {
-            inputCount -= minWastePattern.getCount();
-            inputCounts.set(minWastePattern.getInputId(), inputCount);
+            inputCount -= bestPattern.getCount();
+            inputCounts.set(bestPattern.getInputId(), inputCount);
         }
     }
 
-    private void decreaseOrderOutputCount(CHPattern minWastePattern) {
-        for (CHOutput chOutput : minWastePattern.getPatternDefinition()) {
+    private void decreaseOrderOutputCount(CHPattern bestPattern) {
+        for (CHOutput chOutput : bestPattern.getPatternDefinition()) {
             Integer demand = orderDemands.get(chOutput.getId());
-            demand -= minWastePattern.getCount() * chOutput.getCount();
+            demand -= bestPattern.getCount() * chOutput.getCount();
             orderDemands.set(chOutput.getId(), demand);
         }
     }

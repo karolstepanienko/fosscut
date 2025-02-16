@@ -49,12 +49,13 @@ public class CHPattern {
     }
 
     public Double getWaist() {
-        Double outputsSumLength = 0.0;
-        for (CHOutput chOutput : patternDefinition) {
-            Double outputSumLength = chOutput.getLength() - chOutput.getRelax();
-            outputsSumLength += chOutput.getCount() * outputSumLength;
-        }
-        return this.input.getLength() - outputsSumLength;
+        return this.input.getLength() - getOutputsSumLength(true);
+    }
+
+    // Relaxation values are ignored. If pattern is able to fit more or longer
+    // output elements thanks to relaxation then it should be preferred.
+    public Double getOutputLengthUnitCost() {
+        return this.input.getCost() / getOutputsSumLength(false);
     }
 
     public List<PlanOutput> getSerialisableRelaxPatternDefinition(boolean relaxEnabled, boolean forceIntegerRelax) {
@@ -65,6 +66,16 @@ public class CHPattern {
             else serialisablePatternDefinition.add(chOutput.getPlanOutputDouble());
         }
         return serialisablePatternDefinition;
+    }
+
+    private Double getOutputsSumLength(boolean includeRelax) {
+        Double outputsSumLength = 0.0;
+        for (CHOutput chOutput : patternDefinition) {
+            Double outputSumLength = Double.valueOf(chOutput.getLength());
+            if (includeRelax) outputSumLength -= chOutput.getRelax();
+            outputsSumLength += chOutput.getCount() * outputSumLength;
+        }
+        return outputsSumLength;
     }
 
 }

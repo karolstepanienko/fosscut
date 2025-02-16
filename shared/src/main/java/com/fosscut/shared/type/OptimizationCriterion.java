@@ -1,4 +1,4 @@
-package com.fosscut.type;
+package com.fosscut.shared.type;
 
 public enum OptimizationCriterion {
     MIN_COST,

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.fosscut.shared.util.SharedMessages;
 import com.fosscut.util.Command;
 import com.fosscut.util.Messages;
 import com.fosscut.util.RepetitiveTests;
@@ -296,14 +297,14 @@ public class CG {
     @Test public void cgNullCostException() {
         Command command = new Command("cg --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(command.getOutput().contains(Messages.NULL_COST_EXCEPTION));
+        assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void cgNullCostExceptionQuiet() {
         Command command = new Command("cg -q --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(command.getOutput().equals(Messages.NULL_COST_EXCEPTION));
+        assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
     }
 

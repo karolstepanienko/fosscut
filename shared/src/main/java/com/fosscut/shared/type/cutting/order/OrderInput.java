@@ -17,6 +17,7 @@ public class OrderInput extends OrderElement {
     public OrderInput(OrderInput orderInput) {
         this.setLength(orderInput.getLength());
         this.setCount(orderInput.getCount());
+        this.setCost(orderInput.getCost());
     }
 
     public Double getCost() {

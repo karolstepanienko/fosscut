@@ -73,6 +73,8 @@ public class TestDefaults {
     public static final String FFD_INPUT_COUNT_ZEROS_PLAN = "./test/plan/ffd-input-count-zeros.yaml";
     public static final String GREEDY_CG_INPUT_COUNT_ZEROS_PLAN = "./test/plan/greedy-cg-input-count-zeros.yaml";
 
+    public static final String FFD_INPUT_COST_PLAN = "./test/plan/ffd-input-cost.yaml";
+    public static final String GREEDY_INPUT_COST_PLAN = "./test/plan/greedy-input-cost.yaml";
     public static final String CG_INPUT_COST_PLAN = "./test/plan/cg-input-cost.yaml";
 
     public static final String CUTGEN_SIMPLE_ORDER = "./test/order/cutgen/simple-order.yaml";

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.fosscut.shared.util.SharedMessages;
 import com.fosscut.util.Command;
 import com.fosscut.util.Messages;
 import com.fosscut.util.RepetitiveTests;
@@ -200,6 +201,33 @@ public class Greedy {
         Command command = new Command("greedy -q " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assertEquals(1, command.getExitCode());
+    }
+
+    /******************************* Cost *************************************/
+
+    @Test public void greedyCost() throws IOException {
+        String testFileName = "greedyCost";
+        Command command = new Command("greedy -q --optimization-criterion MIN_COST -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_INPUT_COST_PLAN)
+        );
+    }
+
+    @Test public void greedyNullCostException() {
+        Command command = new Command("greedy --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
+        assertEquals(1, command.getExitCode());
+    }
+
+    @Test public void greedyNullCostExceptionQuiet() {
+        Command command = new Command("greedy -q --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
     }
 

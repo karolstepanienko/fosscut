@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.exception.NotIntegerLPTaskException;
-import com.fosscut.exception.NullCostException;
+import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.type.IntegerSolver;
 import com.fosscut.type.LinearSolver;
-import com.fosscut.type.OptimizationCriterion;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
@@ -47,7 +46,7 @@ public class ColumnGeneration {
         this.forceIntegerRelax = forceIntegerRelax;
     }
 
-    public void run() throws LPUnfeasibleException, NullCostException {
+    public void run() throws LPUnfeasibleException {
         logger.info("");
         logger.info("Running cutting plan generation using a column generation algorithm...");
 

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fosscut.shared.exception.OrderValidationException;
+import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.Element;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderElement;
@@ -17,6 +18,13 @@ import com.fosscut.shared.type.cutting.order.OrderOutput;
 public class Validator {
 
     private static final Logger logger = LoggerFactory.getLogger(Validator.class);
+
+    private OptimizationCriterion optimizationCriterion;
+
+    public Validator() {}
+    public Validator(OptimizationCriterion optimizationCriterion) {
+        this.optimizationCriterion = optimizationCriterion;
+    }
 
     public void validateOrder(Order order) throws OrderValidationException {
         logger.info("Running order validation...");
@@ -31,6 +39,7 @@ public class Validator {
         else if (!countHasToBePositive(order.getOutputs())) throw new OrderValidationException(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
         else if (!longestInputLongerThanLongestOutput(order)) throw new OrderValidationException(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR);
         else if (!sumInputLengthLongerThanSumOutputLength(order)) throw new OrderValidationException(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
+        else if (optimizationCriterion == OptimizationCriterion.MIN_COST && !allInputCostsDefined(order.getInputs())) throw new OrderValidationException(SharedMessages.NULL_COST_EXCEPTION);
     }
 
     private boolean lengthHasToBePositive(List<? extends Element> elements) {
@@ -85,6 +94,15 @@ public class Validator {
             sumLength += element.getCount() * element.getLength();
         }
         return sumLength;
+    }
+
+    private boolean allInputCostsDefined(List<OrderInput> inputs) {
+        for (OrderInput input : inputs) {
+            if (input.getCost() == null) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

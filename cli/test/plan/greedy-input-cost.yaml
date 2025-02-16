@@ -1,0 +1,64 @@
+inputs:
+- length: 100
+  cost: 13.0
+  patterns:
+  - count: 10
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 4
+      count: 1
+  - count: 4
+    patternDefinition:
+    - id: 0
+      count: 5
+  - count: 7
+    patternDefinition:
+    - id: 1
+      count: 5
+  - count: 12
+    patternDefinition:
+    - id: 3
+      count: 2
+  - count: 9
+    patternDefinition:
+    - id: 2
+      count: 2
+  - count: 8
+    patternDefinition:
+    - id: 5
+      count: 1
+  - count: 1
+    patternDefinition:
+    - id: 2
+      count: 1
+- length: 110
+  cost: 15.0
+  patterns:
+  - count: 3
+    patternDefinition:
+    - id: 1
+      count: 1
+    - id: 2
+      count: 2
+outputs:
+- length: 20
+  count: 20
+  maxRelax: 0
+- length: 20
+  count: 38
+  maxRelax: 3
+- length: 45
+  count: 35
+  maxRelax: 0
+- length: 50
+  count: 24
+  maxRelax: 0
+- length: 55
+  count: 10
+  maxRelax: 0
+- length: 75
+  count: 8
+  maxRelax: 0
+totalNeededInputLength: 5430
+totalCost: 708.0

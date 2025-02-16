@@ -66,14 +66,14 @@ public class Greedy extends AbstractAlg {
         YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator();
+        Validator validator = new Validator(optimizationCriterion);
         validator.validateOrder(order);
 
         Cleaner cleaner = new Cleaner();
         cleaner.cleanOrder(order);
 
-        GreedyAlg greedy = new GreedyAlg(order, relaxCost, forceIntegerRelax,
-            integerSolver);
+        GreedyAlg greedy = new GreedyAlg(order, relaxCost,
+            optimizationCriterion, integerSolver, forceIntegerRelax);
         greedy.run();
 
         String cuttingPlan = null;

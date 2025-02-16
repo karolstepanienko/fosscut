@@ -43,7 +43,7 @@ public class FFD extends AbstractAlg {
         YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator();
+        Validator validator = new Validator(optimizationCriterion);
         validator.validateOrder(order);
 
         Cleaner cleaner = new Cleaner();
@@ -52,6 +52,7 @@ public class FFD extends AbstractAlg {
         FirstFitDecreasing firstFitDecreasing = new FirstFitDecreasing(
             order,
             relaxEnabled,
+            optimizationCriterion,
             forceIntegerRelax
         );
         firstFitDecreasing.run();

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.fosscut.alg.ch.ConstructiveHeuristic;
 import com.fosscut.exception.GeneratedPatternsCannotBeEmptyException;
 import com.fosscut.exception.LPUnfeasibleException;
+import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
@@ -22,12 +23,13 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
 
     private Order orderSortedOutputs;
     private boolean relaxEnabled;
-    private boolean forceIntegerRelax;
 
-    public FirstFitDecreasing(Order order, boolean relaxEnabled, boolean forceIntegerRelax) {
+    public FirstFitDecreasing(Order order, boolean relaxEnabled,
+        OptimizationCriterion optimizationCriterion, boolean forceIntegerRelax
+    ) {
+        super(optimizationCriterion, forceIntegerRelax);
         this.orderSortedOutputs = order;
         this.relaxEnabled = relaxEnabled;
-        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan() {

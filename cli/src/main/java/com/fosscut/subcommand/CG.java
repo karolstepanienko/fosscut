@@ -12,7 +12,6 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.IntegerSolver;
 import com.fosscut.type.LinearSolver;
-import com.fosscut.type.OptimizationCriterion;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
@@ -46,11 +45,6 @@ public class CG extends AbstractAlg {
         this.relaxCost = relaxCost;
     }
 
-    @Option(names = { "--optimization-criterion"},
-        defaultValue = Defaults.DEFAULT_PARAM_OPTIMIZATION_CRITERION,
-        description = "One of: (${COMPLETION-CANDIDATES}).")
-    private OptimizationCriterion optimizationCriterion;
-
     @Option(names = { "--linear-solver" },
         defaultValue = Defaults.DEFAULT_PARAM_LINEAR_SOLVER,
         description = "One of: (${COMPLETION-CANDIDATES}).")
@@ -78,7 +72,7 @@ public class CG extends AbstractAlg {
         YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator();
+        Validator validator = new Validator(optimizationCriterion);
         validator.validateOrder(order);
 
         Cleaner cleaner = new Cleaner();
