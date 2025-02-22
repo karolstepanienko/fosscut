@@ -35,6 +35,6 @@ KubernetesPodOperator(
     image="karolstepanienko/fosscut-cli-native:0.0.1",
     dag = parameterized_sleep_kubernetes_pod_operator_dag,
     cmds=["bash", "-cx"],
-    arguments=["/fosscut", "&&", "echo", "10"],
+    arguments=["/fosscut", "&&", "sleep", "{{ params.sleep_seconds }}"],
     task_id="sleep_task_kubernetes_pod_operator"
 )
