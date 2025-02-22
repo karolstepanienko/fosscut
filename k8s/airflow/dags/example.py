@@ -5,6 +5,8 @@ from airflow.operators.bash import BashOperator
 from airflow.models import Param
 from airflow.settings import AIRFLOW_HOME
 
+from kubernetes.client import models as k8s
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -34,5 +36,17 @@ parameterized_sleep_dag = DAG(
 BashOperator(
     task_id = 'sleep_task',
     bash_command = 'echo "Going to sleep for {{ params.sleep_seconds }} seconds" && sleep {{ params.sleep_seconds }}',
-    dag = parameterized_sleep_dag
+    dag = parameterized_sleep_dag,
+    executor_config = {
+        "pod_override": k8s.V1Pod(
+            spec = k8s.V1PodSpec(
+                containers = [
+                    k8s.V1Container(
+                        name = "base",
+                        image = "karolstepanienko/fosscut-cli-native"
+                    )
+                ]
+            )
+        )
+    }
 )
