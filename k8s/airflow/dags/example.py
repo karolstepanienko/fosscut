@@ -3,6 +3,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.models import Param
+from airflow.settings import AIRFLOW_HOME
 
 default_args = {
     'owner': 'airflow',
