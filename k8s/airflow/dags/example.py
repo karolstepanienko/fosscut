@@ -31,7 +31,7 @@ parameterized_sleep_dag = DAG(
     }
 )
 
-sleep_task = BashOperator(
+BashOperator(
     task_id = 'sleep_task',
     bash_command = 'sleep {{ params.sleep_seconds }}',
     dag = parameterized_sleep_dag,
