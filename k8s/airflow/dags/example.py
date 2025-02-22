@@ -43,8 +43,7 @@ BashOperator(
                 containers = [
                     k8s.V1Container(
                         name = "base",
-                        image = "karolstepanienko/fosscut-cli-native",
-                        tag = "0.0.1"
+                        image = "karolstepanienko/fosscut-cli-native:0.0.1"
                     )
                 ]
             )
