@@ -35,7 +35,7 @@ parameterized_sleep_dag = DAG(
 
 BashOperator(
     task_id = 'sleep_task',
-    bash_command = 'echo "Going to sleep for {{ params.sleep_seconds }} seconds" && sleep {{ params.sleep_seconds }}',
+    bash_command = 'echo "Going to sleep for {{ params.sleep_seconds }} seconds" && sleep {{ params.sleep_seconds }} && fosscut',
     dag = parameterized_sleep_dag,
     executor_config = {
         "pod_override": k8s.V1Pod(
@@ -43,7 +43,8 @@ BashOperator(
                 containers = [
                     k8s.V1Container(
                         name = "base",
-                        image = "karolstepanienko/fosscut-cli-native"
+                        image = "karolstepanienko/fosscut-cli-native",
+                        tag = "0.0.1"
                     )
                 ]
             )
