@@ -15,8 +15,8 @@ default_args = {
     'retries': 0
 }
 
-parameterized_sleep_dag = DAG(
-    'parameterized_sleep',
+parameterized_sleep_kubernetes_executor_dag = DAG(
+    'parameterized_sleep_kubernetes_executor_dag',
     default_args = default_args,
     description = 'A DAG that sleeps for a parameterized duration',
     schedule_interval = None,  # Only triggered manually
@@ -35,8 +35,8 @@ parameterized_sleep_dag = DAG(
 
 BashOperator(
     task_id = 'sleep_task',
-    bash_command = 'echo "Going to sleep for {{ params.sleep_seconds }} seconds" && sleep {{ params.sleep_seconds }} && fosscut',
-    dag = parameterized_sleep_dag,
+    bash_command = 'fosscut && echo "Going to sleep for {{ params.sleep_seconds }} seconds" && sleep {{ params.sleep_seconds }}',
+    dag = parameterized_sleep_kubernetes_executor_dag,
     executor_config = {
         "pod_override": k8s.V1Pod(
             spec = k8s.V1PodSpec(
