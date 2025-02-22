@@ -30,9 +30,9 @@ parameterized_sleep_dag = DAG(
 )
 
 sleep_task = BashOperator(
-    task_id='sleep_task',
+    task_id = 'sleep_task',
     bash_command = 'sleep {{ params.sleep_seconds }}',
     executor_config = {
-        "pod_template_file": os.path.join(AIRFLOW_HOME, "pod_templates/basic_template.yaml")
+        "pod_template_file": os.path.join(AIRFLOW_HOME, "pod_templates/pod_template_file.yaml")
     }
 )
