@@ -57,17 +57,20 @@ secret_volumes = [
 volume_mounts = [
     k8s.V1VolumeMount(
         name='keystore',
-        mount_path='/',
+        mount_path='/keystore.p12',
+        sub_path='keystore.p12',
         read_only=True
     ),
     k8s.V1VolumeMount(
         name='truststore',
-        mount_path='/',
+        mount_path='/truststore.p12',
+        sub_path='truststore.p12',
         read_only=True
     ),
     k8s.V1VolumeMount(
         name='redis-connection-secrets',
-        mount_path='/',
+        mount_path='/redis-connection-secrets.yaml',
+        sub_path='redis-connection-secrets.yaml',
         read_only=True
     )
 ]
