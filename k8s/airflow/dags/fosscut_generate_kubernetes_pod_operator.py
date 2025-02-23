@@ -16,13 +16,13 @@ default_args = {
 fosscut_generate_kubernetes_pod_operator_dag = DAG(
     'fosscut_generate_kubernetes_pod_operator_dag',
     default_args = default_args,
-    description = 'A DAG that sleeps for a parameterized duration',
+    description = 'A DAG that runs fosscut cutting plan generation',
     schedule_interval = None,  # Only triggered manually
-    start_date = datetime(2024, 1, 1),
+    start_date = datetime(2025, 1, 1),
     catchup = False,
     params = {
         "subcommand": Param(
-            default = "foo",
+            default = "cg",
             enum = ["cg", "ffd", "greedy"],
             description = "Subcommand that determines cutting plan generation algorithm."
         ),
