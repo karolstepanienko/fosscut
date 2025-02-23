@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from airflow import DAG
 from airflow.models import Param
+from kubernetes.client import models as k8s
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
 default_args = {
