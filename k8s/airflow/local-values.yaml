@@ -1,0 +1,12 @@
+nodeSelector:
+  node-role.kubernetes.io/worker: worker
+
+postgresql:
+  primary:
+    persistence:
+      storageClass: nfs-client
+
+logs:
+  persistence:
+    size: 1Gi
+    storageClassName: nfs-client

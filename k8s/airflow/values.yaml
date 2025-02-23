@@ -1,0 +1,29 @@
+# Recommended enforcing of standardised naming of resources
+useStandardNaming: true
+
+# Workloads will run only as separate pods in a k8s cluster
+executor: "KubernetesExecutor"
+
+# Allows running DAG task pods in every cluster namespace
+multiNamespaceMode: true
+
+# Triggerer is not necessary
+triggerer:
+  enabled: false
+
+# Monitoring is not necessary
+statsd:
+  enabled: false
+
+dags:
+  gitSync:
+    enabled: true
+    repo: https://github.com/karolstepanienko/fosscut.git
+    branch: main
+    rev: HEAD
+    subPath: "k8s/airflow/dags"
+
+# Necessary for logs to be available through webserver
+logs:
+  persistence:
+    enabled: True
