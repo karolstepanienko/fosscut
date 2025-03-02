@@ -28,6 +28,10 @@ logs:
   persistence:
     enabled: True
 
+# static webserver secret key ensures that Airflow components only restart when
+# necessary
+webserverSecretKeySecretName: airflow-webserver-secret-key
+
 # Mount HTTPS secrets
 webserver:
   livenessProbe:
