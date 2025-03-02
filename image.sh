@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Fail on first failed command and print commands before executing them
 set -e -x

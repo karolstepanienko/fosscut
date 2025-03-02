@@ -27,3 +27,33 @@ dags:
 logs:
   persistence:
     enabled: True
+
+# Mount HTTPS secrets
+webserver:
+  livenessProbe:
+    scheme: HTTPS
+  readinessProbe:
+    scheme: HTTPS
+  startupProbe:
+    scheme: HTTPS
+  extraVolumes:
+    - name: airflow-webserver-tls-secret
+      secret:
+        secretName: airflow-webserver-tls-secret
+        defaultMode: 0440
+        optional: false
+  extraVolumeMounts:
+    - name: airflow-webserver-tls-secret
+      mountPath: "/tls.crt"
+      subPath: tls.crt
+      readOnly: true
+    - name: airflow-webserver-tls-secret
+      mountPath: "/tls.key"
+      subPath: tls.key
+      readOnly: true
+
+# Enable HTTPS in webserver settings
+config:
+  webserver:
+    web_server_ssl_cert: /tls.crt
+    web_server_ssl_key: /tls.key

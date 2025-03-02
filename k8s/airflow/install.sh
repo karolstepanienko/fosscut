@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# HTTPS secrets
+kubectl delete secret airflow-webserver-tls-secret -n airflow
+kubectl create secret generic airflow-webserver-tls-secret -n airflow --from-file=tls.crt=../../helm/secrets/server.crt --from-file=tls.key=../../helm/secrets/server.key
+
 # airflow
 helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace -f local-values.yaml -f values.yaml
 
