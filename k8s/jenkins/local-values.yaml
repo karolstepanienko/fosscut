@@ -1,0 +1,7 @@
+controller:
+  nodeSelector:
+    node-role.kubernetes.io/worker: worker
+
+agent:
+  nodeSelector:
+    node-role.kubernetes.io/worker: worker
