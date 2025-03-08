@@ -1,4 +1,11 @@
 controller:
+  installPlugins: false
+  image:
+    registry: "karolstepanienko"
+    repository: "fosscut-jenkins-controller"
+    tag: "2.492.1-jdk17"
+    pullPolicy: "IfNotPresent"
+
   jenkinsUrlProtocol: https
 
   httpsKeyStore:

@@ -5,7 +5,7 @@ set -e -x
 
 # Check if an argument is provided
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 {api|cli|gui|agent-jenkins}"
+    echo "Usage: $0 {api|cli|gui|agent-jenkins|controller-jenkins}"
     exit 1
 fi
 
@@ -55,6 +55,13 @@ case "$1" in
         upload_image fosscut-jenkins-inbound-agent arch-gamma &
         upload_image fosscut-jenkins-inbound-agent arch-beta &
         wait
+        ;;
+    controller-jenkins)
+        echo "Building Jenkins controller docker image..."
+        docker build --no-cache -t karolstepanienko/fosscut-jenkins-controller:2.492.1-jdk17 -f k8s/jenkins/controller/Dockerfile k8s/jenkins/controller/
+        docker save karolstepanienko/fosscut-jenkins-controller:2.492.1-jdk17 > /img/fosscut-jenkins-controller.tar
+        upload_image fosscut-jenkins-controller arch-gamma &
+        upload_image fosscut-jenkins-controller arch-beta &
         ;;
     *)
         echo "Invalid argument: $1"

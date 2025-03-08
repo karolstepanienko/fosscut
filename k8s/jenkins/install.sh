@@ -9,7 +9,7 @@ kubectl create secret generic jenkins-keystore-secret -n jenkins --from-file=jen
 
 # fosscut CA cert
 kubectl delete secret fosscut-ca -n jenkins
-kubectl create secret tls fosscut-ca -n jenkins --cert=../../helm/secrets/ca.crt
+kubectl create secret generic fosscut-ca -n jenkins --from-file=tls.crt=../../helm/secrets/ca.crt
 
 # Ingress secrets
 kubectl delete secret jenkins.fosscut.com-tls-secret -n jenkins
