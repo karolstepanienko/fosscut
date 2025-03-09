@@ -5,6 +5,9 @@ plugins:
   - artifactId: git
     source:
       version: 5.7.0
+  - artifactId: job-dsl
+    source:
+      version: 1.91
   - artifactId: kubernetes
     source:
       version: 4314.v5b_846cf499eb_

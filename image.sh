@@ -58,8 +58,8 @@ case "$1" in
         ;;
     controller-jenkins)
         echo "Building Jenkins controller docker image..."
-        docker build --no-cache -t karolstepanienko/fosscut-jenkins-controller:2.492.1-jdk17 -f k8s/jenkins/controller/Dockerfile k8s/jenkins/controller/
-        docker save karolstepanienko/fosscut-jenkins-controller:2.492.1-jdk17 > /img/fosscut-jenkins-controller.tar
+        docker build --no-cache -t karolstepanienko/fosscut-jenkins-controller:2.492.2-jdk17 -f k8s/jenkins/controller/Dockerfile k8s/jenkins/controller/
+        docker save karolstepanienko/fosscut-jenkins-controller:2.492.2-jdk17 > /img/fosscut-jenkins-controller.tar
         upload_image fosscut-jenkins-controller arch-gamma &
         upload_image fosscut-jenkins-controller arch-beta &
         ;;

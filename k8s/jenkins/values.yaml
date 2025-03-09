@@ -3,7 +3,7 @@ controller:
   image:
     registry: "karolstepanienko"
     repository: "fosscut-jenkins-controller"
-    tag: "2.492.1-jdk17"
+    tag: "2.492.2-jdk17"
     pullPolicy: "IfNotPresent"
 
   jenkinsUrlProtocol: https
@@ -31,11 +31,35 @@ controller:
         hosts:
           - jenkins.fosscut.com
 
+  # fosscut job created directly during jenkins startup
+  # seed job is not necessary for such a simple setup
+  JCasC:
+    configScripts:
+      seed: |
+        jobs:
+          - script: |
+              job('fosscut') {
+                  description('Job that runs a parametrised fosscut cli command.')
+                  parameters {
+                      choiceParam('subcommand', ['cg', 'ffd', 'greedy'], 'Subcommand that determines cutting plan generation algorithm.')
+                      stringParam('redis_url', 'redis://redis-replicas.redis.svc.cluster.local:6379/example-order')
+                  }
+                  steps {
+                      shell('fosscut --redis-connection-secrets /secrets/jenkins-redis-connection-secrets.yaml $subcommand $redis_url')
+                  }
+              }
+
 agent:
   jenkinsUrl: https://jenkins.jenkins.svc.cluster.local:8080/
   image:
     repository: "karolstepanienko/fosscut-jenkins-inbound-agent"
     tag: "3283.v92c105e0f819-9"
+  namespace: jenkins-workloads
+  volumes:
+    - type: Secret
+      mountPath: /secrets
+      secretName: fosscut-cli-redis-connection-secrets
+      defaultMode: 0444
 
 persistence:
   enabled: true
