@@ -18,4 +18,5 @@ kubectl delete secret airflow.fosscut.com-tls-secret -n airflow
 kubectl create secret tls airflow.fosscut.com-tls-secret -n airflow --cert=../../helm/secrets/ingress.crt --key=../../helm/secrets/ingress.key
 
 # airflow
-helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace -f local-values.yaml -f values.yaml
+helm template airflow apache-airflow/airflow -n airflow -f local-values.yaml -f values.yaml > template.log
+helm upgrade --install airflow apache-airflow/airflow -n airflow --create-namespace -f local-values.yaml -f values.yaml

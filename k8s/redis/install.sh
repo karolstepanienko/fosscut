@@ -9,4 +9,5 @@ kubectl delete secret redis-tls-secret -n redis
 kubectl create secret generic redis-tls-secret -n redis --from-file=tls.crt=../../helm/secrets/server.crt --from-file=tls.key=../../helm/secrets/server.key --from-file=ca.crt=../../helm/secrets/ca.crt
 
 # redis
-helm upgrade --install redis bitnami/redis -n redis --version 20.6.1 -f local-values.yaml -f values.yaml
+helm template redis bitnami/redis -n redis -f local-values.yaml -f values.yaml > template.log
+helm upgrade --install redis bitnami/redis -n redis --create-namespace --version 20.6.1 -f local-values.yaml -f values.yaml

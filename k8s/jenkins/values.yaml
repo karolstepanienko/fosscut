@@ -45,7 +45,7 @@ controller:
                       stringParam('redis_url', 'redis://redis-replicas.redis.svc.cluster.local:6379/example-order')
                   }
                   steps {
-                      shell('fosscut --redis-connection-secrets /secrets/jenkins-redis-connection-secrets.yaml $subcommand $redis_url')
+                      shell('fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $subcommand $redis_url')
                   }
               }
 
@@ -54,11 +54,11 @@ agent:
   image:
     repository: "karolstepanienko/fosscut-cli-native"
     tag: "0.0.1"
-  namespace: jenkins-workloads
+  namespace: fosscut-workloads
   volumes:
     - type: Secret
       mountPath: /secrets
-      secretName: fosscut-cli-redis-connection-secrets
+      secretName: tekton-cli-redis-connection-secrets
       defaultMode: 0444
 
 persistence:

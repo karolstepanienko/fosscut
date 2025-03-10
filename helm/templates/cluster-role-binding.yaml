@@ -1,11 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: {{ include "fosscut.fullname" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "fosscut.serviceAccountName" . }}
+  namespace: {{ include "fosscut.fullname" . }}
 roleRef:
-  kind: Role
+  kind: ClusterRole
   name: {{ include "fosscut.fullname" . }}
   apiGroup: rbac.authorization.k8s.io

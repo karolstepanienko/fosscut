@@ -21,12 +21,4 @@ kubectl create secret generic jenkins-admin-user-secret -n jenkins --from-file=u
 
 # jenkins
 helm template jenkins/jenkins -n jenkins -f local-values.yaml -f values.yaml > template.log
-helm upgrade --install jenkins jenkins/jenkins -n jenkins -f local-values.yaml -f values.yaml
-
-# Namespace for running workload pods
-kubectl create namespace jenkins-workloads
-kubectl delete secret fosscut-cli-redis-connection-secrets -n jenkins-workloads
-kubectl create secret generic fosscut-cli-redis-connection-secrets -n jenkins-workloads \
-    --from-file=keystore.p12=../../helm/secrets/keystore.p12 \
-    --from-file=truststore.p12=../../helm/secrets/truststore.p12 \
-    --from-file=jenkins-redis-connection-secrets.yaml=../../helm/secrets/jenkins-redis-connection-secrets.yaml
+helm upgrade --install jenkins jenkins/jenkins -n jenkins --create-namespace -f local-values.yaml -f values.yaml

@@ -19,9 +19,10 @@ import io.fabric8.tekton.v1.WorkspaceBindingBuilder;
 
 public class FosscutTektonClient {
 
-    private static final String NAMESPACE = "fosscut";
+    private static final String NAMESPACE = "fosscut-workloads";
     private static final String TASK_NAME = "fosscut-generate";
     private static final String TASK_RUN_NAME_PREFIX = "fosscut-generate-";
+    private static final String SECRET_NAME = "tekton-cli-redis-connection-secrets";
     private static final String STEP_NAME = "step-generate";
     private static final String REDIS_READ_URL = "redis://redis-replicas.redis.svc.cluster.local:6379/";
 
@@ -45,7 +46,7 @@ public class FosscutTektonClient {
         workspaces.add(new WorkspaceBindingBuilder()
             .withName("keystore")
             .withSecret(new SecretVolumeSourceBuilder()
-                .withSecretName("fosscut-keystore")
+                .withSecretName(SECRET_NAME)
                 .build()
             )
             .withSubPath("keystore.p12")
@@ -55,7 +56,7 @@ public class FosscutTektonClient {
         workspaces.add(new WorkspaceBindingBuilder()
             .withName("truststore")
             .withSecret(new SecretVolumeSourceBuilder()
-                .withSecretName("fosscut-truststore")
+                .withSecretName(SECRET_NAME)
                 .build()
             )
             .withSubPath("truststore.p12")
@@ -65,7 +66,7 @@ public class FosscutTektonClient {
         workspaces.add(new WorkspaceBindingBuilder()
             .withName("redis-connection-secrets")
             .withSecret(new SecretVolumeSourceBuilder()
-                .withSecretName("fosscut-cli-redis-connection-secrets")
+                .withSecretName(SECRET_NAME)
                 .build()
             )
             .withSubPath("redis-connection-secrets.yaml")

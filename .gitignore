@@ -35,3 +35,4 @@ replay_pid*
 # secrets used in deployment
 helm/secrets/
 helm/depreciated/
+k8s/tekton/secrets/
