@@ -80,7 +80,7 @@ KubernetesPodOperator(
     image = "karolstepanienko/fosscut-cli-native:0.0.1",
     dag = fosscut_generate_kubernetes_pod_operator_dag,
     cmds = ["bash", "-cx"],
-    arguments = ["/fosscut --redis-connection-secrets /redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}"],
+    arguments = ["fosscut --redis-connection-secrets /redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}"],
     task_id = "fosscut_generate_kubernetes_pod_operator_task_id",
     namespace = "fosscut",
     volumes = secret_volumes,
