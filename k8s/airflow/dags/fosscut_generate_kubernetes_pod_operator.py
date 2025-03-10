@@ -35,41 +35,29 @@ fosscut_generate_kubernetes_pod_operator_dag = DAG(
 
 secret_volumes = [
     k8s.V1Volume(
-        name = 'keystore',
-        secret = k8s.V1SecretVolumeSource(
-            secret_name = 'fosscut-keystore'
-        )
-    ),
-    k8s.V1Volume(
-        name = 'truststore',
-        secret = k8s.V1SecretVolumeSource(
-            secret_name = 'fosscut-truststore'
-        )
-    ),
-    k8s.V1Volume(
         name = 'redis-connection-secrets',
         secret = k8s.V1SecretVolumeSource(
-            secret_name = 'fosscut-cli-redis-connection-secrets'
+            secret_name = 'tekton-cli-redis-connection-secrets'
         )
     )
 ]
 
 volume_mounts = [
     k8s.V1VolumeMount(
-        name='keystore',
-        mount_path='/keystore.p12',
+        name='redis-connection-secrets',
+        mount_path='/secrets/keystore.p12',
         sub_path='keystore.p12',
         read_only=True
     ),
     k8s.V1VolumeMount(
-        name='truststore',
-        mount_path='/truststore.p12',
+        name='redis-connection-secrets',
+        mount_path='/secrets/truststore.p12',
         sub_path='truststore.p12',
         read_only=True
     ),
     k8s.V1VolumeMount(
         name='redis-connection-secrets',
-        mount_path='/redis-connection-secrets.yaml',
+        mount_path='/secrets/redis-connection-secrets.yaml',
         sub_path='redis-connection-secrets.yaml',
         read_only=True
     )
@@ -80,7 +68,7 @@ KubernetesPodOperator(
     image = "karolstepanienko/fosscut-cli-native:0.0.1",
     dag = fosscut_generate_kubernetes_pod_operator_dag,
     cmds = ["bash", "-cx"],
-    arguments = ["fosscut --redis-connection-secrets /redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}"],
+    arguments = ["fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}"],
     task_id = "fosscut_generate_kubernetes_pod_operator_task_id",
     namespace = "fosscut-workloads",
     volumes = secret_volumes,
