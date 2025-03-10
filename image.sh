@@ -5,7 +5,7 @@ set -e -x
 
 # Check if an argument is provided
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 {api|cli|gui|agent-jenkins|controller-jenkins}"
+    echo "Usage: $0 {api|cli|gui|controller-jenkins}"
     exit 1
 fi
 
@@ -46,14 +46,6 @@ case "$1" in
         # Upload the image to cluster nodes
         upload_image fosscut-gui-native arch-gamma &
         upload_image fosscut-gui-native arch-beta &
-        wait
-        ;;
-    agent-jenkins)
-        echo "Building Jenkins inbound agent docker image..."
-        docker build --no-cache -t karolstepanienko/fosscut-jenkins-inbound-agent:3283.v92c105e0f819-9 -f k8s/jenkins/agent/Dockerfile k8s/jenkins/agent/
-        docker save karolstepanienko/fosscut-jenkins-inbound-agent:3283.v92c105e0f819-9 > /img/fosscut-jenkins-inbound-agent.tar
-        upload_image fosscut-jenkins-inbound-agent arch-gamma &
-        upload_image fosscut-jenkins-inbound-agent arch-beta &
         wait
         ;;
     controller-jenkins)

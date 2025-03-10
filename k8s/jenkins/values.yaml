@@ -52,8 +52,8 @@ controller:
 agent:
   jenkinsUrl: https://jenkins.jenkins.svc.cluster.local:8080/
   image:
-    repository: "karolstepanienko/fosscut-jenkins-inbound-agent"
-    tag: "3283.v92c105e0f819-9"
+    repository: "karolstepanienko/fosscut-cli-native"
+    tag: "0.0.1"
   namespace: jenkins-workloads
   volumes:
     - type: Secret

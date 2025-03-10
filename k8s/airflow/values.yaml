@@ -75,3 +75,8 @@ ingress:
     tls:
       enabled: true
       secretName: "airflow.fosscut.com-tls-secret"
+
+images:
+  pod_template:
+    repository: "karolstepanienko/fosscut-cli-native"
+    tag: "0.0.1"

@@ -20,5 +20,5 @@ spec:
       image: "{{ .Values.tektonTask.repository }}:{{ .Values.tektonTask.tag | default .Chart.AppVersion }}"
       script: |
         #!/bin/sh
-        /fosscut --redis-connection-secrets redis-connection-secrets.yaml $(params.subcommand) $(params.redisUrl)
+        fosscut --redis-connection-secrets /redis-connection-secrets.yaml $(params.subcommand) $(params.redisUrl)
 {{- end }}
