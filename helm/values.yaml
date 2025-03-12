@@ -29,19 +29,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-tektonTask:
-  # Specifies whether a tekton task capable of running fosscut cli should be created
-  create: true
-  repository: karolstepanienko/fosscut-cli-native
-  tag: ""
-  workspaces:
-    - name: keystore
-      mountPath: "/keystore.p12"
-    - name: truststore
-      mountPath: "/truststore.p12"
-    - name: redis-connection-secrets
-      mountPath: "/redis-connection-secrets.yaml"
-
 podAnnotations: {}
 podLabels: {}
 
@@ -244,7 +231,6 @@ mTLSClientKeyPath: secrets/client.key
 applicationYmlPath: secrets/application.yml
 keystorePath: secrets/keystore.p12
 truststorePath: secrets/truststore.p12
-redisConnectionSecretsPath: secrets/redis-connection-secrets.yaml
 
 nodeSelector: {}
 

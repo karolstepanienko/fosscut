@@ -1,0 +1,20 @@
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# Tekton task capable of running
+tektonTask:
+  name: fosscut-generate
+  repository: karolstepanienko/fosscut-cli-native
+  tag: ""
+  workspaces:
+    - name: keystore
+      mountPath: "/secrets/keystore.p12"
+    - name: truststore
+      mountPath: "/secrets/truststore.p12"
+    - name: redis-connection-secrets
+      mountPath: "/secrets/redis-connection-secrets.yaml"
+
+keystorePath: secrets/keystore.p12
+truststorePath: secrets/truststore.p12
+redisConnectionSecretsPath: secrets/redis-connection-secrets.yaml

@@ -1,0 +1,16 @@
+plugins:
+  - artifactId: configuration-as-code
+    source:
+      version: 1932.v75cb_b_f1b_698d
+  - artifactId: git
+    source:
+      version: 5.7.0
+  - artifactId: job-dsl
+    source:
+      version: 1.91
+  - artifactId: kubernetes
+    source:
+      version: 4314.v5b_846cf499eb_
+  - artifactId: workflow-aggregator
+    source:
+      version: 600.vb_57cdd26fdd7

@@ -1,8 +1,7 @@
-{{- if .Values.tektonTask.create -}}
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: {{ include "fosscut.fullname" . }}-generate
+  name: {{ .Values.tektonTask.name }}
 spec:
   {{- with .Values.tektonTask.workspaces }}
   workspaces:
@@ -20,5 +19,4 @@ spec:
       image: "{{ .Values.tektonTask.repository }}:{{ .Values.tektonTask.tag | default .Chart.AppVersion }}"
       script: |
         #!/bin/sh
-        /fosscut --redis-connection-secrets redis-connection-secrets.yaml $(params.subcommand) $(params.redisUrl)
-{{- end }}
+        fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $(params.subcommand) $(params.redisUrl)

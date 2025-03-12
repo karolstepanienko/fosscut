@@ -1,0 +1,82 @@
+# Recommended enforcing of standardised naming of resources
+useStandardNaming: true
+
+# Workloads will run only as separate pods in a k8s cluster
+executor: "KubernetesExecutor"
+
+# Allows running DAG task pods in every cluster namespace
+multiNamespaceMode: true
+
+# Triggerer is not necessary
+triggerer:
+  enabled: false
+
+# Monitoring is not necessary
+statsd:
+  enabled: false
+
+dags:
+  gitSync:
+    enabled: true
+    repo: https://github.com/karolstepanienko/fosscut.git
+    branch: main
+    rev: HEAD
+    subPath: "k8s/airflow/dags"
+
+# Necessary for logs to be available through webserver
+logs:
+  persistence:
+    enabled: True
+
+# static webserver secret key ensures that Airflow components only restart when
+# necessary
+webserverSecretKeySecretName: airflow-webserver-secret-key
+
+# Mount HTTPS secrets
+webserver:
+  livenessProbe:
+    scheme: HTTPS
+  readinessProbe:
+    scheme: HTTPS
+  startupProbe:
+    scheme: HTTPS
+  extraVolumes:
+    - name: airflow-webserver-tls-secret
+      secret:
+        secretName: airflow-webserver-tls-secret
+        defaultMode: 0440
+        optional: false
+  extraVolumeMounts:
+    - name: airflow-webserver-tls-secret
+      mountPath: "/tls.crt"
+      subPath: tls.crt
+      readOnly: true
+    - name: airflow-webserver-tls-secret
+      mountPath: "/tls.key"
+      subPath: tls.key
+      readOnly: true
+
+# Enable HTTPS in webserver settings
+config:
+  webserver:
+    web_server_ssl_cert: /tls.crt
+    web_server_ssl_key: /tls.key
+
+ingress:
+  web:
+    enabled: true
+    ingressClassName: haproxy
+    annotations:
+        # use https when connecting to backend services
+        haproxy.org/server-ssl: "true"
+        # cert used to verify backend services certificate
+        haproxy.org/server-ca: "jenkins/fosscut-ca"
+    host: airflow.fosscut.com
+    tls:
+      enabled: true
+      secretName: "airflow.fosscut.com-tls-secret"
+
+images:
+  pod_template:
+    repository: "karolstepanienko/fosscut-cli-native"
+    tag: "0.0.1"

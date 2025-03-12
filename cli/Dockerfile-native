@@ -18,6 +18,23 @@ COPY cli cli
 RUN ./gradlew --no-daemon cli:nativeCompile
 
 
-FROM debian:12.8-slim
+FROM jenkins/inbound-agent:3283.v92c105e0f819-9 AS jenkins-inbound-agent
 
-COPY --from=build /app/cli/build/native/nativeCompile/fosscut .
+
+FROM apache/airflow:2.9.3 AS final
+
+COPY --from=build /app/cli/build/native/nativeCompile/fosscut /home/airflow/.local/bin/fosscut
+USER root
+RUN apt update && apt install -y openjdk-17-jdk && mkdir -p /home/jenkins/agent/jenkins-agent
+COPY --from=jenkins-inbound-agent /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-agent
+COPY --from=jenkins-inbound-agent /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
+
+# Adding fosscut-ca for HTTPS connectivity between jenkins inbound agent and
+# jenkins controller
+COPY ./helm/secrets/ca.crt /home/jenkins/ca.crt
+RUN keytool -importcert -noprompt -trustcacerts -alias fosscut-ca \
+    -file /home/jenkins/ca.crt \
+    -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+USER airflow
+
+ENTRYPOINT [ "/usr/local/bin/jenkins-agent" ]
