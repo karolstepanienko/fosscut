@@ -89,5 +89,5 @@ BashOperator(
     task_id = 'fosscut_generate_kubernetes_executor_task_id',
     bash_command = 'fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}',
     dag = fosscut_generate_kubernetes_executor,
-    executor_config = executor_config
+    # executor_config = executor_config
 )
