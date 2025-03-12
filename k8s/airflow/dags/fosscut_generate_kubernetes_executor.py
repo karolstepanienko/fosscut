@@ -72,7 +72,7 @@ pod_override = k8s.V1Pod(
                 name = "base",
                 image = "karolstepanienko/fosscut-cli-native:0.0.1",
                 volume_mounts=volume_mounts,
-                cmds = [
+                command = [
                     "/usr/bin/dumb-init",
                     "--",
                     "/entrypoint"
