@@ -70,19 +70,19 @@ pod_override = k8s.V1Pod(
         containers = [
             k8s.V1Container(
                 name = "base",
-                # image = "karolstepanienko/fosscut-cli-native:0.0.1",
-                volume_mounts=volume_mounts
+                image = "karolstepanienko/fosscut-cli-native:0.0.1",
+                # volume_mounts=volume_mounts
             )
         ],
-        volumes = secret_volumes
+        # volumes = secret_volumes
     )
 )
 
 executor_config = {
     "pod_override": pod_override,
-    # "KubernetesExecutor": {
-    #     "namespace": "fosscut-workloads"
-    # }
+    "KubernetesExecutor": {
+        "namespace": "fosscut-workloads"
+    }
 }
 
 BashOperator(
