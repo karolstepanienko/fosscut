@@ -80,9 +80,9 @@ pod_override = k8s.V1Pod(
 
 executor_config = {
     "pod_override": pod_override,
-    "KubernetesExecutor": {
-        "namespace": "fosscut-workloads"
-    }
+    # "KubernetesExecutor": {
+    #     "namespace": "fosscut-workloads"
+    # }
 }
 
 BashOperator(
