@@ -70,8 +70,13 @@ pod_override = k8s.V1Pod(
         containers = [
             k8s.V1Container(
                 name = "base",
-                # image = "karolstepanienko/fosscut-cli-native:0.0.1",
-                volume_mounts=volume_mounts
+                image = "karolstepanienko/fosscut-cli-native:0.0.1",
+                volume_mounts=volume_mounts,
+                cmds = [
+                    "/usr/bin/dumb-init",
+                    "--",
+                    "/entrypoint"
+                ]
             )
         ],
         volumes = secret_volumes
