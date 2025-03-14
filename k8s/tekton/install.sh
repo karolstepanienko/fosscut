@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-helm template tekton . -n fosscut-workloads -f values.yaml > template.log
-helm upgrade --install tekton . -n fosscut-workloads --create-namespace -f values.yaml
+helm template tekton . -n tekton -f values.yaml > template.log
+helm upgrade --install tekton . -n tekton --create-namespace -f values.yaml

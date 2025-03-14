@@ -19,7 +19,7 @@ import io.fabric8.tekton.v1.WorkspaceBindingBuilder;
 
 public class FosscutTektonClient {
 
-    private static final String NAMESPACE = "fosscut-workloads";
+    private static final String NAMESPACE = "tekton";
     private static final String TASK_NAME = "fosscut-generate";
     private static final String TASK_RUN_NAME_PREFIX = "fosscut-generate-";
     private static final String SECRET_NAME = "tekton-cli-redis-connection-secrets";

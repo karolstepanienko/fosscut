@@ -20,3 +20,11 @@ kubectl create secret tls airflow.fosscut.com-tls-secret -n airflow --cert=../..
 # airflow
 helm template airflow apache-airflow/airflow -n airflow -f local-values.yaml -f values.yaml > template.log
 helm upgrade --install airflow apache-airflow/airflow -n airflow --create-namespace -f local-values.yaml -f values.yaml
+
+# Secret for fosscut workload pods
+kubectl delete secret cli-redis-connection-secrets -n airflow
+kubectl create secret generic cli-redis-connection-secrets \
+    -n airflow \
+    --from-file=keystore.p12=../../helm/secrets/keystore.p12 \
+    --from-file=truststore.p12=../../helm/secrets/truststore.p12 \
+    --from-file=redis-connection-secrets.yaml=../../helm/secrets/redis-connection-secrets.yaml

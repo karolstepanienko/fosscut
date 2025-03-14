@@ -54,11 +54,10 @@ agent:
   image:
     repository: "karolstepanienko/fosscut-cli-native"
     tag: "0.0.1"
-  namespace: fosscut-workloads
   volumes:
     - type: Secret
       mountPath: /secrets
-      secretName: tekton-cli-redis-connection-secrets
+      secretName: cli-redis-connection-secrets
       defaultMode: 0444
 
 persistence:

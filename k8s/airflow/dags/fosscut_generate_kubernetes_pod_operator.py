@@ -70,7 +70,7 @@ KubernetesPodOperator(
     cmds = ["bash", "-cx"],
     arguments = ["fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}"],
     task_id = "fosscut_generate_kubernetes_pod_operator_task_id",
-    namespace = "fosscut-workloads",
+    namespace = "airflow",
     volumes = secret_volumes,
     volume_mounts = volume_mounts,
 )
