@@ -39,7 +39,7 @@ secret_volumes = [
     k8s.V1Volume(
         name = 'redis-connection-secrets',
         secret = k8s.V1SecretVolumeSource(
-            secret_name = 'tekton-cli-redis-connection-secrets'
+            secret_name = 'cli-redis-connection-secrets'
         )
     )
 ]
@@ -84,13 +84,9 @@ pod_override = k8s.V1Pod(
     )
 )
 
-executor_config = {
-    "pod_override": pod_override
-}
-
 BashOperator(
     task_id = 'fosscut_generate_kubernetes_executor_task_id',
     bash_command = 'fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}',
     dag = fosscut_generate_kubernetes_executor,
-    executor_config = executor_config
+    executor_config = { "pod_override": pod_override }
 )
