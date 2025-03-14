@@ -72,6 +72,7 @@ pod_override = k8s.V1Pod(
                 name = "base",
                 image = "karolstepanienko/fosscut-cli-native:0.0.1",
                 volume_mounts=volume_mounts,
+                # entrypoint borrowed from the original airflow/airflow Dockerfile
                 command = [
                     "/usr/bin/dumb-init",
                     "--",
@@ -84,10 +85,7 @@ pod_override = k8s.V1Pod(
 )
 
 executor_config = {
-    "pod_override": pod_override,
-    # "KubernetesExecutor": {
-    #     "namespace": "fosscut-workloads"
-    # }
+    "pod_override": pod_override
 }
 
 BashOperator(
