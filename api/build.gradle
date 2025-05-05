@@ -23,6 +23,7 @@ dependencies {
     implementation libs.springStarterWeb
     implementation libs.k8sClient
     implementation libs.springDataRedis
+    implementation libs.springStarterWebflux
     testImplementation libs.springStarterTest
     testRuntimeOnly libs.junitPlatform
 }

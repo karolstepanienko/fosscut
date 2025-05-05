@@ -10,3 +10,8 @@ logs:
   persistence:
     size: 1Gi
     storageClassName: nfs-client
+
+# Env variables for all containers
+env:
+- name: "TZ"
+  value: "Europe/Warsaw"

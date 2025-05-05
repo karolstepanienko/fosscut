@@ -25,8 +25,6 @@ import jakarta.servlet.http.Cookie;
 @TestMethodOrder(OrderAnnotation.class)
 public class RedisTests {
 
-    private static final String ORDER_IDENTIFIER = "api-test-oder-identifier";
-
     @Autowired
     private Redis controller;
 
@@ -52,7 +50,7 @@ public class RedisTests {
     void saveOrder_InvalidYaml() throws Exception {
         // Given
         String invalidOrderDTOString ="{"
-            + "\"identifier\": \"" + ORDER_IDENTIFIER + "\","
+            + "\"identifier\": \"" + ApiDefaults.TEST_ORDER_IDENTIFIER + "\","
             + "\"order\": \"invalid-yaml\""
             + "}";
 
@@ -68,7 +66,7 @@ public class RedisTests {
     void saveOrder_Success() throws Exception  {
         // Given
         String orderDTOString ="{"
-            + "\"identifier\": \"" + ORDER_IDENTIFIER + "\", "
+            + "\"identifier\": \"" + ApiDefaults.TEST_ORDER_IDENTIFIER + "\", "
             + "\"order\": \"inputs:\\n - length: 1000\\noutputs:\\n - length: 688 \\n   count: 11\""
             + "}";
 
@@ -83,14 +81,14 @@ public class RedisTests {
     @Order(3)
     void checkOrderSaved_Success() throws Exception {
         // Given
-        Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, ORDER_IDENTIFIER);
+        Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
 
         // When & Then
         mockMvc.perform(get("/redis/check/order/saved")
             .cookie(cookie))
             .andExpect(status().isOk())
             .andExpect(content().string("true"));
-        }
+    }
 
     @Test
     void checkOrderSaved_Failure() throws Exception {

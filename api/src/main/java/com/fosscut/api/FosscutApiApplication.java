@@ -2,10 +2,13 @@ package com.fosscut.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientSsl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import com.fosscut.api.client.FosscutAirflowClient;
 import com.fosscut.api.client.FosscutTektonClient;
 
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -40,6 +43,14 @@ public class FosscutApiApplication {
     @Bean(destroyMethod = "close")
     public FosscutTektonClient fosscutTektonClient() {
         return new FosscutTektonClient();
+    }
+
+    @Bean
+    public FosscutAirflowClient fosscutAirflowClient(WebClient.Builder webClientBuilder, WebClientSsl ssl) {
+        WebClient webClient = webClientBuilder.apply(
+            ssl.fromBundle("server")
+        ).build();
+        return new FosscutAirflowClient(webClient);
     }
 
 }

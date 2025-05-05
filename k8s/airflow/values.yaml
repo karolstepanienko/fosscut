@@ -55,12 +55,16 @@ webserver:
       mountPath: "/tls.key"
       subPath: tls.key
       readOnly: true
+  defaultUser:
+    enabled: false
 
 # Enable HTTPS in webserver settings
 config:
   webserver:
     web_server_ssl_cert: /tls.crt
     web_server_ssl_key: /tls.key
+  api:
+    auth_backends: airflow.api.auth.backend.basic_auth
 
 ingress:
   web:
@@ -70,7 +74,7 @@ ingress:
         # use https when connecting to backend services
         haproxy.org/server-ssl: "true"
         # cert used to verify backend services certificate
-        haproxy.org/server-ca: "jenkins/fosscut-ca"
+        haproxy.org/server-ca: "fosscut-ca"
     host: airflow.fosscut.com
     tls:
       enabled: true

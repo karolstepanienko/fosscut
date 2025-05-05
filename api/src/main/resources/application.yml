@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api/
+
 spring:
   application:
     name: fosscut-api
@@ -23,6 +27,8 @@ spring:
       ssl:
         bundle: "server"
 
-server:
-  servlet:
-    context-path: /api/
+airflow:
+  hostname: airflow.fosscut.com
+  port: 443
+  username: fosscut-api-local
+  password: password

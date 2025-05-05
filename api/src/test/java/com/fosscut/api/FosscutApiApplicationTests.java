@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,7 +33,7 @@ class FosscutApiApplicationTests {
     @Test
     void shouldReturnDefaultMessage() throws Exception {
         mockMvc.perform(get("/health"))
-            .andDo(print()).andExpect(status().isOk())
+            .andExpect(status().isOk())
             .andExpect(content().string(equalTo("OK")));
     }
 

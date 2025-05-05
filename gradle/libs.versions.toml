@@ -33,3 +33,4 @@ springStarterTest = { module = "org.springframework.boot:spring-boot-starter-tes
 junitPlatform = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatform" }
 k8sClient = { module = "io.fabric8:tekton-client", version.ref = "k8sClient" }
 springDataRedis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "spring" }
+springStarterWebflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
