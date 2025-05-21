@@ -40,6 +40,7 @@ controller:
           - script: |
               job('fosscut') {
                   description('Job that runs a parametrised fosscut cli command.')
+                  concurrentBuild(true)
                   parameters {
                       choiceParam('subcommand', ['cg', 'ffd', 'greedy'], 'Subcommand that determines cutting plan generation algorithm.')
                       stringParam('redis_url', 'redis://redis-replicas.redis.svc.cluster.local:6379/example-order')

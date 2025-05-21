@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.fosscut.api.client.FosscutAirflowClient;
+import com.fosscut.api.client.FosscutJenkinsClient;
 import com.fosscut.api.client.FosscutTektonClient;
 
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -46,11 +48,19 @@ public class FosscutApiApplication {
     }
 
     @Bean
-    public FosscutAirflowClient fosscutAirflowClient(WebClient.Builder webClientBuilder, WebClientSsl ssl) {
+    public FosscutAirflowClient fosscutAirflowClient(Builder webClientBuilder, WebClientSsl ssl) {
         WebClient webClient = webClientBuilder.apply(
             ssl.fromBundle("server")
         ).build();
         return new FosscutAirflowClient(webClient);
+    }
+
+    @Bean
+    public FosscutJenkinsClient fosscutJenkinsClient(Builder webClientBuilder, WebClientSsl ssl) {
+        WebClient webClient = webClientBuilder.apply(
+            ssl.fromBundle("server")
+        ).build();
+        return new FosscutJenkinsClient(webClient);
     }
 
 }
