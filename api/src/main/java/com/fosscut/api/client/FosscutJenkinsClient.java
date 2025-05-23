@@ -41,6 +41,7 @@ public class FosscutJenkinsClient {
         this.basicAuth = Base64.getEncoder().encodeToString((username + ":" + token).getBytes());
     }
 
+    @SuppressWarnings("null")
     public String triggerJob() {
         // returns HTTP code and headers, body is empty
         Mono<ResponseEntity<Void>> monoResponse = webClient.post()
@@ -49,7 +50,8 @@ public class FosscutJenkinsClient {
                 .header("Content-Type","application/json")
                 .bodyValue("subcommand=ffd&redis_url=redis://redis-replicas.redis.svc.cluster.local:6379/example-order")
                 .retrieve().toBodilessEntity();
-        return monoResponse.block().getHeaders().getFirst("location");
+        return monoResponse.block().getHeaders().getFirst("location")
+            .split("/queue/item/")[1].split("/")[0];
     }
 
     public JenkinsJobLogsDTO getJobLogs(String queueItemIdentifier, String jobNumberIdentifier) {
@@ -65,15 +67,18 @@ public class FosscutJenkinsClient {
                     .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                     .block();
 
-                status = json.get("why").toString();
+                Object statusOrNull = json.get("why");
+                if (statusOrNull != null) status = statusOrNull.toString();
 
                 try {
-                    String[] parts = json.get("executable").toString().split(" ");
-                    for (String part : parts) {
-                        if (part.contains("number")){
-                            String numberPart= part.split("number=")[1];
-                            jobNumberIdentifier = numberPart.substring(0, numberPart.length() - 1); // drop last char
-                            System.out.println("jobNumberIdentifier: " + jobNumberIdentifier);
+                    Object executableOrNull = json.get("executable");
+                    if (executableOrNull != null) {
+                        String[] parts = executableOrNull.toString().split(" ");
+                        for (String part : parts) {
+                            if (part.contains("number")){
+                                String numberPart= part.split("number=")[1];
+                                jobNumberIdentifier = numberPart.substring(0, numberPart.length() - 1); // drop last char
+                            }
                         }
                     }
                 } catch (IndexOutOfBoundsException e) {}
@@ -86,7 +91,7 @@ public class FosscutJenkinsClient {
 
             return new JenkinsJobLogsDTO(HttpServletResponse.SC_OK, jobNumberIdentifier, status, logs);
         } catch (WebClientResponseException.NotFound ex) {
-            return new JenkinsJobLogsDTO(HttpServletResponse.SC_NOT_FOUND);
+            return new JenkinsJobLogsDTO(HttpServletResponse.SC_NOT_FOUND, jobNumberIdentifier, status, null);
         }
     }
 

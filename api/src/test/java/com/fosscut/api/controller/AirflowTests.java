@@ -30,6 +30,8 @@ public class AirflowTests {
     @Autowired
     private MockMvc mockMvc;
 
+    public static String testDagRunID = "";
+
     @Test
     @Order(1)
     void contextLoads() {
@@ -47,9 +49,9 @@ public class AirflowTests {
             .cookie(cookie))
             .andExpect(status().isOk()).andReturn();
 
-        ApiDefaults.testDagRunID = result.getResponse().getContentAsString();
+        testDagRunID = result.getResponse().getContentAsString();
 
-        assertThat(ApiDefaults.testDagRunID)
+        assertThat(testDagRunID)
            .isNotNull()
            .isNotEmpty()
            .contains(ApiDefaults.TEST_ORDER_IDENTIFIER);
@@ -59,7 +61,7 @@ public class AirflowTests {
     @Order(3)
     void dagLogs_Success() throws Exception {
         // Given
-        Cookie cookie = new Cookie(ApiDefaults.COOKIE_DAG_RUN_ID_IDENTIFIER, ApiDefaults.testDagRunID);
+        Cookie cookie = new Cookie(ApiDefaults.COOKIE_DAG_RUN_ID_IDENTIFIER, testDagRunID);
 
         String logs = "";
         for (int i = 0; i < 10; i++) {

@@ -11,5 +11,5 @@ public class ApiDefaults {
     public static final String COOKIE_JOB_NUMBER_IDENTIFIER = "fosscut_jobNumberIdentifier";
 
     public static final String TEST_ORDER_IDENTIFIER = "api-test-order-identifier";
-    public static String testDagRunID = "set dynamically";
+
 }

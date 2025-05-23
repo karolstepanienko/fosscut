@@ -7,6 +7,8 @@ public class JenkinsJobLogsDTO {
     String status;
     String logs;
 
+    public JenkinsJobLogsDTO() {}
+
     public JenkinsJobLogsDTO(int httpStatusCode) {
         this.httpStatusCode = httpStatusCode;
         this.jobNumberIdentifier = null;
