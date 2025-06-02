@@ -10,9 +10,6 @@ build/
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -31,6 +28,8 @@ replay_pid*
 
 # editor configuration
 .vscode/
+.project
+.classpath
 
 # secrets used in deployment
 helm/secrets/
