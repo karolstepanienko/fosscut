@@ -13,7 +13,10 @@ const InputItem: React.FC<InputItemProps> = ({input, deleteInput}) => {
     <div className="item-name-container">
       <p className="item-name">Length: {input.length}</p>
     </div>
-    <button className="btn btn-secondary fosscut-button item-button" onClick={() => deleteInput(input.id)}>X</button>
+    <button className="btn btn-secondary fosscut-button item-button"
+      type="button" onClick={() => deleteInput(input.id)}>
+      X
+    </button>
   </div>
   );
 }

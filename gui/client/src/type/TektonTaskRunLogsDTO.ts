@@ -1,9 +1,13 @@
-type SetTektonTaskRunLogsDTOFunction = (tektonTaskRunLogsDTO: TektonTaskRunLogsDTO | undefined) => void;
+type SetTektonTaskRunLogsDTOFunction = (tektonTaskRunLogsDTO: TektonTaskRunLogsDTO) => void;
 
-type TektonTaskRunLogsDTO = {
-  status: string,
-  reason: string,
-  logs: string
+class TektonTaskRunLogsDTO {
+  status: string = '';
+  reason: string = '';
+  logs: string = '';
+
+  isInitialized(): boolean {
+    return this.status !== '' || this.reason !== '' || this.logs !== '';
+  }
 }
 
 export type { SetTektonTaskRunLogsDTOFunction };

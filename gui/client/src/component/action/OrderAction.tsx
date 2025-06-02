@@ -71,8 +71,10 @@ const OrderAction: React.FC<OrderActionProps> = ({
           outputs={outputs} setOutputs={setOutputs}
         />
       </div>
-      <button className="btn btn-secondary fosscut-button button-group" onClick={() => saveOrder()}>
-      Save</button>
+      <button className="btn btn-secondary fosscut-button button-group"
+        type="button" onClick={() => saveOrder()}>
+        Save
+      </button>
     </div>
   );
 }

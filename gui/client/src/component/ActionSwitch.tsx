@@ -22,7 +22,7 @@ function ActionSwitch() {
     { id: 0, length: 30, count: 2, maxRelax: 0 }
   ]);
 
-  const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(undefined);
+  const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(new TektonTaskRunLogsDTO());
   const [settingsExtended, setSettingsExtended] = useState<boolean>(true);
 
   const renderAction = () => {

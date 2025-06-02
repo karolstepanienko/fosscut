@@ -9,7 +9,7 @@ import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
 
 const PlanAction = () => {
   const api = getApi();
-  const [cuttingPlan, setCuttingPlan] = useState<CuttingPlan>(undefined);
+  const [cuttingPlan, setCuttingPlan] = useState<CuttingPlan>();
   const [planTableData, setPlanTableData] = useState<PlanTableRow[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -59,7 +59,7 @@ const PlanAction = () => {
       return (
         <p className="warning">{errorMessage}</p>
       );
-    } else return (<></>);
+    } else return (<div><div/></div>);
   }
 
   return (

@@ -43,7 +43,7 @@ const GenerateAction: React.FC<GenerateActionProps>
   }
 
   const generatePlan = () => {
-    setTektonTaskRunLogsDTO(undefined)
+    setTektonTaskRunLogsDTO(new TektonTaskRunLogsDTO())
     setTaskRunToBeDeleted(true)
   }
 
@@ -105,11 +105,11 @@ const GenerateAction: React.FC<GenerateActionProps>
       return (
         <p className="warning">Order was not found. Please try saving it.</p>
       );
-    } else return (<></>);
+    } else return (<div><div/></div>);
   }
 
   const renderSummary = () => {
-    if (tektonTaskRunLogsDTO) {
+    if (tektonTaskRunLogsDTO && tektonTaskRunLogsDTO.isInitialized()) {
       return (
         <div className="summary-container">
           <p>Status: {tektonTaskRunLogsDTO.status}</p>
@@ -120,20 +120,20 @@ const GenerateAction: React.FC<GenerateActionProps>
   }
 
   const renderLogs = () => {
-    if (tektonTaskRunLogsDTO && tektonTaskRunLogsDTO?.logs !== "") {
+    if (tektonTaskRunLogsDTO && tektonTaskRunLogsDTO.isInitialized()) {
       return (
         <div className="logs-container">
           <p className="logs">{tektonTaskRunLogsDTO.logs}</p>
         </div>
       );
-    } else return (<></>);
+    } else return (<div><div/></div>);
   }
 
   return (
     <div className="action-container">
       <Settings settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended} />
       <button className="btn btn-secondary fosscut-button button-group"
-        disabled={!orderAvailable} onClick={() => generatePlan()}>
+        type="button" disabled={!orderAvailable} onClick={() => generatePlan()}>
         Generate
       </button>
       {renderOrderUnavailableMessage()}

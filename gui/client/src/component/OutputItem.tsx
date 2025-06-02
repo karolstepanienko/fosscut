@@ -15,7 +15,10 @@ const OutputItem: React.FC<OutputItemProps> = ({output, deleteOutput}) => {
       <p className="item-name">Count: {output.count}</p>
       <p className="item-name">MaxRelax: {output.maxRelax}</p>
     </div>
-    <button className="btn btn-secondary fosscut-button item-button" onClick={() => deleteOutput(output.id)}>X</button>
+    <button className="btn btn-secondary fosscut-button item-button"
+      type="button" onClick={() => deleteOutput(output.id)}>
+      X
+    </button>
   </div>
   );
 }
