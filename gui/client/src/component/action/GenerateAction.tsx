@@ -18,7 +18,7 @@ const GenerateAction: React.FC<GenerateActionProps>
   const api = getApi();
   const tektonApi = TektonApi({tektonTaskRunLogs, setTektonTaskRunLogs});
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
-  const [backend, setBackend] = useState<Backend>(Backend.TEKTON);
+  const [backend, setBackend] = useState<string>(Backend.TEKTON);
   useEffect(() => { checkOrderAvailable() }, [])
 
   const checkOrderAvailable = async () => {

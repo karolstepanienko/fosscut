@@ -5,19 +5,20 @@ import RadioButton from "./RadioButton.tsx";
 import Algorithm from "../enum/Algorithm.ts";
 import { SetSettingsExtendedFunction } from "../type/SettingsExtended.ts";
 import Backend from "../enum/Backend.ts";
+import { S } from "vite";
 
 type SettingsProps = {
   settingsExtended: boolean,
   setSettingsExtended: SetSettingsExtendedFunction,
   backend : Backend,
-  setBackend: (backend: Backend) => void
+  setBackend: (backend: string) => void
 }
 
 const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtended, backend, setBackend}) => {
   const [algorithm, setAlgorithm] = useState<string>(Algorithm.FFD);
   const [cookies, setCookie] = useCookies(['fosscut_settings']);
 
-  useEffect(() => { updateSettingsCookie() }, [algorithm]);
+  useEffect(() => { updateSettingsCookie() }, [algorithm, backend]);
   useEffect(() => { loadSettingsFromCookie() }, []);
 
   const updateSettingsCookie = () => {
@@ -58,6 +59,16 @@ const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtende
                   keyPrefix="algorithm"
                 />
                 <label className="btn settings-item-text-invisible">Algorithm:</label>
+              </div>
+              <div className="settings-item" >
+                <label className="btn settings-item-text">Backend:</label>
+                <RadioButton
+                  currentValue={backend}
+                  setCurrentValue={setBackend}
+                  values={Object.values(Backend)}
+                  keyPrefix="backend"
+                />
+                <label className="btn settings-item-text-invisible">Backend:</label>
               </div>
             </Accordion.Body>
           </Accordion.Item>

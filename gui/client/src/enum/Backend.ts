@@ -1,7 +1,7 @@
 enum Backend {
-    TEKTON = "TEKTON",
-    AIRFLOW = "AIRFLOW",
-    JENKINS = "JENKINS"
+    TEKTON = "Tekton",
+    AIRFLOW = "Airflow",
+    JENKINS = "Jenkins",
 }
 
 export default Backend;
