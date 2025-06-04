@@ -9,7 +9,7 @@ type TektonApiProps = {
   setTektonTaskRunLogs: SetTektonTaskRunLogsFunction,
 }
 
-export const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) => {
+const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) => {
   const api = getApi();
   const [taskRunToBeDeleted, setTaskRunToBeDeleted] = useState<boolean>(false);
   const [taskRunToBeCreated, setTaskRunToBeCreated] = useState<boolean>(false);

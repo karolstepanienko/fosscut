@@ -4,6 +4,7 @@ import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../../type/Tekt
 import Settings from "../Settings.tsx";
 import { SetSettingsExtendedFunction } from "../../type/SettingsExtended.ts";
 import TektonApi from "../../communication/TektonApi.tsx";
+import Backend from "../../enum/Backend.ts";
 
 type GenerateActionProps = {
   tektonTaskRunLogs: TektonTaskRunLogs,
@@ -17,6 +18,7 @@ const GenerateAction: React.FC<GenerateActionProps>
   const api = getApi();
   const tektonApi = TektonApi({tektonTaskRunLogs, setTektonTaskRunLogs});
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
+  const [backend, setBackend] = useState<Backend>(Backend.TEKTON);
   useEffect(() => { checkOrderAvailable() }, [])
 
   const checkOrderAvailable = async () => {
@@ -52,7 +54,8 @@ const GenerateAction: React.FC<GenerateActionProps>
 
   return (
     <div className="action-container">
-      <Settings settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended} />
+      <Settings settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended}
+        backend={backend} setBackend={setBackend} />
       <button className="btn btn-secondary fosscut-button button-group"
         type="button" disabled={!orderAvailable} onClick={() => generatePlan()}>
         Generate

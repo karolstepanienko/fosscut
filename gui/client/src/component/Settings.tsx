@@ -4,13 +4,16 @@ import { Accordion } from 'react-bootstrap';
 import RadioButton from "./RadioButton.tsx";
 import Algorithm from "../enum/Algorithm.ts";
 import { SetSettingsExtendedFunction } from "../type/SettingsExtended.ts";
+import Backend from "../enum/Backend.ts";
 
 type SettingsProps = {
   settingsExtended: boolean,
-  setSettingsExtended: SetSettingsExtendedFunction
+  setSettingsExtended: SetSettingsExtendedFunction,
+  backend : Backend,
+  setBackend: (backend: Backend) => void
 }
 
-const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtended}) => {
+const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtended, backend, setBackend}) => {
   const [algorithm, setAlgorithm] = useState<string>(Algorithm.FFD);
   const [cookies, setCookie] = useCookies(['fosscut_settings']);
 
@@ -18,12 +21,20 @@ const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtende
   useEffect(() => { loadSettingsFromCookie() }, []);
 
   const updateSettingsCookie = () => {
-    setCookie('fosscut_settings', algorithm);
+    setCookie('fosscut_settings', generateCookieString());
+  }
+
+  const generateCookieString = () => {
+    return JSON.stringify({
+      algorithm,
+      backend
+    });
   }
 
   const loadSettingsFromCookie = () => {
     if (cookies['fosscut_settings']) {
-      setAlgorithm(cookies['fosscut_settings']);
+      setAlgorithm(cookies['fosscut_settings'].algorithm);
+      setBackend(cookies['fosscut_settings'].backend);
     }
   };
 
