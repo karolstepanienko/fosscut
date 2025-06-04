@@ -1,15 +1,11 @@
-type SetTektonTaskRunLogsDTOFunction = (tektonTaskRunLogsDTO: TektonTaskRunLogsDTO) => void;
+import { z } from 'zod';
 
-class TektonTaskRunLogsDTO {
-  status: string = '';
-  reason: string = '';
-  logs: string = '';
+const TektonTaskRunLogsDTO = z.object({
+  status: z.string(),
+  reason: z.string(),
+  logs: z.string()
+});
 
-  isInitialized(): boolean {
-    return this.status !== '' || this.reason !== '' || this.logs !== '';
-  }
-}
-
-export type { SetTektonTaskRunLogsDTOFunction };
+type TektonTaskRunLogsDTO = z.infer<typeof TektonTaskRunLogsDTO>;
 
 export default TektonTaskRunLogsDTO;

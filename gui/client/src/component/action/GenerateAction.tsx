@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { getApi } from "../../Config.ts";
-import TektonTaskRunLogsDTO, { SetTektonTaskRunLogsDTOFunction } from "../../type/TektonTaskRunLogsDTO.ts";
+import TektonTaskRunLogsDTO from "../../type/TektonTaskRunLogsDTO.ts";
+import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../../type/TektonTaskRunLogs.ts";
 import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
 import Settings from "../Settings.tsx";
 import { SetSettingsExtendedFunction } from "../../type/SettingsExtended.ts";
 
 type GenerateActionProps = {
-  tektonTaskRunLogsDTO: TektonTaskRunLogsDTO,
-  setTektonTaskRunLogsDTO: SetTektonTaskRunLogsDTOFunction,
+  tektonTaskRunLogs: TektonTaskRunLogs,
+  setTektonTaskRunLogs: SetTektonTaskRunLogsFunction,
   settingsExtended: boolean,
   setSettingsExtended: SetSettingsExtendedFunction
 }
 
 const GenerateAction: React.FC<GenerateActionProps>
-  = ({tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO, settingsExtended, setSettingsExtended}) => {
+  = ({tektonTaskRunLogs, setTektonTaskRunLogs, settingsExtended, setSettingsExtended}) => {
   const api = getApi();
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
   const [taskRunToBeDeleted, setTaskRunToBeDeleted] = useState<boolean>(false);
@@ -43,7 +44,7 @@ const GenerateAction: React.FC<GenerateActionProps>
   }
 
   const generatePlan = () => {
-    setTektonTaskRunLogsDTO(new TektonTaskRunLogsDTO())
+    setTektonTaskRunLogs(new TektonTaskRunLogs())
     setTaskRunToBeDeleted(true)
   }
 
@@ -86,18 +87,20 @@ const GenerateAction: React.FC<GenerateActionProps>
 
   const getLogs = () => {
     sendGetLogsRequest()
-    if (tektonTaskRunLogsDTO && tektonTaskRunLogsDTO.status !== "Unknown") {
+    if (tektonTaskRunLogs && tektonTaskRunLogs.isInitialized() && tektonTaskRunLogs.status !== "Unknown") {
       // if success or failure
       setTicking(false)
     }
   }
 
   const sendGetLogsRequest = async () => {
-    let tl = undefined
+    let tl = new TektonTaskRunLogs(undefined);
     try {
-      tl = (await api.get("/tekton/taskRun/get/logs")).data as TektonTaskRunLogsDTO
+      const data = (await api.get("/tekton/taskRun/get/logs")).data
+      const dto = TektonTaskRunLogsDTO.parse(data)
+      tl = new TektonTaskRunLogs(dto)
     } catch (error: unknown) { console.log(error) }
-    if (tl) setTektonTaskRunLogsDTO(tl)
+    if (tl) setTektonTaskRunLogs(tl)
   }
 
   const renderOrderUnavailableMessage = () => {
@@ -109,21 +112,21 @@ const GenerateAction: React.FC<GenerateActionProps>
   }
 
   const renderSummary = () => {
-    if (tektonTaskRunLogsDTO && tektonTaskRunLogsDTO.isInitialized()) {
+    if (tektonTaskRunLogs && tektonTaskRunLogs.isInitialized()) {
       return (
         <div className="summary-container">
-          <p>Status: {tektonTaskRunLogsDTO.status}</p>
-          <p>Reason: {tektonTaskRunLogsDTO.reason}</p>
+          <p>Status: {tektonTaskRunLogs.status}</p>
+          <p>Reason: {tektonTaskRunLogs.reason}</p>
         </div>
       );
     }
   }
 
   const renderLogs = () => {
-    if (tektonTaskRunLogsDTO && tektonTaskRunLogsDTO.isInitialized()) {
+    if (tektonTaskRunLogs && tektonTaskRunLogs.isInitialized()) {
       return (
         <div className="logs-container">
-          <p className="logs">{tektonTaskRunLogsDTO.logs}</p>
+          <p className="logs">{tektonTaskRunLogs.logs}</p>
         </div>
       );
     } else return (<div><div/></div>);

@@ -6,7 +6,7 @@ import GenerateAction from "./action/GenerateAction.tsx";
 import PlanAction from "./action/PlanAction.tsx";
 import Input from "../type/Input.ts";
 import Output from "../type/Output.ts";
-import TektonTaskRunLogsDTO from "../type/TektonTaskRunLogsDTO.ts";
+import TektonTaskRunLogs from "../type/TektonTaskRunLogs.ts";
 import Action from "../enum/Action.ts";
 
 function ActionSwitch() {
@@ -22,7 +22,7 @@ function ActionSwitch() {
     { id: 0, length: 30, count: 2, maxRelax: 0 }
   ]);
 
-  const [tektonTaskRunLogsDTO, setTektonTaskRunLogsDTO] = useState<TektonTaskRunLogsDTO>(new TektonTaskRunLogsDTO());
+  const [tektonTaskRunLogs, setTektonTaskRunLogs] = useState<TektonTaskRunLogs>(new TektonTaskRunLogs());
   const [settingsExtended, setSettingsExtended] = useState<boolean>(true);
 
   const renderAction = () => {
@@ -35,7 +35,7 @@ function ActionSwitch() {
         cookies={cookies} setCookie={setCookie} />
     else if (action === Action.GENERATE)
       return <GenerateAction
-      tektonTaskRunLogsDTO={tektonTaskRunLogsDTO} setTektonTaskRunLogsDTO={setTektonTaskRunLogsDTO}
+      tektonTaskRunLogs={tektonTaskRunLogs} setTektonTaskRunLogs={setTektonTaskRunLogs}
       settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended}
       />
     else if (action === Action.PLAN)
