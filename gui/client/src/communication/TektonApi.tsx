@@ -106,7 +106,7 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
     setTaskRunToBeDeleted: setTaskRunToBeDeleted,
     renderSummary: renderSummary,
     renderLogs: renderLogs
-  };
+  }
 }
 
 export default TektonApi;

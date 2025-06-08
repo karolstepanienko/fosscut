@@ -5,24 +5,24 @@ import RadioButton from "./RadioButton.tsx";
 import Algorithm from "../enum/Algorithm.ts";
 import { SetSettingsExtendedFunction } from "../type/SettingsExtended.ts";
 import Backend from "../enum/Backend.ts";
-import { S } from "vite";
 
 type SettingsProps = {
   settingsExtended: boolean,
   setSettingsExtended: SetSettingsExtendedFunction,
-  backend : Backend,
+  backend : string,
   setBackend: (backend: string) => void
 }
 
 const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtended, backend, setBackend}) => {
+  const fosscutSettingsCookieName = 'fosscut_settings';
   const [algorithm, setAlgorithm] = useState<string>(Algorithm.FFD);
-  const [cookies, setCookie] = useCookies(['fosscut_settings']);
+  const [cookies, setCookie] = useCookies([fosscutSettingsCookieName]);
 
   useEffect(() => { updateSettingsCookie() }, [algorithm, backend]);
   useEffect(() => { loadSettingsFromCookie() }, []);
 
   const updateSettingsCookie = () => {
-    setCookie('fosscut_settings', generateCookieString());
+    setCookie(fosscutSettingsCookieName, generateCookieString());
   }
 
   const generateCookieString = () => {
