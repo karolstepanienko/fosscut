@@ -6,8 +6,9 @@ import GenerateAction from "./action/GenerateAction.tsx";
 import PlanAction from "./action/PlanAction.tsx";
 import Input from "../type/Input.ts";
 import Output from "../type/Output.ts";
-import TektonTaskRunLogs from "../type/TektonTaskRunLogs.ts";
 import Action from "../enum/Action.ts";
+import AirflowDAGLogs from "../type/airflow/AirflowDAGLogs.ts";
+import TektonTaskRunLogs from "../type/tekton/TektonTaskRunLogs.ts";
 
 function ActionSwitch() {
   const [action, setAction] = useState<string>(Action.ORDER);
@@ -22,6 +23,7 @@ function ActionSwitch() {
     { id: 0, length: 30, count: 2, maxRelax: 0 }
   ]);
 
+  const [airflowDAGLogs, setAirflowDAGLogs] = useState<AirflowDAGLogs>(new AirflowDAGLogs());
   const [tektonTaskRunLogs, setTektonTaskRunLogs] = useState<TektonTaskRunLogs>(new TektonTaskRunLogs());
   const [settingsExtended, setSettingsExtended] = useState<boolean>(true);
 
@@ -35,6 +37,7 @@ function ActionSwitch() {
         cookies={cookies} setCookie={setCookie} />
     else if (action === Action.GENERATE)
       return <GenerateAction
+      airflowDAGLogs={airflowDAGLogs} setAirflowDAGLogs={setAirflowDAGLogs}
       tektonTaskRunLogs={tektonTaskRunLogs} setTektonTaskRunLogs={setTektonTaskRunLogs}
       settingsExtended={settingsExtended} setSettingsExtended={setSettingsExtended}
       />

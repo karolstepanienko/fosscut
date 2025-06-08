@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { getApi } from "../../Config.ts";
-import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../../type/TektonTaskRunLogs.ts";
+import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../../type/tekton/TektonTaskRunLogs.ts";
 import Settings from "../Settings.tsx";
 import { SetSettingsExtendedFunction } from "../../type/SettingsExtended.ts";
 import TektonApi from "../../communication/TektonApi.tsx";
 import Backend from "../../enum/Backend.ts";
+import AirflowApi from "../../communication/AirflowApi.tsx";
+import AirflowDAGLogs, { SetAirflowDAGLogsFunction } from "../../type/airflow/AirflowDAGLogs.ts";
 
 type GenerateActionProps = {
+  airflowDAGLogs: AirflowDAGLogs,
+  setAirflowDAGLogs: SetAirflowDAGLogsFunction,
   tektonTaskRunLogs: TektonTaskRunLogs,
   setTektonTaskRunLogs: SetTektonTaskRunLogsFunction,
   settingsExtended: boolean,
@@ -14,8 +18,9 @@ type GenerateActionProps = {
 }
 
 const GenerateAction: React.FC<GenerateActionProps>
-  = ({tektonTaskRunLogs, setTektonTaskRunLogs, settingsExtended, setSettingsExtended}) => {
+  = ({airflowDAGLogs, setAirflowDAGLogs, tektonTaskRunLogs, setTektonTaskRunLogs, settingsExtended, setSettingsExtended}) => {
   const api = getApi();
+  const airflowApi = AirflowApi({airflowDAGLogs, setAirflowDAGLogs});
   const tektonApi = TektonApi({tektonTaskRunLogs, setTektonTaskRunLogs});
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
   const [backend, setBackend] = useState<string>(Backend.TEKTON);
@@ -32,8 +37,11 @@ const GenerateAction: React.FC<GenerateActionProps>
   }
 
   const generatePlan = () => {
-    setTektonTaskRunLogs(new TektonTaskRunLogs())
-    tektonApi.setTaskRunToBeDeleted(true)
+    if (backend === Backend.AIRFLOW) {
+      airflowApi.sendDagRunRequest()
+    } else if (backend === Backend.TEKTON) {
+      tektonApi.sendDagRunRequest()
+    }
   }
 
   const renderOrderUnavailableMessage = () => {
@@ -45,11 +53,19 @@ const GenerateAction: React.FC<GenerateActionProps>
   }
 
   const renderSummary = () => {
-    return tektonApi.renderSummary()
+    if (backend === Backend.AIRFLOW) {
+      return airflowApi.renderSummary()
+    } else if (backend === Backend.TEKTON) {
+      return tektonApi.renderSummary()
+    }
   }
 
   const renderLogs = () => {
-    return tektonApi.renderLogs();
+    if (backend === Backend.AIRFLOW) {
+      return airflowApi.renderLogs();
+    } else if (backend === Backend.TEKTON) {
+      return tektonApi.renderLogs();
+    }
   }
 
   return (

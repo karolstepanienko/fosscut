@@ -2,9 +2,13 @@ package com.fosscut.api.client;
 
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.fosscut.api.type.AirflowDAGLogsDTO;
 
 import jakarta.annotation.PostConstruct;
 
@@ -27,7 +31,6 @@ public class FosscutAirflowClient {
 
     private static final String DAG_ID = "fosscut_generate_kubernetes_executor";
     private static final String TASK_ID = "fosscut_generate_kubernetes_executor_task_id";
-    private static final String TASK_TRY_NUMBER = "1";
 
     public FosscutAirflowClient(WebClient webClient) {
         this.webClient = webClient;
@@ -53,14 +56,34 @@ public class FosscutAirflowClient {
         return dagRunID;
     }
 
-    public String getDAGLogs(String dagRunID) {
+    private Map<String, Object> getTaskDetails(String dagRunID) {
+        Map<String, Object> taskDetails = webClient.get()
+                .uri(getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID)
+                .header("Authorization", getAuthHeader())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .block();
+
+        return taskDetails;
+    }
+
+    private String getDAGLogsString(String dagRunID, Integer taskTryNumber) {
         String logs = webClient.get()
-                .uri(getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID + "/logs/" + TASK_TRY_NUMBER)
+                .uri(getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID + "/logs/" + taskTryNumber.toString())
                 .header("Authorization", getAuthHeader())
                 .retrieve()
                 .bodyToMono(String.class).block();
 
         return logs;
+    }
+
+    public AirflowDAGLogsDTO getDAGLogs(String dagRunID) {
+        Map<String, Object> taskDetails = getTaskDetails(dagRunID);
+        String status = (String) taskDetails.get("state");
+        Integer taskTryNumber = (Integer) taskDetails.get("try_number");
+        String logs = getDAGLogsString(dagRunID, taskTryNumber);
+
+        return new AirflowDAGLogsDTO(status, logs);
     }
 
     ///////////////////////// String Helpers ///////////////////////////////////

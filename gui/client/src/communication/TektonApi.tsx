@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getApi } from "../Config.ts";
-import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../type/TektonTaskRunLogs.ts";
-import TektonTaskRunLogsDTO from "../type/TektonTaskRunLogsDTO.ts";
+import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../type/tekton/TektonTaskRunLogs.ts";
+import TektonTaskRunLogsDTO from "../type/tekton/TektonTaskRunLogsDTO.ts";
 import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
 
 type TektonApiProps = {
@@ -24,6 +24,11 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
     const timer = setTimeout(() => ticking && setCount(count+1), 1e3)
     if (ticking) getLogs()
     return () => clearTimeout(timer)
+  }
+
+  const sendDagRunRequest = () => {
+    setTektonTaskRunLogs(new TektonTaskRunLogs())
+    setTaskRunToBeDeleted(true)
   }
 
   const sendDeleteTaskRunRequest = async () => {
@@ -72,13 +77,12 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
   }
 
   const sendGetLogsRequest = async () => {
-    let tl = new TektonTaskRunLogs(undefined);
     try {
       const data = (await api.get("/tekton/taskRun/get/logs")).data
       const dto = TektonTaskRunLogsDTO.parse(data)
-      tl = new TektonTaskRunLogs(dto)
+      const tl = new TektonTaskRunLogs(dto)
+      if (tl) setTektonTaskRunLogs(tl)
     } catch (error: unknown) { console.log(error) }
-    if (tl) setTektonTaskRunLogs(tl)
   }
 
   const renderSummary = () => {
@@ -103,7 +107,7 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
   }
 
   return {
-    setTaskRunToBeDeleted: setTaskRunToBeDeleted,
+    sendDagRunRequest: sendDagRunRequest,
     renderSummary: renderSummary,
     renderLogs: renderLogs
   }

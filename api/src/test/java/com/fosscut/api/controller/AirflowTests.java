@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fosscut.api.type.AirflowDAGLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
 
 import jakarta.servlet.http.Cookie;
@@ -63,7 +65,9 @@ public class AirflowTests {
         // Given
         Cookie cookie = new Cookie(ApiDefaults.COOKIE_DAG_RUN_ID_IDENTIFIER, testDagRunID);
 
-        String logs = "";
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        AirflowDAGLogsDTO logsDTO = new AirflowDAGLogsDTO();
         for (int i = 0; i < 10; i++) {
             Thread.sleep(2000);
             // When & Then
@@ -71,13 +75,15 @@ public class AirflowTests {
                 .cookie(cookie))
                 .andExpect(status().isOk()).andReturn();
 
-            logs = result.getResponse().getContentAsString();
-            // remove whitespace because default empty log output from airflow always contains empty spaces
-            if (!logs.replaceAll("\\s+","").isEmpty() && logs.lines().count() > 100) break;
+            String json = result.getResponse().getContentAsString();
+            logsDTO = objectMapper.readValue(json, AirflowDAGLogsDTO.class);
+
+            if (logsDTO.getStatus().equals("success")) break;
         }
 
-        assertThat(logs).contains("Starting cutting plan generation...");
-        assertThat(logs.lines().count() <= 154);
+        assertThat(logsDTO.getStatus()).isEqualTo("success");
+        assertThat(logsDTO.getLogs()).contains("Starting cutting plan generation...");
+        assertThat(logsDTO.getLogs().lines().count() <= 154);
     }
 
 }

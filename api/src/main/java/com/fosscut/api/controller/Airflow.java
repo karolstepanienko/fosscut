@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fosscut.api.client.FosscutAirflowClient;
+import com.fosscut.api.type.AirflowDAGLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
 
 @Controller
@@ -28,7 +29,7 @@ public class Airflow {
 
     @GetMapping("/dag/logs")
     @ResponseBody
-    public String getDAGLogs(
+    public AirflowDAGLogsDTO getDAGLogs(
         @CookieValue(ApiDefaults.COOKIE_DAG_RUN_ID_IDENTIFIER) String dagRunID
     ) {
         return fosscutAirflowClient.getDAGLogs(dagRunID);
