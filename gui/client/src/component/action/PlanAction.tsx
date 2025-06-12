@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
+import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
 import yaml from 'yaml';
 
 import { getApi } from "../../Config.ts";
 import PlanTableRow, { getPlanTableDataFromCuttingPlan } from "../../type/PlanTableRow.ts";
 import CuttingPlan from "../../type/CuttingPlan.ts";
 import PlanTable from "../PlanTable.tsx";
-import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
+import LinkButton from "../LinkButton.tsx";
 
 const PlanAction = () => {
   const api = getApi();
   const [cuttingPlan, setCuttingPlan] = useState<CuttingPlan>();
+  const [cuttingPlanUrl, setCuttingPlanUrl] = useState<string>('#');
   const [planTableData, setPlanTableData] = useState<PlanTableRow[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -19,7 +21,8 @@ const PlanAction = () => {
   const getPlan = async () => {
     const planString = await sendGetPlanRequest()
     if (planString != undefined) {
-      setCuttingPlan(yaml.parse(planString) as CuttingPlan)
+      setCuttingPlan(stringToCuttingPlan(planString))
+      setCuttingPlanUrl(stringToCuttingPlanUrl(planString))
       setErrorMessage('')
     }
   }
@@ -33,18 +36,27 @@ const PlanAction = () => {
       if (isAxiosError(error) && error.response?.status == HttpStatusCode.NotFound) {
         handlePlanNotFoundError()
       } else {
-        handleGetPlanError(error)
+        handleGetPlanError()
       }
     }
     return planResponse?.data
+  }
+
+  const stringToCuttingPlan = (planString: string): CuttingPlan => {
+    return yaml.parse(planString) as CuttingPlan;
+  }
+
+  const stringToCuttingPlanUrl = (planString: string): string => {
+    const yamlContent = yaml.stringify(stringToCuttingPlan(planString));
+    const cuttingPlanBlob = new Blob([yamlContent], { type: 'application/x-yaml' });
+    return URL.createObjectURL(cuttingPlanBlob)
   }
 
   const handlePlanNotFoundError = () => {
     setErrorMessage("Plan not found. Please try generating it.")
   }
 
-  const handleGetPlanError = (error: unknown) => {
-    console.log("Unknown error:", error)
+  const handleGetPlanError = () => {
     setErrorMessage("Unknown error. Please try again later.")
   }
 
@@ -68,6 +80,12 @@ const PlanAction = () => {
       <div className="action-content-container">
         <PlanTable planTableData={planTableData}/>
       </div>
+      <LinkButton
+        href={cuttingPlanUrl}
+        download="cutting_plan.yaml"
+        enabled={cuttingPlanUrl != '#'}>
+        Download
+      </LinkButton>
     </div>
   );
 }

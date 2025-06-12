@@ -1,3 +1,10 @@
+/* disables horizontal overflowing caused by components with min-width attribute */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 .navbar {
   background-color: gray;
 }
@@ -207,3 +214,6 @@
   text-align: left;
 }
 
+.download-button {
+  margin: 1em;
+}
