@@ -12,23 +12,20 @@ type InputListProps = {
 }
 
 const InputList: React.FC<InputListProps> = ({inputId, setInputId, inputs, setInputs}) => {
-  const [length, setLength] = useState<number>("")
+  const [length, setLength] = useState<string>("")
 
   const [warning, setWarning] = useState<string>("")
   const [warningVisible, setWarningVisible] = useState<boolean>(false)
 
   function addInput() {
-    if (length === "") {
+    if (!length) {
       setWarning("Length cannot be empty")
-      setWarningVisible(true)
-    } else if (length < 1) {
-      setWarning("Length has to be a positive integer")
       setWarningVisible(true)
     } else {
       setWarningVisible(false)
       const newInput: Input = {
         id: inputId,
-        length: length
+        length: parseInt(length)
       };
       setInputs([...inputs, newInput])
       setInputId(inputId + 1)
@@ -45,8 +42,7 @@ const InputList: React.FC<InputListProps> = ({inputId, setInputId, inputs, setIn
   };
 
   const renderWarning = () => {
-    if (warningVisible)
-    return <p className="warning text">{warning}</p>
+    if (warningVisible) return <p className="warning text">{warning}</p>
   }
 
   return (

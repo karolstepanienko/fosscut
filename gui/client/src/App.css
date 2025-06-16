@@ -47,6 +47,12 @@ html, body {
   place-items: center;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
 .warning {
   color: red;
 }
@@ -85,6 +91,10 @@ html, body {
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
+}
+
+.button-in-container {
+  margin-bottom: 0.5em;
 }
 
 .fosscut-button:hover {
