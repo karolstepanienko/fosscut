@@ -55,8 +55,9 @@ const InputList: React.FC<InputListProps> = ({inputId, setInputId, inputs, setIn
           onChange={e => setLength(e.target.value)}
           onKeyDown={e => handleKeyDown(e)}
         />
-        <button className="btn btn-secondary fosscut-button input-button" onClick={() => addInput()}>
-          Add</button>
+        <button type="button" className="btn btn-secondary fosscut-button input-button" onClick={() => addInput()}>
+          Add
+        </button>
       </div>
       {inputs.map((input: Input) => (
         <Item

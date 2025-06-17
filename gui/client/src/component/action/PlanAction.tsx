@@ -7,6 +7,7 @@ import PlanTableRow, { getPlanTableDataFromCuttingPlan } from "../../type/PlanTa
 import CuttingPlan from "../../type/CuttingPlan.ts";
 import PlanTable from "../PlanTable.tsx";
 import LinkButton from "../LinkButton.tsx";
+import { objectToUrl } from "../../YamlUtils.ts";
 
 const PlanAction = () => {
   const api = getApi();
@@ -21,9 +22,10 @@ const PlanAction = () => {
   const getPlan = async () => {
     const planString = await sendGetPlanRequest()
     if (planString != undefined) {
-      setCuttingPlan(stringToCuttingPlan(planString))
-      setCuttingPlanUrl(stringToCuttingPlanUrl(planString))
-      setErrorMessage('')
+      const cuttingPlan = stringToCuttingPlan(planString);
+      setCuttingPlan(cuttingPlan);
+      setCuttingPlanUrl(objectToUrl(cuttingPlan));
+      setErrorMessage('');
     }
   }
 
@@ -34,9 +36,9 @@ const PlanAction = () => {
       planResponse = await api.get("/redis/get/plan")
     } catch (error: unknown | AxiosError) {
       if (isAxiosError(error) && error.response?.status == HttpStatusCode.NotFound) {
-        handlePlanNotFoundError()
+        handlePlanNotFoundError();
       } else {
-        handleGetPlanError()
+        handleGetPlanError();
       }
     }
     return planResponse?.data
@@ -44,12 +46,6 @@ const PlanAction = () => {
 
   const stringToCuttingPlan = (planString: string): CuttingPlan => {
     return yaml.parse(planString) as CuttingPlan;
-  }
-
-  const stringToCuttingPlanUrl = (planString: string): string => {
-    const yamlContent = yaml.stringify(stringToCuttingPlan(planString));
-    const cuttingPlanBlob = new Blob([yamlContent], { type: 'application/x-yaml' });
-    return URL.createObjectURL(cuttingPlanBlob)
   }
 
   const handlePlanNotFoundError = () => {

@@ -9,7 +9,8 @@ const getBaseUrl = () : string => {
 
 const getApi = () : AxiosInstance => {
   return axios.create({
-    baseURL: getBaseUrl()
+    baseURL: getBaseUrl(),
+    withCredentials: true
   });
 }
 

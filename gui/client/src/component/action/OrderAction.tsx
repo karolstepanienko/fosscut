@@ -9,6 +9,8 @@ import OutputList from "../list/OutputList.tsx";
 import ActionCookieProps from "../../type/ActionCookieProps.ts";
 import SetIdFunction from "../../type/SetIdFunction.ts";
 import { ChangeEvent, useEffect, useState } from "react";
+import LinkButton from "../LinkButton.tsx";
+import { objectToUrl } from "../../YamlUtils.ts";
 
 type OrderActionProps = ActionCookieProps & {
   inputId: number,
@@ -33,6 +35,8 @@ const OrderAction: React.FC<OrderActionProps> = ({
   const [orderFileName, setOrderFileName] = useState<string>('No file chosen');
   const [orderFileContent, setOrderFileContent] = useState<string | undefined>(undefined);
 
+  const [cuttingOrderUrl, setCuttingOrderUrl] = useState<string>('#');
+
   const [warningVisible, setWarningVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -52,6 +56,13 @@ const OrderAction: React.FC<OrderActionProps> = ({
       setErrorMessage(error instanceof Error ? error.message : "Unknown error");
     }
   }, [orderFileContent]);
+
+  useEffect(() => {
+    const noIdInputs = getNoIdInputs(inputs);
+    const noIdOutputs = getNoIdOutputs(outputs);
+    const url = objectToUrl({ inputs: noIdInputs, outputs: noIdOutputs });
+    setCuttingOrderUrl(url);
+  }, [inputs, outputs]);
 
   const saveOrder = async () => {
     let orderIdentifier: string = ""
@@ -138,10 +149,16 @@ const OrderAction: React.FC<OrderActionProps> = ({
           />
         </div>
         <div className="button-container">
-        <button className="btn btn-secondary fosscut-button button-group"
-          type="button" onClick={() => saveOrder()}>
-          Save
-        </button>
+          <button className="btn btn-secondary fosscut-button button-group"
+            type="button" onClick={() => saveOrder()}>
+            Save
+          </button>
+          <LinkButton
+            href={cuttingOrderUrl}
+            download="cutting_order.yaml"
+            enabled={cuttingOrderUrl != '#'}>
+            Download
+          </LinkButton>
         </div>
       </div>
     </div>

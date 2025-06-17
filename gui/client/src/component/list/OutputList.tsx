@@ -11,9 +11,9 @@ type OutputListProps = {
 }
 
 const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, setOutputs}) => {
-  const [length, setLength] = useState<number>("")
-  const [count, setCount] = useState<number>("")
-  const [maxRelax, setMaxRelax] = useState<number>("")
+  const [length, setLength] = useState<string>("")
+  const [count, setCount] = useState<string>("")
+  const [maxRelax, setMaxRelax] = useState<string>("")
 
   const [warning, setWarning] = useState<string>("")
   const [warningVisible, setWarningVisible] = useState<boolean>(false)
@@ -22,16 +22,16 @@ const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, 
     if (length === "" || count === "" || maxRelax === "") {
       setWarning("All fields need to be filled")
       setWarningVisible(true)
-    } else if (length < 1 || count < 1 || maxRelax < 0) {
+    } else if (parseInt(length) < 1 || parseInt(count) < 1 || parseInt(maxRelax) < 0) { 
       setWarning("All values need to be positive integers")
       setWarningVisible(true)
     } else {
       setWarningVisible(false)
       const newOutput: Output = {
         id: outputId,
-        length: length,
-        count: count,
-        maxRelax: maxRelax
+        length: parseInt(length),
+        count: parseInt(count),
+        maxRelax: parseInt(maxRelax)
       }
 
       setOutputs([...outputs, newOutput])
@@ -60,27 +60,28 @@ const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, 
       {renderWarning()}
       <div className="input-container">
         <div className="inputs-in-container">
-          <input type="number" min="1" step="1" value={length}
+          <input type="number" min="1" step="1" value={length?.toString()}
             className="styled-input"
             placeholder="Output length..."
             onChange={e => setLength(e.target.value)}
             onKeyDown={e => handleKeyDown(e)}
           />
-          <input type="number" min="1" step="1" value={count}
+          <input type="number" min="1" step="1" value={count?.toString()}
             className="styled-input"
             placeholder="Output count..."
             onChange={e => setCount(e.target.value)}
             onKeyDown={e => handleKeyDown(e)}
           />
-          <input type="number" min="0" value={maxRelax}
+          <input type="number" min="0" value={maxRelax?.toString()}
             className="styled-input"
             placeholder="Maximum relaxation ..."
             onChange={e => setMaxRelax(e.target.value)}
             onKeyDown={e => handleKeyDown(e)}
           />
         </div>
-        <button className="btn btn-secondary fosscut-button input-button" onClick={() => addOutput()}>
-          Add</button>
+        <button type="button" className="btn btn-secondary fosscut-button input-button" onClick={() => addOutput()}>
+          Add
+        </button>
       </div>
       {outputs.map((output: Output) => (
         <OutputItem
