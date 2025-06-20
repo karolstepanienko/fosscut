@@ -2,9 +2,11 @@ package com.fosscut.api.type;
 
 public class JenkinsJobLogsDTO {
 
-    int httpStatusCode; 
-    String jobNumberIdentifier;
+    int httpStatusCode;
+    Integer jobNumberIdentifier;
     String status;
+    String building;
+    String result;
     String logs;
 
     public JenkinsJobLogsDTO() {}
@@ -13,13 +15,17 @@ public class JenkinsJobLogsDTO {
         this.httpStatusCode = httpStatusCode;
         this.jobNumberIdentifier = null;
         this.status = null;
+        this.building = null;
+        this.result = null;
         this.logs = null;
     }
 
-    public JenkinsJobLogsDTO(int httpStatusCode, String jobNumberIdentifier, String status, String logs) {
+    public JenkinsJobLogsDTO(int httpStatusCode, Integer jobNumberIdentifier, String status, String building, String result, String logs) {
         this.httpStatusCode = httpStatusCode;
         this.jobNumberIdentifier = jobNumberIdentifier;
         this.status = status;
+        this.building = building;
+        this.result = result;
         this.logs = logs;
     }
 
@@ -27,12 +33,20 @@ public class JenkinsJobLogsDTO {
         return httpStatusCode;
     }
 
-    public String getJobNumberIdentifier() {
+    public Integer getJobNumberIdentifier() {
         return jobNumberIdentifier;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public String getResult() {
+        return result;
     }
 
     public String getLogs() {

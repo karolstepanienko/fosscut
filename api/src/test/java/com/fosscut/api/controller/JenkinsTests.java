@@ -65,33 +65,38 @@ public class JenkinsTests {
     void jobLogs_Success() throws Exception {
         // Given
         Cookie cookieQueueItemID = new Cookie(ApiDefaults.COOKIE_QUEUE_ITEM_IDENTIFIER, testQueueID);
-        Cookie cookieJobNumberID = new Cookie(ApiDefaults.COOKIE_JOB_NUMBER_IDENTIFIER, "");
+        Cookie cookieJobNumberID = new Cookie(ApiDefaults.COOKIE_JOB_NUMBER_IDENTIFIER, "-1");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // logDTO has to be a final variable (array here) to be assignable in the loop below
+        // fields in the array are mutable
+        final JenkinsJobLogsDTO[] logDTO = new JenkinsJobLogsDTO[1];
+
         MvcResult result = null;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
             Thread.sleep(2000);
             // When & Then
             result = mockMvc.perform(get("/jenkins/job/logs")
                 .cookie(cookieQueueItemID)
                 .cookie(cookieJobNumberID))
                 .andReturn();
-            if (result.getResponse().getStatus() == HttpServletResponse.SC_OK) {
+
+            String json = result.getResponse().getContentAsString();
+            logDTO[0] = objectMapper.readValue(json, JenkinsJobLogsDTO.class);
+            cookieJobNumberID.setValue(logDTO[0].getJobNumberIdentifier().toString());
+
+            if (result.getResponse().getStatus() == HttpServletResponse.SC_OK
+                && logDTO[0].getHttpStatusCode().equals(HttpServletResponse.SC_OK)
+                && logDTO[0].getBuilding().equals("false")) {
                 break;
             }
         }
 
-        String json = result.getResponse().getContentAsString();
-        JenkinsJobLogsDTO logDTO = objectMapper.readValue(json, JenkinsJobLogsDTO.class);
-
-        assertThat(logDTO).isNotNull();
-        assertThat(logDTO.getHttpStatusCode()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThatCode(
-            () -> Integer.parseInt(logDTO.getJobNumberIdentifier())
-        ).doesNotThrowAnyException();
-        assertThat(logDTO.getStatus()).isNull();
-        assertThat(logDTO.getLogs()).contains("kind: \"Pod\"");
+        assertThat(logDTO[0]).isNotNull();
+        assertThat(logDTO[0].getStatus()).isNull();
+        assertThat(logDTO[0].getResult()).isEqualTo("SUCCESS");
+        assertThat(logDTO[0].getLogs()).contains("kind: \"Pod\"");
     }
 
 }

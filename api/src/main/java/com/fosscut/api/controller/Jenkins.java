@@ -30,8 +30,8 @@ public class Jenkins {
     @GetMapping("/job/logs")
     @ResponseBody
     public JenkinsJobLogsDTO getJenkinsJobLogs(
-        @CookieValue(ApiDefaults.COOKIE_QUEUE_ITEM_IDENTIFIER) String queueItemIdentifier,
-        @CookieValue(ApiDefaults.COOKIE_JOB_NUMBER_IDENTIFIER) String jobNumberIdentifier,
+        @CookieValue(ApiDefaults.COOKIE_QUEUE_ITEM_IDENTIFIER) Integer queueItemIdentifier,
+        @CookieValue(ApiDefaults.COOKIE_JOB_NUMBER_IDENTIFIER) Integer jobNumberIdentifier,
         HttpServletResponse response
     ) {
         JenkinsJobLogsDTO jenkinsJobLogsDTO = fosscutJenkinsClient.getJobLogs(queueItemIdentifier, jobNumberIdentifier);

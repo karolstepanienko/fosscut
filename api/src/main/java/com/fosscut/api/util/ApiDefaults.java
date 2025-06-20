@@ -6,7 +6,7 @@ public class ApiDefaults {
     public static final String COOKIE_IDENTIFIER = "fosscut_orderIdentifier";
 
     public static final String COOKIE_DAG_RUN_ID_IDENTIFIER = "fosscut_dagRunID";
-    
+
     public static final String COOKIE_QUEUE_ITEM_IDENTIFIER = "fosscut_queueItemIdentifier";
     public static final String COOKIE_JOB_NUMBER_IDENTIFIER = "fosscut_jobNumberIdentifier";
 
