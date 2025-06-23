@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fosscut.api.client.FosscutJenkinsClient;
 import com.fosscut.api.type.JenkinsJobLogsDTO;
+import com.fosscut.api.type.Settings;
 import com.fosscut.api.util.ApiDefaults;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,8 +24,19 @@ public class Jenkins {
 
     @PostMapping("/job/run")
     @ResponseBody
-    public String triggerJenkinsJob() {
-        return fosscutJenkinsClient.triggerJob();
+    public String triggerJenkinsJob(
+        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER) String settingsString,
+        HttpServletResponse response
+    ) {
+        Settings settings = Settings.getSettingsSafe(settingsString, identifier);
+        if (settings == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "-1";
+        } else {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return fosscutJenkinsClient.triggerJob(settings);
+        }
     }
 
     @GetMapping("/job/logs")

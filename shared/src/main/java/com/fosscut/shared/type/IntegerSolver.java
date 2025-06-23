@@ -1,4 +1,4 @@
-package com.fosscut.type;
+package com.fosscut.shared.type;
 
 /**
  * Javadoc of MPSolver.createSolver() method contains a list of supported

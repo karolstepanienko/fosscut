@@ -4,13 +4,15 @@ import TektonTaskRunLogs, { SetTektonTaskRunLogsFunction } from "../../type/tekt
 import Settings from "../Settings.tsx";
 import { SetSettingsExtendedFunction } from "../../type/SettingsExtended.ts";
 import TektonApi from "../../communication/TektonApi.tsx";
-import Backend from "../../enum/Backend.ts";
+import Backend, { SetBackendFunction } from "../../enum/Backend.ts";
 import AirflowApi from "../../communication/AirflowApi.tsx";
 import AirflowDAGLogs, { SetAirflowDAGLogsFunction } from "../../type/airflow/AirflowDAGLogs.ts";
 import JenkinsApi from "../../communication/JenkinsApi.tsx";
 import JenkinsJobLogs, { SetJenkinsJobLogsFunction } from "../../type/jenkins/JenkinsJobLogs.ts";
 
 type GenerateActionProps = {
+  backend : string,
+  setBackend: SetBackendFunction,
   airflowDAGLogs: AirflowDAGLogs,
   setAirflowDAGLogs: SetAirflowDAGLogsFunction,
   jenkinsJobLogs: JenkinsJobLogs,
@@ -22,15 +24,15 @@ type GenerateActionProps = {
 }
 
 const GenerateAction: React.FC<GenerateActionProps>
-  = ({airflowDAGLogs, setAirflowDAGLogs, jenkinsJobLogs, setJenkinsJobLogs,
-    tektonTaskRunLogs, setTektonTaskRunLogs, settingsExtended, setSettingsExtended
+  = ({backend, setBackend, airflowDAGLogs, setAirflowDAGLogs,
+    jenkinsJobLogs, setJenkinsJobLogs, tektonTaskRunLogs, setTektonTaskRunLogs,
+    settingsExtended, setSettingsExtended
   }) => {
   const api = getApi();
   const airflowApi = AirflowApi({airflowDAGLogs, setAirflowDAGLogs});
   const tektonApi = TektonApi({tektonTaskRunLogs, setTektonTaskRunLogs});
   const jenkinsApi = JenkinsApi({jenkinsJobLogs, setJenkinsJobLogs});
   const [orderAvailable, setOrderAvailable] = useState<boolean>(false);
-  const [backend, setBackend] = useState<string>(Backend.TEKTON);
   useEffect(() => { checkOrderAvailable() }, [])
 
   const checkOrderAvailable = async () => {

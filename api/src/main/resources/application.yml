@@ -27,6 +27,10 @@ spring:
       ssl:
         bundle: "server"
 
+redis:
+  readHost: redis-replicas.redis.svc.cluster.local
+  readPort: 6379
+
 airflow:
   hostname: airflow.fosscut.com
   port: 443

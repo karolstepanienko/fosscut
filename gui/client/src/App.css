@@ -26,6 +26,11 @@ html, body {
   width: 15em;
 }
 
+.switch-button {
+  height: 2em;
+  width: 4em !important;
+}
+
 .action-container {
   display: flex;
   flex-direction: column;

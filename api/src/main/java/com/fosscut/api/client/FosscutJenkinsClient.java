@@ -10,12 +10,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.fosscut.api.type.JenkinsJobLogsDTO;
+import com.fosscut.api.type.Settings;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import reactor.core.publisher.Mono;
 
-public class FosscutJenkinsClient {
+public class FosscutJenkinsClient extends AbstractClient {
 
     @Value("${jenkins.hostname}")
     private String hostname;
@@ -42,13 +43,12 @@ public class FosscutJenkinsClient {
     }
 
     @SuppressWarnings("null")
-    public String triggerJob() {
+    public String triggerJob(Settings settings) {
         // returns HTTP code and headers, body is empty
         Mono<ResponseEntity<Void>> monoResponse = webClient.post()
-                .uri(getUrl() + "/job/fosscut/buildWithParameters")
+                .uri(getUrl() + "/job/fosscut/buildWithParameters?" + settings.toJenkinsParamsString(redisReadHost, redisReadPort))
                 .header("Authorization", getAuthHeader())
                 .header("Content-Type","application/json")
-                .bodyValue("subcommand=ffd&redis_url=redis://redis-replicas.redis.svc.cluster.local:6379/example-order")
                 .retrieve().toBodilessEntity();
         return monoResponse.block().getHeaders().getFirst("location")
             .split("/queue/item/")[1].split("/")[0];

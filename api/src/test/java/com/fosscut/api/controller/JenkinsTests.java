@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fosscut.api.TestDefaults;
 import com.fosscut.api.type.JenkinsJobLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
 
@@ -45,8 +46,14 @@ public class JenkinsTests {
     @Test
     @Order(2)
     void jobRun_Success() throws Exception {
+        // Given
+        Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
+        Cookie cookieSettings = new Cookie(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER, TestDefaults.getDefaultSettingsJson());
+
         // When & Then
-        MvcResult result = mockMvc.perform(post("/jenkins/job/run"))
+        MvcResult result = mockMvc.perform(post("/jenkins/job/run")
+            .cookie(cookie)
+            .cookie(cookieSettings))
             .andExpect(status().isOk()).andReturn();
 
         testQueueID = result.getResponse().getContentAsString();

@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.shared.exception.FosscutException;
+import com.fosscut.shared.type.IntegerSolver;
+import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.util.Validator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
-import com.fosscut.type.IntegerSolver;
-import com.fosscut.type.LinearSolver;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;

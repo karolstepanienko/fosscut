@@ -42,11 +42,31 @@ controller:
                   description('Job that runs a parametrised fosscut cli command.')
                   concurrentBuild(true)
                   parameters {
-                      choiceParam('subcommand', ['cg', 'ffd', 'greedy'], 'Subcommand that determines cutting plan generation algorithm.')
-                      stringParam('redis_url', 'redis://redis-replicas.redis.svc.cluster.local:6379/example-order')
+                      choiceParam('SUBCOMMAND', ['cg', 'ffd', 'greedy'], 'Subcommand that determines cutting plan generation algorithm.')
+                      stringParam('REDIS_URL', 'redis://redis-replicas.redis.svc.cluster.local:6379/example-order')
+                      choiceParam('LINEAR_SOLVER', ['CLP', 'GLOP', 'PDLP'], 'Linear solver to use for cutting plan generation.')
+                      choiceParam('INTEGER_SOLVER', ['CBC', 'SAT', 'SCIP'], 'Integer solver to use for cutting plan generation.')
+                      choiceParam('OPTIMIZATION_CRITERION', ['MIN_WASTE', 'MIN_COST'], 'Optimization criterion for cutting plan generation.')
+                      stringParam('RELAX_COST', '0.0', 'Relax cost for cutting plan generation.')
+                      booleanParam('RELAX_ENABLED', false, 'Whether to enable relaxation for cutting plan generation.')
                   }
                   steps {
-                      shell('fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $subcommand $redis_url')
+                      shell('''
+                          if [ "$SUBCOMMAND" = 'cg' ]; then
+                              COMMAND_PARAMETERS="$COMMAND_PARAMETERS --linear-solver $LINEAR_SOLVER"
+                          fi
+
+                          if [ "$SUBCOMMAND" = 'cg' ] || [ "$SUBCOMMAND" = 'greedy' ]; then
+                              COMMAND_PARAMETERS="$COMMAND_PARAMETERS --integer-solver $INTEGER_SOLVER"
+                              COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-cost $RELAX_COST"
+                          fi
+
+                          if [ "$SUBCOMMAND" = 'ffd' ] && [ "$RELAX_ENABLED" = true ]; then
+                              COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
+                          fi
+
+                          fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $SUBCOMMAND $REDIS_URL --optimization-criterion $OPTIMIZATION_CRITERION $COMMAND_PARAMETERS
+                      ''')
                   }
               }
 
