@@ -29,8 +29,31 @@ fosscut_generate_kubernetes_executor = DAG(
             description = "Subcommand that determines cutting plan generation algorithm."
         ),
         "redis_url": Param(
-            default = "",
+            default = "redis://redis-replicas.redis.svc.cluster.local:6379/example-order",
             type = "string"
+        ),
+        "linear_solver" : Param(
+            default = "GLOP",
+            enum = ["CLP", "GLOP", "PDLP"],
+            description = "Linear solver to use for cutting plan generation."
+        ),
+        "integer_solver": Param(
+            default = "SCIP",
+            enum = ["CBC", "SAT", "SCIP"],
+            description = "Integer solver to use for cutting plan generation."
+        ),
+        "optimization_criterion": Param(
+            default = "MIN_WASTE",
+            enum = ["MIN_WASTE", "MIN_COST"],
+            description = "Optimization criterion for cutting plan generation."
+        ),
+        "relax_cost": Param(
+            default = "0.0",
+            description = "Relax cost for cutting plan generation."
+        ),
+        "relax_enabled": Param(
+            default = False,
+            description = "Whether to enable relaxation for cutting plan generation."
         )
     }
 )
@@ -86,7 +109,22 @@ pod_override = k8s.V1Pod(
 
 BashOperator(
     task_id = 'fosscut_generate_kubernetes_executor_task_id',
-    bash_command = 'fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}}',
+    bash_command = """
+        if [ {{ params.subcommand }} = 'cg' ]; then
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --linear-solver {{ params.linear_solver }}"
+        fi
+
+        if [ {{ params.subcommand }} = 'cg' ] || [ {{ params.subcommand }} = 'greedy' ]; then
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --integer-solver {{ params.integer_solver }}"
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-cost {{ params.relax_cost }}"
+        fi
+
+        if [ {{ params.subcommand }} = 'ffd' ] && [ {{ params.relax_enabled }} = true ]; then
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
+        fi
+
+        fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}} --optimization-criterion {{ params.optimization_criterion }} $COMMAND_PARAMETERS
+    """,
     dag = fosscut_generate_kubernetes_executor,
     executor_config = { "pod_override": pod_override }
 )
