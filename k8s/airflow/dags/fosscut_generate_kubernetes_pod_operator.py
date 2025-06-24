@@ -105,9 +105,10 @@ KubernetesPodOperator(
             COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
         fi
 
+        COMMAND_PARAMETERS="{{ params.subcommand }} {{ params.redis_url}} --optimization-criterion {{ params.optimization_criterion }} $COMMAND_PARAMETERS"
         echo "Running fosscut with parameters: $COMMAND_PARAMETERS"
 
-        fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml {{ params.subcommand }} {{ params.redis_url}} --optimization-criterion {{ params.optimization_criterion }} $COMMAND_PARAMETERS
+        fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $COMMAND_PARAMETERS
     """],
     task_id = "fosscut_generate_kubernetes_pod_operator_task_id",
     namespace = "airflow",
