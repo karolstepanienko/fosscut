@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fosscut.api.client.FosscutAirflowClient;
 import com.fosscut.api.type.AirflowDAGLogsDTO;
+import com.fosscut.api.type.Settings;
 import com.fosscut.api.util.ApiDefaults;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/airflow")
@@ -22,9 +25,18 @@ public class Airflow {
     @PostMapping("/dag/run")
     @ResponseBody
     public String dagRun(
-        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier
+        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER) String settingsString,
+        HttpServletResponse response
     ) {
-        return fosscutAirflowClient.runFosscutGenerateDAG(identifier);
+        Settings settings = Settings.getSettingsSafe(settingsString, identifier);
+        if (settings == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "-1";
+        } else {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return fosscutAirflowClient.runFosscutGenerateDAG(identifier, settings);
+        }
     }
 
     @GetMapping("/dag/logs")

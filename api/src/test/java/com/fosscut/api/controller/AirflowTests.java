@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fosscut.api.TestDefaults;
 import com.fosscut.api.type.AirflowDAGLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
 
@@ -45,10 +46,12 @@ public class AirflowTests {
     void dagRun_Success() throws Exception {
         // Given
         Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
+        Cookie cookieSettings = new Cookie(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER, TestDefaults.getDefaultSettingsJson());
 
         // When & Then
         MvcResult result = mockMvc.perform(post("/airflow/dag/run")
-            .cookie(cookie))
+            .cookie(cookie)
+            .cookie(cookieSettings))
             .andExpect(status().isOk()).andReturn();
 
         testDagRunID = result.getResponse().getContentAsString();
@@ -82,7 +85,7 @@ public class AirflowTests {
         }
 
         assertThat(logsDTO.getStatus()).isEqualTo("success");
-        assertThat(logsDTO.getLogs()).contains("Starting cutting plan generation...");
+        assertThat(logsDTO.getLogs()).contains("Running cutting plan generation using a first-fit-decreasing algorithm...");
         assertThat(logsDTO.getLogs().lines().count() <= 154);
     }
 

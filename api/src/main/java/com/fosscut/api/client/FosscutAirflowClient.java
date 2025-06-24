@@ -9,10 +9,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fosscut.api.type.AirflowDAGLogsDTO;
+import com.fosscut.api.type.Settings;
 
 import jakarta.annotation.PostConstruct;
 
-public class FosscutAirflowClient {
+public class FosscutAirflowClient extends AbstractClient {
 
     @Value("${airflow.hostname}")
     private String hostname;
@@ -41,9 +42,9 @@ public class FosscutAirflowClient {
         this.basicAuth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
     }
 
-    public String runFosscutGenerateDAG(String identifier) {
+    public String runFosscutGenerateDAG(String identifier, Settings settings) {
         String dagRunID = getDAGRunID(identifier);
-        String body = getBodyJson(dagRunID);
+        String body = getBodyJson(dagRunID, settings);
 
         webClient.post()
                 .uri(getUrl())
@@ -101,11 +102,11 @@ public class FosscutAirflowClient {
         return "manual_run_" + identifier + "_" + unixEpochMillisString;
     }
 
-    private String getBodyJson(String dagRunID) {
+    private String getBodyJson(String dagRunID, Settings settings) {
         return "{" +
             getDAGRunIDJson(dagRunID) +
             getLogicalDateJson() +
-            getConfJson() +
+            settings.toAirflowParamsString(redisReadHost, redisReadPort) +
         "}";
     }
 
@@ -120,13 +121,6 @@ public class FosscutAirflowClient {
     private String getLogicalDate() {
         String timeStamp = Instant.now().toString();
         return timeStamp;
-    }
-
-    private String getConfJson() {
-        return "\"conf\": {" +
-            "\"subcommand\": \"cg\"," +
-            "\"redis_url\": \"redis://redis-replicas.redis.svc.cluster.local:6379/example-order\"" +
-        "}";
     }
 
 }
