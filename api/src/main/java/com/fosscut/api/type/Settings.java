@@ -1,11 +1,17 @@
 package com.fosscut.api.type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
+
+import io.fabric8.tekton.v1.Param;
+import io.fabric8.tekton.v1.ParamBuilder;
 
 public class Settings {
 
@@ -119,6 +125,18 @@ public class Settings {
             ",\"relax_enabled\": " + relaxEnabled +
             ",\"optimization_criterion\": \"" + optimizationCriterion.toString() + "\"" +
         "}";
+    }
+
+    public List<Param> toTektonParameters(String redisReadHost, String redisReadPort) {
+        List<Param> params = new ArrayList<>();
+        params.add(new ParamBuilder().withName("subcommand").withNewValue(algorithm.toString().toLowerCase()).build());
+        params.add(new ParamBuilder().withName("redisUrl").withNewValue("redis://" + redisReadHost + ":" + redisReadPort + "/" + identifier).build());
+        params.add(new ParamBuilder().withName("linearSolver").withNewValue(linearSolver.toString()).build());
+        params.add(new ParamBuilder().withName("integerSolver").withNewValue(integerSolver.toString()).build());
+        params.add(new ParamBuilder().withName("relaxCost").withNewValue(String.valueOf(relaxCost)).build());
+        params.add(new ParamBuilder().withName("relaxEnabled").withNewValue(String.valueOf(relaxEnabled)).build());
+        params.add(new ParamBuilder().withName("optimizationCriterion").withNewValue(optimizationCriterion.toString()).build());
+        return params;
     }
 
     @Override

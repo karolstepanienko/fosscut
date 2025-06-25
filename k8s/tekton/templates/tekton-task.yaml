@@ -14,9 +14,49 @@ spec:
     - name: redisUrl
       description: Redis url pointing to the order.
       type: string
+    - name: linearSolver
+      description: Linear solver to use for cutting plan generation.
+      type: string
+      enum: ["CLP", "GLOP", "PDLP"]
+      default: "GLOP"
+    - name: integerSolver
+      description: Integer solver to use for cutting plan generation.
+      type: string
+      enum: ["CBC", "SAT", "SCIP"]
+      default: "SCIP"
+    - name: optimizationCriterion
+      description: Optimization criterion for cutting plan generation.
+      type: string
+      enum: ["MIN_WASTE", "MIN_COST"]
+      default: "MIN_WASTE"
+    - name: relaxCost
+      description: Relax cost for cutting plan generation.
+      type: string
+      default: "0.0"
+    - name: relaxEnabled
+      description: Whether to enable relaxation for cutting plan generation.
+      type: string
+      enum: ["true", "false"]
+      default: "false"
   steps:
     - name: generate
       image: "{{ .Values.tektonTask.repository }}:{{ .Values.tektonTask.tag | default .Chart.AppVersion }}"
       script: |
         #!/bin/sh
-        fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $(params.subcommand) $(params.redisUrl)
+        if [ $(params.subcommand) = 'cg' ]; then
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --linear-solver $(params.linearSolver)"
+        fi
+
+        if [ $(params.subcommand) = 'cg' ] || [ $(params.subcommand) = 'greedy' ]; then
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --integer-solver $(params.integerSolver)"
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-cost $(params.relaxCost)"
+        fi
+
+        if [ $(params.subcommand) = 'ffd' ] && [ $(params.relaxEnabled) = true ]; then
+            COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
+        fi
+
+        COMMAND_PARAMETERS="$(params.subcommand) $(params.redisUrl) --optimization-criterion $(params.optimizationCriterion) $COMMAND_PARAMETERS"
+        echo "Running fosscut with parameters: $COMMAND_PARAMETERS"
+
+        fosscut --redis-connection-secrets /secrets/redis-connection-secrets.yaml $COMMAND_PARAMETERS

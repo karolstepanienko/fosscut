@@ -5,26 +5,27 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fosscut.api.type.Settings;
 import com.fosscut.api.type.TektonTaskRunLogsDTO;
 
+import io.fabric8.knative.pkg.apis.Condition;
 import io.fabric8.kubernetes.api.model.SecretVolumeSourceBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.tekton.client.TektonClient;
 import io.fabric8.tekton.v1.Param;
-import io.fabric8.tekton.v1.ParamBuilder;
 import io.fabric8.tekton.v1.TaskRun;
 import io.fabric8.tekton.v1.TaskRunBuilder;
+import io.fabric8.tekton.v1.TaskRunStatus;
 import io.fabric8.tekton.v1.WorkspaceBinding;
 import io.fabric8.tekton.v1.WorkspaceBindingBuilder;
 
-public class FosscutTektonClient {
+public class FosscutTektonClient extends AbstractClient {
 
     private static final String NAMESPACE = "tekton";
     private static final String TASK_NAME = "fosscut-generate";
     private static final String TASK_RUN_NAME_PREFIX = "fosscut-generate-";
     private static final String SECRET_NAME = "tekton-cli-redis-connection-secrets";
     private static final String STEP_NAME = "step-generate";
-    private static final String REDIS_READ_URL = "redis://redis-replicas.redis.svc.cluster.local:6379/";
 
     @Autowired
     private TektonClient tkn;
@@ -41,7 +42,7 @@ public class FosscutTektonClient {
         return taskRun != null;
     }
 
-    public void createTaskRun(String identifier) {
+    public void createTaskRun(String identifier, Settings settings) {
         List<WorkspaceBinding> workspaces = new ArrayList<WorkspaceBinding>();
         workspaces.add(new WorkspaceBindingBuilder()
             .withName("keystore")
@@ -73,18 +74,7 @@ public class FosscutTektonClient {
             .build()
         );
 
-        List<Param> params = new ArrayList<Param>();
-        params.add(new ParamBuilder()
-            .withName("redisUrl")
-            .withNewValue(REDIS_READ_URL + identifier)
-            .build()
-        );
-
-        params.add(new ParamBuilder()
-            .withName("subcommand")
-            .withNewValue("cg")
-            .build()
-        );
+        List<Param> params = settings.toTektonParameters(redisReadHost, redisReadPort);
 
         TaskRun taskRun = new TaskRunBuilder()
             .withNewMetadata()
@@ -116,15 +106,24 @@ public class FosscutTektonClient {
             .withName(TASK_RUN_NAME_PREFIX + identifier)
             .get();
 
-        taskRunLogsDTO.setStatus(taskRun.getStatus().getConditions().get(0).getStatus());
-        taskRunLogsDTO.setReason(taskRun.getStatus().getConditions().get(0).getReason());
+        TaskRunStatus status = taskRun.getStatus();
+        if (status == null) {
+            taskRunLogsDTO.setStatus("Unknown");
+            taskRunLogsDTO.setReason("No status available");
+            taskRunLogsDTO.setLogs("No logs available");
+            return taskRunLogsDTO;
+        }
+        Condition condition = status.getConditions().get(0);
+
+        taskRunLogsDTO.setStatus(condition.getStatus());
+        taskRunLogsDTO.setReason(condition.getReason());
 
         String podLogs = "";
         // Wait for pod creation before asking for logs
         if (!taskRunLogsDTO.getReason().equals("Pending")) {
             podLogs = k8s.pods()
                 .inNamespace(NAMESPACE)
-                .withName(taskRun.getStatus().getPodName())
+                .withName(status.getPodName())
                 .inContainer(STEP_NAME)
                 .getLog();
         }

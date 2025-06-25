@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fosscut.api.client.FosscutTektonClient;
+import com.fosscut.api.type.Settings;
 import com.fosscut.api.type.TektonTaskRunLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
 
@@ -23,12 +24,19 @@ public class Tekton {
     @GetMapping("/taskRun/create")
     public void taskRunCreate(
         @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER) String settingsString,
         HttpServletResponse response
     ) {
-        if (ftkn.taskRunExists(identifier)) {
-            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        Settings settings = Settings.getSettingsSafe(settingsString, identifier);
+        if (settings == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {
-            ftkn.createTaskRun(identifier);
+            if (ftkn.taskRunExists(identifier)) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            } else {
+                response.setStatus(HttpServletResponse.SC_OK);
+                ftkn.createTaskRun(identifier, settings);
+            }
         }
     }
 
