@@ -49,7 +49,7 @@ html, body {
   flex-flow: wrap;
   justify-content: center;
   text-align: center;
-  place-items: center;
+  place-items: top;
 }
 
 .button-container {

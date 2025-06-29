@@ -10,7 +10,9 @@ const getNoIdInputs = (inputs: Input[]): NoIdInput[] => {
     const noIdInputs: NoIdInput[] = []
     inputs.map((input: Input) => {
         noIdInputs.push({
-            length: input.length
+            length: input.length,
+            count: input.count,
+            cost: input.cost
         })
     })
     return noIdInputs;

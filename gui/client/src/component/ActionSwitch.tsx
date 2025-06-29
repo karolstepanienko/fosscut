@@ -18,7 +18,7 @@ function ActionSwitch() {
 
   const [inputId, setInputId] = useState<number>(1);
   const [inputs, setInputs] = useState<Input[]>([
-    { id: 0, length: 100 }
+    { id: 0, length: 100, count: null, cost: null }
   ]);
   const [outputId, setOutputId] = useState<number>(1);
   const [outputs, setOutputs] = useState<Output[]>([

@@ -7,8 +7,8 @@ class Order {
 
   constructor(order: { inputs?: Input[], outputs?: Output[] }) {
     if (order.inputs && order.outputs) {
-      this.inputs = this.generateIds(order.inputs) as Input[];
-      this.outputs = this.generateIds(order.outputs) as Output[];
+      this.inputs = this.generateInputIds(order.inputs) as Input[];
+      this.outputs = this.generateOutputIds(order.outputs) as Output[];
     } else {
       if (!order.inputs && !order.outputs) {
         throw new SyntaxError("Incorrect format of order elements. Order must contain both inputs and outputs.");
@@ -20,8 +20,12 @@ class Order {
     }
   }
 
-  generateIds(elements: Input[]| Output[]): Input[] | Output[] {
-    return elements.map((element, i) => ({ ...element, id: i }) as Input | Output);
+  generateInputIds(elements: Input[]): Input[] {
+    return elements.map((element, i) => ({ ...element, id: i }) as Input);
+  }
+
+  generateOutputIds(elements: Output[]): Output[] {
+    return elements.map((element, i) => ({ ...element, id: i }) as Output);
   }
 
   getInputs(): Input[] {
