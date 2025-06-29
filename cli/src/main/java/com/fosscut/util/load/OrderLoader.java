@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fosscut.exception.EmptyOrderException;
 import com.fosscut.exception.OrderFileDoesNotExistException;
 import com.fosscut.exception.OrderFileIsADirectoryException;
 import com.fosscut.exception.RedisOrderPathException;
@@ -24,7 +25,8 @@ public class OrderLoader {
 
     public String load(String orderPath)
         throws IOException, OrderFileIsADirectoryException,
-        OrderFileDoesNotExistException, RedisOrderPathException
+        OrderFileDoesNotExistException, RedisOrderPathException,
+        EmptyOrderException
     {
         Loader loader;
 
@@ -35,7 +37,13 @@ public class OrderLoader {
         }
 
         loader.validate(orderPath);
-        return loader.load(orderPath);
+        String orderString = loader.load(orderPath);
+
+        if (orderString == null || orderString.isEmpty()) {
+            throw new EmptyOrderException(orderPath);
+        }
+
+        return orderString;
     }
 
     public OrderURI getOrderUri(String orderPath) {
