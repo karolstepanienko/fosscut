@@ -22,7 +22,7 @@ const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtende
   const [linearSolver, setLinearSolver] = useState<string>(LinearSolver.GLOP);
   const [integerSolver, setIntegerSolver] = useState<string>(IntegerSolver.SCIP);
   const [optimizationCriterion, setOptimizationCriterion] = useState<string>(OptimizationCriterion.MIN_WASTE);
-  const [relaxCost, setRelaxCost] = useState<number>(0.0);
+  const [relaxCost, setRelaxCost] = useState<string>("");
   const [relaxEnabled, setRelaxEnabled] = useState<boolean>(false);
   const [cookies, setCookie] = useCookies([fosscutSettingsCookieName]);
 
@@ -146,7 +146,7 @@ const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtende
                   value={relaxCost}
                   onChange={(e) => {
                   const value = parseFloat(e.target.value);
-                  setRelaxCost(isNaN(value) ? 0.0 : Math.max(0.0, value));
+                  setRelaxCost(isNaN(value) ? "" : Math.max(0.0, value).toString());
                   }}
                 />
                 <label className="btn settings-item-text-invisible">Relaxation cost:</label>

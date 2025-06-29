@@ -21,6 +21,9 @@ const InputList: React.FC<InputListProps> = ({inputId, setInputId, inputs, setIn
     if (!length) {
       setWarning("Length cannot be empty")
       setWarningVisible(true)
+    } else if (isNaN(parseInt(length)) || parseInt(length) <= 0) {
+      setWarning("Length must be a positive integer")
+      setWarningVisible(true)
     } else {
       setWarningVisible(false)
       const newInput: Input = {
