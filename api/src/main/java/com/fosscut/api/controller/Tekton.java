@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,7 +22,7 @@ public class Tekton {
     @Autowired
     private FosscutTektonClient ftkn;
 
-    @GetMapping("/taskRun/create")
+    @PostMapping("/taskRun/create")
     public void taskRunCreate(
         @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
         @CookieValue(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER) String settingsString,
@@ -40,7 +41,7 @@ public class Tekton {
         }
     }
 
-    @GetMapping("/taskRun/delete")
+    @PostMapping("/taskRun/delete")
     public void taskRunDelete(
         @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
         HttpServletResponse response
@@ -52,7 +53,7 @@ public class Tekton {
         }
     }
 
-    @GetMapping("/taskRun/get/logs")
+    @GetMapping("/taskRun/logs")
     @ResponseBody
     public TektonTaskRunLogsDTO getTaskRunLogs(
         @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,

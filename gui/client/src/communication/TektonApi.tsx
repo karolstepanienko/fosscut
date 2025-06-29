@@ -33,7 +33,7 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
 
   const sendDeleteTaskRunRequest = async () => {
     try {
-      await api.get("/tekton/taskRun/delete").then (() => {
+      await api.post("/tekton/taskRun/delete").then (() => {
         setTaskRunToBeDeleted(false)
         setTaskRunToBeCreated(true)
       })
@@ -52,7 +52,7 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
 
   const sendCreateTaskRunRequest = async () => {
     try {
-      await api.get("/tekton/taskRun/create").then(() => {
+      await api.post("/tekton/taskRun/create").then(() => {
         setTaskRunToBeCreated(false)
         setTicking(true)
       })
@@ -70,7 +70,10 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
 
   const getLogs = () => {
     sendGetLogsRequest()
-    if (tektonTaskRunLogs && tektonTaskRunLogs.isInitialized() && tektonTaskRunLogs.status !== "Unknown") {
+    if (tektonTaskRunLogs
+      && tektonTaskRunLogs.isInitialized()
+      && tektonTaskRunLogs.status !== "Unknown"
+    ) {
       // if success or failure
       setTicking(false)
     }
@@ -78,7 +81,7 @@ const TektonApi = ({ tektonTaskRunLogs, setTektonTaskRunLogs }: TektonApiProps) 
 
   const sendGetLogsRequest = async () => {
     try {
-      const data = (await api.get("/tekton/taskRun/get/logs")).data
+      const data = (await api.get("/tekton/taskRun/logs")).data
       const dto = TektonTaskRunLogsDTO.parse(data)
       const tl = new TektonTaskRunLogs(dto)
       if (tl) setTektonTaskRunLogs(tl)
