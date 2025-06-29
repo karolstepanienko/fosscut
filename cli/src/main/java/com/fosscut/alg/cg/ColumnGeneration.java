@@ -14,6 +14,7 @@ import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
@@ -24,6 +25,7 @@ public class ColumnGeneration {
 
     private Order order;
     private Double relaxCost;
+    private boolean relaxEnabled;
     private OptimizationCriterion optimizationCriterion;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
@@ -33,6 +35,7 @@ public class ColumnGeneration {
     private CuttingPlanGeneration integerCuttingPlanGeneration;
 
     public ColumnGeneration(Order order, Double relaxCost,
+        boolean relaxEnabled,
         OptimizationCriterion optimizationCriterion,
         LinearSolver linearSolver,
         IntegerSolver integerSolver,
@@ -40,6 +43,7 @@ public class ColumnGeneration {
     ) {
         this.order = order;
         this.relaxCost = relaxCost;
+        this.relaxEnabled = relaxEnabled;
         this.optimizationCriterion = optimizationCriterion;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
@@ -68,14 +72,17 @@ public class ColumnGeneration {
 
             PatternGeneration patternGeneration = new PatternGeneration(
                 order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
-                forceIntegerRelax, integerSolver
+                relaxEnabled, forceIntegerRelax, integerSolver
             );
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
 
             params.incrementNPatternMax();
-            if (relaxCost == null) copyPatterns(order, patternGeneration);
-            else copyPatternsWithRelaxation(order, patternGeneration);
+            if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+                copyPatternsWithRelaxation(order, patternGeneration);
+            } else {
+                copyPatterns(order, patternGeneration);
+            }
 
             // Default precision describes the smallest value of reducedCost
             // where further calculations are still sensible.
@@ -94,7 +101,10 @@ public class ColumnGeneration {
     }
 
     public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
-        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(relaxCost, order, params, forceIntegerRelax);
+        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
+            AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
+            order, params, forceIntegerRelax
+        );
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }
 

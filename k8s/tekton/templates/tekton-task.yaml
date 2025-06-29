@@ -52,7 +52,7 @@ spec:
             COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-cost $(params.relaxCost)"
         fi
 
-        if [ $(params.subcommand) = 'ffd' ] && [ $(params.relaxEnabled) = true ]; then
+        if [ $(params.relaxEnabled) = true ]; then
             COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
         fi
 

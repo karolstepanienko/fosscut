@@ -101,7 +101,7 @@ KubernetesPodOperator(
             COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-cost {{ params.relax_cost }}"
         fi
 
-        if [ {{ params.subcommand }} = 'ffd' ] && [ {{ params.relax_enabled }} = true ]; then
+        if [ {{ params.relax_enabled }} = true ]; then
             COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
         fi
 

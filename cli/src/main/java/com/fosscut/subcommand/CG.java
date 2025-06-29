@@ -79,7 +79,7 @@ public class CG extends AbstractAlg {
         cleaner.cleanOrder(order);
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
-            order, relaxCost, optimizationCriterion,
+            order, relaxCost, relaxEnabled, optimizationCriterion,
             linearSolver, integerSolver, forceIntegerRelax);
         columnGeneration.run();
 

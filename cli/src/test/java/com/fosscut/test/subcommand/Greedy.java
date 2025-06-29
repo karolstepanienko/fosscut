@@ -100,7 +100,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost0QuietSavePlanToFile";
-        Command command = new Command("greedy -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("greedy -q -c 0 -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -111,7 +111,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost1QuietSavePlanToFile";
-        Command command = new Command("greedy -q -c 1 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("greedy -q -c 1 -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -122,12 +122,23 @@ public class Greedy {
 
     @Test public void greedyIntegerRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "greedyIntegerRelaxCost0QuietSavePlanToFile";
-        Command command = new Command("greedy -q -c 0 -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("greedy -q -c 0 -r -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.GREEDY_INT_RELAX_0_PLAN)
+        );
+    }
+
+    @Test public void greedyRelaxCost0RelaxDisabledQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost0RelaxDisabledQuietSavePlanToFile";
+        Command command = new Command("greedy -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.GREEDY_PLAN)
         );
     }
 

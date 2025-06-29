@@ -12,6 +12,7 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.google.ortools.Loader;
@@ -22,21 +23,26 @@ public class GreedyAlg extends ConstructiveHeuristic {
 
     private Order order;
     private Double relaxCost;
+    private boolean relaxEnabled;
     private IntegerSolver integerSolver;
 
-    public GreedyAlg(Order order, Double relaxCost,
+    public GreedyAlg(Order order, Double relaxCost, boolean relaxEnabled,
         OptimizationCriterion optimizationCriterion,
         IntegerSolver integerSolver, boolean forceIntegerRelax
     ) {
         super(optimizationCriterion, forceIntegerRelax);
         this.order = order;
         this.relaxCost = relaxCost;
+        this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
     }
 
     public CuttingPlan getCuttingPlan() {
-        boolean relaxEnabled = relaxCost != null;
-        return getCuttingPlan(order, relaxEnabled, forceIntegerRelax);
+        return getCuttingPlan(
+            order,
+            AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
+            forceIntegerRelax
+        );
     }
 
     public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {
@@ -64,6 +70,7 @@ public class GreedyAlg extends ConstructiveHeuristic {
                         order.getOutputs(),
                         getOrderDemands(),
                         relaxCost,
+                        relaxEnabled,
                         forceIntegerRelax,
                         integerSolver
                     );

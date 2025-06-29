@@ -7,6 +7,7 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -24,6 +25,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private OrderInput input;
     private List<Integer> orderDemands;
     private Double relaxCost;
+    private boolean relaxEnabled;
     private boolean forceIntegerRelax;
     private IntegerSolver integerSolver;
 
@@ -36,6 +38,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         List<OrderOutput> outputs,
         List<Integer> orderDemands,
         Double relaxCost,
+        boolean relaxEnabled,
         boolean forceIntegerRelax,
         IntegerSolver integerSolver
     ) {
@@ -43,7 +46,8 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.orderInputId = orderInputId;
         this.input = input;
         this.orderDemands = orderDemands;
-        this.relaxCost = relaxCost;
+        this.relaxCost = relaxCost; 
+        this.relaxEnabled = relaxEnabled;
         this.forceIntegerRelax = forceIntegerRelax;
         this.integerSolver = integerSolver;
     }
@@ -59,8 +63,11 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     public void solve() throws LPUnfeasibleException {
         setSolver(MPSolver.createSolver(integerSolver.toString()));
 
-        if (relaxCost == null) initModel();
-        else initModelWithRelaxation();
+        if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+            initModelWithRelaxation();
+        } else {
+            initModel();
+        }
 
         final ResultStatus resultStatus = getSolver().solve();
         printSolution(resultStatus);
@@ -70,8 +77,11 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         CHPattern pattern = new CHPattern();
         pattern.setInputId(orderInputId);
         pattern.setInput(input);
-        if (relaxCost == null) pattern.setPatternDefinition(getPatternDefinition());
-        else pattern.setPatternDefinition(getPatternDefinitionWithRelaxation());
+        if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+            pattern.setPatternDefinition(getPatternDefinitionWithRelaxation());
+        } else {
+            pattern.setPatternDefinition(getPatternDefinition());
+        }
         return pattern;
     }
 

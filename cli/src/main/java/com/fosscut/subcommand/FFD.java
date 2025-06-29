@@ -19,15 +19,9 @@ import com.fosscut.util.load.OrderLoader;
 import com.fosscut.util.save.Save;
 
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 
 @Command(name = "ffd", versionProvider = PropertiesVersionProvider.class)
 public class FFD extends AbstractAlg {
-
-    @Option(names = { "-r", "--relaxation-enabled" },
-        defaultValue = "false",
-        description = "Enables relaxation mechanism.")
-    private boolean relaxEnabled;
 
     @Override
     protected void runWithExceptions() throws FosscutException, IOException {

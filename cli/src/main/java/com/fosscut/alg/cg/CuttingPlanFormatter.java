@@ -13,13 +13,13 @@ import com.fosscut.type.cutting.plan.PlanOutputDouble;
 import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 public class CuttingPlanFormatter {
-    private Double relaxCost;
+    private boolean relaxEnabled;
     private Order order;
     private Parameters params;
     private boolean forceIntegerRelax;
 
-    public CuttingPlanFormatter(Double relaxCost, Order order, Parameters params, boolean forceIntegerRelax) {
-        this.relaxCost = relaxCost;
+    public CuttingPlanFormatter(boolean relaxEnabled, Order order, Parameters params, boolean forceIntegerRelax) {
+        this.relaxEnabled = relaxEnabled;
         this.order = order;
         this.params = params;
         this.forceIntegerRelax = forceIntegerRelax;
@@ -74,12 +74,13 @@ public class CuttingPlanFormatter {
 
     private PlanOutput getPlanOutput(Integer outputCount, int i, int p, int o) {
         PlanOutput planOutput;
-        if (relaxCost == null)
+        if (!relaxEnabled) {
             planOutput = new PlanOutput(o, outputCount);
-        else if (forceIntegerRelax)
+        } else if (forceIntegerRelax) {
             planOutput = new PlanOutputInteger(o, outputCount, params.getRipo().get(i).get(p).get(o).intValue());
-        else
+        } else {
             planOutput = new PlanOutputDouble(o, outputCount, params.getRipo().get(i).get(p).get(o));
+        }
 
         return planOutput;
     }

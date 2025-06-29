@@ -61,7 +61,7 @@ controller:
                               COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-cost $RELAX_COST"
                           fi
 
-                          if [ "$SUBCOMMAND" = 'ffd' ] && [ "$RELAX_ENABLED" = true ]; then
+                          if [ "$RELAX_ENABLED" = true ]; then
                               COMMAND_PARAMETERS="$COMMAND_PARAMETERS --relaxation-enabled"
                           fi
 

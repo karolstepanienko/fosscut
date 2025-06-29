@@ -72,7 +72,7 @@ public class Greedy extends AbstractAlg {
         Cleaner cleaner = new Cleaner();
         cleaner.cleanOrder(order);
 
-        GreedyAlg greedy = new GreedyAlg(order, relaxCost,
+        GreedyAlg greedy = new GreedyAlg(order, relaxCost, relaxEnabled,
             optimizationCriterion, integerSolver, forceIntegerRelax);
         greedy.run();
 
