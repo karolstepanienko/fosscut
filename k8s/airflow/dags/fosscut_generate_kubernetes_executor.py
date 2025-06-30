@@ -20,7 +20,6 @@ fosscut_generate_kubernetes_executor = DAG(
     default_args = default_args,
     description = 'A DAG that runs fosscut cutting plan generation',
     schedule_interval = None,  # Only triggered manually
-    dag_concurrency = 25,
     start_date = datetime(2024, 1, 1),
     catchup = False,
     params = {
