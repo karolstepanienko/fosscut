@@ -21,7 +21,7 @@ RUN ./gradlew --no-daemon cli:nativeCompile
 FROM jenkins/inbound-agent:3283.v92c105e0f819-9 AS jenkins-inbound-agent
 
 
-FROM apache/airflow:2.9.3 AS final
+FROM apache/airflow:3.0.2 AS final
 
 COPY --from=build /app/cli/build/native/nativeCompile/fosscut /home/airflow/.local/bin/fosscut
 USER root

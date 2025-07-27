@@ -19,7 +19,7 @@ dags:
   gitSync:
     enabled: true
     repo: https://github.com/karolstepanienko/fosscut.git
-    branch: main
+    branch: airflow-dag-example-2
     rev: HEAD
     subPath: "k8s/airflow/dags"
 
@@ -33,13 +33,7 @@ logs:
 webserverSecretKeySecretName: airflow-webserver-secret-key
 
 # Mount HTTPS secrets
-webserver:
-  livenessProbe:
-    scheme: HTTPS
-  readinessProbe:
-    scheme: HTTPS
-  startupProbe:
-    scheme: HTTPS
+apiServer:
   extraVolumes:
     - name: airflow-webserver-tls-secret
       secret:
@@ -55,19 +49,27 @@ webserver:
       mountPath: "/tls.key"
       subPath: tls.key
       readOnly: true
-  defaultUser:
-    enabled: false
+  livenessProbe:
+    scheme: HTTPS
+  readinessProbe:
+    scheme: HTTPS
+  startupProbe:
+    scheme: HTTPS
 
-# Enable HTTPS in webserver settings
 config:
+  # Increase concurrency to allow more tasks to run in parallel
+  core:
+    dag_concurrency: 25
+    max_active_runs_per_dag: 25
+  # Enable HTTPS in webserver settings
   webserver:
     web_server_ssl_cert: /tls.crt
     web_server_ssl_key: /tls.key
-  api:
-    auth_backends: airflow.api.auth.backend.basic_auth
+  # api:
+  #   auth_backends: airflow.api.auth.backend.basic_auth
 
 ingress:
-  web:
+  apiServer:
     enabled: true
     ingressClassName: haproxy
     annotations:
@@ -75,12 +77,13 @@ ingress:
         haproxy.org/server-ssl: "true"
         # cert used to verify backend services certificate
         haproxy.org/server-ca: "fosscut-ca"
-    host: airflow.fosscut.com
-    tls:
-      enabled: true
-      secretName: "airflow.fosscut.com-tls-secret"
+    hosts:
+      - name: airflow.fosscut.com
+        tls:
+          enabled: true
+          secretName: "airflow.fosscut.com-tls-secret"
 
-images:
-  pod_template:
-    repository: "karolstepanienko/fosscut-cli-native"
-    tag: "0.0.1"
+# images:
+#   pod_template:
+#     repository: "karolstepanienko/fosscut-cli-native"
+#     tag: "0.0.1"
