@@ -1,25 +1,33 @@
 #!/usr/bin/env bash
 
+kubectl create namespace airflow
+
 # static webserver secret key ensures that Airflow components only restart when
 # necessary
 kubectl delete secret airflow-webserver-secret-key -n airflow
-kubectl create secret generic airflow-webserver-secret-key -n airflow --from-literal="webserver-secret-key=$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
+kubectl create secret generic airflow-webserver-secret-key -n airflow \
+    --from-literal="webserver-secret-key=$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 
 # HTTPS secrets
 kubectl delete secret airflow-webserver-tls-secret -n airflow
-kubectl create secret generic airflow-webserver-tls-secret -n airflow --from-file=tls.crt=../../helm/secrets/server.crt --from-file=tls.key=../../helm/secrets/server.key
+kubectl create secret generic airflow-webserver-tls-secret -n airflow \
+    --from-file=tls.crt=../../helm/secrets/server.crt \
+    --from-file=tls.key=../../helm/secrets/server.key
 
 # fosscut CA cert
 kubectl delete secret fosscut-ca -n airflow
-kubectl create secret generic fosscut-ca -n airflow --from-file=tls.crt=../../helm/secrets/ca.crt
+kubectl create secret generic fosscut-ca -n airflow \
+    --from-file=tls.crt=../../helm/secrets/ca.crt
 
 # Ingress secrets
 kubectl delete secret airflow.fosscut.com-tls-secret -n airflow
-kubectl create secret tls airflow.fosscut.com-tls-secret -n airflow --cert=../../helm/secrets/ingress.crt --key=../../helm/secrets/ingress.key
+kubectl create secret tls airflow.fosscut.com-tls-secret -n airflow \
+    --cert=../../helm/secrets/ingress.crt \
+    --key=../../helm/secrets/ingress.key
 
 # airflow
 helm template airflow apache-airflow/airflow -n airflow -f local-values.yaml -f values.yaml > template.log
-helm upgrade --install airflow apache-airflow/airflow -n airflow --create-namespace -f local-values.yaml -f values.yaml
+helm upgrade --install airflow apache-airflow/airflow -n airflow --version 1.15.0 -f local-values.yaml -f values.yaml
 
 # Secret for fosscut workload pods
 kubectl delete secret cli-redis-connection-secrets -n airflow

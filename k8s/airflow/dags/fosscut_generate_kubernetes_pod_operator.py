@@ -16,7 +16,7 @@ default_args = {
 fosscut_generate_kubernetes_pod_operator_dag = DAG(
     'fosscut_generate_kubernetes_pod_operator_dag',
     default_args = default_args,
-    description = 'A DAG that runs fosscut cutting plan generation',
+    description = 'A DAG that runs fosscut cutting plan generation. (DO NOT USE) Creates a second separate pod for the task.',
     schedule_interval = None,  # Only triggered manually
     start_date = datetime(2025, 1, 1),
     catchup = False,
@@ -60,7 +60,7 @@ secret_volumes = [
     k8s.V1Volume(
         name = 'redis-connection-secrets',
         secret = k8s.V1SecretVolumeSource(
-            secret_name = 'tekton-cli-redis-connection-secrets'
+            secret_name = 'cli-redis-connection-secrets'
         )
     )
 ]

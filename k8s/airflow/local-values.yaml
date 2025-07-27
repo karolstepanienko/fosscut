@@ -8,7 +8,7 @@ postgresql:
 
 logs:
   persistence:
-    size: 1Gi
+    size: 8Gi
     storageClassName: nfs-client
 
 # Env variables for all containers

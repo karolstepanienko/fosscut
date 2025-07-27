@@ -18,7 +18,7 @@ default_args = {
 fosscut_generate_kubernetes_executor = DAG(
     'fosscut_generate_kubernetes_executor',
     default_args = default_args,
-    description = 'A DAG that runs fosscut cutting plan generation',
+    description = 'A DAG that runs fosscut cutting plan generation. (PREFERRED) Creates only one pod.',
     schedule_interval = None,  # Only triggered manually
     start_date = datetime(2024, 1, 1),
     catchup = False,
