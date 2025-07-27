@@ -17,7 +17,7 @@ fosscut_generate_kubernetes_pod_operator_dag = DAG(
     'fosscut_generate_kubernetes_pod_operator_dag',
     default_args = default_args,
     description = 'A DAG that runs fosscut cutting plan generation',
-    schedule_interval = None,  # Only triggered manually
+    schedule = None,  # Only triggered manually
     start_date = datetime(2025, 1, 1),
     catchup = False,
     params = {
