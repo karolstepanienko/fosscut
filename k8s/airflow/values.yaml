@@ -60,11 +60,19 @@ webserver:
 
 # Enable HTTPS in webserver settings
 config:
+  api:
+    auth_backends: airflow.api.auth.backend.basic_auth
+  core:
+    # PERFORMANCE: Maximum number of task instances allowed to run concurrently by the scheduler
+    dag_concurrency: 27
+    # PERFORMANCE: Maximum number of active DAG runs per DAG
+    max_active_runs_per_dag: 27
+  kubernetes:
+    # PERFORMANCE: Number of Kubernetes Worker Pod creation calls per scheduler loop
+    worker_pods_creation_batch_size: 1
   webserver:
     web_server_ssl_cert: /tls.crt
     web_server_ssl_key: /tls.key
-  api:
-    auth_backends: airflow.api.auth.backend.basic_auth
 
 ingress:
   web:
