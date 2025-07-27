@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+kubectl create namespace jenkins
+
 # PVC
 kubectl apply -f persistence.yaml
 
@@ -17,11 +19,11 @@ kubectl create secret tls jenkins.fosscut.com-tls-secret -n jenkins --cert=../..
 
 # Admin user secrets
 kubectl delete secret jenkins-admin-user-secret -n jenkins
-kubectl create secret generic jenkins-admin-user-secret -n jenkins --from-file=username=../../helm/secrets/jenkins-username --from-file=password=../../helm/secrets/jenkins-password
+kubectl create secret generic jenkins-admin-user-secret -n jenkins --from-file=username=../../helm/secrets/jenkins-admin-username --from-file=password=../../helm/secrets/jenkins-admin-password
 
 # jenkins
 helm template jenkins/jenkins -n jenkins -f local-values.yaml -f values.yaml > template.log
-helm upgrade --install jenkins jenkins/jenkins -n jenkins --create-namespace -f local-values.yaml -f values.yaml
+helm upgrade --install jenkins jenkins/jenkins -n jenkins --version 5.8.72 -f local-values.yaml -f values.yaml
 
 # Secret for fosscut workload pods
 kubectl delete secret cli-redis-connection-secrets -n jenkins

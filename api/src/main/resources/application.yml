@@ -41,4 +41,4 @@ jenkins:
   hostname: jenkins.fosscut.com
   port: 443
   username: fosscut-api-local
-  token: 11e6bb1c5f321521962248afa06ae8516f
+  token: 115bc5d999f2b0e7a8b1b18e38bcbd34ed

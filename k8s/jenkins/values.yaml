@@ -15,6 +15,10 @@ controller:
   admin:
     createSecret: false
     existingSecret: "jenkins-admin-user-secret"
+    # -- The key in the existing admin secret containing the username
+    userKey: username
+    # -- The key in the existing admin secret containing the password
+    passwordKey: password
 
   ingress:
     enabled: true

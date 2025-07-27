@@ -57,7 +57,7 @@ case "$1" in
         ;;
     *)
         echo "Invalid argument: $1"
-        echo "Usage: $0 {api|cli|gui}"
+        echo "Usage: $0 {api|cli|gui|controller-jenkins}"
         exit 1
         ;;
 esac
