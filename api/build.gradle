@@ -35,3 +35,34 @@ tasks.named('test') {
 test {
     testLogging.showStandardStreams = true
 }
+
+// Remove the 'aot' and 'aotTest' source sets that contain automatically
+// generated code which introduces a lot of errors in static code analysis
+sourceSets {
+    aot {
+        java {
+            setSrcDirs([])
+        }
+        resources {
+            setSrcDirs([])
+        }
+    }
+    aotTest {
+        java {
+            setSrcDirs([])
+        }
+        resources {
+            setSrcDirs([])
+        }
+    }
+}
+
+task printSourceSets {
+    doLast {
+        sourceSets.each { set ->
+            println "SourceSet '${set.name}':"
+            println "  java: ${set.java.srcDirs}"
+            println "  resources:    ${set.resources.srcDirs}"
+        }
+    }
+}
