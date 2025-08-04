@@ -1,0 +1,23 @@
+.progress-bar-container {
+    margin-bottom: 1em;
+}
+
+.output-text {
+    color: black;
+}
+
+.output-type-0 {
+  background-color: lightblue;
+}
+
+.output-type-1 {
+  background-color: lightgreen;
+}
+
+.output-type-2 {
+  background-color: lightpink;
+}
+
+.output-type-3 {
+  background-color: lightsalmon;
+}

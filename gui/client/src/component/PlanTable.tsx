@@ -5,8 +5,10 @@ import {
   type MRT_ColumnDef,
   type MRT_Row
 } from "mantine-react-table";
+
 import PlanTableRow from "../type/PlanTableRow.ts";
 import PlanDetailsTable from "./PlanDetailsTable.tsx";
+import PatternBar from "./patternBar/PatternBar.tsx";
 
 type PlanTableProps = {
   planTableData: PlanTableRow[]
@@ -47,7 +49,11 @@ const PlanTable: React.FC<PlanTableProps> = ({planTableData}) => {
   const renderPatternDetails = (props: RowProps) => {
     return (
       <div>
-        <PlanDetailsTable outputs={props.row.original.outputs}/>
+        <PatternBar
+          inputLength={props.row.original.inputLength}
+          outputs={props.row.original.outputs}
+        />
+        <PlanDetailsTable outputs={props.row.original.outputs} />
       </div>
     );
   }
