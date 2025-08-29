@@ -1,0 +1,55 @@
+# network_mode: "host" works only on Linux hosts
+# development on windows or macOS is not supported
+
+services:
+
+  nginx-local-proxy:
+    image: "nginx:1.29.1"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/conf.d/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "1234:1234"
+    network_mode: "host"
+
+  frontend:
+    image: "karolstepanienko/fosscut-gui-native:0.0.1"
+    build:
+      context: .
+      dockerfile: ./gui/Dockerfile-native
+      args:
+        APP_ENV: "local"
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    network_mode: "host"
+
+  backend:
+    image: "karolstepanienko/fosscut-api-jar:0.0.1"
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile-jar
+    volumes:
+      - ~/.kube/config:/root/.kube/config:ro
+      - ./helm/secrets/keystore.p12:/helm/secrets/keystore.p12:ro
+      - ./helm/secrets/truststore.p12:/helm/secrets/truststore.p12:ro
+    depends_on:
+      - redis
+    ports:
+      - "8080:8080"
+    network_mode: "host"
+
+  redis:
+    image: "docker.io/bitnami/redis:7.4.1-debian-12-r2"
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    user: "root:root"
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./helm/secrets:/secrets/:ro
+      - ./redis/data:/data:rw
+    ports:
+      - "6379:6379"
+    network_mode: "host"

@@ -35,3 +35,4 @@ replay_pid*
 helm/secrets/
 helm/depreciated/
 k8s/tekton/secrets/
+redis/data/

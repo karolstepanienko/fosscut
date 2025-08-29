@@ -8,11 +8,13 @@ RUN gradle wrapper
 
 FROM denoland/deno:2.0.5 AS gui-build
 
+ARG APP_ENV=prod
+
 WORKDIR /gui
 COPY gui/deno.json gui/deno.lock gui/vite.config.js ./
 COPY gui/client/src client/src/
 COPY gui/client/index.html client/
-COPY gui/prod.properties.js client/properties.js
+COPY gui/${APP_ENV}.properties.js client/properties.js
 RUN deno run build
 
 
