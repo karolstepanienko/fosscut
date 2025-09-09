@@ -11,7 +11,9 @@ import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.util.Cleaner;
+import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -19,9 +21,20 @@ import com.fosscut.util.load.OrderLoader;
 import com.fosscut.util.save.Save;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command(name = "ffd", versionProvider = PropertiesVersionProvider.class)
 public class FFD extends AbstractAlg {
+
+    @Option(names = { "--relaxation-spread-strategy" },
+        defaultValue = Defaults.FFD_DEFAULT_PARAM_RELAX_SPREAD_STRATEGY,
+        description = "One of: (${COMPLETION-CANDIDATES})."
+            + " Default: ${DEFAULT-VALUE}."
+            + " Defines how relaxation is spread among items in a pattern."
+            + " EQUAL: relax all items equally,"
+            + " LONGEST: relax longest items first,"
+            + " SHORTEST: relax shortest items first.")
+    private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     @Override
     protected void runWithExceptions() throws FosscutException, IOException {
@@ -47,7 +60,8 @@ public class FFD extends AbstractAlg {
             order,
             relaxEnabled,
             optimizationCriterion,
-            forceIntegerRelax
+            forceIntegerRelax,
+            relaxationSpreadStrategy
         );
         firstFitDecreasing.run();
 

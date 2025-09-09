@@ -12,7 +12,7 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
-import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.plan.CuttingPlan;
@@ -23,13 +23,16 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
 
     private Order orderSortedOutputs;
     private boolean relaxEnabled;
+    private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     public FirstFitDecreasing(Order order, boolean relaxEnabled,
-        OptimizationCriterion optimizationCriterion, boolean forceIntegerRelax
+        OptimizationCriterion optimizationCriterion, boolean forceIntegerRelax,
+        RelaxationSpreadStrategy relaxationSpreadStrategy
     ) {
         super(optimizationCriterion, forceIntegerRelax);
         this.orderSortedOutputs = order;
         this.relaxEnabled = relaxEnabled;
+        this.relaxationSpreadStrategy = relaxationSpreadStrategy;
     }
 
     public CuttingPlan getCuttingPlan() {
@@ -68,65 +71,14 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
     }
 
     private List<CHOutput> getPatternDefinition(OrderInput input) {
-        List<CHOutput> chPatternDefinition = new ArrayList<CHOutput>();
-
-        Integer remainingSpace = input.getLength();
-
-        int i = 0;
-        while (i < orderSortedOutputs.getOutputs().size() && remainingSpace > 0) {
-            OrderOutput output = orderSortedOutputs.getOutputs().get(i);
-
-            int itemFit = getItemFit(remainingSpace, output);
-
-            Integer relaxedLength = null;
-            Integer relaxedItemFit = null;
-            if (output.getMaxRelax() != null){
-                relaxedLength = output.getLength() - output.getMaxRelax();
-                relaxedItemFit = getRelaxedItemFit(remainingSpace, relaxedLength, output);
-            }
-
-            if (relaxEnabled && relaxedLength != null
-                && relaxedItemFit > itemFit && relaxedItemFit >= 1
-            ) {
-                remainingSpace -= relaxedItemFit * relaxedLength;
-                chPatternDefinition.add(
-                    new CHOutput(
-                        orderSortedOutputs.getOutputId(output),
-                        output.getLength(),
-                        relaxedItemFit,
-                        Double.valueOf(output.getMaxRelax())
-                    )
-                );
-            } else if (itemFit >= 1) {
-                remainingSpace -= itemFit * output.getLength();
-                chPatternDefinition.add(
-                    new CHOutput(
-                        orderSortedOutputs.getOutputId(output),
-                        output.getLength(),
-                        itemFit,
-                        0.0
-                    )
-                );
-            }
-
-            i += 1;
+        if (relaxEnabled) {
+            FFDPatternGenRelax ffdPatternGenRelax = new FFDPatternGenRelax(
+                orderSortedOutputs, getOrderDemands(), relaxationSpreadStrategy);
+            return ffdPatternGenRelax.getPatternDefinition(input);
+        } else {
+            FFDPatternGen ffdPatternGen = new FFDPatternGen(orderSortedOutputs, getOrderDemands());
+            return ffdPatternGen.getPatternDefinition(input);
         }
-
-        return chPatternDefinition;
-    }
-
-    private int getItemFit(Integer remainingSpace, OrderOutput output) {
-        return Math.min(
-            remainingSpace / output.getLength(),
-            getOrderDemands().get(orderSortedOutputs.getOutputId(output))
-        );
-    }
-
-    private int getRelaxedItemFit(Integer remainingSpace, Integer relaxedLength, OrderOutput output) {
-        return Math.min(
-            remainingSpace / relaxedLength,
-            getOrderDemands().get(orderSortedOutputs.getOutputId(output))
-        );
     }
 
 }

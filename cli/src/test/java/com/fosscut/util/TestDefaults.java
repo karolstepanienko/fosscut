@@ -33,7 +33,6 @@ public class TestDefaults {
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail/validation-output-longer-than-input.yaml";
 
     public static final String EXAMPLE_ORDER = "./test/order/success/default.yaml";
-    public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/default-ffd-relax.yaml";
     public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/success/input-count.yaml";
     public static final String EXAMPLE_INPUT_COUNT_ZEROS_ORDER = "./test/order/success/input-count-zeros.yaml";
     public static final String EXAMPLE_INPUT_COST_ORDER = "./test/order/success/input-cost.yaml";

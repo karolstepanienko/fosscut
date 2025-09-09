@@ -1,6 +1,55 @@
 inputs:
 - length: 90
   patterns:
+  - count: 10
+    patternDefinition:
+    - id: 1
+      count: 1
+      relax: 0.0
+    - id: 4
+      count: 1
+      relax: 2.0
+    - id: 4
+      count: 1
+      relax: 3.0
+  - count: 1
+    patternDefinition:
+    - id: 2
+      count: 1
+      relax: 0.0
+    - id: 4
+      count: 2
+      relax: 0.0
+  - count: 10
+    patternDefinition:
+    - id: 2
+      count: 1
+      relax: 0.0
+    - id: 5
+      count: 2
+      relax: 0.0
+  - count: 17
+    patternDefinition:
+    - id: 3
+      count: 2
+      relax: 0.0
+- length: 100
+  patterns:
+  - count: 6
+    patternDefinition:
+    - id: 2
+      count: 2
+      relax: 0.0
+  - count: 1
+    patternDefinition:
+    - id: 2
+      count: 1
+      relax: 0.0
+    - id: 3
+      count: 1
+      relax: 0.0
+- length: 110
+  patterns:
   - count: 8
     patternDefinition:
     - id: 0
@@ -8,46 +57,10 @@ inputs:
       relax: 0.0
     - id: 4
       count: 1
-      relax: 5.0
-  - count: 15
-    patternDefinition:
-    - id: 2
-      count: 1
-      relax: 0.0
+      relax: 2.0
     - id: 4
-      count: 2
-      relax: 0.0
-  - count: 9
-    patternDefinition:
-    - id: 2
       count: 1
-      relax: 0.0
-    - id: 5
-      count: 2
-      relax: 0.0
-  - count: 12
-    patternDefinition:
-    - id: 3
-      count: 2
-      relax: 0.0
-  - count: 1
-    patternDefinition:
-    - id: 3
-      count: 1
-      relax: 0.0
-    - id: 5
-      count: 2
-      relax: 0.0
-- length: 100
-  patterns:
-  - count: 10
-    patternDefinition:
-    - id: 1
-      count: 1
-      relax: 0.0
-    - id: 3
-      count: 1
-      relax: 0.0
+      relax: 3.0
 outputs:
 - length: 75
   count: 8
@@ -63,8 +76,8 @@ outputs:
   maxRelax: 0
 - length: 20
   count: 38
-  maxRelax: 5
+  maxRelax: 3
 - length: 20
   count: 20
   maxRelax: 0
-totalNeededInputLength: 5050
+totalNeededInputLength: 5000

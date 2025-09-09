@@ -19,7 +19,8 @@ public abstract class AbstractAlg extends AbstractInputOutputFile {
 
     @Option(names = { "--optimization-criterion"},
         defaultValue = Defaults.DEFAULT_PARAM_OPTIMIZATION_CRITERION,
-        description = "One of: (${COMPLETION-CANDIDATES}).")
+        description = "One of: (${COMPLETION-CANDIDATES})."
+            + " Default: ${DEFAULT-VALUE}.")
     protected OptimizationCriterion optimizationCriterion;
 
     public static boolean isRelaxationEnabled(boolean relaxEnabled, Double relaxCost) {

@@ -100,7 +100,7 @@ public class FFD {
 
     @Test public void ffdRelaxQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdRelaxQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        Command command = new Command("ffd -q -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -111,7 +111,7 @@ public class FFD {
 
     @Test public void ffdIntegerRelaxQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        Command command = new Command("ffd -q -r -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
