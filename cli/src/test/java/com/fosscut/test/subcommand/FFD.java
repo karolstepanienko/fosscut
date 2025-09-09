@@ -41,21 +41,24 @@ public class FFD {
     /******************************* General **********************************/
 
     @Test public void ffd() {
-        Command command = new Command("ffd " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("ffd "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
     }
 
     @Test public void ffdQuiet() throws IOException {
-        Command command = new Command("ffd -q " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("ffd -q "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
     }
 
     @Test public void ffdSavePlanToFile() throws IOException {
         String testFileName = "ffdSavePlanToFile";
-        Command command = new Command("ffd -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("ffd -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
@@ -68,12 +71,37 @@ public class FFD {
 
     @Test public void ffdQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdQuietSavePlanToFile";
-        Command command = new Command("ffd -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("ffd -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
             Utils.loadFile(TestDefaults.FFD_PLAN)
+        );
+    }
+
+    @Test public void ffdWithoutRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdWithoutRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_WITHOUT_RELAX_PLAN)
+        );
+    }
+
+    @Test public void ffdComplexPatternQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdComplexPatternQuietSavePlanToFile";
+        Command command = new Command("ffd -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_PLAN)
         );
     }
 
@@ -98,25 +126,99 @@ public class FFD {
 
     /***************************** Relaxation *********************************/
 
-    @Test public void ffdRelaxQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdRelaxQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+    @Test public void ffdDefaultRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdDefaultRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_DEFAULT_RELAX_PLAN)
         );
     }
 
-    @Test public void ffdIntegerRelaxQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdIntegerRelaxQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+    @Test public void ffdDefaultIntegerRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdDefaultIntegerRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_INT_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_DEFAULT_INT_RELAX_PLAN)
+        );
+    }
+
+    @Test public void ffdIntegerRelaxStratEqualQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxStratEqualQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy EQUAL -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_RELAX_EQUAL_PLAN)
+        );
+    }
+
+    @Test public void ffdIntegerRelaxStratLongestQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxStratLongestQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy LONGEST -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_RELAX_LONGEST_PLAN)
+        );
+    }
+
+    @Test public void ffdIntegerRelaxStratShortestQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxStratShortestQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_RELAX_SHORTEST_PLAN)
+        );
+    }
+
+    @Test public void ffdIntegerRelaxComplexPatternStratEqualQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxComplexPatternStratEqualQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy EQUAL -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN)
+        );
+    }
+
+    @Test public void ffdIntegerRelaxComplexPatternStratLongestQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxComplexPatternStratLongestQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy LONGEST -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_LONGEST_PLAN)
+        );
+    }
+
+    @Test public void ffdIntegerRelaxComplexPatternStratShortestQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxComplexPatternStratShortestQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_SHORTEST_PLAN)
         );
     }
 
@@ -124,7 +226,8 @@ public class FFD {
 
     @Test public void ffdInputCount() throws IOException {
         String testFileName = "ffdInputCount";
-        Command command = new Command("ffd -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
+        Command command = new Command("ffd -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -135,7 +238,8 @@ public class FFD {
 
     @Test public void ffdInputCountZeros() throws IOException {
         String testFileName = "ffdInputCountZeros";
-        Command command = new Command("ffd -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
+        Command command = new Command("ffd -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -145,14 +249,16 @@ public class FFD {
     }
 
     @Test public void ffdInputCountExecutionError() {
-        Command command = new Command("ffd " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
+        Command command = new Command("ffd "
+            + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assert(command.getOutput().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void ffdInputCountExecutionErrorQuiet() {
-        Command command = new Command("ffd -q " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
+        Command command = new Command("ffd -q "
+            + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
         assertEquals(1, command.getExitCode());
@@ -172,14 +278,16 @@ public class FFD {
     }
 
     @Test public void ffdNullCostException() {
-        Command command = new Command("ffd --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("ffd --optimization-criterion MIN_COST "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void ffdNullCostExceptionQuiet() {
-        Command command = new Command("ffd -q --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("ffd -q --optimization-criterion MIN_COST "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());

@@ -1,0 +1,10 @@
+# FFD spread test: only 1 stock is necessary when using relaxation
+inputs:
+  - length: 100
+outputs:
+  - length: 22
+    count: 4
+    maxRelax: 2
+  - length: 16
+    count: 1
+    maxRelax: 0
