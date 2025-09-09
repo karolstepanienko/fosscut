@@ -1,7 +1,9 @@
 package com.fosscut.alg.ch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,16 +162,23 @@ public abstract class ConstructiveHeuristic {
             );
     }
 
-    private Integer getBestPatternCountFromOutputDemand(CHPattern besPattern) {
+    private Integer getBestPatternCountFromOutputDemand(CHPattern bestPattern) {
         Integer patternCount = Integer.MAX_VALUE;
 
-        for (CHOutput chOutput : besPattern.getPatternDefinition()) {
+        Map<Integer, Integer> outputCountMap = new HashMap<>();
+        for (CHOutput chOutput : bestPattern.getPatternDefinition()) {
             if (chOutput.getCount() > 0) {
+                outputCountMap.merge(chOutput.getId(), chOutput.getCount(), Integer::sum);
+            }
+        }
 
+        for (Map.Entry<Integer, Integer> entry : outputCountMap.entrySet()) {
+            Integer outputId = entry.getKey();
+            Integer totalCount = entry.getValue();
+            if (totalCount != null && totalCount > 0) {
                 // Ignores the remainder, rounds down, eg. 16/9 = 1.(7) => 1
                 Integer maxPossiblePatternCount =
-                    orderDemands.get(chOutput.getId())
-                    / chOutput.getCount();
+                    orderDemands.get(outputId) / totalCount;
 
                 patternCount = Math.min(patternCount, maxPossiblePatternCount);
             }
