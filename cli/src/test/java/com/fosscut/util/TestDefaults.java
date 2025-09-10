@@ -95,4 +95,6 @@ public class TestDefaults {
     public static final String CUTGEN_ALLOW_INPUT_DUPLICATES = "./test/order/cutgen/input-duplicates-order.yaml";
     public static final String CUTGEN_ALLOW_OUTPUT_DUPLICATES = "./test/order/cutgen/output-duplicates-order.yaml";
 
+    public static final String PLAN_FAIL_PATTERN_TO_LONG = "./test/plan/fail/pattern-to-long.yaml";
+
 }

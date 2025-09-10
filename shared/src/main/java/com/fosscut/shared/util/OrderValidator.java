@@ -15,14 +15,14 @@ import com.fosscut.shared.type.cutting.order.OrderElement;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 
-public class Validator {
+public class OrderValidator {
 
-    private static final Logger logger = LoggerFactory.getLogger(Validator.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderValidator.class);
 
     private OptimizationCriterion optimizationCriterion;
 
-    public Validator() {}
-    public Validator(OptimizationCriterion optimizationCriterion) {
+    public OrderValidator() {}
+    public OrderValidator(OptimizationCriterion optimizationCriterion) {
         this.optimizationCriterion = optimizationCriterion;
     }
 

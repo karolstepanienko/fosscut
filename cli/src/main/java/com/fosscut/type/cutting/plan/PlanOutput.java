@@ -5,6 +5,7 @@ public class PlanOutput {
     private Integer id;
     private Integer count;
 
+    public PlanOutput() {}
     public PlanOutput(Integer id, Integer count) {
         this.id = id;
         this.count = count;

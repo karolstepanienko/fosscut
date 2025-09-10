@@ -11,6 +11,7 @@ public class CuttingPlan {
     private Integer totalNeededInputLength;
     private Double totalCost;
 
+    public CuttingPlan() {}
     public CuttingPlan(List<PlanInput> inputs, List<OrderOutput> outputs) {
         this.inputs = inputs;
         this.outputs = outputs;
@@ -56,10 +57,8 @@ public class CuttingPlan {
         }
     }
 
-    @Override
     public String toString() {
-        YamlDumper yamlDumper = new YamlDumper();
-        return yamlDumper.dump(this);
+        return new YamlDumper().dump(this);
     }
 
 }

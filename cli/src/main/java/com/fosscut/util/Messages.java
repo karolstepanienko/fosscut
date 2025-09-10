@@ -14,4 +14,6 @@ public class Messages {
     public static final String UNABLE_TO_GENERATE_NEW_PATTERNS = "Algorithm was not able to generate new patterns. Specified numer of input elements is not enough to generate a cutting plan. Please increase the 'count' field value of input elements.";
     public static final String LP_UNFEASIBLE_EXCEPTION = "UNFEASIBLE: The solver could not solve the problem. Try increasing the 'count' field value of input elements.";
 
+    public static final String PLAN_PATTERN_DOES_NOT_FIT_IN_INPUT = "Generated pattern does not fit in the input element.";
+
 }

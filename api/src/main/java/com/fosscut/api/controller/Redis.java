@@ -19,7 +19,7 @@ import com.fosscut.api.util.Utils;
 import com.fosscut.shared.SharedDefaults;
 import com.fosscut.shared.exception.OrderValidationException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.shared.util.Validator;
+import com.fosscut.shared.util.OrderValidator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fosscut.api.type.OrderDTO;
@@ -57,7 +57,7 @@ public class Redis {
             YamlLoader yamlLoader = new YamlLoader();
             Order order = yamlLoader.loadOrder(orderDto.getOrder());
 
-            Validator validator = new Validator();
+            OrderValidator validator = new OrderValidator();
             validator.validateOrder(order);
 
             String key = SharedDefaults.REDIS_STRING_KEY_PREFIX + SharedDefaults.REDIS_STRING_ORDER_PREFIX + orderDto.getIdentifier();

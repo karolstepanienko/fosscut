@@ -46,10 +46,8 @@ public class Order {
         this.outputs = outputs;
     }
 
-    @Override
     public String toString() {
-        YamlDumper yamlDumper = new YamlDumper();
-        return yamlDumper.dump(this);
+        return new YamlDumper().dump(this);
     }
 
     public Integer getOutputId(OrderOutput orderOutput) {

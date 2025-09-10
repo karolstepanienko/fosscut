@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.shared.util.Validator;
+import com.fosscut.shared.util.OrderValidator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.subcommand.abs.AbstractInputFile;
 import com.fosscut.util.LogFormatter;
@@ -27,7 +27,7 @@ public class Validate extends AbstractInputFile {
         YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator();
+        OrderValidator validator = new OrderValidator();
         validator.validateOrder(order);
     }
 

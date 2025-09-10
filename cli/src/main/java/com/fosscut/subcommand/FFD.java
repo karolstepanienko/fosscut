@@ -6,15 +6,17 @@ import java.io.IOException;
 import com.fosscut.alg.ffd.FirstFitDecreasing;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.shared.util.Validator;
+import com.fosscut.shared.util.OrderValidator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.type.RelaxationSpreadStrategy;
+import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
+import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.load.OrderLoader;
@@ -50,7 +52,7 @@ public class FFD extends AbstractAlg {
         YamlLoader yamlLoader = new YamlLoader();
         Order order = yamlLoader.loadOrder(orderString);
 
-        Validator validator = new Validator(optimizationCriterion);
+        OrderValidator validator = new OrderValidator(optimizationCriterion);
         validator.validateOrder(order);
 
         Cleaner cleaner = new Cleaner();
@@ -65,18 +67,22 @@ public class FFD extends AbstractAlg {
         );
         firstFitDecreasing.run();
 
-        String cuttingPlan = null;
+        CuttingPlan cuttingPlan = firstFitDecreasing.getCuttingPlan();
+        String cuttingPlanString = null;
         if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
-            cuttingPlan = yamlDumper.dump(firstFitDecreasing.getCuttingPlan());
+            cuttingPlanString = yamlDumper.dump(cuttingPlan);
         }
 
-        Save save = new Save(cuttingPlan, orderLoader.getOrderUri(orderPath),
+        Save save = new Save(cuttingPlanString, orderLoader.getOrderUri(orderPath),
             redisConnectionSecrets);
         save.save(outputFile);
 
         PrintResult printResult = new PrintResult("cutting plan", outputFile);
-        printResult.print(cuttingPlan);
+        printResult.print(cuttingPlanString);
+
+        PlanValidator planValidator = new PlanValidator();
+        planValidator.validatePlan(cuttingPlan);
     }
 
 }

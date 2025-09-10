@@ -1,0 +1,12 @@
+inputs:
+- length: 100
+  patterns:
+  - count: 4
+    patternDefinition:
+    - id: 0
+      count: 6
+outputs:
+- length: 20
+  count: 24
+  maxRelax: 0
+totalNeededInputLength: 400
