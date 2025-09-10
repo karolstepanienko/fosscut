@@ -44,16 +44,14 @@ public class CuttingPlan {
     }
 
     private void calculateTotalCost() {
-        totalCost = 0.0;
+        totalCost = null;
         for (PlanInput input : inputs) {
             Double inputCost = input.getCost();
             if (inputCost != null) {
+                if (totalCost == null) totalCost = 0.0;
                 for (Pattern pattern: input.getPatterns()) {
                     totalCost += inputCost * pattern.getCount();
                 }
-            } else {
-                totalCost = null;
-                return;
             }
         }
     }

@@ -67,6 +67,8 @@ inputs:
     - id: 4
       count: 1
       relax: 0.0
+- length: 115
+  patterns: []
 outputs:
 - length: 20
   count: 20

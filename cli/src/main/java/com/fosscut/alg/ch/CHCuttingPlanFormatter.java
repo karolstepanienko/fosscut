@@ -34,13 +34,11 @@ public class CHCuttingPlanFormatter {
 
         for (OrderInput orderInput : order.getInputs()) {
             List<Pattern> patterns = collectPatternsForOrderInput(orderInput, cuttingPlanPatterns);
-            if (!patterns.isEmpty()) {
-                PlanInput input = new PlanInput();
-                input.setLength(orderInput.getLength());
-                input.setCost(orderInput.getCost());
-                input.setPatterns(patterns);
-                inputs.add(input);
-            }
+            PlanInput input = new PlanInput();
+            input.setLength(orderInput.getLength());
+            input.setCost(orderInput.getCost());
+            input.setPatterns(patterns);
+            inputs.add(input);
         }
 
         return inputs;

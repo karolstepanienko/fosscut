@@ -43,6 +43,8 @@ inputs:
     patternDefinition:
     - id: 4
       count: 2
+- length: 115
+  patterns: []
 outputs:
 - length: 20
   count: 20

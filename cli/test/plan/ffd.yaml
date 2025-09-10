@@ -35,6 +35,8 @@ inputs:
       count: 1
     - id: 3
       count: 1
+- length: 110
+  patterns: []
 - length: 115
   patterns:
   - count: 8
