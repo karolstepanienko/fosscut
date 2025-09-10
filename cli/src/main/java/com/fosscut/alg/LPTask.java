@@ -36,9 +36,6 @@ public abstract class LPTask {
     }
 
     protected void printSolution(ResultStatus resultStatus) throws LPUnfeasibleException {
-        logger.info("Solved with " + getSolver().solverVersion());
-
-        logger.info("Status: " + resultStatus);
         if (resultStatus != ResultStatus.OPTIMAL) {
             if (resultStatus == ResultStatus.FEASIBLE) {
                 logger.warn("A potentially suboptimal solution was found.");
@@ -47,12 +44,15 @@ public abstract class LPTask {
             }
         }
 
-        logger.info("Number of variables = " + getSolver().numVariables());
-        logger.info("Number of constraints = " + getSolver().numConstraints());
-        logger.info("Solution:");
-        logger.info("Objective value = " + getObjective().value());
-        logger.info("Problem solved in " + getSolver().wallTime() + " milliseconds");
-        logger.info("Problem solved in " + getSolver().iterations() + " iterations");
+        String message = "";
+        message += "Status: " + resultStatus;
+        message += ", obj: " + String.format("%12.2f", getObjective().value());
+        message += ", time: " + getSolver().wallTime() + " ms";
+        message += ", iterations: " + getSolver().iterations();
+        message += ", nv: " + getSolver().numVariables();
+        message += ", nc: " + getSolver().numConstraints();
+        message += ", solver: " + getSolver().solverVersion();
+        logger.info(message);
     }
 
 }
