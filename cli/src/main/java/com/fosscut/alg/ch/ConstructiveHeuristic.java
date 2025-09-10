@@ -87,6 +87,11 @@ public abstract class ConstructiveHeuristic {
         while (!isDemandSatisfied()) {
             List<CHPattern> patternsForEachInput = generatePatternForEachInput();
 
+            patternsForEachInput.removeIf(pattern -> pattern.getPatternDefinition().isEmpty());
+            // sumLength does not have to be checked because smallest possible
+            // output length is 1 and if sumCount > 0 then sumLength > 0
+            patternsForEachInput.removeIf(pattern -> pattern.getOutputsSumCount() <= 0);
+
             if (patternsForEachInput.size() <= 0)
                 throw new GeneratedPatternsCannotBeEmptyException("");
 

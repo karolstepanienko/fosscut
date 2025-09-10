@@ -105,6 +105,18 @@ public class FFD {
         );
     }
 
+    @Test public void ffdShortInputCountCostNullQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdShortInputCountCostNullQuietSavePlanToFile";
+        Command command = new Command("ffd -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN)
+        );
+    }
+
     /******************************** Redis ***********************************/
 
     @Test public void ffdRedis() {
@@ -268,7 +280,8 @@ public class FFD {
 
     @Test public void ffdCost() throws IOException {
         String testFileName = "ffdCost";
-        Command command = new Command("ffd -q --optimization-criterion MIN_COST -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
+        Command command = new Command("ffd -q --optimization-criterion MIN_COST -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(

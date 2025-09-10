@@ -77,6 +77,18 @@ public class CG {
         );
     }
 
+    @Test public void cgShortInputCountCostNullQuietSavePlanToFile() throws IOException {
+        String testFileName = "cgShortInputCountCostNullQuietSavePlanToFile";
+        Command command = new Command("cg -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN)
+        );
+    }
+
     /******************************** Redis ***********************************/
 
     @Test public void cgRedis() {

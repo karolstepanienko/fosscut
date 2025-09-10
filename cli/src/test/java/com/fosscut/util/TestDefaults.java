@@ -38,6 +38,7 @@ public class TestDefaults {
     public static final String EXAMPLE_INPUT_COST_ORDER = "./test/order/success/input-cost.yaml";
     public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/ffd-relax.yaml";
     public static final String EXAMPLE_FFD_COMPLEX_PATTERN_ORDER = "./test/order/success/ffd-complex-pattern.yaml";
+    public static final String EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER = "./test/order/success/short-input-count-cost-null.yaml";
 
     public static final String CG_CLP_GLOP_SCIP_PLAN = "./test/plan/cg-CLP_GLOP-SCIP.yaml";
     public static final String CG_CLP_CBC_PLAN = "./test/plan/cg-CLP-CBC.yaml";
@@ -86,6 +87,8 @@ public class TestDefaults {
     public static final String FFD_INPUT_COST_PLAN = "./test/plan/ffd-input-cost.yaml";
     public static final String GREEDY_INPUT_COST_PLAN = "./test/plan/greedy-input-cost.yaml";
     public static final String CG_INPUT_COST_PLAN = "./test/plan/cg-input-cost.yaml";
+
+    public static final String SHORT_INPUT_COUNT_COST_NULL_PLAN = "./test/plan/short-input-count-cost-null.yaml";
 
     public static final String CUTGEN_SIMPLE_ORDER = "./test/order/cutgen/simple-order.yaml";
     public static final String CUTGEN_MULTI_INPUT_ORDER = "./test/order/cutgen/multi-input-order.yaml";

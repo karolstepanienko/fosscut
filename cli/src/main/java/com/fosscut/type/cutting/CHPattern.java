@@ -68,6 +68,14 @@ public class CHPattern {
         return serialisablePatternDefinition;
     }
 
+    public Integer getOutputsSumCount() {
+        Integer outputsSumCount = 0;
+        for (CHOutput chOutput : patternDefinition) {
+            outputsSumCount += chOutput.getCount();
+        }
+        return outputsSumCount;
+    }
+
     private Double getOutputsSumLength(boolean includeRelax) {
         Double outputsSumLength = 0.0;
         for (CHOutput chOutput : patternDefinition) {

@@ -1,0 +1,16 @@
+inputs:
+- length: 123
+  cost: 3.0
+  patterns:
+  - count: 1
+    patternDefinition:
+    - id: 0
+      count: 4
+- length: 1
+  patterns: []
+outputs:
+- length: 30
+  count: 4
+  maxRelax: 0
+totalNeededInputLength: 123
+totalCost: 3.0

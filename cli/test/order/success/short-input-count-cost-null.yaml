@@ -1,0 +1,11 @@
+inputs:
+  - length: 123
+    count: 23
+    cost: 3
+  - length: 1
+    count: null
+    cost: null
+outputs:
+  - length: 30
+    count: 4
+    maxRelax: 0
