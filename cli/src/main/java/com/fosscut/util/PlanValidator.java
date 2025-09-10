@@ -2,7 +2,9 @@ package com.fosscut.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,10 @@ public class PlanValidator {
     private static final Logger logger = LoggerFactory.getLogger(PlanValidator.class);
     private OffendingPattern offendingPattern;
 
+    private Integer expectedOutputCount;
+    private Integer actualOutputCount;
+    private OffendingOutput offendingOutput;
+
     public PlanValidator() {}
 
     public void validatePlan(CuttingPlan plan) throws PlanValidationException {
@@ -31,8 +37,16 @@ public class PlanValidator {
     }
 
     private void validate(CuttingPlan plan) throws PlanValidationException {
-        if (!patternsFitInInputs(plan)) throw new PlanValidationException(Messages.PLAN_PATTERN_DOES_NOT_FIT_IN_INPUT + " \n" + offendingPattern.toString());
-        else if (!isDemandSatisfied(plan)) throw new PlanValidationException(Messages.PLAN_DEMAND_NOT_SATISFIED);
+        if (!patternsFitInInputs(plan)) throw new PlanValidationException(
+            Messages.PLAN_PATTERN_DOES_NOT_FIT_IN_INPUT
+            + " \n" + offendingPattern.toString()
+        );
+        else if (!isDemandSatisfied(plan)) throw new PlanValidationException(
+            Messages.PLAN_DEMAND_NOT_SATISFIED
+            + "\nExpected output count: " + expectedOutputCount
+            + ", actual output count: " + actualOutputCount
+            + ".\n" + offendingOutput.toString()
+        );
     }
 
     /******************** Do patterns fit in inputs? **************************/
@@ -144,8 +158,60 @@ public class PlanValidator {
     /*********************** Is demand satisfied? *****************************/
 
     private boolean isDemandSatisfied(CuttingPlan plan) {
-        // TODO implement
+        Map<Integer, Integer> expectedOutputDemands = new HashMap<>();
+        for (int id = 0; id < plan.getOutputs().size(); id++) {
+            expectedOutputDemands.put(id, plan.getOutputs().get(id).getCount());
+        }
+
+        Map<Integer, Integer> actualOutputDemands = new HashMap<>();
+        plan.getInputs().forEach(input -> {
+            input.getPatterns().forEach(pattern -> {
+                pattern.getPatternDefinition().forEach(planOutput -> {
+                    actualOutputDemands.merge(
+                        planOutput.getId(),
+                        pattern.getCount() * planOutput.getCount(),
+                        Integer::sum
+                    );
+                });
+            });
+        });
+
+        for (Map.Entry<Integer, Integer> entry : expectedOutputDemands.entrySet()) {
+            Integer outputId = entry.getKey();
+            Integer expectedCount = entry.getValue();
+            Integer actualCount = actualOutputDemands.getOrDefault(outputId, 0);
+
+            if (actualCount < expectedCount) {
+                expectedOutputCount = expectedCount;
+                actualOutputCount = actualCount;
+                offendingOutput = new OffendingOutput(outputId, plan.getOutputs().get(outputId));
+                return false;
+            }
+        }
+
         return true;
+    }
+
+    private class OffendingOutput {
+        private Integer outputId;
+        private OrderOutput output;
+
+        public OffendingOutput(Integer outputId, OrderOutput output) {
+            this.outputId = outputId;
+            this.output = output;
+        }
+
+        public Integer getOutputId() {
+            return outputId;
+        }
+
+        public OrderOutput getOutput() {
+            return output;
+        }
+
+        public String toString() {
+            return new YamlDumper().dump(this);
+        }
     }
 
 }

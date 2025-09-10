@@ -25,13 +25,16 @@ import com.fosscut.util.TestDefaults;
 
 public class PlanValidatorTest {
 
-    @Test
-    public void testValidatePlan() throws IOException {
-        File planFile = new File(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG);
+    private static CuttingPlan loadPlanFromFile(String path) throws IOException {
+        File planFile = new File(path);
         String planString = Files.readString(Paths.get(planFile.getPath()));
         ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
-        // Arrange
-        CuttingPlan plan = yamlMapper.readValue(planString, CuttingPlan.class);
+        return yamlMapper.readValue(planString, CuttingPlan.class);
+    }
+
+    @Test
+    public void testValidatePlan() throws IOException {
+        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG);
 
         PlanValidator validator = new PlanValidator();
 
@@ -51,7 +54,7 @@ public class PlanValidatorTest {
     }
 
     @Test
-    public void testValidatePlanRelax() throws IOException {
+    public void testValidatePlanRelax() {
         PlanOutputDouble planOutputDouble = new PlanOutputDouble(0, 5, 0.95);
         Pattern pattern = new Pattern();
         pattern.setCount(1);
@@ -82,6 +85,27 @@ public class PlanValidatorTest {
             + "  - id: 0\n"
             + "    count: 5\n"
             + "    relax: 0.95\n"
+        ));
+    }
+
+    @Test
+    public void testValidatePlanDemand() throws IOException {
+        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_DEMAND_NOT_SATISFIED);
+
+        PlanValidator validator = new PlanValidator();
+
+        // Act
+        PlanValidationException exception = assertThrows(PlanValidationException.class, () -> {
+            validator.validatePlan(plan);
+        });
+        assertTrue(exception.getMessage().contains(Messages.PLAN_DEMAND_NOT_SATISFIED));
+        assertTrue(exception.getMessage().contains(
+            "Expected output count: 21, actual output count: 20.\n"
+            + "outputId: 0\n"
+            + "output:\n"
+            + "  length: 20\n"
+            + "  count: 21\n"
+            + "  maxRelax: 0\n"
         ));
     }
 
