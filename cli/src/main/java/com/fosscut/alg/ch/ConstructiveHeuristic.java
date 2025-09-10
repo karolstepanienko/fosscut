@@ -84,6 +84,7 @@ public abstract class ConstructiveHeuristic {
         throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException
     {
         List<CHPattern> cuttingPlanPatterns = new ArrayList<CHPattern>();
+        boolean inputCountDefined = isInputCountDefined();
         while (!isDemandSatisfied()) {
             List<CHPattern> patternsForEachInput = generatePatternForEachInput();
 
@@ -106,17 +107,29 @@ public abstract class ConstructiveHeuristic {
             decreaseOrderOutputCount(bestPattern);
 
             cuttingPlanPatterns.add(bestPattern);
-            if (inputCountDefined()) logger.info("Input count: " + inputCounts);
-            logger.info("Order demands: " + orderDemands);
+            if (inputCountDefined) logger.info(
+                "Input count: " + inputCounts + ", sum: " + getSumInputCounts()
+            );
+            logger.info("Order demands: " + orderDemands 
+                + ", sum: " + orderDemands.stream().mapToInt(Integer::intValue).sum()
+            );
         }
         return cuttingPlanPatterns;
     }
 
-    private boolean inputCountDefined() {
+    private boolean isInputCountDefined() {
         for (Integer inputCount : getInputCounts()) {
            if (inputCount != null && inputCount > 0) return true;
         }
         return false;
+    }
+
+    private Integer getSumInputCounts() {
+        Integer sum = 0;
+        for (Integer inputCount : getInputCounts()) {
+           if (inputCount != null) sum += inputCount;
+        }
+        return sum;
     }
 
     private boolean isDemandSatisfied() {
