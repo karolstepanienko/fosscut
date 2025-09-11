@@ -1,13 +1,13 @@
-package com.fosscut.alg.ffd;
+package com.fosscut.alg;
 
 import com.fosscut.shared.type.cutting.Element;
 
-public class FFDOutput extends Element {
+public class SingleOutput extends Element {
 
     private Integer id;
     private Integer relax;
 
-    public FFDOutput(Integer id, Integer length, Integer relax) {
+    public SingleOutput(Integer id, Integer length, Integer relax) {
         this.id = id;
         setLength(length);
         this.relax = relax;

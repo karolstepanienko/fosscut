@@ -3,8 +3,12 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.alg.RelaxationSpreadStrategies;
+import com.fosscut.alg.SingleOutput;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;
 import com.fosscut.type.cutting.plan.PlanInput;
@@ -62,24 +66,107 @@ public class CuttingPlanFormatter {
     private Pattern getPattern(Integer patternCount, int i, int p) {
         Pattern pattern = new Pattern();
         pattern.setCount(patternCount);
+
+        if (relaxEnabled) {
+            pattern = getPatternWithRelax(patternCount, i, p);
+        } else {
+            pattern = getPatternWithoutRelax(patternCount, i, p);
+        }
+
+        return pattern;
+    }
+
+    private Pattern getPatternWithoutRelax(Integer patternCount, int i, int p) {
+        Pattern pattern = new Pattern();
+        pattern.setCount(patternCount);
         List<PlanOutput> patternDefinition = new ArrayList<>();
 
-        for (int o = 0; o < order.getOutputs().size(); o++) {
-            Integer outputCount = params.getNipo().get(i).get(p).get(o);
-            if (outputCount > 0) patternDefinition.add(getPlanOutput(outputCount, i, p, o));
+        for (int outputId = 0; outputId < order.getOutputs().size(); outputId++) {
+            Integer outputCount = params.getNipo().get(i).get(p).get(outputId);
+            if (outputCount > 0) patternDefinition.add(getPlanOutput(outputCount, i, p, outputId));
         }
+
         pattern.setPatternDefinition(patternDefinition);
         return pattern;
     }
 
-    private PlanOutput getPlanOutput(Integer outputCount, int i, int p, int o) {
+    private Pattern getPatternWithRelax(Integer patternCount, int i, int p) {
+        Pattern pattern = new Pattern();
+        pattern.setCount(patternCount);
+        List<SingleOutput> singlePatternDefinition = new ArrayList<SingleOutput>();
+
+        int remainingSpace = 0;
+        int numberOfRelaxedOutputs = 0;
+        for (int outputId = 0; outputId < order.getOutputs().size(); outputId++) {
+            Integer outputCount = params.getNipo().get(i).get(p).get(outputId);
+            OrderOutput output = order.getOutputs().get(outputId);
+
+            if (output.getMaxRelax() != null && output.getMaxRelax() > 0) {
+                numberOfRelaxedOutputs += outputCount;
+                remainingSpace += outputCount * output.getMaxRelax();
+                remainingSpace -= params.getRipo().get(i).get(p).get(outputId).intValue();
+            }
+
+            singlePatternDefinition.addAll(getSinglePatternDefinition(outputId, outputCount, output));
+        }
+
+        RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL;
+        if (numberOfRelaxedOutputs > 0) {
+            RelaxationSpreadStrategies rss = new RelaxationSpreadStrategies(relaxationSpreadStrategy);
+            singlePatternDefinition = rss.applyRelaxationSpreadStrategy(
+                singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+        }
+
+        pattern.setPatternDefinition(
+            convertSingleToCGPatternDefinition(singlePatternDefinition)
+        );
+        return pattern;
+    }
+
+    private List<SingleOutput> getSinglePatternDefinition(int outputId, Integer outputCount, OrderOutput output) {
+        List<SingleOutput> singlePatternDefinition = new ArrayList<>();
+
+        for (int j = 0; j < outputCount; ++j) {
+            singlePatternDefinition.add(new SingleOutput(
+                outputId,
+                output.getLength(),
+                output.getMaxRelax()
+            ));
+        }
+
+        return singlePatternDefinition;
+    }
+
+    private List<PlanOutput> convertSingleToCGPatternDefinition(List<SingleOutput> singlePatternDefinition) {
+        List<PlanOutput> cgPatternDefinition = new ArrayList<>();
+
+        PlanOutputInteger latest = null;
+        for (SingleOutput singleOutput : singlePatternDefinition) {
+            if (latest != null
+                && singleOutput.getId().equals(latest.getId())
+                && singleOutput.getRelax().equals(latest.getRelax().intValue())) {
+                latest.setCount(latest.getCount() + 1);
+            } else {
+                cgPatternDefinition.add(new PlanOutputInteger(
+                    singleOutput.getId(),
+                    1,
+                    singleOutput.getRelax()
+                ));
+            }
+            latest = (PlanOutputInteger) cgPatternDefinition.getLast();
+        }
+
+        return cgPatternDefinition;
+    }
+
+    private PlanOutput getPlanOutput(Integer outputCount, int i, int p, int outputId) {
         PlanOutput planOutput;
         if (!relaxEnabled) {
-            planOutput = new PlanOutput(o, outputCount);
+            planOutput = new PlanOutput(outputId, outputCount);
         } else if (forceIntegerRelax) {
-            planOutput = new PlanOutputInteger(o, outputCount, params.getRipo().get(i).get(p).get(o).intValue());
+            planOutput = new PlanOutputInteger(outputId, outputCount, params.getRipo().get(i).get(p).get(outputId).intValue());
         } else {
-            planOutput = new PlanOutputDouble(o, outputCount, params.getRipo().get(i).get(p).get(o));
+            planOutput = new PlanOutputDouble(outputId, outputCount, params.getRipo().get(i).get(p).get(outputId));
         }
 
         return planOutput;
