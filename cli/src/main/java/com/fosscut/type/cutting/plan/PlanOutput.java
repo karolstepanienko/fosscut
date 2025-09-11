@@ -4,11 +4,13 @@ public class PlanOutput {
 
     private Integer id;
     private Integer count;
+    private Integer relax;
 
     public PlanOutput() {}
-    public PlanOutput(Integer id, Integer count) {
+    public PlanOutput(Integer id, Integer count, Integer relax) {
         this.id = id;
         this.count = count;
+        this.relax = relax;
     }
 
     public Integer getId() {
@@ -25,6 +27,14 @@ public class PlanOutput {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Integer getRelax() {
+        return relax;
+    }
+
+    public void setRelax(Integer relax) {
+        this.relax = relax;
     }
 
 }

@@ -5,62 +5,62 @@ inputs:
     patternDefinition:
     - id: 1
       count: 1
-      relax: 0.0
+      relax: 0
     - id: 4
       count: 1
-      relax: 2.0
+      relax: 2
     - id: 4
       count: 1
-      relax: 3.0
+      relax: 3
   - count: 1
     patternDefinition:
     - id: 2
       count: 1
-      relax: 0.0
+      relax: 0
     - id: 4
       count: 2
-      relax: 0.0
+      relax: 0
   - count: 10
     patternDefinition:
     - id: 2
       count: 1
-      relax: 0.0
+      relax: 0
     - id: 5
       count: 2
-      relax: 0.0
+      relax: 0
   - count: 17
     patternDefinition:
     - id: 3
       count: 2
-      relax: 0.0
+      relax: 0
 - length: 100
   patterns:
   - count: 6
     patternDefinition:
     - id: 2
       count: 2
-      relax: 0.0
+      relax: 0
   - count: 1
     patternDefinition:
     - id: 2
       count: 1
-      relax: 0.0
+      relax: 0
     - id: 3
       count: 1
-      relax: 0.0
+      relax: 0
 - length: 110
   patterns:
   - count: 8
     patternDefinition:
     - id: 0
       count: 1
-      relax: 0.0
+      relax: 0
     - id: 4
       count: 1
-      relax: 2.0
+      relax: 2
     - id: 4
       count: 1
-      relax: 3.0
+      relax: 3
 - length: 115
   patterns: []
 outputs:

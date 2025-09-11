@@ -2,8 +2,6 @@ package com.fosscut.type.cutting;
 
 import com.fosscut.shared.type.cutting.Element;
 import com.fosscut.type.cutting.plan.PlanOutput;
-import com.fosscut.type.cutting.plan.PlanOutputDouble;
-import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 /*
  * Constructive heuristic output.
@@ -12,9 +10,9 @@ public class CHOutput extends Element {
 
     private Integer id;
     private Integer count;
-    private Double relax;
+    private Integer relax;
 
-    public CHOutput(Integer id, Integer length, Integer count, Double relax) {
+    public CHOutput(Integer id, Integer length, Integer count, Integer relax) {
         this.id = id;
         this.setLength(length);
         this.count = count;
@@ -37,34 +35,19 @@ public class CHOutput extends Element {
         this.count = count;
     }
 
-    public Double getRelax() {
+    public Integer getRelax() {
         return relax;
     }
 
-    public void setRelax(Double relax) {
+    public void setRelax(Integer relax) {
         this.relax = relax;
     }
 
     public PlanOutput getPlanOutput() {
         return new PlanOutput(
             this.getId(),
-            this.getCount()
-        );
-    }
-
-    public PlanOutputDouble getPlanOutputDouble() {
-        return new PlanOutputDouble(
-            this.getId(),
             this.getCount(),
             this.getRelax()
-        );
-    }
-
-    public PlanOutputInteger getPlanOutputInteger() {
-        return new PlanOutputInteger(
-            this.getId(),
-            this.getCount(),
-            this.getRelax().intValue()
         );
     }
 

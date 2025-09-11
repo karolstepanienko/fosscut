@@ -15,9 +15,6 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;
 import com.fosscut.type.cutting.plan.PlanInput;
-import com.fosscut.type.cutting.plan.PlanOutput;
-import com.fosscut.type.cutting.plan.PlanOutputDouble;
-import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 public class PlanValidator {
 
@@ -89,46 +86,31 @@ public class PlanValidator {
         pattern.getPatternDefinition().forEach(planOutput -> {
             Integer outputLength = outputs.get(planOutput.getId()).getLength();
 
-            Double relaxedOutputLength = Double.valueOf(outputLength);
-            Double relaxValue = getRelaxValue(planOutput);
+            Integer relaxedOutputLength = outputLength;
+            Integer relaxValue = planOutput.getRelax();
             if (relaxValue != null) {
                 relaxedOutputLength -= relaxValue;
             }
 
-            Double increment = planOutput.getCount() * relaxedOutputLength;
+            Integer increment = planOutput.getCount() * relaxedOutputLength;
             patternLengthObj.setLength(patternLengthObj.getLength() + increment);
         });
 
         return patternLengthObj;
     }
 
-    private Double getRelaxValue(PlanOutput planOutput) {
-        Double relaxValue = null;
-        String outputClassName = planOutput.getClass().getSimpleName();
-
-        if (outputClassName.equals("PlanOutputDouble")) {
-            PlanOutputDouble planOutputDouble = (PlanOutputDouble) planOutput;
-            relaxValue = planOutputDouble.getRelax();
-        } else if (outputClassName.equals("PlanOutputInteger")) {
-            PlanOutputInteger planOutputInteger = (PlanOutputInteger) planOutput;
-            relaxValue = Double.valueOf(planOutputInteger.getRelax());
-        }
-
-        return relaxValue;
-    }
-
     private class PatternLength {
-        private Double length;
+        private Integer length;
 
         public PatternLength() {
-            this.length = 0.0;
+            this.length = 0;
         }
 
-        public Double getLength() {
+        public Integer getLength() {
             return length;
         }
 
-        public void setLength(Double length) {
+        public void setLength(Integer length) {
             this.length = length;
         }
     }

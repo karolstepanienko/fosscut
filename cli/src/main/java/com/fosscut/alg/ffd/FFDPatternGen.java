@@ -36,7 +36,7 @@ public class FFDPatternGen extends AbstractFFDPatternGen {
                         orderSortedOutputs.getOutputId(output),
                         output.getLength(),
                         itemFit,
-                        0.0
+                        null
                     )
                 );
             }

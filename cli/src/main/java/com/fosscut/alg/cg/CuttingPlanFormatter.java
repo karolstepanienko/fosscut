@@ -13,20 +13,16 @@ import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;
 import com.fosscut.type.cutting.plan.PlanInput;
 import com.fosscut.type.cutting.plan.PlanOutput;
-import com.fosscut.type.cutting.plan.PlanOutputDouble;
-import com.fosscut.type.cutting.plan.PlanOutputInteger;
 
 public class CuttingPlanFormatter {
     private boolean relaxEnabled;
     private Order order;
     private Parameters params;
-    private boolean forceIntegerRelax;
 
-    public CuttingPlanFormatter(boolean relaxEnabled, Order order, Parameters params, boolean forceIntegerRelax) {
+    public CuttingPlanFormatter(boolean relaxEnabled, Order order, Parameters params) {
         this.relaxEnabled = relaxEnabled;
         this.order = order;
         this.params = params;
-        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public CuttingPlan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
@@ -83,7 +79,7 @@ public class CuttingPlanFormatter {
 
         for (int outputId = 0; outputId < order.getOutputs().size(); outputId++) {
             Integer outputCount = params.getNipo().get(i).get(p).get(outputId);
-            if (outputCount > 0) patternDefinition.add(getPlanOutput(outputCount, i, p, outputId));
+            if (outputCount > 0) patternDefinition.add(new PlanOutput(outputId, outputCount, null));
         }
 
         pattern.setPatternDefinition(patternDefinition);
@@ -140,35 +136,25 @@ public class CuttingPlanFormatter {
     private List<PlanOutput> convertSingleToCGPatternDefinition(List<SingleOutput> singlePatternDefinition) {
         List<PlanOutput> cgPatternDefinition = new ArrayList<>();
 
-        PlanOutputInteger latest = null;
+        PlanOutput latest = null;
         for (SingleOutput singleOutput : singlePatternDefinition) {
             if (latest != null
                 && singleOutput.getId().equals(latest.getId())
                 && singleOutput.getRelax().equals(latest.getRelax().intValue())) {
                 latest.setCount(latest.getCount() + 1);
             } else {
-                cgPatternDefinition.add(new PlanOutputInteger(
-                    singleOutput.getId(),
-                    1,
-                    singleOutput.getRelax()
-                ));
+                cgPatternDefinition.add(
+                    new PlanOutput(
+                        singleOutput.getId(),
+                        1,
+                        singleOutput.getRelax()
+                    )
+                );
             }
-            latest = (PlanOutputInteger) cgPatternDefinition.getLast();
+            latest = cgPatternDefinition.getLast();
         }
 
         return cgPatternDefinition;
     }
 
-    private PlanOutput getPlanOutput(Integer outputCount, int i, int p, int outputId) {
-        PlanOutput planOutput;
-        if (!relaxEnabled) {
-            planOutput = new PlanOutput(outputId, outputCount);
-        } else if (forceIntegerRelax) {
-            planOutput = new PlanOutputInteger(outputId, outputCount, params.getRipo().get(i).get(p).get(outputId).intValue());
-        } else {
-            planOutput = new PlanOutputDouble(outputId, outputCount, params.getRipo().get(i).get(p).get(outputId));
-        }
-
-        return planOutput;
-    }
 }

@@ -91,7 +91,7 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
                     singleOutput.getId(),
                     singleOutput.getLength(),
                     1,
-                    Double.valueOf(singleOutput.getRelax())
+                    singleOutput.getRelax()
                 ));
             }
             latest = chPatternDefinition.getLast();

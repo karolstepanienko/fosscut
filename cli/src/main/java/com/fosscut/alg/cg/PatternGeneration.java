@@ -23,7 +23,6 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private List<Double> cuttingPlanDualValues;
     private Double relaxCost;
     private boolean relaxEnabled;
-    private boolean forceIntegerRelax;
     private IntegerSolver integerSolver;
 
     private List<List<MPVariable>> usageVariables;
@@ -34,14 +33,12 @@ class PatternGeneration extends ColumnGenerationLPTask {
         List<Double> cuttingPlanDualValues,
         Double relaxCost,
         boolean relaxEnabled,
-        boolean forceIntegerRelax,
         IntegerSolver integerSolver
     ) {
         setOrder(order);
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
-        this.forceIntegerRelax = forceIntegerRelax;
         this.integerSolver = integerSolver;
     }
 
@@ -90,21 +87,20 @@ class PatternGeneration extends ColumnGenerationLPTask {
     }
 
     private void initVariables() {
-        setUsageVariables(defineVariables("usage", true));
+        setUsageVariables(defineVariables("usage"));
     }
 
     private void initVariablesWithRelaxation() {
         initVariables();
-        setRelaxVariables(defineVariables("relax", forceIntegerRelax));
+        setRelaxVariables(defineVariables("relax"));
     }
 
-    private List<List<MPVariable>> defineVariables(String varName, boolean integerVariables) {
+    private List<List<MPVariable>> defineVariables(String varName) {
         List<List<MPVariable>> variables = new ArrayList<>();
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
             List<MPVariable> outputs = new ArrayList<>();
             for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                if (integerVariables) outputs.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
-                else outputs.add(getSolver().makeNumVar(0.0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
+                outputs.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
             }
             variables.add(outputs);
         }

@@ -150,21 +150,9 @@ public class FFD {
         );
     }
 
-    @Test public void ffdDefaultIntegerRelaxQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdDefaultIntegerRelaxQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i -o " + testFileName + " "
-            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
-        command.run();
-        assert(command.getOutput().equals(""));
-        assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_DEFAULT_INT_RELAX_PLAN)
-        );
-    }
-
     @Test public void ffdIntegerRelaxStratEqualQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxStratEqualQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy EQUAL -o " + testFileName + " "
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -176,7 +164,7 @@ public class FFD {
 
     @Test public void ffdIntegerRelaxStratLongestQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxStratLongestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy LONGEST -o " + testFileName + " "
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy LONGEST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -188,7 +176,7 @@ public class FFD {
 
     @Test public void ffdIntegerRelaxStratShortestQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxStratShortestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -200,7 +188,7 @@ public class FFD {
 
     @Test public void ffdIntegerRelaxComplexPatternStratEqualQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxComplexPatternStratEqualQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy EQUAL -o " + testFileName + " "
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -212,7 +200,7 @@ public class FFD {
 
     @Test public void ffdIntegerRelaxComplexPatternStratLongestQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxComplexPatternStratLongestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy LONGEST -o " + testFileName + " "
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy LONGEST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
@@ -224,7 +212,7 @@ public class FFD {
 
     @Test public void ffdIntegerRelaxComplexPatternStratShortestQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdIntegerRelaxComplexPatternStratShortestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r -i --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
         assert(command.getOutput().equals(""));

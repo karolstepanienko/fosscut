@@ -82,7 +82,7 @@ public class CG extends AbstractAlg {
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
             order, relaxCost, relaxEnabled, optimizationCriterion,
-            linearSolver, integerSolver, forceIntegerRelax);
+            linearSolver, integerSolver);
         columnGeneration.run();
 
         CuttingPlan cuttingPlan = columnGeneration.getCuttingPlan();

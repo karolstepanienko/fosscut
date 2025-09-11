@@ -59,13 +59,11 @@ public class TestDefaults {
 
     public static final String CG_RELAX_0_PLAN = "./test/plan/relax/cg-relax-0.yaml";
     public static final String CG_RELAX_1_PLAN = "./test/plan/relax/cg-relax-1.yaml";
-    public static final String CG_INT_RELAX_1_PLAN = "./test/plan/relax/cg-int-relax-1.yaml";
 
     public static final String FFD_WITHOUT_RELAX_PLAN = "./test/plan/ffd-without-relax.yaml";
     public static final String FFD_COMPLEX_PATTERN_PLAN = "./test/plan/ffd-complex-pattern.yaml";
 
     public static final String FFD_DEFAULT_RELAX_PLAN = "./test/plan/relax/ffd-default-relax.yaml";
-    public static final String FFD_DEFAULT_INT_RELAX_PLAN = "./test/plan/relax/ffd-default-int-relax.yaml";
     public static final String FFD_RELAX_EQUAL_PLAN = "./test/plan/relax/ffd-relax-equal.yaml";
     public static final String FFD_RELAX_LONGEST_PLAN = "./test/plan/relax/ffd-relax-longest.yaml";
     public static final String FFD_RELAX_SHORTEST_PLAN = "./test/plan/relax/ffd-relax-shortest.yaml";
@@ -75,7 +73,6 @@ public class TestDefaults {
 
     public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0.yaml";
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1.yaml";
-    public static final String GREEDY_INT_RELAX_0_PLAN = "./test/plan/relax/greedy-int-relax-0.yaml";
 
     public static final String FFD_INPUT_COUNT_PLAN = "./test/plan/ffd-input-count.yaml";
     public static final String GREEDY_INPUT_COUNT_PLAN = "./test/plan/greedy-input-count.yaml";
@@ -96,6 +93,7 @@ public class TestDefaults {
     public static final String CUTGEN_ALLOW_OUTPUT_DUPLICATES = "./test/order/cutgen/output-duplicates-order.yaml";
 
     public static final String PLAN_FAIL_PATTERN_TO_LONG = "./test/plan/fail/pattern-to-long.yaml";
+    public static final String PLAN_FAIL_PATTERN_TO_LONG_RELAX = "./test/plan/fail/pattern-to-long-relax.yaml";
     public static final String PLAN_FAIL_DEMAND_NOT_SATISFIED = "./test/plan/fail/demand-not-satisfied.yaml";
 
 }

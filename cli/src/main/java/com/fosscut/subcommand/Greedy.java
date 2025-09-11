@@ -75,7 +75,7 @@ public class Greedy extends AbstractAlg {
         cleaner.cleanOrder(order);
 
         GreedyAlg greedy = new GreedyAlg(order, relaxCost, relaxEnabled,
-            optimizationCriterion, integerSolver, forceIntegerRelax);
+            optimizationCriterion, integerSolver);
         greedy.run();
 
         CuttingPlan cuttingPlan = greedy.getCuttingPlan();

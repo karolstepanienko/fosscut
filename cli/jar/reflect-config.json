@@ -140,21 +140,7 @@
   "name":"com.fosscut.type.cutting.plan.PlanOutput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.cutting.plan.PlanOutputInteger",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getRelax","parameterTypes":[] }]
-},
-{
-  "name":"com.fosscut.type.cutting.plan.PlanOutputDouble",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getRelax","parameterTypes":[] }]
+  "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }, {"name":"getRelax","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.util.PropertiesVersionProvider",

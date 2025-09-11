@@ -26,17 +26,17 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     public FirstFitDecreasing(Order order, boolean relaxEnabled,
-        OptimizationCriterion optimizationCriterion, boolean forceIntegerRelax,
+        OptimizationCriterion optimizationCriterion,
         RelaxationSpreadStrategy relaxationSpreadStrategy
     ) {
-        super(optimizationCriterion, forceIntegerRelax);
+        super(optimizationCriterion);
         this.orderSortedOutputs = order;
         this.relaxEnabled = relaxEnabled;
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
     }
 
     public CuttingPlan getCuttingPlan() {
-        return getCuttingPlan(orderSortedOutputs, relaxEnabled, forceIntegerRelax);
+        return getCuttingPlan(orderSortedOutputs);
     }
 
     public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {

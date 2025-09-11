@@ -29,7 +29,6 @@ public class ColumnGeneration {
     private OptimizationCriterion optimizationCriterion;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
-    private boolean forceIntegerRelax;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
@@ -38,8 +37,7 @@ public class ColumnGeneration {
         boolean relaxEnabled,
         OptimizationCriterion optimizationCriterion,
         LinearSolver linearSolver,
-        IntegerSolver integerSolver,
-        boolean forceIntegerRelax
+        IntegerSolver integerSolver
     ) {
         this.order = order;
         this.relaxCost = relaxCost;
@@ -47,7 +45,6 @@ public class ColumnGeneration {
         this.optimizationCriterion = optimizationCriterion;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
-        this.forceIntegerRelax = forceIntegerRelax;
     }
 
     public void run() throws LPUnfeasibleException {
@@ -72,7 +69,7 @@ public class ColumnGeneration {
 
             PatternGeneration patternGeneration = new PatternGeneration(
                 order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
-                relaxEnabled, forceIntegerRelax, integerSolver
+                relaxEnabled, integerSolver
             );
             patternGeneration.solve();
             reducedCost = patternGeneration.getObjective().value();
@@ -103,7 +100,7 @@ public class ColumnGeneration {
     public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
             AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
-            order, params, forceIntegerRelax
+            order, params
         );
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }

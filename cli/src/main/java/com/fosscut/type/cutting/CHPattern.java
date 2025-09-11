@@ -48,7 +48,7 @@ public class CHPattern {
         this.patternDefinition = patternDefinition;
     }
 
-    public Double getWaist() {
+    public Integer getWaist() {
         return this.input.getLength() - getOutputsSumLength(true);
     }
 
@@ -58,12 +58,10 @@ public class CHPattern {
         return this.input.getCost() / getOutputsSumLength(false);
     }
 
-    public List<PlanOutput> getSerialisableRelaxPatternDefinition(boolean relaxEnabled, boolean forceIntegerRelax) {
+    public List<PlanOutput> getSerialisableRelaxPatternDefinition() {
         List<PlanOutput> serialisablePatternDefinition = new ArrayList<PlanOutput>();
         for (CHOutput chOutput : patternDefinition) {
-            if (!relaxEnabled) serialisablePatternDefinition.add(chOutput.getPlanOutput());
-            else if (forceIntegerRelax) serialisablePatternDefinition.add(chOutput.getPlanOutputInteger());
-            else serialisablePatternDefinition.add(chOutput.getPlanOutputDouble());
+            serialisablePatternDefinition.add(chOutput.getPlanOutput());
         }
         return serialisablePatternDefinition;
     }
@@ -76,11 +74,12 @@ public class CHPattern {
         return outputsSumCount;
     }
 
-    private Double getOutputsSumLength(boolean includeRelax) {
-        Double outputsSumLength = 0.0;
+    private Integer getOutputsSumLength(boolean includeRelax) {
+        Integer outputsSumLength = 0;
         for (CHOutput chOutput : patternDefinition) {
-            Double outputSumLength = Double.valueOf(chOutput.getLength());
-            if (includeRelax) outputSumLength -= chOutput.getRelax();
+            Integer outputSumLength = chOutput.getLength();
+            Integer relax = chOutput.getRelax();
+            if (includeRelax && relax != null) outputSumLength -= relax;
             outputsSumLength += chOutput.getCount() * outputSumLength;
         }
         return outputsSumLength;

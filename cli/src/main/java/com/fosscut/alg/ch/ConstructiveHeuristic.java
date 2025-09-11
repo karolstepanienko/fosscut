@@ -23,21 +23,17 @@ public abstract class ConstructiveHeuristic {
     private static final Logger logger = LoggerFactory.getLogger(ConstructiveHeuristic.class);
 
     protected OptimizationCriterion optimizationCriterion;
-    protected boolean forceIntegerRelax;
 
     private List<Integer> inputCounts;
     private List<Integer> orderDemands;
     private List<CHPattern> cuttingPlanPatterns;
 
-    protected ConstructiveHeuristic(OptimizationCriterion optimizationCriterion,
-        boolean forceIntegerRelax
-    ) {
+    protected ConstructiveHeuristic(OptimizationCriterion optimizationCriterion) {
         this.optimizationCriterion = optimizationCriterion;
-        this.forceIntegerRelax = forceIntegerRelax;
     }
 
-    protected CuttingPlan getCuttingPlan(Order order, boolean relaxEnabled, boolean forceIntegerRelax) {
-        CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order, relaxEnabled, forceIntegerRelax);
+    protected CuttingPlan getCuttingPlan(Order order) {
+        CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order);
         return chCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns);
     }
 
@@ -145,9 +141,9 @@ public abstract class ConstructiveHeuristic {
 
     private CHPattern getMinWastePattern(List<CHPattern> patterns) {
         CHPattern minWastePattern = patterns.get(0);
-        Double minWaist = patterns.get(0).getWaist();
+        Integer minWaist = patterns.get(0).getWaist();
         for (CHPattern pattern : patterns) {
-            Double waist = pattern.getWaist();
+            Integer waist = pattern.getWaist();
             if (waist < minWaist) {
                 minWaist = waist;
                 minWastePattern = pattern;

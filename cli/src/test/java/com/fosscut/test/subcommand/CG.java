@@ -132,17 +132,6 @@ public class CG {
         );
     }
 
-    @Test public void cgIntegerRelaxCost1QuietSavePlanToFile() throws IOException {
-        String testFileName = "cgIntegerRelaxCost1QuietSavePlanToFile";
-        Command command = new Command("cg -q -c 1 -r -i -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
-        command.run();
-        assert(command.getOutput().equals(""));
-        assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_INT_RELAX_1_PLAN)
-        );
-    }
-
     @Test public void cgRelaxCost0RelaxDisabledQuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost0RelaxDisabledQuietSavePlanToFile";
         Command command = new Command("cg -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));

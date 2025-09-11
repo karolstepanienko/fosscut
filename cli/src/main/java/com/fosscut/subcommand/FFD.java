@@ -62,7 +62,6 @@ public class FFD extends AbstractAlg {
             order,
             relaxEnabled,
             optimizationCriterion,
-            forceIntegerRelax,
             relaxationSpreadStrategy
         );
         firstFitDecreasing.run();

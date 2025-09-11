@@ -26,7 +26,6 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private List<Integer> orderDemands;
     private Double relaxCost;
     private boolean relaxEnabled;
-    private boolean forceIntegerRelax;
     private IntegerSolver integerSolver;
 
     private List<MPVariable> usageVariables;
@@ -39,7 +38,6 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         List<Integer> orderDemands,
         Double relaxCost,
         boolean relaxEnabled,
-        boolean forceIntegerRelax,
         IntegerSolver integerSolver
     ) {
         setOutputs(outputs);
@@ -48,7 +46,6 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.orderDemands = orderDemands;
         this.relaxCost = relaxCost; 
         this.relaxEnabled = relaxEnabled;
-        this.forceIntegerRelax = forceIntegerRelax;
         this.integerSolver = integerSolver;
     }
 
@@ -94,7 +91,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
                     o,
                     getOutputs().get(o).getLength(),
                     Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
-                    0.0
+                    null
                 ));
             }
         }
@@ -110,7 +107,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
                     o,
                     getOutputs().get(o).getLength(),
                     Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
-                    relaxVariables.get(o).solutionValue()
+                    Double.valueOf(relaxVariables.get(o).solutionValue()).intValue()
                 ));
             }
         }
@@ -133,19 +130,18 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     }
 
     private void initVariables() {
-        setUsageVariables(defineVariables("usage", true));
+        setUsageVariables(defineVariables("usage"));
     }
 
     private void initVariablesWithRelaxation() {
         initVariables();
-        setRelaxVariables(defineVariables("relax", forceIntegerRelax));
+        setRelaxVariables(defineVariables("relax"));
     }
 
-    private List<MPVariable> defineVariables(String varName, boolean integerVariables) {
+    private List<MPVariable> defineVariables(String varName) {
         List<MPVariable> variables = new ArrayList<>();
             for (int o = 0; o < getOutputs().size(); o++) {
-                if (integerVariables) variables.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_o_" + o));
-                else variables.add(getSolver().makeNumVar(0.0, Double.POSITIVE_INFINITY, varName + "_o_" + o));
+                variables.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_o_" + o));
             }
         return variables;
     }
