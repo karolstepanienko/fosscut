@@ -91,9 +91,9 @@ public class CuttingPlanFormatter {
         pattern.setCount(patternCount);
         List<SingleOutput> singlePatternDefinition = new ArrayList<SingleOutput>();
 
-        int remainingSpace = 0;
-        int numberOfRelaxedOutputs = 0;
         for (int outputId = 0; outputId < order.getOutputs().size(); outputId++) {
+            int remainingSpace = 0;
+            int numberOfRelaxedOutputs = 0;
             Integer outputCount = params.getNipo().get(i).get(p).get(outputId);
             OrderOutput output = order.getOutputs().get(outputId);
 
@@ -104,13 +104,13 @@ public class CuttingPlanFormatter {
             }
 
             singlePatternDefinition.addAll(getSinglePatternDefinition(outputId, outputCount, output));
-        }
 
-        RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL;
-        if (numberOfRelaxedOutputs > 0) {
-            RelaxationSpreadStrategies rss = new RelaxationSpreadStrategies(relaxationSpreadStrategy);
-            singlePatternDefinition = rss.applyRelaxationSpreadStrategy(
-                singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+            if (numberOfRelaxedOutputs > 0) {
+                RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL;
+                RelaxationSpreadStrategies rss = new RelaxationSpreadStrategies(relaxationSpreadStrategy);
+                singlePatternDefinition = rss.applyRelaxationSpreadStrategy(
+                    singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+            }
         }
 
         pattern.setPatternDefinition(
