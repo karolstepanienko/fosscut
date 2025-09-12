@@ -1,7 +1,7 @@
 package com.fosscut.type;
 
 public enum RelaxationSpreadStrategy {
-    LONGEST,
+    START,
     EQUAL,
-    SHORTEST
+    END
 }

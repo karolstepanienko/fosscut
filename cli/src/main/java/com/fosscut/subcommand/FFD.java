@@ -34,8 +34,8 @@ public class FFD extends AbstractAlg {
             + " Default: ${DEFAULT-VALUE}."
             + " Defines how relaxation is spread among items in a pattern."
             + " EQUAL: relax all items equally,"
-            + " LONGEST: relax longest items first,"
-            + " SHORTEST: relax shortest items first.")
+            + " START: first relax longest items at the beginning of the pattern,"
+            + " END: first relax shortest items at the end of the pattern.")
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     @Override

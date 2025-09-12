@@ -20,11 +20,11 @@ public class RelaxationSpread {
         if (relaxationSpreadStrategy == RelaxationSpreadStrategy.EQUAL) {
             // Spread remaining space equally to all items with available relaxation
             singlePatternDefinition = equalSpreadRemainingSpace(singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
-        } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.LONGEST) {
-            // Spread remaining space to items on the end of the pattern (spread relax to longest items first)
+        } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.START) {
+            // Spread remaining space to items on the end of the pattern (for ffd spread relax to longest items first)
             singlePatternDefinition = sideSpreadRemainingSpace(singlePatternDefinition.reversed(), remainingSpace).reversed();
-        } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.SHORTEST) {
-            // Spread remaining space to items on the start of the pattern (spread relax to shortest items first)
+        } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.END) {
+            // Spread remaining space to items on the start of the pattern (for ffd spread relax to shortest items first)
             singlePatternDefinition = sideSpreadRemainingSpace(singlePatternDefinition, remainingSpace);
         }
 
