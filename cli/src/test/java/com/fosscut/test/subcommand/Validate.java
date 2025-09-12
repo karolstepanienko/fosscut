@@ -36,15 +36,15 @@ public class Validate {
     @Test public void orderFileIsADirectory() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_DIRECTORY));
         command.run();
-        assert(command.getOutput().equals(Messages.ORDER_FILE_IS_A_DIRECTORY_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.ORDER_FILE_IS_A_DIRECTORY_EXCEPTION));
     }
 
     @Test public void orderFileDoesNotExist() {
         Command command = new Command("validate thisFileDoesNotExist");
         command.run();
-        assert(command.getOutput().equals(Messages.ORDER_FILE_DOES_NOT_EXIST_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.ORDER_FILE_DOES_NOT_EXIST_EXCEPTION));
     }
 
     @Test public void validateFromRedis() {
@@ -52,8 +52,8 @@ public class Validate {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
-        assert(command.getOutput().contains(SharedMessages.ORDER_VALID));
         assertEquals(0, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.ORDER_VALID));
     }
 
     @Test public void validateRedisProtocolException() {
@@ -61,8 +61,8 @@ public class Validate {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION);
         command.run();
-        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PROTOCOL_EXCEPTION));
     }
 
     @Test public void validateRedisHostnameException() {
@@ -70,8 +70,8 @@ public class Validate {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION);
         command.run();
-        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_HOSTNAME_EXCEPTION));
     }
 
     @Test public void validateRedisPortException() {
@@ -79,8 +79,8 @@ public class Validate {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH_PORT_EXCEPTION);
         command.run();
-        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PORT_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_PORT_EXCEPTION));
     }
 
     @Test public void validateRedisIdentifierException() {
@@ -88,92 +88,92 @@ public class Validate {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION);
         command.run();
-        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.REDIS_ORDER_PATH_ERROR + Messages.REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION));
     }
 
     @Test public void nonPositiveInputLength() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.NONPOSITIVE_INPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.NONPOSITIVE_INPUT_LENGTH_ERROR));
     }
 
     @Test public void nonPositiveInputLengthQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.NONPOSITIVE_INPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.NONPOSITIVE_INPUT_LENGTH_ERROR));
     }
 
     @Test public void nonPositiveOutputLength() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_OUTPUT_LENGTH));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.NONPOSITIVE_OUTPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.NONPOSITIVE_OUTPUT_LENGTH_ERROR));
     }
 
     @Test public void nonPositiveOutputLengthQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONPOSITIVE_OUTPUT_LENGTH));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.NONPOSITIVE_OUTPUT_LENGTH_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.NONPOSITIVE_OUTPUT_LENGTH_ERROR));
     }
 
     @Test public void nonNegativeInputCount() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.NONNEGATIVE_INPUT_COUNT_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.NONNEGATIVE_INPUT_COUNT_ERROR));
     }
 
     @Test public void nonNegativeInputCountQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.NONNEGATIVE_INPUT_COUNT_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.NONNEGATIVE_INPUT_COUNT_ERROR));
     }
 
     @Test public void nonNegativeOutputCount() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR));
     }
 
     @Test public void nonNegativeOutputCountQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR));
     }
 
     @Test public void outputLongerThanInput() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR));
     }
 
     @Test public void outputLongerThanInputQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR));
     }
 
     @Test public void sumInputLengthLongerThanSumOutputLength() {
         Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
     }
 
     @Test public void sumInputLengthLongerThanSumOutputLengthQuiet() {
         Command command = new Command("validate -q " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
     }
 
 }

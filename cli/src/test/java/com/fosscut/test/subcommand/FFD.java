@@ -44,6 +44,7 @@ public class FFD {
         Command command = new Command("ffd "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
     }
@@ -52,6 +53,7 @@ public class FFD {
         Command command = new Command("ffd -q "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
     }
 
@@ -60,6 +62,7 @@ public class FFD {
         Command command = new Command("ffd -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
@@ -74,6 +77,7 @@ public class FFD {
         Command command = new Command("ffd -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -86,6 +90,7 @@ public class FFD {
         Command command = new Command("ffd -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -98,6 +103,7 @@ public class FFD {
         Command command = new Command("ffd -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -110,6 +116,7 @@ public class FFD {
         Command command = new Command("ffd -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -124,6 +131,7 @@ public class FFD {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Running cutting plan generation using a first-fit-decreasing algorithm..."));
         assert(command.getOutput().contains("Order demands"));
     }
@@ -133,6 +141,7 @@ public class FFD {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
     }
 
@@ -143,6 +152,7 @@ public class FFD {
         Command command = new Command("ffd -q -r -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -155,6 +165,7 @@ public class FFD {
         Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -167,6 +178,7 @@ public class FFD {
         Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -179,6 +191,7 @@ public class FFD {
         Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -191,6 +204,7 @@ public class FFD {
         Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -203,6 +217,7 @@ public class FFD {
         Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -215,6 +230,7 @@ public class FFD {
         Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -229,6 +245,7 @@ public class FFD {
         Command command = new Command("ffd -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -241,6 +258,7 @@ public class FFD {
         Command command = new Command("ffd -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -252,16 +270,16 @@ public class FFD {
         Command command = new Command("ffd "
             + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
     }
 
     @Test public void ffdInputCountExecutionErrorQuiet() {
         Command command = new Command("ffd -q "
             + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
     }
 
     /******************************* Cost *************************************/
@@ -271,6 +289,7 @@ public class FFD {
         Command command = new Command("ffd -q --optimization-criterion MIN_COST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -282,16 +301,16 @@ public class FFD {
         Command command = new Command("ffd --optimization-criterion MIN_COST "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
     }
 
     @Test public void ffdNullCostExceptionQuiet() {
         Command command = new Command("ffd -q --optimization-criterion MIN_COST "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
     }
 
 }

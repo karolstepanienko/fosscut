@@ -11,8 +11,8 @@ public class FossCut {
     @Test public void fosscutCommand() {
         Command command = new Command("");
         command.run();
-        assert(command.getError().contains("Usage"));
         assertEquals(0, command.getExitCode());
+        assert(command.getError().contains("Usage"));
     }
 
     @Test public void shortHelp() {

@@ -43,6 +43,7 @@ public class CG {
     @Test public void cg() {
         Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
@@ -50,6 +51,7 @@ public class CG {
     @Test public void cgQuiet() throws IOException {
         Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
     }
 
@@ -58,6 +60,7 @@ public class CG {
         Command command = new Command("cg -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
@@ -72,6 +75,7 @@ public class CG {
         Command command = new Command("cg -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -84,6 +88,7 @@ public class CG {
         Command command = new Command("cg -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -98,6 +103,7 @@ public class CG {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
@@ -107,6 +113,7 @@ public class CG {
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
     }
 
@@ -117,6 +124,7 @@ public class CG {
         Command command = new Command("cg -q -c 0 -r -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -129,6 +137,7 @@ public class CG {
         Command command = new Command("cg -q -c 1 -r -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -141,6 +150,7 @@ public class CG {
         Command command = new Command("cg -q -c 1 -r -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_MULTI_RELAX_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -153,6 +163,7 @@ public class CG {
         Command command = new Command("cg -q -c 0 -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -167,6 +178,7 @@ public class CG {
         Command command = new Command("cg --linear-solver CLP --integer-solver CBC -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -179,6 +191,7 @@ public class CG {
         Command command = new Command("cg --linear-solver CLP --integer-solver SAT -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
 
         // SAT solver is nondeterministic, it can randomly generate three different cutting plans
@@ -195,6 +208,7 @@ public class CG {
         Command command = new Command("cg --linear-solver CLP --integer-solver SCIP -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -207,6 +221,7 @@ public class CG {
         Command command = new Command("cg --linear-solver GLOP --integer-solver CBC -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -219,6 +234,7 @@ public class CG {
         Command command = new Command("cg --linear-solver GLOP --integer-solver SAT -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
 
         // SAT solver is nondeterministic, it can randomly generate three different cutting plans
@@ -235,6 +251,7 @@ public class CG {
         Command command = new Command("cg --linear-solver GLOP --integer-solver SCIP -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -247,6 +264,7 @@ public class CG {
         Command command = new Command("cg --linear-solver PDLP --integer-solver CBC -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -259,6 +277,7 @@ public class CG {
         Command command = new Command("cg --linear-solver PDLP --integer-solver SAT -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
 
         // SAT solver is nondeterministic, it can randomly generate two different cutting plans
@@ -274,6 +293,7 @@ public class CG {
         Command command = new Command("cg --linear-solver PDLP --integer-solver SCIP -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -288,6 +308,7 @@ public class CG {
         Command command = new Command("cg -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -300,6 +321,7 @@ public class CG {
         Command command = new Command("cg -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -310,15 +332,15 @@ public class CG {
     @Test public void cgInputCountExecutionError() {
         Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_EXCEPTION));
     }
 
     @Test public void cgInputCountExecutionErrorQuiet() {
         Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
-        assert(command.getOutput().equals(Messages.LP_UNFEASIBLE_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(Messages.LP_UNFEASIBLE_EXCEPTION));
     }
 
     /******************************* Cost *************************************/
@@ -328,6 +350,7 @@ public class CG {
         Command command = new Command("cg -q --optimization-criterion MIN_COST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
@@ -339,16 +362,16 @@ public class CG {
         Command command = new Command("cg --optimization-criterion MIN_COST "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
     }
 
     @Test public void cgNullCostExceptionQuiet() {
         Command command = new Command("cg -q --optimization-criterion MIN_COST "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
-        assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
+        assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
     }
 
 }

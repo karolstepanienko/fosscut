@@ -9,8 +9,8 @@ import java.time.format.DateTimeFormatter;
 public class RepetitiveTests {
     public static void testHelp(Command command) {
         command.run();
-        assert(command.getOutput().contains("Usage"));
         assertEquals(0, command.getExitCode());
+        assert(command.getOutput().contains("Usage"));
     }
 
     public static void testHelpWithOrderPath(Command command) {
@@ -23,6 +23,7 @@ public class RepetitiveTests {
 
     public static void testVersion(Command command) {
         command.run();
+        assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains(TestDefaults.VERSION_STRING));
         assert(command.getOutput().contains("Built: "));
         String dateString = extractAfter(command.getOutput(), "Built: ");
