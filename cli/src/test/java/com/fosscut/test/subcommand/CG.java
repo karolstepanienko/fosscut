@@ -55,7 +55,8 @@ public class CG {
 
     @Test public void cgSavePlanToFile() throws IOException {
         String testFileName = "cgSavePlanToFile";
-        Command command = new Command("cg -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains("Running cutting plan generation using a column generation algorithm..."));
         assert(command.getOutput().contains("Status: OPTIMAL"));
@@ -68,7 +69,8 @@ public class CG {
 
     @Test public void cgQuietSavePlanToFile() throws IOException {
         String testFileName = "cgQuietSavePlanToFile";
-        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -112,7 +114,8 @@ public class CG {
 
     @Test public void cgRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost0QuietSavePlanToFile";
-        Command command = new Command("cg -q -c 0 -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg -q -c 0 -r -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -123,7 +126,8 @@ public class CG {
 
     @Test public void cgRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost1QuietSavePlanToFile";
-        Command command = new Command("cg -q -c 1 -r -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg -q -c 1 -r -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -132,9 +136,22 @@ public class CG {
         );
     }
 
+    @Test public void cgMultiRelaxCost1QuietSavePlanToFile() throws IOException {
+        String testFileName = "cgMultiRelaxCost1QuietSavePlanToFile";
+        Command command = new Command("cg -q -c 1 -r -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_MULTI_RELAX_ORDER));
+        command.run();
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_MULTI_RELAX_1_PLAN)
+        );
+    }
+
     @Test public void cgRelaxCost0RelaxDisabledQuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost0RelaxDisabledQuietSavePlanToFile";
-        Command command = new Command("cg -q -c 0 -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg -q -c 0 -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -147,7 +164,8 @@ public class CG {
 
     @Test public void cgLinearSolverCLPIntegerSolverCBC() throws IOException {
         String testFileName = "cgLinearSolverCLPIntegerSolverCBC";
-        Command command = new Command("cg --linear-solver CLP --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver CLP --integer-solver CBC -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -158,7 +176,8 @@ public class CG {
 
     @Test public void cgLinearSolverCLPIntegerSolverSAT() throws IOException {
         String testFileName = "cgLinearSolverCLPIntegerSolverSAT";
-        Command command = new Command("cg --linear-solver CLP --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver CLP --integer-solver SAT -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
 
@@ -173,7 +192,8 @@ public class CG {
 
     @Test public void cgLinearSolverCLPIntegerSolverSCIP() throws IOException {
         String testFileName = "cgLinearSolverCLPIntegerSolverSCIP";
-        Command command = new Command("cg --linear-solver CLP --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver CLP --integer-solver SCIP -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -184,7 +204,8 @@ public class CG {
 
     @Test public void cgLinearSolverGLOPIntegerSolverCBC() throws IOException {
         String testFileName = "cgLinearSolverGLOPIntegerSolverCBC";
-        Command command = new Command("cg --linear-solver GLOP --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver GLOP --integer-solver CBC -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -195,7 +216,8 @@ public class CG {
 
     @Test public void cgLinearSolverGLOPIntegerSolverSAT() throws IOException {
         String testFileName = "cgLinearSolverGLOPIntegerSolverSAT";
-        Command command = new Command("cg --linear-solver GLOP --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver GLOP --integer-solver SAT -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
 
@@ -210,7 +232,8 @@ public class CG {
 
     @Test public void cgLinearSolverGLOPIntegerSolverSCIP() throws IOException {
         String testFileName = "cgLinearSolverGLOPIntegerSolverSCIP";
-        Command command = new Command("cg --linear-solver GLOP --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver GLOP --integer-solver SCIP -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -221,7 +244,8 @@ public class CG {
 
     @Test public void cgLinearSolverPDLPIntegerSolverCBC() throws IOException {
         String testFileName = "cgLinearSolverPDLPIntegerSolverCBC";
-        Command command = new Command("cg --linear-solver PDLP --integer-solver CBC -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver PDLP --integer-solver CBC -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -232,7 +256,8 @@ public class CG {
 
     @Test public void cgLinearSolverPDLPIntegerSolverSAT() throws IOException {
         String testFileName = "cgLinearSolverPDLPIntegerSolverSAT";
-        Command command = new Command("cg --linear-solver PDLP --integer-solver SAT -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver PDLP --integer-solver SAT -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
 
@@ -246,7 +271,8 @@ public class CG {
 
     @Test public void cgLinearSolverPDLPIntegerSolverSCIP() throws IOException {
         String testFileName = "cgLinearSolverPDLPIntegerSolverSCIP";
-        Command command = new Command("cg --linear-solver PDLP --integer-solver SCIP -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --linear-solver PDLP --integer-solver SCIP -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -259,7 +285,8 @@ public class CG {
 
     @Test public void cgInputCount() throws IOException {
         String testFileName = "cgInputCount";
-        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
+        Command command = new Command("cg -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -270,7 +297,8 @@ public class CG {
 
     @Test public void cgInputCountZeros() throws IOException {
         String testFileName = "cgInputCountZeros";
-        Command command = new Command("cg -q -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
+        Command command = new Command("cg -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -297,7 +325,8 @@ public class CG {
 
     @Test public void cgCost() throws IOException {
         String testFileName = "cgCost";
-        Command command = new Command("cg -q --optimization-criterion MIN_COST -o " + testFileName + " " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
+        Command command = new Command("cg -q --optimization-criterion MIN_COST -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
@@ -307,14 +336,16 @@ public class CG {
     }
 
     @Test public void cgNullCostException() {
-        Command command = new Command("cg --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg --optimization-criterion MIN_COST "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().contains(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());
     }
 
     @Test public void cgNullCostExceptionQuiet() {
-        Command command = new Command("cg -q --optimization-criterion MIN_COST " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        Command command = new Command("cg -q --optimization-criterion MIN_COST "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assert(command.getOutput().equals(SharedMessages.NULL_COST_EXCEPTION));
         assertEquals(1, command.getExitCode());

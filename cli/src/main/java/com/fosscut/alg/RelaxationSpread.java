@@ -21,10 +21,10 @@ public class RelaxationSpread {
             // Spread remaining space equally to all items with available relaxation
             singlePatternDefinition = equalSpreadRemainingSpace(singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
         } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.LONGEST) {
-            // Spread remaining space to items on the end of the pattern (relax longest items first)
+            // Spread remaining space to items on the end of the pattern (spread relax to longest items first)
             singlePatternDefinition = sideSpreadRemainingSpace(singlePatternDefinition.reversed(), remainingSpace).reversed();
         } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.SHORTEST) {
-            // Spread remaining space to items on the start of the pattern (relax shortest items first)
+            // Spread remaining space to items on the start of the pattern (spread relax to shortest items first)
             singlePatternDefinition = sideSpreadRemainingSpace(singlePatternDefinition, remainingSpace);
         }
 

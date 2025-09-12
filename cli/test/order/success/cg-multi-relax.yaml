@@ -1,0 +1,10 @@
+# Test if cg relaxation spreading does not spread relax to outputs that should not be relaxed
+inputs:
+  - length: 90
+outputs:
+  - length: 20
+    count: 8
+    maxRelax: 2
+  - length: 75
+    count: 8
+    maxRelax: 5
