@@ -145,6 +145,8 @@ public class CG {
         );
     }
 
+    /************************** Multi relaxation ******************************/
+
     @Test public void cgMultiRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "cgMultiRelaxCost1QuietSavePlanToFile";
         Command command = new Command("cg -q -c 1 -r -o " + testFileName + " "

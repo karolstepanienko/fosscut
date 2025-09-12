@@ -16,6 +16,7 @@ import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
+import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -29,16 +30,8 @@ import picocli.CommandLine.Option;
 public class FFD extends AbstractAlg {
 
     @Option(names = { "--relaxation-spread-strategy" },
-        defaultValue = Defaults.FFD_DEFAULT_PARAM_RELAX_SPREAD_STRATEGY,
-        description = "One of: (${COMPLETION-CANDIDATES})."
-            + " Default: ${DEFAULT-VALUE}."
-            + " Defines how relaxation is spread among items in a pattern."
-            + " EQUAL_RELAX: relax all items equally,"
-            + " EQUAL_SPACE: spread remaining space equally among relaxed items,"
-            + " START: first relax longest items at the beginning of the pattern,"
-            + " END: first relax shortest items at the end of the pattern."
-            + " All strategies are approximate since item lengths are discrete"
-            + " and cannot be relaxed partially.")
+        defaultValue = Defaults.DEFAULT_PARAM_RELAX_SPREAD_STRATEGY,
+        description = Messages.RELAXATION_SPREAD_STRAT_DESCRIPTION)
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     @Override

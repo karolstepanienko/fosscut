@@ -17,4 +17,16 @@ public class Messages {
     public static final String PLAN_PATTERN_DOES_NOT_FIT_IN_INPUT = "Generated pattern does not fit in the input element.";
     public static final String PLAN_DEMAND_NOT_SATISFIED = "Generated plan does not satisfy the demand.";
 
+    public static final String RELAXATION_SPREAD_STRAT_DESCRIPTION = "One of: (${COMPLETION-CANDIDATES})."
+        + " Default: ${DEFAULT-VALUE}."
+        + " Defines how relaxation is spread among items in a pattern."
+        + " EQUAL_RELAX: relax all items equally,"
+        + " EQUAL_SPACE: spread remaining space equally among relaxed items,"
+        + " START: first relax longest items at the beginning of the pattern,"
+        + " END: first relax shortest items at the end of the pattern."
+        + " All strategies are approximate since item lengths are discrete"
+        + " and cannot be relaxed partially.";
+
+    public static final String RELAXATION_SPREAD_STRAT_CG_DESCRIPTION = "For column generation (CG), relaxation strategies affect only output elements of the same type. Relaxation is not spread between different output types in a pattern.";
+
 }

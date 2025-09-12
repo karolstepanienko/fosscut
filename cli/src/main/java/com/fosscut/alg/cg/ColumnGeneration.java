@@ -15,6 +15,7 @@ import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.subcommand.abs.AbstractAlg;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
@@ -27,6 +28,7 @@ public class ColumnGeneration {
     private Double relaxCost;
     private boolean relaxEnabled;
     private OptimizationCriterion optimizationCriterion;
+    private RelaxationSpreadStrategy relaxationSpreadStrategy;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
 
@@ -36,6 +38,7 @@ public class ColumnGeneration {
     public ColumnGeneration(Order order, Double relaxCost,
         boolean relaxEnabled,
         OptimizationCriterion optimizationCriterion,
+        RelaxationSpreadStrategy relaxationSpreadStrategy,
         LinearSolver linearSolver,
         IntegerSolver integerSolver
     ) {
@@ -43,6 +46,7 @@ public class ColumnGeneration {
         this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
         this.optimizationCriterion = optimizationCriterion;
+        this.relaxationSpreadStrategy = relaxationSpreadStrategy;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
     }
@@ -100,6 +104,7 @@ public class ColumnGeneration {
     public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
             AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
+            relaxationSpreadStrategy,
             order, params
         );
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);

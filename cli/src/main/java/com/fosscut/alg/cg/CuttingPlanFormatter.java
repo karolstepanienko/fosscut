@@ -16,11 +16,18 @@ import com.fosscut.type.cutting.plan.PlanOutput;
 
 public class CuttingPlanFormatter {
     private boolean relaxEnabled;
+    private RelaxationSpreadStrategy relaxationSpreadStrategy;
     private Order order;
     private Parameters params;
 
-    public CuttingPlanFormatter(boolean relaxEnabled, Order order, Parameters params) {
+    public CuttingPlanFormatter(
+        boolean relaxEnabled,
+        RelaxationSpreadStrategy relaxationSpreadStrategy,
+        Order order,
+        Parameters params
+    ) {
         this.relaxEnabled = relaxEnabled;
+        this.relaxationSpreadStrategy = relaxationSpreadStrategy;
         this.order = order;
         this.params = params;
     }
@@ -107,8 +114,7 @@ public class CuttingPlanFormatter {
                 = getSinglePatternDefinitionForOneOutput(outputId, outputCount, output);
 
             if (numberOfRelaxedOutputs > 0) {
-                RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL_RELAX;
-                RelaxationSpread rss = new RelaxationSpread(relaxationSpreadStrategy);
+                RelaxationSpread rss = new RelaxationSpread(this.relaxationSpreadStrategy);
                 singlePatternDefinitionForOneOutput = rss.applyRelaxationSpread(
                     singlePatternDefinitionForOneOutput,
                     remainingSpace,

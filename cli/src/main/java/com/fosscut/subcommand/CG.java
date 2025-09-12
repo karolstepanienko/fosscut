@@ -13,10 +13,12 @@ import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
+import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -57,6 +59,12 @@ public class CG extends AbstractAlg {
         description = "One of: (${COMPLETION-CANDIDATES}).")
     private IntegerSolver integerSolver;
 
+    @Option(names = { "--relaxation-spread-strategy" },
+        defaultValue = Defaults.DEFAULT_PARAM_RELAX_SPREAD_STRATEGY,
+        description = Messages.RELAXATION_SPREAD_STRAT_DESCRIPTION
+            + " " + Messages.RELAXATION_SPREAD_STRAT_CG_DESCRIPTION)
+    private RelaxationSpreadStrategy relaxationSpreadStrategy;
+
     @Spec
     private CommandSpec spec;
 
@@ -82,6 +90,7 @@ public class CG extends AbstractAlg {
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
             order, relaxCost, relaxEnabled, optimizationCriterion,
+            relaxationSpreadStrategy,
             linearSolver, integerSolver);
         columnGeneration.run();
 
