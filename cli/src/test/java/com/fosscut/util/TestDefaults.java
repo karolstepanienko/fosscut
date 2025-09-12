@@ -106,5 +106,6 @@ public class TestDefaults {
     public static final String PLAN_FAIL_PATTERN_TO_LONG = "./test/plan/fail/pattern-to-long.yaml";
     public static final String PLAN_FAIL_PATTERN_TO_LONG_RELAX = "./test/plan/fail/pattern-to-long-relax.yaml";
     public static final String PLAN_FAIL_DEMAND_NOT_SATISFIED = "./test/plan/fail/demand-not-satisfied.yaml";
+    public static final String PLAN_FAIL_RELAX_GREATER_THAN_MAX_RELAX = "./test/plan/fail/relax-greater-than-maxRelax.yaml";
 
 }

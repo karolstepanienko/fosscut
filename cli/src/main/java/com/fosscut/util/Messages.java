@@ -16,6 +16,7 @@ public class Messages {
 
     public static final String PLAN_PATTERN_DOES_NOT_FIT_IN_INPUT = "Generated pattern does not fit in the input element.";
     public static final String PLAN_DEMAND_NOT_SATISFIED = "Generated plan does not satisfy the demand.";
+    public static final String PLAN_RELAX_EXCEEDS_MAX_RELAX = "Generated plan contains an output with 'relax' value greater than 'maxRelax'.";
 
     public static final String RELAXATION_SPREAD_STRAT_DESCRIPTION = "One of: (${COMPLETION-CANDIDATES})."
         + " Default: ${DEFAULT-VALUE}."

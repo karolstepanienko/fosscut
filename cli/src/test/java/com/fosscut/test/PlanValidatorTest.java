@@ -27,8 +27,7 @@ public class PlanValidatorTest {
         return yamlMapper.readValue(planString, CuttingPlan.class);
     }
 
-    @Test
-    public void testValidatePlan() throws IOException {
+    @Test public void testValidatePlan() throws IOException {
         CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG);
 
         PlanValidator validator = new PlanValidator();
@@ -48,8 +47,7 @@ public class PlanValidatorTest {
         ));
     }
 
-    @Test
-    public void testValidatePlanRelax() throws IOException {
+    @Test public void testValidatePlanRelax() throws IOException {
         CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG_RELAX);
 
         PlanValidator validator = new PlanValidator();
@@ -70,8 +68,7 @@ public class PlanValidatorTest {
         ));
     }
 
-    @Test
-    public void testValidatePlanDemand() throws IOException {
+    @Test public void testValidatePlanDemand() throws IOException {
         CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_DEMAND_NOT_SATISFIED);
 
         PlanValidator validator = new PlanValidator();
@@ -88,6 +85,26 @@ public class PlanValidatorTest {
             + "  length: 20\n"
             + "  count: 21\n"
             + "  maxRelax: 0\n"
+        ));
+    }
+
+    @Test public void testValidatePlanRelaxLEQMaxRelax() throws IOException {
+        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_RELAX_GREATER_THAN_MAX_RELAX);
+
+        PlanValidator validator = new PlanValidator();
+
+        // Act
+        PlanValidationException exception = assertThrows(PlanValidationException.class, () -> {
+            validator.validatePlan(plan);
+        });
+        assertTrue(exception.getMessage().contains(Messages.PLAN_RELAX_EXCEEDS_MAX_RELAX));
+        assertTrue(exception.getMessage().contains(
+            "outputId: 0\n"
+            + "output:\n"
+            + "  length: 90\n"
+            + "  count: 1\n"
+            + "  maxRelax: 0\n"
+            + "relax: 1\n"
         ));
     }
 

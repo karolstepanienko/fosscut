@@ -15,6 +15,7 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.type.cutting.plan.Pattern;
 import com.fosscut.type.cutting.plan.PlanInput;
+import com.fosscut.type.cutting.plan.PlanOutput;
 
 public class PlanValidator {
 
@@ -43,6 +44,10 @@ public class PlanValidator {
             + "\nExpected output count: " + expectedOutputCount
             + ", actual output count: " + actualOutputCount
             + ".\n" + offendingOutput.toString()
+        );
+        else if (!isRelaxLEQMaxRelax(plan)) throw new PlanValidationException(
+            Messages.PLAN_RELAX_EXCEEDS_MAX_RELAX
+            + "\n" + offendingOutput.toString()
         );
     }
 
@@ -177,10 +182,17 @@ public class PlanValidator {
     private class OffendingOutput {
         private Integer outputId;
         private OrderOutput output;
+        private Integer relax;
 
         public OffendingOutput(Integer outputId, OrderOutput output) {
             this.outputId = outputId;
             this.output = output;
+        }
+
+        public OffendingOutput(Integer outputId, OrderOutput output, Integer relax) {
+            this.outputId = outputId;
+            this.output = output;
+            this.relax = relax;
         }
 
         public Integer getOutputId() {
@@ -191,9 +203,35 @@ public class PlanValidator {
             return output;
         }
 
+        public Integer getRelax() {
+            return relax;
+        }
+
         public String toString() {
             return new YamlDumper().dump(this);
         }
+    }
+
+    /*********************** Is relax <= maxRelax? ****************************/
+
+    private boolean isRelaxLEQMaxRelax(CuttingPlan plan) {
+        for (PlanInput input : plan.getInputs()) {
+            for (Pattern pattern : input.getPatterns()) {
+                for (PlanOutput planOutput : pattern.getPatternDefinition()) {
+                    Integer relax = planOutput.getRelax();
+                    Integer maxRelax = plan.getOutputs().get(planOutput.getId()).getMaxRelax();
+                    if (relax != null && relax > maxRelax) {
+                        offendingOutput = new OffendingOutput(
+                            planOutput.getId(),
+                            plan.getOutputs().get(planOutput.getId()),
+                            relax
+                        );
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }
