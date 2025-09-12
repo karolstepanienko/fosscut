@@ -162,27 +162,27 @@ public class FFD {
         );
     }
 
-    @Test public void ffdIntegerRelaxStratLongestQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdIntegerRelaxStratLongestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r --relaxation-spread-strategy LONGEST -o " + testFileName + " "
+    @Test public void ffdIntegerRelaxStratStartQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxStratStartQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_LONGEST_PLAN)
+            Utils.loadFile(TestDefaults.FFD_RELAX_START_PLAN)
         );
     }
 
-    @Test public void ffdIntegerRelaxStratShortestQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdIntegerRelaxStratShortestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
+    @Test public void ffdIntegerRelaxStratEndQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxStratEndQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_SHORTEST_PLAN)
+            Utils.loadFile(TestDefaults.FFD_RELAX_END_PLAN)
         );
     }
 
@@ -198,27 +198,27 @@ public class FFD {
         );
     }
 
-    @Test public void ffdIntegerRelaxComplexPatternStratLongestQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdIntegerRelaxComplexPatternStratLongestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r --relaxation-spread-strategy LONGEST -o " + testFileName + " "
+    @Test public void ffdIntegerRelaxComplexPatternStratStartQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxComplexPatternStratStartQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_LONGEST_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_START_PLAN)
         );
     }
 
-    @Test public void ffdIntegerRelaxComplexPatternStratShortestQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdIntegerRelaxComplexPatternStratShortestQuietSavePlanToFile";
-        Command command = new Command("ffd -q -r --relaxation-spread-strategy SHORTEST -o " + testFileName + " "
+    @Test public void ffdIntegerRelaxComplexPatternStratEndQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdIntegerRelaxComplexPatternStratEndQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_COMPLEX_PATTERN_ORDER));
         command.run();
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_SHORTEST_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_END_PLAN)
         );
     }
 

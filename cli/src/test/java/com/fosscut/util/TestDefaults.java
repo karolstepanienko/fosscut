@@ -67,11 +67,11 @@ public class TestDefaults {
 
     public static final String FFD_DEFAULT_RELAX_PLAN = "./test/plan/relax/ffd-default-relax.yaml";
     public static final String FFD_RELAX_EQUAL_PLAN = "./test/plan/relax/ffd-relax-equal.yaml";
-    public static final String FFD_RELAX_LONGEST_PLAN = "./test/plan/relax/ffd-relax-longest.yaml";
-    public static final String FFD_RELAX_SHORTEST_PLAN = "./test/plan/relax/ffd-relax-shortest.yaml";
+    public static final String FFD_RELAX_START_PLAN = "./test/plan/relax/ffd-relax-start.yaml";
+    public static final String FFD_RELAX_END_PLAN = "./test/plan/relax/ffd-relax-end.yaml";
     public static final String FFD_COMPLEX_PATTERN_EQUAL_PLAN = "./test/plan/relax/ffd-complex-pattern-equal.yaml";
-    public static final String FFD_COMPLEX_PATTERN_LONGEST_PLAN = "./test/plan/relax/ffd-complex-pattern-longest.yaml";
-    public static final String FFD_COMPLEX_PATTERN_SHORTEST_PLAN = "./test/plan/relax/ffd-complex-pattern-shortest.yaml";
+    public static final String FFD_COMPLEX_PATTERN_START_PLAN = "./test/plan/relax/ffd-complex-pattern-start.yaml";
+    public static final String FFD_COMPLEX_PATTERN_END_PLAN = "./test/plan/relax/ffd-complex-pattern-end.yaml";
 
     public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0.yaml";
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1.yaml";
