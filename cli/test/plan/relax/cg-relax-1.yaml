@@ -34,10 +34,10 @@ inputs:
     patternDefinition:
     - id: 1
       count: 1
-      relax: 3
+      relax: 2
     - id: 1
       count: 1
-      relax: 2
+      relax: 3
     - id: 5
       count: 1
       relax: 0
@@ -46,11 +46,11 @@ inputs:
   - count: 2
     patternDefinition:
     - id: 1
-      count: 5
-      relax: 1
-    - id: 1
       count: 1
       relax: 0
+    - id: 1
+      count: 5
+      relax: 1
 outputs:
 - length: 20
   count: 20

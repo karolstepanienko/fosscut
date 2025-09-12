@@ -4,11 +4,11 @@ inputs:
   - count: 6
     patternDefinition:
     - id: 0
-      count: 5
-      relax: 1
-    - id: 0
       count: 1
       relax: 0
+    - id: 0
+      count: 5
+      relax: 1
   - count: 1
     patternDefinition:
     - id: 0

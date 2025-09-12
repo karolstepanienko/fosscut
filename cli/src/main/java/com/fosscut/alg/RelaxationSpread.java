@@ -20,7 +20,7 @@ public class RelaxationSpread {
     ) {
         if (relaxationSpreadStrategy == RelaxationSpreadStrategy.EQUAL_RELAX) {
             // Spread relaxation equally to all items with available relaxation
-            singlePatternDefinition = equalSpreadRelaxation(singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+            singlePatternDefinition = equalSpreadRelaxation(singlePatternDefinition, remainingSpace);
         } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.EQUAL_SPACE) {
             // Spread remaining space equally to all items with available relaxation
             singlePatternDefinition = equalSpreadRemainingSpace(singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
@@ -37,44 +37,46 @@ public class RelaxationSpread {
 
     private List<SingleOutput> equalSpreadRelaxation(
         List<SingleOutput> singlePatternDefinition,
-        int remainingSpace,
-        int numberOfRelaxedOutputs
+        int remainingSpace
     ) {
         int sumMaxRelax = 0;
-        int minMaxRelax = Integer.MAX_VALUE;
-
-        // assume that no relaxation needs to be used
-        for (SingleOutput singleOutput : singlePatternDefinition) {
-            singleOutput.setRelax(0);
-            sumMaxRelax += singleOutput.getMaxRelax();
-            if (singleOutput.getMaxRelax() < minMaxRelax) {
-                minMaxRelax = singleOutput.getMaxRelax();
-            }
-        }
 
         // Create a shallow copy to avoid modifying the order in the given list
         List<SingleOutput> relaxedOutputs = new ArrayList<SingleOutput>(singlePatternDefinition);
 
+        // assume that no relaxation needs to be used
+        for (SingleOutput singleOutput : relaxedOutputs) {
+            singleOutput.setRelax(0);
+            sumMaxRelax += singleOutput.getMaxRelax();
+            if (singleOutput.getMaxRelax() == 0) {
+                // do not consider outputs that cannot be relaxed
+                singlePatternDefinition.remove(singleOutput);
+            }
+        }
+
         // apply relaxation only if necessary
         if (remainingSpace < sumMaxRelax) {
             int remainingRelax = sumMaxRelax - remainingSpace;
-            int averageRelax = Math.max(remainingRelax / numberOfRelaxedOutputs, 1);
 
             int i = 0;
+            int averageRelax = 0;
             while (remainingRelax > 0) {
-                SingleOutput singleOutput = singlePatternDefinition.get(i % singlePatternDefinition.size());
+                if (i % singlePatternDefinition.size() == 0) {
+                    // recalculate averageRelax every time we loop through all outputs and on the first iteration
+                    averageRelax = Math.max(remainingRelax / singlePatternDefinition.size(), 1);
+                }
+
+                SingleOutput singleOutput = singlePatternDefinition.reversed().get(i % singlePatternDefinition.size());
                 int toRelax = singleOutput.getMaxRelax() - singleOutput.getRelax();
 
                 if (toRelax >= averageRelax && remainingRelax >= averageRelax) {
                     singleOutput.setRelax(singleOutput.getRelax() + averageRelax);
                     remainingRelax -= averageRelax;
-                } else if (remainingRelax >= toRelax && toRelax > 0) {
-                    singleOutput.setRelax(singleOutput.getMaxRelax());
-                    remainingRelax -= toRelax;
-                    singlePatternDefinition.remove(singleOutput);
                 } else if (toRelax > 0) {
                     singleOutput.setRelax(singleOutput.getRelax() + 1);
                     remainingRelax -= 1;
+                } else {
+                    singlePatternDefinition.remove(singleOutput);
                 }
 
                 i++;
