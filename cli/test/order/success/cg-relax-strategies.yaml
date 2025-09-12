@@ -1,0 +1,6 @@
+inputs:
+  - length: 100
+outputs:
+  - length: 20
+    count: 6
+    maxRelax: 5
