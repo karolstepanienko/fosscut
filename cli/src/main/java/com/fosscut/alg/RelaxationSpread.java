@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.fosscut.type.RelaxationSpreadStrategy;
 
-public class RelaxationSpreadStrategies {
+public class RelaxationSpread {
 
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
-    public RelaxationSpreadStrategies(RelaxationSpreadStrategy relaxationSpreadStrategy) {
+    public RelaxationSpread(RelaxationSpreadStrategy relaxationSpreadStrategy) {
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
     }
 
-    public List<SingleOutput> applyRelaxationSpreadStrategy(
+    public List<SingleOutput> applyRelaxationSpread(
         List<SingleOutput> singlePatternDefinition,
         int remainingSpace,
         int numberOfRelaxedOutputs

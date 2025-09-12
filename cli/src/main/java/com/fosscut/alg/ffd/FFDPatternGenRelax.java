@@ -3,7 +3,7 @@ package com.fosscut.alg.ffd;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.alg.RelaxationSpreadStrategies;
+import com.fosscut.alg.RelaxationSpread;
 import com.fosscut.alg.SingleOutput;
 import com.fosscut.alg.ffd.abs.AbstractFFDPatternGen;
 import com.fosscut.shared.type.cutting.order.Order;
@@ -69,8 +69,8 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
         }
 
         if (numberOfRelaxedOutputs > 0) {
-            RelaxationSpreadStrategies rss = new RelaxationSpreadStrategies(relaxationSpreadStrategy);
-            singlePatternDefinition = rss.applyRelaxationSpreadStrategy(
+            RelaxationSpread rss = new RelaxationSpread(relaxationSpreadStrategy);
+            singlePatternDefinition = rss.applyRelaxationSpread(
                 singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
         }
 

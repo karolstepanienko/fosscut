@@ -3,7 +3,7 @@ package com.fosscut.alg.cg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fosscut.alg.RelaxationSpreadStrategies;
+import com.fosscut.alg.RelaxationSpread;
 import com.fosscut.alg.SingleOutput;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.shared.type.cutting.order.Order;
@@ -103,14 +103,20 @@ public class CuttingPlanFormatter {
                 remainingSpace -= params.getRipo().get(i).get(p).get(outputId).intValue();
             }
 
-            singlePatternDefinition.addAll(getSinglePatternDefinition(outputId, outputCount, output));
+            List<SingleOutput> singlePatternDefinitionForOneOutput
+                = getSinglePatternDefinitionForOneOutput(outputId, outputCount, output);
 
             if (numberOfRelaxedOutputs > 0) {
                 RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL;
-                RelaxationSpreadStrategies rss = new RelaxationSpreadStrategies(relaxationSpreadStrategy);
-                singlePatternDefinition = rss.applyRelaxationSpreadStrategy(
-                    singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+                RelaxationSpread rss = new RelaxationSpread(relaxationSpreadStrategy);
+                singlePatternDefinitionForOneOutput = rss.applyRelaxationSpread(
+                    singlePatternDefinitionForOneOutput,
+                    remainingSpace,
+                    numberOfRelaxedOutputs
+                );
             }
+
+            singlePatternDefinition.addAll(singlePatternDefinitionForOneOutput);
         }
 
         pattern.setPatternDefinition(
@@ -119,7 +125,7 @@ public class CuttingPlanFormatter {
         return pattern;
     }
 
-    private List<SingleOutput> getSinglePatternDefinition(int outputId, Integer outputCount, OrderOutput output) {
+    private List<SingleOutput> getSinglePatternDefinitionForOneOutput(int outputId, Integer outputCount, OrderOutput output) {
         List<SingleOutput> singlePatternDefinition = new ArrayList<>();
 
         for (int j = 0; j < outputCount; ++j) {
