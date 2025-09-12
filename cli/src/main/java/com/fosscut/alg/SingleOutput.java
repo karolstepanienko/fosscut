@@ -6,11 +6,13 @@ public class SingleOutput extends Element {
 
     private Integer id;
     private Integer relax;
+    private Integer maxRelax;
 
-    public SingleOutput(Integer id, Integer length, Integer relax) {
+    public SingleOutput(Integer id, Integer length, Integer relax, Integer maxRelax) {
         this.id = id;
         setLength(length);
         this.relax = relax;
+        this.maxRelax = maxRelax;
     }
 
     public Integer getId() {
@@ -25,8 +27,12 @@ public class SingleOutput extends Element {
         this.relax = relax;
     }
 
+    public Integer getMaxRelax() {
+        return maxRelax;
+    }
+
     public String toString() {
-        return "FFDOutput: id = " + this.getId() + ", length = " + this.getLength() + ", relax = " + this.getRelax();
+        return "FFDOutput: id = " + this.getId() + ", length = " + this.getLength() + ", relax = " + this.getRelax() + ", maxRelax = " + this.getMaxRelax();
     }
 
 }

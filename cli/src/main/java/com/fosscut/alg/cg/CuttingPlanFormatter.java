@@ -107,7 +107,7 @@ public class CuttingPlanFormatter {
                 = getSinglePatternDefinitionForOneOutput(outputId, outputCount, output);
 
             if (numberOfRelaxedOutputs > 0) {
-                RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL;
+                RelaxationSpreadStrategy relaxationSpreadStrategy = RelaxationSpreadStrategy.EQUAL_RELAX;
                 RelaxationSpread rss = new RelaxationSpread(relaxationSpreadStrategy);
                 singlePatternDefinitionForOneOutput = rss.applyRelaxationSpread(
                     singlePatternDefinitionForOneOutput,
@@ -132,6 +132,7 @@ public class CuttingPlanFormatter {
             singlePatternDefinition.add(new SingleOutput(
                 outputId,
                 output.getLength(),
+                output.getMaxRelax(),
                 output.getMaxRelax()
             ));
         }

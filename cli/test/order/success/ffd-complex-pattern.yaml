@@ -1,4 +1,4 @@
-# FFD spread test: complex pattern that uses all ifs in EQUAL relaxation strategy
+# FFD spread test: complex pattern that uses all ifs in EQUAL_SPACE relaxation strategy
 inputs:
   - length: 115
 outputs:

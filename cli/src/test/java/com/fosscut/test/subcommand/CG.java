@@ -148,7 +148,7 @@ public class CG {
     @Test public void cgMultiRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "cgMultiRelaxCost1QuietSavePlanToFile";
         Command command = new Command("cg -q -c 1 -r -o " + testFileName + " "
-            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_MULTI_RELAX_ORDER));
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_MULTI_RELAX_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));

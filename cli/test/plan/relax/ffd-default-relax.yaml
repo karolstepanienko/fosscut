@@ -8,10 +8,10 @@ inputs:
       relax: 0
     - id: 4
       count: 1
-      relax: 2
+      relax: 3
     - id: 4
       count: 1
-      relax: 3
+      relax: 2
   - count: 1
     patternDefinition:
     - id: 2
@@ -57,10 +57,10 @@ inputs:
       relax: 0
     - id: 4
       count: 1
-      relax: 2
+      relax: 3
     - id: 4
       count: 1
-      relax: 3
+      relax: 2
 - length: 115
   patterns: []
 outputs:

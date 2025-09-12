@@ -38,8 +38,9 @@ public class TestDefaults {
     public static final String EXAMPLE_INPUT_COST_ORDER = "./test/order/success/input-cost.yaml";
     public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/ffd-relax.yaml";
     public static final String EXAMPLE_FFD_COMPLEX_PATTERN_ORDER = "./test/order/success/ffd-complex-pattern.yaml";
+    public static final String EXAMPLE_FFD_LARGE_MULTI_RELAX_ORDER = "./test/order/success/ffd-large-multi-relax.yaml";
     public static final String EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER = "./test/order/success/short-input-count-cost-null.yaml";
-    public static final String EXAMPLE_CG_MULTI_RELAX_ORDER = "./test/order/success/cg-multi-relax.yaml";
+    public static final String EXAMPLE_MULTI_RELAX_ORDER = "./test/order/success/multi-relax.yaml";
 
     public static final String CG_CLP_GLOP_SCIP_PLAN = "./test/plan/cg-CLP_GLOP-SCIP.yaml";
     public static final String CG_CLP_CBC_PLAN = "./test/plan/cg-CLP-CBC.yaml";
@@ -69,9 +70,13 @@ public class TestDefaults {
     public static final String FFD_RELAX_EQUAL_PLAN = "./test/plan/relax/ffd-relax-equal.yaml";
     public static final String FFD_RELAX_START_PLAN = "./test/plan/relax/ffd-relax-start.yaml";
     public static final String FFD_RELAX_END_PLAN = "./test/plan/relax/ffd-relax-end.yaml";
-    public static final String FFD_COMPLEX_PATTERN_EQUAL_PLAN = "./test/plan/relax/ffd-complex-pattern-equal.yaml";
+    public static final String FFD_COMPLEX_PATTERN_EQUAL_RELAX_PLAN = "./test/plan/relax/ffd-complex-pattern-equal-relax.yaml";
+    public static final String FFD_COMPLEX_PATTERN_EQUAL_SPACE_PLAN = "./test/plan/relax/ffd-complex-pattern-equal-space.yaml";
     public static final String FFD_COMPLEX_PATTERN_START_PLAN = "./test/plan/relax/ffd-complex-pattern-start.yaml";
     public static final String FFD_COMPLEX_PATTERN_END_PLAN = "./test/plan/relax/ffd-complex-pattern-end.yaml";
+    public static final String FFD_MULTI_RELAX_EQUAL_RELAX_PLAN = "./test/plan/relax/ffd-multi-relax-equal-relax.yaml";
+    public static final String FFD_MULTI_RELAX_EQUAL_SPACE_PLAN = "./test/plan/relax/ffd-multi-relax-equal-space.yaml";
+    public static final String FFD_LARGE_MULTI_RELAX_PLAN = "./test/plan/relax/ffd-large-multi-relax.yaml";
 
     public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0.yaml";
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1.yaml";

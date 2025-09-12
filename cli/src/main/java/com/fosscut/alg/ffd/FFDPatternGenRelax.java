@@ -60,6 +60,7 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
                     singlePatternDefinition.add(new SingleOutput(
                         orderSortedOutputs.getOutputId(output),
                         output.getLength(),
+                        output.getMaxRelax(),
                         output.getMaxRelax()
                     ));
                 }

@@ -1,0 +1,12 @@
+inputs:
+  - length: 1000
+outputs:
+  - length: 600
+    count: 1
+    maxRelax: 100
+  - length: 540
+    count: 1
+    maxRelax: 50
+  - length: 4
+    count: 3
+    maxRelax: 1
