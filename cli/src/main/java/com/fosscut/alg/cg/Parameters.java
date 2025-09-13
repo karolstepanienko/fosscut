@@ -82,7 +82,16 @@ public class Parameters {
             setNPattern(0);
             for (int o = 0; o < order.getOutputs().size(); o++) {
                 OrderOutput output = order.getOutputs().get(o);
-                getNipo().get(i).get(getNPattern()).set(o, Math.floorDiv(input.getLength(), output.getLength()));
+                // initial patterns should contain as many outputs as possible
+                // but not more than required by the order since that could
+                // result in plans with too much waste for small orders
+                getNipo().get(i).get(getNPattern())
+                    .set(o,
+                        Math.min(
+                            output.getCount(),
+                            Math.floorDiv(input.getLength(), output.getLength())
+                        )
+                    );
 
                 incrementNPattern();
                 if (getNPattern() > getNPatternMax()) setNPatternMax(getNPattern());
