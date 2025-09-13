@@ -141,9 +141,9 @@ public abstract class ConstructiveHeuristic {
 
     private CHPattern getMinWastePattern(List<CHPattern> patterns) {
         CHPattern minWastePattern = patterns.get(0);
-        Integer minWaist = patterns.get(0).getWaist();
+        int minWaist = patterns.get(0).getWaist();
         for (CHPattern pattern : patterns) {
-            Integer waist = pattern.getWaist();
+            int waist = pattern.getWaist();
             if (waist < minWaist) {
                 minWaist = waist;
                 minWastePattern = pattern;

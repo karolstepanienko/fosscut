@@ -23,14 +23,14 @@ import com.fosscut.type.cutting.CHOutput;
  */
 public class FFDPatternGenRelax extends AbstractFFDPatternGen {
 
-    private RelaxationSpreadStrategy relaxationSpreadStrategy;
+    private RelaxationSpread relaxationSpread;
 
     public FFDPatternGenRelax(Order orderSortedOutputs,
         List<Integer> orderDemands,
         RelaxationSpreadStrategy relaxationSpreadStrategy
     ) {
         super(orderSortedOutputs, orderDemands);
-        this.relaxationSpreadStrategy = relaxationSpreadStrategy;
+        this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);
     }
 
     public List<CHOutput> getPatternDefinition(OrderInput input) {
@@ -70,35 +70,11 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
         }
 
         if (numberOfRelaxedOutputs > 0) {
-            RelaxationSpread rss = new RelaxationSpread(relaxationSpreadStrategy);
-            singlePatternDefinition = rss.applyRelaxationSpread(
+            singlePatternDefinition = relaxationSpread.applyRelaxationSpread(
                 singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
         }
 
-        return convertSingleToChPatternDefinition(singlePatternDefinition);
-    }
-
-    private List<CHOutput> convertSingleToChPatternDefinition(List<SingleOutput> singlePatternDefinition) {
-        List<CHOutput> chPatternDefinition = new ArrayList<CHOutput>();
-
-        CHOutput latest = null;
-        for (SingleOutput singleOutput : singlePatternDefinition) {
-            if (latest != null
-                && singleOutput.getId().equals(latest.getId())
-                && singleOutput.getRelax().equals(latest.getRelax().intValue())) {
-                latest.setCount(latest.getCount() + 1);
-            } else {
-                chPatternDefinition.add(new CHOutput(
-                    singleOutput.getId(),
-                    singleOutput.getLength(),
-                    1,
-                    singleOutput.getRelax()
-                ));
-            }
-            latest = chPatternDefinition.getLast();
-        }
-
-        return chPatternDefinition;
+        return relaxationSpread.convertSingleToChPatternDefinition(singlePatternDefinition);
     }
 
 }

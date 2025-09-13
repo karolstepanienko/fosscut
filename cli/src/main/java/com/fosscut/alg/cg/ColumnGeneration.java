@@ -123,10 +123,10 @@ public class ColumnGeneration {
     private void copyPatternsWithRelaxation(Order order, PatternGeneration patternGeneration) {
         for (int i = 0; i < order.getInputs().size(); i++) {
             List<Integer> outputsPattern = new ArrayList<>();
-            List<Double> relaxPattern = new ArrayList<>();
+            List<Integer> relaxPattern = new ArrayList<>();
             for (int o = 0; o < order.getOutputs().size(); o++) {
                 outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
-                relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()));
+                relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()).intValue());
             }
             params.getNipo().get(i).add(outputsPattern);
             params.getRipo().get(i).add(relaxPattern);

@@ -51,4 +51,9 @@ public class CHOutput extends Element {
         );
     }
 
+    @Override
+    public String toString() {
+        return "CHOutput: id=" + this.getId() + ", length=" + this.getLength() + ", count=" + this.getCount() + ", relax=" + this.getRelax();
+    }
+
 }

@@ -3,7 +3,9 @@ package com.fosscut.alg;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.fosscut.type.RelaxationSpreadStrategy;
+import com.fosscut.type.cutting.CHOutput;
 
 public class RelaxationSpread {
 
@@ -11,6 +13,77 @@ public class RelaxationSpread {
 
     public RelaxationSpread(RelaxationSpreadStrategy relaxationSpreadStrategy) {
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
+    }
+
+    public List<SingleOutput> getSinglePatternDefinition(
+        List<OrderOutput> outputs,
+        List<Integer> outputCounts,
+        List<Integer> relaxValues
+    ) {
+        List<SingleOutput> singlePatternDefinition = new ArrayList<SingleOutput>();
+
+        for (int outputId = 0; outputId < outputs.size(); outputId++) {
+            Integer outputCount = outputCounts.get(outputId);
+            Integer relaxValue = relaxValues.get(outputId);
+
+            // Only add outputs with a count higher than 0 to pattern definition
+            if (outputCount > 0) {
+                int remainingSpace = 0;
+                int numberOfRelaxedOutputs = 0;
+                OrderOutput output = outputs.get(outputId);
+
+                if (output.getMaxRelax() != null && output.getMaxRelax() > 0) {
+                    numberOfRelaxedOutputs += outputCount;
+                    remainingSpace += outputCount * output.getMaxRelax();
+                    remainingSpace -= relaxValue;
+                }
+
+                List<SingleOutput> singlePatternDefinitionForOneOutput = new ArrayList<SingleOutput>();
+                for (int i = 0; i < outputCount; ++i) {
+                    singlePatternDefinitionForOneOutput.add(new SingleOutput(
+                        outputId,
+                        output.getLength(),
+                        output.getMaxRelax(),
+                        output.getMaxRelax()
+                    ));
+                }
+
+                if (numberOfRelaxedOutputs > 0) {
+                    singlePatternDefinitionForOneOutput = applyRelaxationSpread(
+                        singlePatternDefinitionForOneOutput,
+                        remainingSpace,
+                        numberOfRelaxedOutputs
+                    );
+                }
+
+                singlePatternDefinition.addAll(singlePatternDefinitionForOneOutput);
+            }
+        }
+
+        return singlePatternDefinition;
+    }
+
+    public List<CHOutput> convertSingleToChPatternDefinition(List<SingleOutput> singlePatternDefinition) {
+        List<CHOutput> chPatternDefinition = new ArrayList<CHOutput>();
+
+        CHOutput latest = null;
+        for (SingleOutput singleOutput : singlePatternDefinition) {
+            if (latest != null
+                && singleOutput.getId().equals(latest.getId())
+                && singleOutput.getRelax().equals(latest.getRelax().intValue())) {
+                latest.setCount(latest.getCount() + 1);
+            } else {
+                chPatternDefinition.add(new CHOutput(
+                    singleOutput.getId(),
+                    singleOutput.getLength(),
+                    1,
+                    singleOutput.getRelax()
+                ));
+            }
+            latest = chPatternDefinition.getLast();
+        }
+
+        return chPatternDefinition;
     }
 
     public List<SingleOutput> applyRelaxationSpread(

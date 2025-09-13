@@ -11,13 +11,13 @@ public class Parameters {
     // pattern definition, number/count of output elements for [input][pattern][output]
     private List<List<List<Integer>>> nipo;
     // relaxation value for [input][pattern][output]
-    private List<List<List<Double>>> ripo;
+    private List<List<List<Integer>>> ripo;
     private int nPattern;
     private int nPatternMax;
 
     Parameters(Order order) {
         this.nipo = initParameterMatrix(order, Integer.class, 0);
-        this.ripo = initParameterMatrix(order, Double.class, 0.0);
+        this.ripo = initParameterMatrix(order, Integer.class, 0);
         this.nPattern = 0;
         this.nPatternMax = 0;
         initPatterns(order);
@@ -31,7 +31,7 @@ public class Parameters {
         this.nipo = nipo;
     }
 
-    public List<List<List<Double>>> getRipo() {
+    public List<List<List<Integer>>> getRipo() {
         return ripo;
     }
 

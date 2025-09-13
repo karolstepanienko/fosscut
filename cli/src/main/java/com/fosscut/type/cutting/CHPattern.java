@@ -77,10 +77,10 @@ public class CHPattern {
     private Integer getOutputsSumLength(boolean includeRelax) {
         Integer outputsSumLength = 0;
         for (CHOutput chOutput : patternDefinition) {
-            Integer outputSumLength = chOutput.getLength();
-            Integer relax = chOutput.getRelax();
-            if (includeRelax && relax != null) outputSumLength -= relax;
-            outputsSumLength += chOutput.getCount() * outputSumLength;
+            Integer outputLength = chOutput.getLength();
+            if (includeRelax && chOutput.getRelax() != null)
+                outputLength -= chOutput.getRelax();
+            outputsSumLength += chOutput.getCount() * outputLength;
         }
         return outputsSumLength;
     }

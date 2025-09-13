@@ -3,11 +3,14 @@ package com.fosscut.alg.greedy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.alg.RelaxationSpread;
+import com.fosscut.alg.SingleOutput;
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.fosscut.subcommand.abs.AbstractAlg;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -28,6 +31,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private boolean relaxEnabled;
     private IntegerSolver integerSolver;
 
+    private RelaxationSpread relaxationSpread;
     private List<MPVariable> usageVariables;
     private List<MPVariable> relaxVariables;
 
@@ -47,6 +51,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.relaxCost = relaxCost; 
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
+        this.relaxationSpread = new RelaxationSpread(RelaxationSpreadStrategy.EQUAL_RELAX);
     }
 
     public void setUsageVariables(List<MPVariable> usageVariables) {
@@ -99,19 +104,24 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     }
 
     private List<CHOutput> getPatternDefinitionWithRelaxation() {
-        List<CHOutput> patternDefinition = new ArrayList<CHOutput>();
+        List<Integer> outputCounts = new ArrayList<Integer>();
+        List<Integer> relaxValues = new ArrayList<Integer>();
+
         for (int o = 0; o < getOutputs().size(); o++) {
-            // Only add outputs with a count higher than 0 to pattern definition
-            if (usageVariables.get(o).solutionValue() > 0) {
-                patternDefinition.add(new CHOutput(
-                    o,
-                    getOutputs().get(o).getLength(),
-                    Double.valueOf(usageVariables.get(o).solutionValue()).intValue(),
-                    Double.valueOf(relaxVariables.get(o).solutionValue()).intValue()
-                ));
-            }
+            outputCounts.add(Double.valueOf(usageVariables.get(o).solutionValue()).intValue());
+            relaxValues.add(Double.valueOf(relaxVariables.get(o).solutionValue()).intValue());
         }
-        return patternDefinition;
+
+        List<SingleOutput> singlePatternDefinition =
+            relaxationSpread.getSinglePatternDefinition(
+                getOutputs(),
+                outputCounts,
+                relaxValues
+            );
+
+        return relaxationSpread.convertSingleToChPatternDefinition(
+            singlePatternDefinition
+        );
     }
 
     private void initModel() {
