@@ -49,7 +49,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.orderInputId = orderInputId;
         this.input = input;
         this.orderDemands = orderDemands;
-        this.relaxCost = relaxCost; 
+        this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
         this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);

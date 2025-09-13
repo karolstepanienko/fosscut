@@ -37,4 +37,9 @@ public class PlanOutput {
         this.relax = relax;
     }
 
+    @Override
+    public String toString() {
+        return "PlanOutput: id=" + this.getId() + ", count=" + this.getCount() + ", relax=" + this.getRelax();
+    }
+
 }

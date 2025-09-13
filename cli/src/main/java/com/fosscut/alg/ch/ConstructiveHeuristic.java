@@ -106,7 +106,7 @@ public abstract class ConstructiveHeuristic {
             if (inputCountDefined) logger.info(
                 "Input count: " + inputCounts + ", sum: " + getSumInputCounts()
             );
-            logger.info("Order demands: " + orderDemands 
+            logger.info("Order demands: " + orderDemands
                 + ", sum: " + orderDemands.stream().mapToInt(Integer::intValue).sum()
             );
         }

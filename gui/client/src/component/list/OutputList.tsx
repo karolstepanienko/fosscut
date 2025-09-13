@@ -22,7 +22,7 @@ const OutputList: React.FC<OutputListProps> = ({outputId, setOutputId, outputs, 
     if (length === "" || count === "" || maxRelax === "") {
       setWarning("All fields need to be filled")
       setWarningVisible(true)
-    } else if (parseInt(length) < 1 || parseInt(count) < 1 || parseInt(maxRelax) < 0) { 
+    } else if (parseInt(length) < 1 || parseInt(count) < 1 || parseInt(maxRelax) < 0) {
       setWarning("All values need to be positive integers")
       setWarningVisible(true)
     } else {

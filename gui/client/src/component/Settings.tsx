@@ -60,7 +60,7 @@ const Settings: React.FC<SettingsProps> = ({settingsExtended, setSettingsExtende
     else return "";
   }
 
-  const renderLinearSolver = () => { 
+  const renderLinearSolver = () => {
     if (algorithm === Algorithm.CG) {
       return (
         <div className="settings-item" >
