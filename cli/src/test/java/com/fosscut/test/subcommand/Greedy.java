@@ -160,6 +160,60 @@ public class Greedy {
         );
     }
 
+    /************************ Relaxation strategies ***************************/
+
+    @Test public void greedyRelaxCost01StratEqualRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost01StratEqualRelaxQuietSavePlanToFile";
+        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+        );
+    }
+
+    @Test public void greedyRelaxCost01StratEqualSpaceQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost01StratEqualSpaceQuietSavePlanToFile";
+        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+        );
+    }
+
+    @Test public void greedyRelaxCost01StratStartQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost01StratStartQuietSavePlanToFile";
+        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy START -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_START_PLAN)
+        );
+    }
+
+    @Test public void greedyRelaxCost01StratEndQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCost01StratEndQuietSavePlanToFile";
+        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy END -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_END_PLAN)
+        );
+    }
+
     /****************************** Solvers ***********************************/
 
     @Test public void greedySolverCBC() throws IOException {

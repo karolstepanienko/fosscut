@@ -160,10 +160,64 @@ public class FFD {
         );
     }
 
-    /***************** Relaxation strategies: standard plan *******************/
+    /************************ Relaxation strategies ***************************/
 
     @Test public void ffdRelaxStratEqualRelaxQuietSavePlanToFile() throws IOException {
         String testFileName = "ffdRelaxStratEqualRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+        );
+    }
+
+    @Test public void ffdRelaxStratEqualSpaceQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStratEqualSpaceQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+        );
+    }
+
+    @Test public void ffdRelaxStratStartQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStratStartQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_START_PLAN)
+        );
+    }
+
+    @Test public void ffdRelaxStratEndQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStratEndQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.RELAX_END_PLAN)
+        );
+    }
+
+    /***************** Relaxation strategies: standard plan *******************/
+
+    @Test public void ffdRelaxStandardPlanStratEqualRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStandardPlanStratEqualRelaxQuietSavePlanToFile";
         Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
@@ -175,8 +229,8 @@ public class FFD {
         );
     }
 
-    @Test public void ffdRelaxStratEqualSpaceQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdRelaxStratEqualSpaceQuietSavePlanToFile";
+    @Test public void ffdRelaxStratStandardPlanEqualSpaceQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStratStandardPlanEqualSpaceQuietSavePlanToFile";
         Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
@@ -188,8 +242,8 @@ public class FFD {
         );
     }
 
-    @Test public void ffdRelaxStratStartQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdRelaxStratStartQuietSavePlanToFile";
+    @Test public void ffdRelaxStratStandardPlanStartQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStratStandardPlanStartQuietSavePlanToFile";
         Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();
@@ -201,8 +255,8 @@ public class FFD {
         );
     }
 
-    @Test public void ffdRelaxStratEndQuietSavePlanToFile() throws IOException {
-        String testFileName = "ffdRelaxStratEndQuietSavePlanToFile";
+    @Test public void ffdRelaxStratStandardPlanEndQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdRelaxStratStandardPlanEndQuietSavePlanToFile";
         Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_RELAX_ORDER));
         command.run();

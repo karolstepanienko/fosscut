@@ -26,8 +26,9 @@ public class Messages {
         + " START: first relax longest items at the beginning of the pattern,"
         + " END: first relax shortest items at the end of the pattern."
         + " All strategies are approximate since item lengths are discrete"
-        + " and cannot be relaxed partially.";
-
-    public static final String RELAXATION_SPREAD_STRAT_CG_DESCRIPTION = "For column generation (CG), relaxation strategies affect only output elements of the same type. Relaxation is not spread between different output types in a pattern.";
+        + " and cannot be relaxed partially."
+        + " For column generation (cg) and Greedy algorithm (greedy),"
+        + " relaxation strategies affect only output elements of the same type."
+        + " Relaxation is not spread between different output types in a pattern.";
 
 }

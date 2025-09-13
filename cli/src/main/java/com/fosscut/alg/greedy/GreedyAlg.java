@@ -12,6 +12,7 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHPattern;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.google.ortools.Loader;
@@ -23,9 +24,11 @@ public class GreedyAlg extends ConstructiveHeuristic {
     private Order order;
     private Double relaxCost;
     private boolean relaxEnabled;
+    private RelaxationSpreadStrategy relaxationSpreadStrategy;
     private IntegerSolver integerSolver;
 
     public GreedyAlg(Order order, Double relaxCost, boolean relaxEnabled,
+        RelaxationSpreadStrategy relaxationSpreadStrategy,
         OptimizationCriterion optimizationCriterion,
         IntegerSolver integerSolver
     ) {
@@ -33,6 +36,7 @@ public class GreedyAlg extends ConstructiveHeuristic {
         this.order = order;
         this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
+        this.relaxationSpreadStrategy = relaxationSpreadStrategy;
         this.integerSolver = integerSolver;
     }
 
@@ -68,6 +72,7 @@ public class GreedyAlg extends ConstructiveHeuristic {
                         getOrderDemands(),
                         relaxCost,
                         relaxEnabled,
+                        relaxationSpreadStrategy,
                         integerSolver
                     );
                 greedyPatternGeneration.solve();

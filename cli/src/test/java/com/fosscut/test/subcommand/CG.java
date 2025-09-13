@@ -178,52 +178,52 @@ public class CG {
     @Test public void cgRelaxCost01StratEqualRelaxQuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost01StratEqualRelaxQuietSavePlanToFile";
         Command command = new Command("cg -q -r -c 0.1 --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
-            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_RELAX_STRATEGIES_ORDER));
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
         );
     }
 
     @Test public void cgRelaxCost01StratEqualSpaceQuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost01StratEqualSpaceQuietSavePlanToFile";
         Command command = new Command("cg -q -r -c 0.1 --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
-            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_RELAX_STRATEGIES_ORDER));
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
         );
     }
 
     @Test public void cgRelaxCost01StratStartQuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost01StratStartQuietSavePlanToFile";
         Command command = new Command("cg -q -r -c 0.1 --relaxation-spread-strategy START -o " + testFileName + " "
-            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_RELAX_STRATEGIES_ORDER));
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_RELAX_START_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_START_PLAN)
         );
     }
 
     @Test public void cgRelaxCost01StratEndQuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost01StratEndQuietSavePlanToFile";
         Command command = new Command("cg -q -r -c 0.1 --relaxation-spread-strategy END -o " + testFileName + " "
-            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_CG_RELAX_STRATEGIES_ORDER));
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_RELAX_END_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_END_PLAN)
         );
     }
 

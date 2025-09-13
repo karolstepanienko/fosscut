@@ -39,8 +39,8 @@ public class TestDefaults {
     public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/ffd-relax.yaml";
     public static final String EXAMPLE_FFD_COMPLEX_PATTERN_ORDER = "./test/order/success/ffd-complex-pattern.yaml";
     public static final String EXAMPLE_FFD_LARGE_MULTI_RELAX_ORDER = "./test/order/success/ffd-large-multi-relax.yaml";
-    public static final String EXAMPLE_CG_RELAX_STRATEGIES_ORDER = "./test/order/success/cg-relax-strategies.yaml";
     public static final String EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER = "./test/order/success/short-input-count-cost-null.yaml";
+    public static final String EXAMPLE_RELAX_STRATEGIES_ORDER = "./test/order/success/relax-strategies.yaml";
     public static final String EXAMPLE_MULTI_RELAX_ORDER = "./test/order/success/multi-relax.yaml";
 
     public static final String CG_CLP_GLOP_SCIP_PLAN = "./test/plan/cg-CLP_GLOP-SCIP.yaml";
@@ -63,9 +63,9 @@ public class TestDefaults {
     public static final String CG_RELAX_0_PLAN = "./test/plan/relax/cg-relax-0.yaml";
     public static final String CG_RELAX_1_PLAN = "./test/plan/relax/cg-relax-1.yaml";
     public static final String CG_MULTI_RELAX_1_PLAN = "./test/plan/relax/cg-multi-relax-1.yaml";
-    public static final String CG_RELAX_EQUAL_PLAN = "./test/plan/relax/cg-relax-equal.yaml";
-    public static final String CG_RELAX_START_PLAN = "./test/plan/relax/cg-relax-start.yaml";
-    public static final String CG_RELAX_END_PLAN = "./test/plan/relax/cg-relax-end.yaml";
+    public static final String RELAX_EQUAL_PLAN = "./test/plan/relax/relax-equal.yaml";
+    public static final String RELAX_START_PLAN = "./test/plan/relax/relax-start.yaml";
+    public static final String RELAX_END_PLAN = "./test/plan/relax/relax-end.yaml";
 
     public static final String FFD_WITHOUT_RELAX_PLAN = "./test/plan/ffd-without-relax.yaml";
     public static final String FFD_COMPLEX_PATTERN_PLAN = "./test/plan/ffd-complex-pattern.yaml";

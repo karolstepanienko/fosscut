@@ -42,6 +42,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         List<Integer> orderDemands,
         Double relaxCost,
         boolean relaxEnabled,
+        RelaxationSpreadStrategy relaxationSpreadStrategy,
         IntegerSolver integerSolver
     ) {
         setOutputs(outputs);
@@ -51,7 +52,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.relaxCost = relaxCost; 
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
-        this.relaxationSpread = new RelaxationSpread(RelaxationSpreadStrategy.EQUAL_RELAX);
+        this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);
     }
 
     public void setUsageVariables(List<MPVariable> usageVariables) {

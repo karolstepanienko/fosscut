@@ -1,7 +1,9 @@
 package com.fosscut.subcommand.abs;
 
 import com.fosscut.shared.type.OptimizationCriterion;
+import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.util.Defaults;
+import com.fosscut.util.Messages;
 
 import picocli.CommandLine.Option;
 
@@ -11,6 +13,11 @@ public abstract class AbstractAlg extends AbstractInputOutputFile {
         defaultValue = "false",
         description = "Enables relaxation mechanism.")
     protected boolean relaxEnabled;
+
+    @Option(names = { "--relaxation-spread-strategy" },
+        defaultValue = Defaults.DEFAULT_PARAM_RELAX_SPREAD_STRATEGY,
+        description = Messages.RELAXATION_SPREAD_STRAT_DESCRIPTION)
+    protected RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     @Option(names = { "--optimization-criterion"},
         defaultValue = Defaults.DEFAULT_PARAM_OPTIMIZATION_CRITERION,

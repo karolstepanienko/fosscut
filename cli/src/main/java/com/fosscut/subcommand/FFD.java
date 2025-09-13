@@ -11,12 +11,9 @@ import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
-import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Cleaner;
-import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
-import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -24,15 +21,9 @@ import com.fosscut.util.load.OrderLoader;
 import com.fosscut.util.save.Save;
 
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 
 @Command(name = "ffd", versionProvider = PropertiesVersionProvider.class)
 public class FFD extends AbstractAlg {
-
-    @Option(names = { "--relaxation-spread-strategy" },
-        defaultValue = Defaults.DEFAULT_PARAM_RELAX_SPREAD_STRATEGY,
-        description = Messages.RELAXATION_SPREAD_STRAT_DESCRIPTION)
-    private RelaxationSpreadStrategy relaxationSpreadStrategy;
 
     @Override
     protected void runWithExceptions() throws FosscutException, IOException {
