@@ -120,7 +120,21 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
+  "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"getMetadata","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.type.cutting.plan.Metadata",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getUnnecessaryOutputs","parameterTypes":[] }, {"name":"getTotalWaste","parameterTypes":[] }, {"name":"getTrueTotalWaste","parameterTypes":[] }, {"name":"getMinTrueTotalWaste","parameterTypes":[] }, {"name":"getMaxTrueTotalWaste","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
+},
+{
+  "name":"com.fosscut.type.cutting.plan.UnnecessaryOutput",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getId","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.Pattern",

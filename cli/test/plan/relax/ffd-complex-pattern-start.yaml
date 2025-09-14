@@ -21,4 +21,6 @@ outputs:
 - length: 20
   count: 38
   maxRelax: 3
-totalNeededInputLength: 805
+metadata:
+  totalWaste: 75
+  totalNeededInputLength: 805

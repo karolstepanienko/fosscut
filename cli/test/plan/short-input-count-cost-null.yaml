@@ -12,5 +12,7 @@ outputs:
 - length: 30
   count: 4
   maxRelax: 0
-totalNeededInputLength: 123
-totalCost: 3.0
+metadata:
+  totalWaste: 3
+  totalNeededInputLength: 123
+  totalCost: 3.0

@@ -8,15 +8,14 @@ import com.fosscut.shared.util.save.YamlDumper;
 public class CuttingPlan {
     private List<PlanInput> inputs;
     private List<OrderOutput> outputs;
-    private Integer totalNeededInputLength;
-    private Double totalCost;
+    private Metadata metadata;
 
     public CuttingPlan() {}
     public CuttingPlan(List<PlanInput> inputs, List<OrderOutput> outputs) {
         this.inputs = inputs;
         this.outputs = outputs;
-        calculateTotalNeededInputLength();
-        calculateTotalCost();
+        this.metadata = new Metadata();
+        this.metadata.calculateMetadata(inputs, outputs);
     }
 
     public List<PlanInput> getInputs() {
@@ -27,34 +26,8 @@ public class CuttingPlan {
         return outputs;
     }
 
-    public Integer getTotalNeededInputLength() {
-        return totalNeededInputLength;
-    }
-
-    public Double getTotalCost() {
-        return totalCost;
-    }
-
-    private void calculateTotalNeededInputLength() {
-        totalNeededInputLength = 0;
-        for (PlanInput input : inputs) {
-            for (Pattern pattern: input.getPatterns()) {
-                totalNeededInputLength += input.getLength() * pattern.getCount();
-            }
-        }
-    }
-
-    private void calculateTotalCost() {
-        totalCost = null;
-        for (PlanInput input : inputs) {
-            Double inputCost = input.getCost();
-            if (inputCost != null) {
-                if (totalCost == null) totalCost = 0.0;
-                for (Pattern pattern: input.getPatterns()) {
-                    totalCost += inputCost * pattern.getCount();
-                }
-            }
-        }
+    public Metadata getMetadata() {
+        return metadata;
     }
 
     public String toString() {

@@ -64,4 +64,12 @@ outputs:
 - length: 75
   count: 8
   maxRelax: 0
-totalNeededInputLength: 5145
+metadata:
+  unnecessaryOutputs:
+  - length: 45
+    count: 1
+    maxRelax: 0
+    id: 2
+  totalWaste: 15
+  trueTotalWaste: 60
+  totalNeededInputLength: 5145

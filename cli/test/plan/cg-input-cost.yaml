@@ -62,5 +62,17 @@ outputs:
 - length: 75
   count: 8
   maxRelax: 0
-totalNeededInputLength: 5380
-totalCost: 705.0
+metadata:
+  unnecessaryOutputs:
+  - length: 20
+    count: 2
+    maxRelax: 3
+    id: 1
+  - length: 45
+    count: 1
+    maxRelax: 0
+    id: 2
+  totalWaste: 210
+  trueTotalWaste: 295
+  totalNeededInputLength: 5380
+  totalCost: 705.0

@@ -10,4 +10,6 @@ outputs:
 - length: 22
   count: 5
   maxRelax: 1
-totalNeededInputLength: 104
+metadata:
+  totalWaste: -1
+  totalNeededInputLength: 104

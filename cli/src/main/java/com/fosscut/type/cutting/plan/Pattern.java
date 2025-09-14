@@ -2,6 +2,8 @@ package com.fosscut.type.cutting.plan;
 
 import java.util.List;
 
+import com.fosscut.shared.type.cutting.order.OrderOutput;
+
 public class Pattern {
 
     private Integer count;
@@ -28,6 +30,18 @@ public class Pattern {
 
     public void setPatternDefinition(List<PlanOutput> patternDefinition) {
         this.patternDefinition = patternDefinition;
+    }
+
+    public Integer getTotalOutputsLength(List<OrderOutput> orderOutputs) {
+        int totalLength = 0;
+        for (PlanOutput planOutput : patternDefinition) {
+            Integer outputLength = orderOutputs.get(planOutput.getId()).getLength();
+            if (planOutput.getRelax() != null) {
+                outputLength -= planOutput.getRelax();
+            }
+            totalLength += planOutput.getCount() * outputLength;
+        }
+        return totalLength;
     }
 
 }
