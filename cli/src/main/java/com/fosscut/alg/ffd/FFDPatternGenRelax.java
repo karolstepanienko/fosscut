@@ -37,7 +37,6 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
         List<SingleOutput> singlePatternDefinition = new ArrayList<SingleOutput>();
 
         int remainingSpace = input.getLength();
-        int numberOfRelaxedOutputs = 0;
 
         int i = 0;
         while (i < orderSortedOutputs.getOutputs().size() && remainingSpace > 0) {
@@ -49,11 +48,6 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
             }
 
             int relaxedItemFit = getItemFit(remainingSpace, maxRelaxedLength, output);
-
-            if (output.getMaxRelax() != null && output.getMaxRelax() > 0) {
-                numberOfRelaxedOutputs += relaxedItemFit;
-            }
-
             if (relaxedItemFit >= 1) {
                 remainingSpace -= relaxedItemFit * maxRelaxedLength;
                 for (int j = 0; j < relaxedItemFit; ++j) {
@@ -69,9 +63,9 @@ public class FFDPatternGenRelax extends AbstractFFDPatternGen {
             i += 1;
         }
 
-        if (numberOfRelaxedOutputs > 0) {
+        if (singlePatternDefinition.size() > 0) {
             singlePatternDefinition = relaxationSpread.applyRelaxationSpread(
-                singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+                singlePatternDefinition, remainingSpace);
         }
 
         return relaxationSpread.convertSingleToChPatternDefinition(singlePatternDefinition);

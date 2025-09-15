@@ -29,11 +29,9 @@ public class RelaxationSpread {
             // Only add outputs with a count higher than 0 to pattern definition
             if (outputCount > 0) {
                 int remainingSpace = 0;
-                int numberOfRelaxedOutputs = 0;
                 OrderOutput output = outputs.get(outputId);
 
                 if (output.getMaxRelax() != null && output.getMaxRelax() > 0) {
-                    numberOfRelaxedOutputs += outputCount;
                     remainingSpace += outputCount * output.getMaxRelax();
                     remainingSpace -= relaxValue;
                 }
@@ -48,11 +46,10 @@ public class RelaxationSpread {
                     ));
                 }
 
-                if (numberOfRelaxedOutputs > 0) {
+                if (singlePatternDefinitionForOneOutput.size() > 0) {
                     singlePatternDefinitionForOneOutput = applyRelaxationSpread(
                         singlePatternDefinitionForOneOutput,
-                        remainingSpace,
-                        numberOfRelaxedOutputs
+                        remainingSpace
                     );
                 }
 
@@ -88,15 +85,14 @@ public class RelaxationSpread {
 
     public List<SingleOutput> applyRelaxationSpread(
         List<SingleOutput> singlePatternDefinition,
-        int remainingSpace,
-        int numberOfRelaxedOutputs
+        int remainingSpace
     ) {
         if (relaxationSpreadStrategy == RelaxationSpreadStrategy.EQUAL_RELAX) {
             // Spread relaxation equally to all items with available relaxation
             singlePatternDefinition = equalSpreadRelaxation(singlePatternDefinition, remainingSpace);
         } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.EQUAL_SPACE) {
             // Spread remaining space equally to all items with available relaxation
-            singlePatternDefinition = equalSpreadRemainingSpace(singlePatternDefinition, remainingSpace, numberOfRelaxedOutputs);
+            singlePatternDefinition = equalSpreadRemainingSpace(singlePatternDefinition, remainingSpace);
         } else if (relaxationSpreadStrategy == RelaxationSpreadStrategy.START) {
             // Spread remaining space to items on the end of the pattern (for ffd spread relax to longest items first)
             singlePatternDefinition = sideSpreadRemainingSpace(singlePatternDefinition.reversed(), remainingSpace).reversed();
@@ -161,10 +157,9 @@ public class RelaxationSpread {
 
     private List<SingleOutput> equalSpreadRemainingSpace(
         List<SingleOutput> singlePatternDefinition,
-        int remainingSpace,
-        int numberOfRelaxedOutputs
+        int remainingSpace
     ) {
-        int equalShare = Math.max(remainingSpace / numberOfRelaxedOutputs, 1);
+        int equalShare = Math.max(remainingSpace / singlePatternDefinition.size(), 1);
 
         // avoids an infinite loop when remainingSpace will never reach 0
         int sumMaxRelax = getSumMaxRelax(singlePatternDefinition);
