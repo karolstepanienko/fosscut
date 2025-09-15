@@ -279,7 +279,7 @@ public class FFD {
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN)
         );
     }
 
@@ -292,7 +292,7 @@ public class FFD {
         assert(command.getOutput().equals(""));
         assertEquals(
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_SPACE_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN)
         );
     }
 
