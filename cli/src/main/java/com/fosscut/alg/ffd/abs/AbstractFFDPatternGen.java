@@ -19,6 +19,7 @@ public abstract class AbstractFFDPatternGen {
 
     protected int getItemFit(int remainingSpace, Integer length, OrderOutput output) {
         return Math.min(
+            // Ignores the remainder, rounds down, eg. 16/9 = 1.(7) => 1
             remainingSpace / length,
             orderDemands.get(orderSortedOutputs.getOutputId(output))
         );
