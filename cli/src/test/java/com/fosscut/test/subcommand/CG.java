@@ -65,8 +65,8 @@ public class CG {
         assert(command.getOutput().contains("Status: OPTIMAL"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -78,8 +78,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -91,8 +91,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN)
+            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -104,8 +104,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_FORCE_LINEAR_IMPROVEMENT_PLAN)
+            Utils.loadFile(TestDefaults.CG_FORCE_LINEAR_IMPROVEMENT_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -140,8 +140,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_RELAX_0_PLAN)
+            Utils.loadFile(TestDefaults.CG_RELAX_0_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -153,8 +153,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_RELAX_1_PLAN)
+            Utils.loadFile(TestDefaults.CG_RELAX_1_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -168,8 +168,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_MULTI_RELAX_1_PLAN)
+            Utils.loadFile(TestDefaults.CG_MULTI_RELAX_1_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -181,8 +181,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -196,8 +196,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -209,8 +209,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -222,8 +222,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_START_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_START_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -235,8 +235,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_END_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_END_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -250,8 +250,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_CLP_CBC_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_CBC_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -280,8 +280,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -293,8 +293,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_GLOP_CBC_PLAN)
+            Utils.loadFile(TestDefaults.CG_GLOP_CBC_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -323,8 +323,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN)
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -336,8 +336,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_PDLP_CBC_PLAN)
+            Utils.loadFile(TestDefaults.CG_PDLP_CBC_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -365,8 +365,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_PDLP_SCIP_PLAN)
+            Utils.loadFile(TestDefaults.CG_PDLP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -380,8 +380,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_INPUT_COUNT_PLAN)
+            Utils.loadFile(TestDefaults.CG_INPUT_COUNT_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -393,8 +393,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_CG_INPUT_COUNT_ZEROS_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_CG_INPUT_COUNT_ZEROS_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -422,8 +422,8 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CG_INPUT_COST_PLAN)
+            Utils.loadFile(TestDefaults.CG_INPUT_COST_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 

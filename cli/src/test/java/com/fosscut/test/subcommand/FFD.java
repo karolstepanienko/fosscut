@@ -67,8 +67,8 @@ public class FFD {
         assert(command.getOutput().contains("Order demands"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_PLAN)
+            Utils.loadFile(TestDefaults.FFD_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -80,8 +80,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_PLAN)
+            Utils.loadFile(TestDefaults.FFD_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -93,8 +93,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_WITHOUT_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_WITHOUT_RELAX_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -106,8 +106,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -119,8 +119,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN)
+            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -155,8 +155,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_DEFAULT_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_DEFAULT_RELAX_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -170,8 +170,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -183,8 +183,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -196,8 +196,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_START_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_START_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -209,8 +209,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_END_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_END_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -224,8 +224,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.FFD_RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -237,8 +237,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.FFD_RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -250,8 +250,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_START_PLAN)
+            Utils.loadFile(TestDefaults.FFD_RELAX_START_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -263,8 +263,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_RELAX_END_PLAN)
+            Utils.loadFile(TestDefaults.FFD_RELAX_END_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -278,8 +278,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -291,8 +291,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -304,8 +304,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_START_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_START_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -317,8 +317,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_END_PLAN)
+            Utils.loadFile(TestDefaults.FFD_COMPLEX_PATTERN_END_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -332,8 +332,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_MULTI_RELAX_EQUAL_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_MULTI_RELAX_EQUAL_RELAX_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -345,8 +345,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_MULTI_RELAX_EQUAL_SPACE_PLAN)
+            Utils.loadFile(TestDefaults.FFD_MULTI_RELAX_EQUAL_SPACE_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -358,8 +358,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_LARGE_MULTI_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_LARGE_MULTI_RELAX_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -371,8 +371,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_LARGE_MULTI_RELAX_PLAN)
+            Utils.loadFile(TestDefaults.FFD_LARGE_MULTI_RELAX_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -386,8 +386,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_INPUT_COUNT_PLAN)
+            Utils.loadFile(TestDefaults.FFD_INPUT_COUNT_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -399,8 +399,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_INPUT_COUNT_ZEROS_PLAN)
+            Utils.loadFile(TestDefaults.FFD_INPUT_COUNT_ZEROS_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -430,8 +430,8 @@ public class FFD {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.FFD_INPUT_COST_PLAN)
+            Utils.loadFile(TestDefaults.FFD_INPUT_COST_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 

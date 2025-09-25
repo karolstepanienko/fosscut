@@ -55,8 +55,8 @@ public class CutGen {
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CUTGEN_SIMPLE_ORDER)
+            Utils.loadFile(TestDefaults.CUTGEN_SIMPLE_ORDER),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -66,8 +66,8 @@ public class CutGen {
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CUTGEN_MULTI_INPUT_ORDER)
+            Utils.loadFile(TestDefaults.CUTGEN_MULTI_INPUT_ORDER),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -85,8 +85,8 @@ public class CutGen {
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CUTGEN_ALLOW_INPUT_DUPLICATES)
+            Utils.loadFile(TestDefaults.CUTGEN_ALLOW_INPUT_DUPLICATES),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -104,8 +104,8 @@ public class CutGen {
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.CUTGEN_ALLOW_OUTPUT_DUPLICATES)
+            Utils.loadFile(TestDefaults.CUTGEN_ALLOW_OUTPUT_DUPLICATES),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 

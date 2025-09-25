@@ -67,8 +67,8 @@ public class Greedy {
         assert(command.getOutput().contains("Order demands"));
         assert(!command.getOutput().contains("Generated cutting plan:"));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -80,8 +80,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -93,8 +93,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN)
+            Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -129,8 +129,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_RELAX_0_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_RELAX_0_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -142,8 +142,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_RELAX_1_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_RELAX_1_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -155,8 +155,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -170,8 +170,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -183,8 +183,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_EQUAL_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -196,8 +196,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_START_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_START_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -209,8 +209,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.RELAX_END_PLAN)
+            Utils.loadFile(TestDefaults.RELAX_END_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -224,8 +224,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -237,8 +237,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_SAT_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_SAT_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -250,8 +250,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -265,8 +265,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_INPUT_COUNT_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_INPUT_COUNT_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -278,8 +278,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_CG_INPUT_COUNT_ZEROS_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_CG_INPUT_COUNT_ZEROS_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
@@ -309,8 +309,8 @@ public class Greedy {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
         assertEquals(
-            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
-            Utils.loadFile(TestDefaults.GREEDY_INPUT_COST_PLAN)
+            Utils.loadFile(TestDefaults.GREEDY_INPUT_COST_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 
