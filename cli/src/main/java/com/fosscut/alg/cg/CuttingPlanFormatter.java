@@ -57,7 +57,7 @@ public class CuttingPlanFormatter {
         planInput.setCost(order.getInputs().get(i).getCost());
         List<Pattern> patterns = new ArrayList<>();
 
-        for (int p = 0; p < params.getNPatternMax(); p++) {
+        for (int p = 0; p < params.getNumberOfPatternsPerInput(i); p++) {
             Integer patternCount = inputPatternUsage.get(i).get(p);
             if (patternCount > 0 ) patterns.add(getPattern(patternCount, i, p));
         }

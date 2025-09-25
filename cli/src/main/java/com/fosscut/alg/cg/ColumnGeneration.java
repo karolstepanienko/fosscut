@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,15 @@ public class ColumnGeneration {
         this.integerSolver = integerSolver;
     }
 
+    public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
+        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
+            AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
+            relaxationSpreadStrategy,
+            order, params
+        );
+        return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
+    }
+
     public void run() throws LPUnfeasibleException {
         logger.info("");
         logger.info("Running cutting plan generation using a column generation algorithm...");
@@ -70,10 +80,12 @@ public class ColumnGeneration {
                     optimizationCriterion, linearSolver, integerSolver);
             linearCuttingPlanGeneration.solve();
             linearCuttingPlanObjectiveValue = linearCuttingPlanGeneration.getObjective().value();
+            List<Double> demandDualValues = linearCuttingPlanGeneration.getDemandDualValues();
+            Map<Integer, Double> supplyDualValues = linearCuttingPlanGeneration.getSupplyDualValues();
 
             for (int inputId = 0; inputId < order.getInputs().size(); inputId++) {
                 PatternGeneration patternGeneration = new PatternGeneration(
-                    order, inputId, linearCuttingPlanGeneration.getDualValues(),
+                    order, inputId, demandDualValues,
                     relaxCost, relaxEnabled, integerSolver
                 );
                 patternGeneration.solve();
@@ -86,8 +98,8 @@ public class ColumnGeneration {
                 } else {
                     copyPatterns(order, inputId, patternGeneration);
                 }
+                params.incrementNumberOfPatternsPerInput(inputId);
             }
-            params.incrementNPatternMax();
 
             // Default precision describes the smallest value of reducedCost
             // where further calculations are still sensible.
@@ -103,15 +115,6 @@ public class ColumnGeneration {
             order, params, true, optimizationCriterion,
             linearSolver, integerSolver);
         integerCuttingPlanGeneration.solve();
-    }
-
-    public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
-        CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
-            AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
-            relaxationSpreadStrategy,
-            order, params
-        );
-        return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }
 
     private void copyPatterns(Order order, int inputId, PatternGeneration patternGeneration) {

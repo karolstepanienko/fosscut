@@ -1,7 +1,9 @@
 package com.fosscut.alg.cg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
@@ -12,14 +14,12 @@ public class Parameters {
     private List<List<List<Integer>>> nipo;
     // relaxation value for [input][pattern][output]
     private List<List<List<Integer>>> ripo;
-    private int nPattern;
-    private int nPatternMax;
+    private Map<Integer, Integer> numberOfPatternsPerInput;
 
     Parameters(Order order) {
         this.nipo = initParameterMatrix(order, Integer.class, 0);
         this.ripo = initParameterMatrix(order, Integer.class, 0);
-        this.nPattern = 0;
-        this.nPatternMax = 0;
+        this.numberOfPatternsPerInput = new HashMap<>();
         initPatterns(order);
     }
 
@@ -35,28 +35,12 @@ public class Parameters {
         return ripo;
     }
 
-    public int getNPattern() {
-        return this.nPattern;
+    public Integer getNumberOfPatternsPerInput(int inputId) {
+        return this.numberOfPatternsPerInput.get(inputId);
     }
 
-    public void setNPattern(int nPattern) {
-        this.nPattern = nPattern;
-    }
-
-    public void incrementNPattern() {
-        this.nPattern++;
-    }
-
-    public int getNPatternMax() {
-        return nPatternMax;
-    }
-
-    public void setNPatternMax(int nPatternMax) {
-        this.nPatternMax = nPatternMax;
-    }
-
-    public void incrementNPatternMax() {
-        this.nPatternMax++;
+    public void incrementNumberOfPatternsPerInput(int inputId) {
+        this.numberOfPatternsPerInput.put(inputId, this.numberOfPatternsPerInput.get(inputId) + 1);
     }
 
     private <T> List<List<List<T>>> initParameterMatrix(Order order, Class<T> type, T zero) {
@@ -79,13 +63,13 @@ public class Parameters {
     public void initPatterns(Order order) {
         for (int i = 0; i < order.getInputs().size(); i++) {
             OrderInput input = order.getInputs().get(i);
-            setNPattern(0);
+            numberOfPatternsPerInput.put(i, 0);
             for (int o = 0; o < order.getOutputs().size(); o++) {
                 OrderOutput output = order.getOutputs().get(o);
                 // initial patterns should contain as many outputs as possible
                 // but not more than required by the order since that could
                 // result in plans with too much waste for small orders
-                getNipo().get(i).get(getNPattern())
+                getNipo().get(i).get(getNumberOfPatternsPerInput(i))
                     .set(o,
                         Math.min(
                             output.getCount(),
@@ -93,8 +77,7 @@ public class Parameters {
                         )
                     );
 
-                incrementNPattern();
-                if (getNPattern() > getNPatternMax()) setNPatternMax(getNPattern());
+                incrementNumberOfPatternsPerInput(i);
             }
         }
     }
