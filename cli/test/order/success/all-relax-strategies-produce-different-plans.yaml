@@ -1,0 +1,15 @@
+# Shows differences between all relaxation strategies by producing different
+# plans each time. Used as a graphical example in the documentation, hence the
+# specific small lengths of inputs and outputs.
+inputs:
+  - length: 15
+outputs:
+  - length: 9
+    count: 1
+    maxRelax: 4
+  - length: 7
+    count: 1
+    maxRelax: 3
+  - length: 5
+    count: 1
+    maxRelax: 2

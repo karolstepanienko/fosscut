@@ -214,6 +214,60 @@ public class FFD {
         );
     }
 
+    /*** Relaxation strategies: all relax strategies produce different plans **/
+
+    @Test public void ffdAllRelaxStrategiesDifferentPlansEqualRelaxQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdAllRelaxStrategiesDifferentPlansEqualRelaxQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_EQUAL_RELAX_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
+    @Test public void ffdAllRelaxStrategiesDifferentPlansEqualSpaceQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdAllRelaxStrategiesDifferentPlansEqualSpaceQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_EQUAL_SPACE_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
+    @Test public void ffdAllRelaxStrategiesDifferentPlansStartQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdAllRelaxStrategiesDifferentPlansStartQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy START -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_START_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
+    @Test public void ffdAllRelaxStrategiesDifferentPlansEndQuietSavePlanToFile() throws IOException {
+        String testFileName = "ffdAllRelaxStrategiesDifferentPlansEndQuietSavePlanToFile";
+        Command command = new Command("ffd -q -r --relaxation-spread-strategy END -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_END_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
     /***************** Relaxation strategies: standard plan *******************/
 
     @Test public void ffdRelaxStandardPlanStratEqualRelaxQuietSavePlanToFile() throws IOException {
