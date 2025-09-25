@@ -56,6 +56,8 @@ public class TestDefaults {
     public static final String CG_PDLP_SAT_2_PLAN = "./test/plan/cg-PDLP-SAT-2.yaml";
     public static final String CG_PDLP_SCIP_PLAN = "./test/plan/cg-PDLP-SCIP.yaml";
 
+    public static final String CG_FORCE_LINEAR_IMPROVEMENT_PLAN = "./test/plan/cg-force-linear-improvement.yaml";
+
     public static final String FFD_PLAN = "./test/plan/ffd.yaml";
     public static final String GREEDY_PLAN = "./test/plan/greedy.yaml";
     public static final String GREEDY_SAT_PLAN = "./test/plan/greedy-SAT.yaml";

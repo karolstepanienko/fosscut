@@ -163,7 +163,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
                         patternsPerInputVariables.get(i).get(p),
                         getOrder().getInputs().get(i).getLength()
                     );
-                else if (getOrder().getInputs().get(i).getCost() != null)
+                else // validation will not allow any null input cost if MIN_COST is selected
                     objective.setCoefficient(
                         patternsPerInputVariables.get(i).get(p),
                         getOrder().getInputs().get(i).getCost()

@@ -3,22 +3,36 @@ inputs:
   patterns:
   - count: 1
     patternDefinition:
+    - id: 1
+      count: 4
+  - count: 18
+    patternDefinition:
     - id: 2
       count: 2
+  - count: 1
+    patternDefinition:
+    - id: 5
+      count: 1
 - length: 100
   patterns:
-  - count: 3
+  - count: 4
     patternDefinition:
     - id: 0
       count: 5
-  - count: 9
+  - count: 4
     patternDefinition:
-    - id: 2
-      count: 1
-    - id: 4
-      count: 1
+    - id: 1
+      count: 5
+  - count: 12
+    patternDefinition:
+    - id: 3
+      count: 2
 - length: 110
-  patterns: []
+  patterns:
+  - count: 5
+    patternDefinition:
+    - id: 4
+      count: 2
 - length: 115
   patterns:
   - count: 7
@@ -26,26 +40,6 @@ inputs:
     - id: 1
       count: 2
     - id: 5
-      count: 1
-  - count: 1
-    patternDefinition:
-    - id: 0
-      count: 2
-    - id: 5
-      count: 1
-  - count: 24
-    patternDefinition:
-    - id: 1
-      count: 1
-    - id: 2
-      count: 1
-    - id: 3
-      count: 1
-  - count: 1
-    patternDefinition:
-    - id: 0
-      count: 3
-    - id: 4
       count: 1
 outputs:
 - length: 20
@@ -67,5 +61,11 @@ outputs:
   count: 8
   maxRelax: 0
 metadata:
-  totalWaste: 0
-  totalNeededInputLength: 5085
+  unnecessaryOutputs:
+  - length: 45
+    count: 1
+    maxRelax: 0
+    id: 2
+  totalWaste: 25
+  trueTotalWaste: 70
+  totalNeededInputLength: 5155

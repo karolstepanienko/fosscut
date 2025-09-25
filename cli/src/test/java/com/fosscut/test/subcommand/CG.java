@@ -96,6 +96,19 @@ public class CG {
         );
     }
 
+    @Test public void cgForceLinearImprovementQuietSavePlanToFile() throws IOException {
+        String testFileName = "cgForceLinearImprovementSavePlanToFile";
+        Command command = new Command("cg -fli -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName),
+            Utils.loadFile(TestDefaults.CG_FORCE_LINEAR_IMPROVEMENT_PLAN)
+        );
+    }
+
     /******************************** Redis ***********************************/
 
     @Test public void cgRedis() {

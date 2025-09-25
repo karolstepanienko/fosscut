@@ -57,6 +57,18 @@ public class CG extends AbstractAlg {
         description = "One of: (${COMPLETION-CANDIDATES}).")
     private IntegerSolver integerSolver;
 
+    @Option(names = { "--force-linear-improvement", "-fli" },
+        defaultValue = "false",
+        description = "Force only adding patterns that improve the solution"
+        + " in linear programming tasks for cutting plan generation that have"
+        + " integer constraints disabled."
+        + " Not recommended since those patterns might be useful during final"
+        + " solving of a linear programming task with integer constraints"
+        + " enabled."
+        + " Enable only for large orders where cutting plan generation takes"
+        + " too long.")
+    private boolean forceLinearImprovement;
+
     @Spec
     private CommandSpec spec;
 
@@ -82,7 +94,7 @@ public class CG extends AbstractAlg {
 
         ColumnGeneration columnGeneration = new ColumnGeneration(
             order, relaxCost, relaxEnabled, optimizationCriterion,
-            relaxationSpreadStrategy,
+            relaxationSpreadStrategy, forceLinearImprovement,
             linearSolver, integerSolver);
         columnGeneration.run();
 

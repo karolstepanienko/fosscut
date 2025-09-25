@@ -32,6 +32,7 @@ public class ColumnGeneration {
     private boolean relaxEnabled;
     private OptimizationCriterion optimizationCriterion;
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
+    private boolean forceLinearImprovement;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
 
@@ -42,6 +43,7 @@ public class ColumnGeneration {
         boolean relaxEnabled,
         OptimizationCriterion optimizationCriterion,
         RelaxationSpreadStrategy relaxationSpreadStrategy,
+        boolean forceLinearImprovement,
         LinearSolver linearSolver,
         IntegerSolver integerSolver
     ) {
@@ -50,6 +52,7 @@ public class ColumnGeneration {
         this.relaxEnabled = relaxEnabled;
         this.optimizationCriterion = optimizationCriterion;
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
+        this.forceLinearImprovement = forceLinearImprovement;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
     }
@@ -71,21 +74,16 @@ public class ColumnGeneration {
 
         params = new Parameters(order);
 
-        double previousLinearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
-        double linearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
-        boolean patternsAdded = false;
-        do {
-            patternsAdded = false;
-            previousLinearCuttingPlanObjectiveValue = linearCuttingPlanObjectiveValue;
-
+        boolean patternsAdded = true;
+        while (patternsAdded) {
             CuttingPlanGeneration linearCuttingPlanGeneration =
                 new CuttingPlanGeneration(order, params, false,
                     optimizationCriterion, linearSolver, integerSolver);
             linearCuttingPlanGeneration.solve();
-            linearCuttingPlanObjectiveValue = linearCuttingPlanGeneration.getObjective().value();
             List<Double> demandDualValues = linearCuttingPlanGeneration.getDemandDualValues();
             Map<Integer, Double> supplyDualValues = linearCuttingPlanGeneration.getSupplyDualValues();
 
+            patternsAdded = false;
             for (int inputId = 0; inputId < order.getInputs().size(); inputId++) {
                 PatternGeneration patternGeneration = new PatternGeneration(
                     order, inputId, demandDualValues,
@@ -93,17 +91,12 @@ public class ColumnGeneration {
                 );
                 patternGeneration.solve();
 
-                // TODO: check if pattern should be added
-
-                if (handleNewPattern(inputId, patternGeneration)) {
+                if (handleNewPattern(inputId, patternGeneration, supplyDualValues.get(inputId))) {
                     params.incrementNumberOfPatternsPerInput(inputId);
                     patternsAdded = true;
                 }
             }
-        } while (
-            patternsAdded
-            && previousLinearCuttingPlanObjectiveValue > linearCuttingPlanObjectiveValue
-        );
+        }
 
         integerCuttingPlanGeneration = new CuttingPlanGeneration(
             order, params, true, optimizationCriterion,
@@ -111,14 +104,43 @@ public class ColumnGeneration {
         integerCuttingPlanGeneration.solve();
     }
 
-    private boolean handleNewPattern(int inputId, PatternGeneration patternGeneration) {
+    private boolean handleNewPattern(int inputId, PatternGeneration patternGeneration, Double supplyCost) {
+        boolean patternShouldBeAdded = true;
+        if (forceLinearImprovement) patternShouldBeAdded = doesPatternImproveLinearSolution(inputId, patternGeneration, supplyCost);
+
         boolean patternAdded = false;
-        if (!AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
-            patternAdded = copyPattern(inputId, patternGeneration);
-        } else {
-            patternAdded = copyPatternWithRelaxation(inputId, patternGeneration);
+        if (patternShouldBeAdded) {
+            if (!AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+                patternAdded = copyPattern(inputId, patternGeneration);
+            } else {
+                patternAdded = copyPatternWithRelaxation(inputId, patternGeneration);
+            }
         }
         return patternAdded;
+    }
+
+    private boolean doesPatternImproveLinearSolution(int inputId, PatternGeneration patternGeneration, Double supplyCost) {
+        double patternGain = patternGeneration.getObjective().value();
+        double inputCost = getInputCost(inputId);
+        double tolerance = inputCost / Defaults.CG_PATTERN_COST_COMPARISON_TOLERANCE_COEFFICIENT;
+        if (supplyCost != null) inputCost -= supplyCost;
+
+        // rounding to avoid precision issues
+        BigDecimal bdPatternGain = BigDecimal.valueOf(patternGain).setScale(6, RoundingMode.HALF_UP);
+        BigDecimal bdInputCost = BigDecimal.valueOf(inputCost).setScale(6, RoundingMode.HALF_UP).add(BigDecimal.valueOf(tolerance));
+        return bdPatternGain.compareTo(bdInputCost) > 0;
+    }
+
+    private double getInputCost(int inputId) {
+        double inputCost = 0.0;
+        if (optimizationCriterion == OptimizationCriterion.MIN_COST
+            && order.getInputs().get(inputId).getCost() != null
+        ) {
+            inputCost = order.getInputs().get(inputId).getCost().doubleValue();
+        } else {
+            inputCost = order.getInputs().get(inputId).getLength().doubleValue();
+        }
+        return inputCost;
     }
 
     private boolean copyPattern(int inputId, PatternGeneration patternGeneration) {
