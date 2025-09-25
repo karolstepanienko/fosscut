@@ -1,13 +1,13 @@
 inputs:
 - length: 90
   patterns:
-  - count: 14
+  - count: 2
     patternDefinition:
     - id: 2
       count: 2
   - count: 1
     patternDefinition:
-    - id: 3
+    - id: 4
       count: 1
 - length: 100
   patterns:
@@ -15,20 +15,18 @@ inputs:
     patternDefinition:
     - id: 0
       count: 5
-  - count: 3
-    patternDefinition:
-    - id: 1
-      count: 5
-  - count: 8
+  - count: 1
     patternDefinition:
     - id: 3
       count: 2
-- length: 110
-  patterns:
-  - count: 5
+  - count: 9
     patternDefinition:
+    - id: 2
+      count: 1
     - id: 4
-      count: 2
+      count: 1
+- length: 110
+  patterns: []
 - length: 115
   patterns:
   - count: 8
@@ -37,7 +35,7 @@ inputs:
       count: 2
     - id: 5
       count: 1
-  - count: 7
+  - count: 22
     patternDefinition:
     - id: 1
       count: 1
@@ -65,5 +63,5 @@ outputs:
   count: 8
   maxRelax: 0
 metadata:
-  totalWaste: 40
-  totalNeededInputLength: 5125
+  totalWaste: 35
+  totalNeededInputLength: 5120

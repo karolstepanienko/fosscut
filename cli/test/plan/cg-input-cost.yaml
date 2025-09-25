@@ -5,18 +5,10 @@ inputs:
 - length: 100
   cost: 13.0
   patterns:
-  - count: 2
-    patternDefinition:
-    - id: 0
-      count: 5
-  - count: 8
+  - count: 7
     patternDefinition:
     - id: 1
       count: 5
-  - count: 18
-    patternDefinition:
-    - id: 2
-      count: 2
   - count: 12
     patternDefinition:
     - id: 3
@@ -27,12 +19,26 @@ inputs:
       count: 1
     - id: 5
       count: 1
+  - count: 10
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 4
+      count: 1
 - length: 110
   cost: 15.0
   patterns:
-  - count: 5
+  - count: 3
     patternDefinition:
-    - id: 4
+    - id: 1
+      count: 1
+    - id: 2
+      count: 2
+  - count: 10
+    patternDefinition:
+    - id: 0
+      count: 1
+    - id: 2
       count: 2
 - length: 115
   cost: 16.0
@@ -64,15 +70,11 @@ outputs:
   maxRelax: 0
 metadata:
   unnecessaryOutputs:
-  - length: 20
-    count: 2
-    maxRelax: 3
-    id: 1
   - length: 45
     count: 1
     maxRelax: 0
     id: 2
-  totalWaste: 210
-  trueTotalWaste: 295
-  totalNeededInputLength: 5380
-  totalCost: 705.0
+  totalWaste: 30
+  trueTotalWaste: 75
+  totalNeededInputLength: 5160
+  totalCost: 682.0

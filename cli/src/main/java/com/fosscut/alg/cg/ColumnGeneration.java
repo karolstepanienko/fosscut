@@ -61,7 +61,7 @@ public class ColumnGeneration {
 
         double previousLinearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
         double linearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
-        double reducedCost;
+        double reducedCost = 0.0;
         do {
             previousLinearCuttingPlanObjectiveValue = linearCuttingPlanObjectiveValue;
 
@@ -71,19 +71,23 @@ public class ColumnGeneration {
             linearCuttingPlanGeneration.solve();
             linearCuttingPlanObjectiveValue = linearCuttingPlanGeneration.getObjective().value();
 
-            PatternGeneration patternGeneration = new PatternGeneration(
-                order, linearCuttingPlanGeneration.getDualValues(), relaxCost,
-                relaxEnabled, integerSolver
-            );
-            patternGeneration.solve();
-            reducedCost = patternGeneration.getObjective().value();
+            for (int inputId = 0; inputId < order.getInputs().size(); inputId++) {
+                PatternGeneration patternGeneration = new PatternGeneration(
+                    order, inputId, linearCuttingPlanGeneration.getDualValues(),
+                    relaxCost, relaxEnabled, integerSolver
+                );
+                patternGeneration.solve();
+                reducedCost += patternGeneration.getObjective().value();
 
-            params.incrementNPatternMax();
-            if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
-                copyPatternsWithRelaxation(order, patternGeneration);
-            } else {
-                copyPatterns(order, patternGeneration);
+                // TODO: check if pattern should be added
+
+                if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+                    copyPatternsWithRelaxation(order, inputId, patternGeneration);
+                } else {
+                    copyPatterns(order, inputId, patternGeneration);
+                }
             }
+            params.incrementNPatternMax();
 
             // Default precision describes the smallest value of reducedCost
             // where further calculations are still sensible.
@@ -110,27 +114,23 @@ public class ColumnGeneration {
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }
 
-    private void copyPatterns(Order order, PatternGeneration patternGeneration) {
-        for (int i = 0; i < order.getInputs().size(); i++) {
-            List<Integer> outputsPattern = new ArrayList<>();
-            for (int o = 0; o < order.getOutputs().size(); o++) {
-                outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
-            }
-            params.getNipo().get(i).add(outputsPattern);
+    private void copyPatterns(Order order, int inputId, PatternGeneration patternGeneration) {
+        List<Integer> pattern = new ArrayList<>();
+        for (int o = 0; o < order.getOutputs().size(); o++) {
+            pattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(o).solutionValue()).intValue());
         }
+        params.getNipo().get(inputId).add(pattern);
     }
 
-    private void copyPatternsWithRelaxation(Order order, PatternGeneration patternGeneration) {
-        for (int i = 0; i < order.getInputs().size(); i++) {
-            List<Integer> outputsPattern = new ArrayList<>();
-            List<Integer> relaxPattern = new ArrayList<>();
-            for (int o = 0; o < order.getOutputs().size(); o++) {
-                outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(i).get(o).solutionValue()).intValue());
-                relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(i).get(o).solutionValue()).intValue());
-            }
-            params.getNipo().get(i).add(outputsPattern);
-            params.getRipo().get(i).add(relaxPattern);
+    private void copyPatternsWithRelaxation(Order order, int inputId, PatternGeneration patternGeneration) {
+        List<Integer> outputsPattern = new ArrayList<>();
+        List<Integer> relaxPattern = new ArrayList<>();
+        for (int o = 0; o < order.getOutputs().size(); o++) {
+            outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(o).solutionValue()).intValue());
+            relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(o).solutionValue()).intValue());
         }
+        params.getNipo().get(inputId).add(outputsPattern);
+        params.getRipo().get(inputId).add(relaxPattern);
     }
 
 }

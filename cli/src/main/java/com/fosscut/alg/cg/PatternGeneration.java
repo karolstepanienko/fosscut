@@ -20,41 +20,44 @@ class PatternGeneration extends ColumnGenerationLPTask {
 
     private static final Logger logger = LoggerFactory.getLogger(PatternGeneration.class);
 
+    private int inputId;
     private List<Double> cuttingPlanDualValues;
     private Double relaxCost;
     private boolean relaxEnabled;
     private IntegerSolver integerSolver;
 
-    private List<List<MPVariable>> usageVariables;
-    private List<List<MPVariable>> relaxVariables;
+    private List<MPVariable> usageVariables;
+    private List<MPVariable> relaxVariables;
 
     public PatternGeneration(
         Order order,
+        int inputId,
         List<Double> cuttingPlanDualValues,
         Double relaxCost,
         boolean relaxEnabled,
         IntegerSolver integerSolver
     ) {
         setOrder(order);
+        this.inputId = inputId;
         this.cuttingPlanDualValues = cuttingPlanDualValues;
         this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
     }
 
-    public List<List<MPVariable>> getUsageVariables() {
+    public List<MPVariable> getUsageVariables() {
         return usageVariables;
     }
 
-    public void setUsageVariables(List<List<MPVariable>> usageVariables) {
+    public void setUsageVariables(List<MPVariable> usageVariables) {
         this.usageVariables = usageVariables;
     }
 
-    public List<List<MPVariable>> getRelaxVariables() {
+    public List<MPVariable> getRelaxVariables() {
         return relaxVariables;
     }
 
-    public void setRelaxVariables(List<List<MPVariable>> relaxVariables) {
+    public void setRelaxVariables(List<MPVariable> relaxVariables) {
         this.relaxVariables = relaxVariables;
     }
 
@@ -95,69 +98,56 @@ class PatternGeneration extends ColumnGenerationLPTask {
         setRelaxVariables(defineVariables("relax"));
     }
 
-    private List<List<MPVariable>> defineVariables(String varName) {
-        List<List<MPVariable>> variables = new ArrayList<>();
-        for (int i = 0; i < getOrder().getInputs().size(); i++) {
-            List<MPVariable> outputs = new ArrayList<>();
-            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                outputs.add(getSolver().makeIntVar(0, Double.POSITIVE_INFINITY, varName + "_i_" + i + "_o_" + o));
-            }
-            variables.add(outputs);
+    private List<MPVariable> defineVariables(String varName) {
+        List<MPVariable> variables = new ArrayList<>();
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            variables.add(getSolver().makeIntVar(
+                0,
+                Double.POSITIVE_INFINITY,
+                varName + "_o_" + o
+            ));
         }
         return variables;
     }
 
     private void initConstraints() {
-        for (int i = 0; i < getOrder().getInputs().size(); i++) {
-            MPConstraint usageConstraint = getSolver().makeConstraint(
-                -Double.POSITIVE_INFINITY, getOrder().getInputs().get(i).getLength(), "Length_i_" + i);
-            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                usageConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getLength());
-            }
+        MPConstraint usageConstraint = getSolver().makeConstraint(
+            -Double.POSITIVE_INFINITY, getOrder().getInputs().get(inputId).getLength(), "Length_i_" + inputId);
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            usageConstraint.setCoefficient(usageVariables.get(o), getOrder().getOutputs().get(o).getLength());
         }
     }
 
     private void initConstraintsWithRelaxation() {
-        for (int i = 0; i < getOrder().getInputs().size(); i++) {
-            MPConstraint usageConstraint = getSolver().makeConstraint(
-                -Double.POSITIVE_INFINITY, getOrder().getInputs().get(i).getLength(), "Length_i_" + i);
-            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                usageConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getLength());
-                usageConstraint.setCoefficient(relaxVariables.get(i).get(o), -1);
+        MPConstraint usageConstraint = getSolver().makeConstraint(
+            -Double.POSITIVE_INFINITY, getOrder().getInputs().get(inputId).getLength(), "Length_i_" + inputId);
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            usageConstraint.setCoefficient(usageVariables.get(o), getOrder().getOutputs().get(o).getLength());
+            usageConstraint.setCoefficient(relaxVariables.get(o), -1);
 
-                MPConstraint relaxConstraint = getSolver().makeConstraint(0, Double.POSITIVE_INFINITY, "Relax_i_" + i + "_o_" + o);
-                relaxConstraint.setCoefficient(usageVariables.get(i).get(o), getOrder().getOutputs().get(o).getMaxRelax());
-                relaxConstraint.setCoefficient(relaxVariables.get(i).get(o), -1);
-            }
+            MPConstraint relaxConstraint = getSolver().makeConstraint(0, Double.POSITIVE_INFINITY, "Relax_o_" + o);
+            relaxConstraint.setCoefficient(usageVariables.get(o), getOrder().getOutputs().get(o).getMaxRelax());
+            relaxConstraint.setCoefficient(relaxVariables.get(o), -1);
         }
     }
 
     private void initObjective() {
         MPObjective objective = getSolver().objective();
-        for (int i = 0; i < getOrder().getInputs().size(); i++) {
-            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                objective.setCoefficient(usageVariables.get(i).get(o), cuttingPlanDualValues.get(o));
-            }
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            objective.setCoefficient(usageVariables.get(o), cuttingPlanDualValues.get(o));
         }
-        initGeneralObjective(objective);
+        objective.setMaximization();
         setObjective(objective);
     }
 
     private void initObjectiveWithRelaxation() {
         MPObjective objective = getSolver().objective();
-        for (int i = 0; i < getOrder().getInputs().size(); i++) {
-            for (int o = 0; o < getOrder().getOutputs().size(); o++) {
-                objective.setCoefficient(usageVariables.get(i).get(o), cuttingPlanDualValues.get(o));
-                objective.setCoefficient(relaxVariables.get(i).get(o), -relaxCost);
-            }
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            objective.setCoefficient(usageVariables.get(o), cuttingPlanDualValues.get(o));
+            objective.setCoefficient(relaxVariables.get(o), -relaxCost);
         }
-        initGeneralObjective(objective);
-        setObjective(objective);
-    }
-
-    private void initGeneralObjective(MPObjective objective) {
-        objective.setOffset(-getOrder().calculateInputsSumLength());
         objective.setMaximization();
+        setObjective(objective);
     }
 
 }

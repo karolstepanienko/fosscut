@@ -62,14 +62,6 @@ public class Order {
         return outputId;
     }
 
-    public Integer calculateInputsSumLength() {
-        Integer sumLength = 0;
-        for (OrderInput input : this.inputs) {
-            sumLength += input.getLength();
-        }
-        return sumLength;
-    }
-
     public void reverseSortOutputs() {
         Collections.sort(outputs);
         Collections.reverse(outputs);
