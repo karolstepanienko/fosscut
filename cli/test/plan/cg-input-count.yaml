@@ -1,6 +1,10 @@
 inputs:
 - length: 90
   patterns:
+  - count: 8
+    patternDefinition:
+    - id: 2
+      count: 2
   - count: 2
     patternDefinition:
     - id: 0
@@ -11,9 +15,9 @@ inputs:
   patterns:
   - count: 1
     patternDefinition:
-    - id: 1
-      count: 5
-  - count: 6
+    - id: 3
+      count: 2
+  - count: 8
     patternDefinition:
     - id: 2
       count: 1
@@ -21,17 +25,11 @@ inputs:
       count: 1
 - length: 110
   patterns:
-  - count: 2
+  - count: 1
     patternDefinition:
     - id: 4
       count: 2
-  - count: 5
-    patternDefinition:
-    - id: 1
-      count: 1
-    - id: 2
-      count: 2
-  - count: 3
+  - count: 9
     patternDefinition:
     - id: 1
       count: 3
@@ -45,7 +43,7 @@ inputs:
       count: 2
     - id: 5
       count: 1
-  - count: 19
+  - count: 11
     patternDefinition:
     - id: 1
       count: 1

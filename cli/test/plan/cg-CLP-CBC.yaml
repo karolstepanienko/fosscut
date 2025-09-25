@@ -11,6 +11,10 @@ inputs:
       count: 2
 - length: 100
   patterns:
+  - count: 1
+    patternDefinition:
+    - id: 0
+      count: 5
   - count: 6
     patternDefinition:
     - id: 1
@@ -25,10 +29,6 @@ inputs:
       count: 1
     - id: 5
       count: 1
-  - count: 1
-    patternDefinition:
-    - id: 0
-      count: 5
 - length: 110
   patterns:
   - count: 5

@@ -5,19 +5,19 @@ inputs:
     patternDefinition:
     - id: 2
       count: 2
-  - count: 2
+  - count: 5
     patternDefinition:
-    - id: 0
+    - id: 1
       count: 2
     - id: 3
       count: 1
 - length: 100
   patterns:
-  - count: 7
+  - count: 4
     patternDefinition:
-    - id: 1
+    - id: 0
       count: 5
-  - count: 11
+  - count: 8
     patternDefinition:
     - id: 3
       count: 2
@@ -33,11 +33,17 @@ inputs:
     patternDefinition:
     - id: 4
       count: 2
+  - count: 3
+    patternDefinition:
+    - id: 1
+      count: 3
+    - id: 3
+      count: 1
 - length: 115
   patterns:
   - count: 8
     patternDefinition:
-    - id: 0
+    - id: 1
       count: 2
     - id: 5
       count: 1

@@ -8,6 +8,4 @@ public final class Defaults {
 
     public static final String DEFAULT_PARAM_RELAX_SPREAD_STRATEGY = "EQUAL_RELAX";
 
-    public static final int CG_REDUCED_COST_PRECISION_PLACES = 5;
-
 }

@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,8 +73,9 @@ public class ColumnGeneration {
 
         double previousLinearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
         double linearCuttingPlanObjectiveValue = Double.POSITIVE_INFINITY;
-        double reducedCost = 0.0;
+        boolean patternsAdded = false;
         do {
+            patternsAdded = false;
             previousLinearCuttingPlanObjectiveValue = linearCuttingPlanObjectiveValue;
 
             CuttingPlanGeneration linearCuttingPlanGeneration =
@@ -89,25 +92,16 @@ public class ColumnGeneration {
                     relaxCost, relaxEnabled, integerSolver
                 );
                 patternGeneration.solve();
-                reducedCost += patternGeneration.getObjective().value();
 
                 // TODO: check if pattern should be added
 
-                if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
-                    copyPatternsWithRelaxation(order, inputId, patternGeneration);
-                } else {
-                    copyPatterns(order, inputId, patternGeneration);
+                if (handleNewPattern(inputId, patternGeneration)) {
+                    params.incrementNumberOfPatternsPerInput(inputId);
+                    patternsAdded = true;
                 }
-                params.incrementNumberOfPatternsPerInput(inputId);
             }
-
-            // Default precision describes the smallest value of reducedCost
-            // where further calculations are still sensible.
-            // Rounds all digits below the default precision to zero.
         } while (
-            BigDecimal.valueOf(reducedCost)
-            .setScale(Defaults.CG_REDUCED_COST_PRECISION_PLACES, RoundingMode.FLOOR)
-            .doubleValue() > 0
+            patternsAdded
             && previousLinearCuttingPlanObjectiveValue > linearCuttingPlanObjectiveValue
         );
 
@@ -117,23 +111,70 @@ public class ColumnGeneration {
         integerCuttingPlanGeneration.solve();
     }
 
-    private void copyPatterns(Order order, int inputId, PatternGeneration patternGeneration) {
+    private boolean handleNewPattern(int inputId, PatternGeneration patternGeneration) {
+        boolean patternAdded = false;
+        if (!AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+            patternAdded = copyPattern(inputId, patternGeneration);
+        } else {
+            patternAdded = copyPatternWithRelaxation(inputId, patternGeneration);
+        }
+        return patternAdded;
+    }
+
+    private boolean copyPattern(int inputId, PatternGeneration patternGeneration) {
+        boolean patternAdded = false;
         List<Integer> pattern = new ArrayList<>();
         for (int o = 0; o < order.getOutputs().size(); o++) {
             pattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(o).solutionValue()).intValue());
         }
-        params.getNipo().get(inputId).add(pattern);
+
+        List<List<Integer>> patterns = params.getNipo().get(inputId);
+        if (!patterns.contains(pattern)) {
+            patterns.add(pattern);
+            patternAdded = true;
+        }
+        return patternAdded;
     }
 
-    private void copyPatternsWithRelaxation(Order order, int inputId, PatternGeneration patternGeneration) {
+    private boolean copyPatternWithRelaxation(int inputId, PatternGeneration patternGeneration) {
+        boolean patternAdded = false;
         List<Integer> outputsPattern = new ArrayList<>();
         List<Integer> relaxPattern = new ArrayList<>();
         for (int o = 0; o < order.getOutputs().size(); o++) {
             outputsPattern.add(Double.valueOf(patternGeneration.getUsageVariables().get(o).solutionValue()).intValue());
             relaxPattern.add(Double.valueOf(patternGeneration.getRelaxVariables().get(o).solutionValue()).intValue());
         }
-        params.getNipo().get(inputId).add(outputsPattern);
-        params.getRipo().get(inputId).add(relaxPattern);
+
+        List<List<Integer>> outputsPatterns = params.getNipo().get(inputId);
+        List<List<Integer>> relaxPatterns = params.getRipo().get(inputId);
+        if (!isRelaxedPatternAlreadyPresent(outputsPatterns, outputsPattern, relaxPatterns, relaxPattern)) {
+            outputsPatterns.add(outputsPattern);
+            relaxPatterns.add(relaxPattern);
+            patternAdded = true;
+        }
+        return patternAdded;
+    }
+
+    private boolean isRelaxedPatternAlreadyPresent(
+        List<List<Integer>> outputsPatterns, List<Integer> outputsPattern,
+        List<List<Integer>> relaxPatterns, List<Integer> relaxPattern
+    ) {
+        List<Integer> allOutputIndices = IntStream.range(0, outputsPatterns.size())
+            .filter(p -> outputsPatterns.get(p).equals(outputsPattern))
+            .boxed()
+            .collect(Collectors.toList());
+
+        List<Integer> allRelaxIndices = IntStream.range(0, relaxPatterns.size())
+            .filter(p -> relaxPatterns.get(p).equals(relaxPattern))
+            .boxed()
+            .collect(Collectors.toList());
+
+        List<Integer> intersection = allOutputIndices.stream()
+            .filter(allRelaxIndices::contains)
+            .collect(Collectors.toList());
+
+        // returns true if a matching pattern was found on at least one EQUAL index in both lists
+        return !intersection.isEmpty();
     }
 
 }
