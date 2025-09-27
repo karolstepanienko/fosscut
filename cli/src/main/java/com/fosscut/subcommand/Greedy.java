@@ -13,6 +13,7 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.type.cutting.plan.CuttingPlan;
+import com.fosscut.util.AlgTimer;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
@@ -74,11 +75,18 @@ public class Greedy extends AbstractAlg {
         Cleaner cleaner = new Cleaner();
         cleaner.cleanOrder(order);
 
+        AlgTimer timer = new AlgTimer();
+        Long algElapsedTime = null;
+        if (!disableTimeMeasurementMetadata) timer.start();
         GreedyAlg greedy = new GreedyAlg(order, relaxCost, relaxEnabled,
             relaxationSpreadStrategy, optimizationCriterion, integerSolver);
         greedy.run();
+        if (!disableTimeMeasurementMetadata) {
+            timer.stop();
+            algElapsedTime = timer.getElapsedTimeMillis();
+        }
 
-        CuttingPlan cuttingPlan = greedy.getCuttingPlan();
+        CuttingPlan cuttingPlan = greedy.getCuttingPlan(algElapsedTime);
         String cuttingPlanString = null;
         if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();

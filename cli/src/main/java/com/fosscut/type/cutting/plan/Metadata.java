@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 
 public class Metadata {
+    private Long elapsedTimeMilliseconds;
     private List<UnnecessaryOutput> unnecessaryOutputs;
     private Integer totalWaste; // contains only obvious waste from patterns
     // trueTotalWaste = totalWaste + waste from unnecessary outputs
@@ -17,12 +18,22 @@ public class Metadata {
     private Integer totalNeededInputLength;
     private Double totalCost;
 
+    public Metadata() {}
+
+    public Metadata(Long elapsedTimeMilliseconds) {
+        this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
+    }
+
     public void calculateMetadata(List<PlanInput> inputs, List<OrderOutput> outputs) {
         findUnnecessaryOutputs(inputs, outputs);
         calculateTotalWaste(inputs, outputs);
         if (unnecessaryOutputs != null) calculateTrueTotalWaste(inputs);
         calculateTotalNeededInputLength(inputs);
         calculateTotalCost(inputs);
+    }
+
+    public Long getElapsedTimeMilliseconds() {
+        return elapsedTimeMilliseconds;
     }
 
     public List<UnnecessaryOutput> getUnnecessaryOutputs() {

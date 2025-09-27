@@ -18,10 +18,14 @@ public class CHCuttingPlanFormatter {
         this.order = order;
     }
 
-    public CuttingPlan getCuttingPlan(List<CHPattern> cuttingPlanPatterns) {
+    public CuttingPlan getCuttingPlan(
+        List<CHPattern> cuttingPlanPatterns,
+        Long elapsedTimeMilliseconds
+    ) {
         return new CuttingPlan(
             getPlanInputs(cuttingPlanPatterns),
-            order.getOutputs()
+            order.getOutputs(),
+            elapsedTimeMilliseconds
         );
     }
 

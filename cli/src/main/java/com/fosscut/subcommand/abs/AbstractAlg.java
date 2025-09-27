@@ -25,6 +25,12 @@ public abstract class AbstractAlg extends AbstractInputOutputFile {
             + " Default: ${DEFAULT-VALUE}.")
     protected OptimizationCriterion optimizationCriterion;
 
+    @Option(names = { "-d", "--disable-time-measurement-metadata" },
+        defaultValue = "false",
+        description = "Disables adding time measurement metadata to the"
+            + " generated cutting plan.")
+    protected boolean disableTimeMeasurementMetadata;
+
     public static boolean isRelaxationEnabled(boolean relaxEnabled, Double relaxCost) {
         return relaxEnabled && relaxCost != null && relaxCost >= 0;
     }

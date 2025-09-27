@@ -127,7 +127,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getUnnecessaryOutputs","parameterTypes":[] }, {"name":"getTotalWaste","parameterTypes":[] }, {"name":"getTrueTotalWaste","parameterTypes":[] }, {"name":"getMinTrueTotalWaste","parameterTypes":[] }, {"name":"getMaxTrueTotalWaste","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
+  "methods":[{"name":"getElapsedTimeMilliseconds","parameterTypes":[] }, {"name":"getUnnecessaryOutputs","parameterTypes":[] }, {"name":"getTotalWaste","parameterTypes":[] }, {"name":"getTrueTotalWaste","parameterTypes":[] }, {"name":"getMinTrueTotalWaste","parameterTypes":[] }, {"name":"getMaxTrueTotalWaste","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.UnnecessaryOutput",

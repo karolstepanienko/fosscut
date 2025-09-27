@@ -40,10 +40,8 @@ public class GreedyAlg extends ConstructiveHeuristic {
         this.integerSolver = integerSolver;
     }
 
-    public CuttingPlan getCuttingPlan() {
-        return getCuttingPlan(
-            order
-        );
+    public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds) {
+        return getCuttingPlan(order, elapsedTimeMilliseconds);
     }
 
     public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {

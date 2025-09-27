@@ -17,17 +17,20 @@ public class CuttingPlanFormatter {
     private boolean relaxEnabled;
     private Order order;
     private Parameters params;
+    private Long elapsedTimeMilliseconds;
     private RelaxationSpread relaxationSpread;
 
     public CuttingPlanFormatter(
         boolean relaxEnabled,
         RelaxationSpreadStrategy relaxationSpreadStrategy,
         Order order,
-        Parameters params
+        Parameters params,
+        Long elapsedTimeMilliseconds
     ) {
         this.relaxEnabled = relaxEnabled;
         this.order = order;
         this.params = params;
+        this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
         this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);
     }
 
@@ -35,7 +38,8 @@ public class CuttingPlanFormatter {
             throws NotIntegerLPTaskException {
         return new CuttingPlan(
             getPlanInputs(integerCuttingPlanGeneration),
-            order.getOutputs()
+            order.getOutputs(),
+            elapsedTimeMilliseconds
         );
     }
 

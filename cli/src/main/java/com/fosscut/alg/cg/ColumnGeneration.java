@@ -57,11 +57,13 @@ public class ColumnGeneration {
         this.integerSolver = integerSolver;
     }
 
-    public CuttingPlan getCuttingPlan() throws NotIntegerLPTaskException {
+    public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds)
+        throws NotIntegerLPTaskException
+    {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
             AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
             relaxationSpreadStrategy,
-            order, params
+            order, params, elapsedTimeMilliseconds
         );
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }

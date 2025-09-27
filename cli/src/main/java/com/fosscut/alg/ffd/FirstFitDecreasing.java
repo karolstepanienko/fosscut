@@ -35,8 +35,8 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
     }
 
-    public CuttingPlan getCuttingPlan() {
-        return getCuttingPlan(orderSortedOutputs);
+    public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds) {
+        return getCuttingPlan(orderSortedOutputs, elapsedTimeMilliseconds);
     }
 
     public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {

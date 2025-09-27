@@ -12,6 +12,7 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.type.cutting.plan.CuttingPlan;
+import com.fosscut.util.AlgTimer;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PlanValidator;
@@ -45,6 +46,9 @@ public class FFD extends AbstractAlg {
         Cleaner cleaner = new Cleaner();
         cleaner.cleanOrder(order);
 
+        AlgTimer timer = new AlgTimer();
+        Long algElapsedTime = null;
+        if (!disableTimeMeasurementMetadata) timer.start();
         FirstFitDecreasing firstFitDecreasing = new FirstFitDecreasing(
             order,
             relaxEnabled,
@@ -52,8 +56,12 @@ public class FFD extends AbstractAlg {
             relaxationSpreadStrategy
         );
         firstFitDecreasing.run();
+        if (!disableTimeMeasurementMetadata) {
+            timer.stop();
+            algElapsedTime = timer.getElapsedTimeMillis();
+        }
 
-        CuttingPlan cuttingPlan = firstFitDecreasing.getCuttingPlan();
+        CuttingPlan cuttingPlan = firstFitDecreasing.getCuttingPlan(algElapsedTime);
         String cuttingPlanString = null;
         if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();

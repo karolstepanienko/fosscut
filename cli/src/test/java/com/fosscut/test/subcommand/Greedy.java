@@ -59,7 +59,7 @@ public class Greedy {
 
     @Test public void greedySavePlanToFile() throws IOException {
         String testFileName = "greedySavePlanToFile";
-        Command command = new Command("greedy -o " + testFileName + " "
+        Command command = new Command("greedy -d -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -74,7 +74,7 @@ public class Greedy {
 
     @Test public void greedyQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyQuietSavePlanToFile";
-        Command command = new Command("greedy -q -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -87,7 +87,7 @@ public class Greedy {
 
     @Test public void greedyShortInputCountCostNullQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyShortInputCountCostNullQuietSavePlanToFile";
-        Command command = new Command("greedy -q -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_SHORT_INPUT_COUNT_COST_NULL_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -96,6 +96,14 @@ public class Greedy {
             Utils.loadFile(TestDefaults.SHORT_INPUT_COUNT_COST_NULL_PLAN),
             Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
+    }
+
+    @Test public void greedyElapsedTimeQuietSavePlanToFile() throws IOException {
+        Command command = new Command("greedy "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().contains("elapsedTimeMilliseconds:"));
     }
 
     /******************************** Redis ***********************************/
@@ -123,7 +131,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost0QuietSavePlanToFile";
-        Command command = new Command("greedy -q -c 0 -r -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -c 0 -r -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -136,7 +144,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost1QuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost1QuietSavePlanToFile";
-        Command command = new Command("greedy -q -c 1 -r -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -c 1 -r -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -149,7 +157,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost0RelaxDisabledQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost0RelaxDisabledQuietSavePlanToFile";
-        Command command = new Command("greedy -q -c 0 -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -c 0 -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -164,7 +172,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost01StratEqualRelaxQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost01StratEqualRelaxQuietSavePlanToFile";
-        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -r -c 0.1 --relaxation-spread-strategy EQUAL_RELAX -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -177,7 +185,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost01StratEqualSpaceQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost01StratEqualSpaceQuietSavePlanToFile";
-        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -r -c 0.1 --relaxation-spread-strategy EQUAL_SPACE -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -190,7 +198,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost01StratStartQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost01StratStartQuietSavePlanToFile";
-        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy START -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -r -c 0.1 --relaxation-spread-strategy START -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -203,7 +211,7 @@ public class Greedy {
 
     @Test public void greedyRelaxCost01StratEndQuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost01StratEndQuietSavePlanToFile";
-        Command command = new Command("greedy -q -r -c 0.1 --relaxation-spread-strategy END -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -r -c 0.1 --relaxation-spread-strategy END -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_STRATEGIES_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -218,7 +226,7 @@ public class Greedy {
 
     @Test public void greedySolverCBC() throws IOException {
         String testFileName = "greedySolverCBC";
-        Command command = new Command("greedy --integer-solver CBC -q -o " + testFileName + " "
+        Command command = new Command("greedy --integer-solver CBC -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -231,7 +239,7 @@ public class Greedy {
 
     @Test public void greedySolverSAT() throws IOException {
         String testFileName = "greedySolverSAT";
-        Command command = new Command("greedy --integer-solver SAT -q -o " + testFileName + " "
+        Command command = new Command("greedy --integer-solver SAT -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -244,7 +252,7 @@ public class Greedy {
 
     @Test public void greedySolverSCIP() throws IOException {
         String testFileName = "greedySolverSCIP";
-        Command command = new Command("greedy --integer-solver SCIP -q -o " + testFileName + " "
+        Command command = new Command("greedy --integer-solver SCIP -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -259,7 +267,7 @@ public class Greedy {
 
     @Test public void greedyInputCount() throws IOException {
         String testFileName = "greedyInputCount";
-        Command command = new Command("greedy -q -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -272,7 +280,7 @@ public class Greedy {
 
     @Test public void greedyInputCountZeros() throws IOException {
         String testFileName = "greedyInputCountZeros";
-        Command command = new Command("greedy -q -o " + testFileName + " "
+        Command command = new Command("greedy -d -q -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COUNT_ZEROS_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());
@@ -303,7 +311,7 @@ public class Greedy {
 
     @Test public void greedyCost() throws IOException {
         String testFileName = "greedyCost";
-        Command command = new Command("greedy -q --optimization-criterion MIN_COST -o " + testFileName + " "
+        Command command = new Command("greedy -d -q --optimization-criterion MIN_COST -o " + testFileName + " "
             + Utils.getAbsolutePath(TestDefaults.EXAMPLE_INPUT_COST_ORDER));
         command.run();
         assertEquals(0, command.getExitCode());

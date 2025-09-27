@@ -14,6 +14,7 @@ import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.type.cutting.plan.CuttingPlan;
+import com.fosscut.util.AlgTimer;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
@@ -92,13 +93,20 @@ public class CG extends AbstractAlg {
         Cleaner cleaner = new Cleaner();
         cleaner.cleanOrder(order);
 
+        AlgTimer timer = new AlgTimer();
+        Long algElapsedTime = null;
+        if (!disableTimeMeasurementMetadata) timer.start();
         ColumnGeneration columnGeneration = new ColumnGeneration(
             order, relaxCost, relaxEnabled, optimizationCriterion,
             relaxationSpreadStrategy, forceLinearImprovement,
             linearSolver, integerSolver);
         columnGeneration.run();
+        if (!disableTimeMeasurementMetadata) {
+            timer.stop();
+            algElapsedTime = timer.getElapsedTimeMillis();
+        }
 
-        CuttingPlan cuttingPlan = columnGeneration.getCuttingPlan();
+        CuttingPlan cuttingPlan = columnGeneration.getCuttingPlan(algElapsedTime);
         String cuttingPlanString = null;
         if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
