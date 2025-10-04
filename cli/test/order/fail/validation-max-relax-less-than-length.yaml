@@ -1,0 +1,8 @@
+# maxRelax has to be less than length to not allow algorithms to produce
+# outputs with zero or negative effective length
+inputs:
+  - length: 1000
+outputs:
+  - length: 300
+    count: 2
+    maxRelax: 400

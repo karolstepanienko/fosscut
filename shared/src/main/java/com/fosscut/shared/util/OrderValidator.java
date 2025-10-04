@@ -37,8 +37,8 @@ public class OrderValidator {
         else if (!lengthHasToBePositive(order.getOutputs())) throw new OrderValidationException(SharedMessages.NONPOSITIVE_OUTPUT_LENGTH_ERROR);
         else if (!countHasToBePositive(order.getInputs())) throw new OrderValidationException(SharedMessages.NONNEGATIVE_INPUT_COUNT_ERROR);
         else if (!countHasToBePositive(order.getOutputs())) throw new OrderValidationException(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
+        else if (!maxRelaxLessThanLength(order.getOutputs())) throw new OrderValidationException(SharedMessages.OUTPUT_MAX_RELAX_LONGER_THAN_LENGTH_ERROR);
         else if (!longestInputLongerThanLongestOutput(order)) throw new OrderValidationException(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR);
-        // TODO maxRelax <= length
         else if (!sumInputLengthLongerThanSumOutputLength(order)) throw new OrderValidationException(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
         else if (optimizationCriterion == OptimizationCriterion.MIN_COST && !allInputCostsDefined(order.getInputs())) throw new OrderValidationException(SharedMessages.NULL_COST_EXCEPTION);
     }
@@ -59,6 +59,17 @@ public class OrderValidator {
         for (OrderElement element: orderElements) {
             if (element.getCount() != null && element.getCount() < 0) {
                 valid = false;
+            }
+        }
+        return valid;
+    }
+
+    private boolean maxRelaxLessThanLength(List<OrderOutput> outputs) {
+        boolean valid = true;
+        for (OrderOutput output: outputs) {
+            if (output.getMaxRelax() != null && output.getMaxRelax() >= output.getLength()) {
+                valid = false;
+                break;
             }
         }
         return valid;

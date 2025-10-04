@@ -32,6 +32,7 @@ public class TestDefaults {
     public static final String FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT = "./test/order/fail/validation-nonnegative-output-count.yaml";
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail/validation-output-longer-than-input.yaml";
     public static final String FAIL_VALIDATION_RELAX_COST_UNDEFINED = "./test/order/fail/validation-relax-cost-undefined.yaml";
+    public static final String FAIL_VALIDATION_MAX_RELAX_LESS_THAN_LENGTH = "./test/order/fail/validation-max-relax-less-than-length.yaml";
 
     public static final String EXAMPLE_ORDER = "./test/order/success/default.yaml";
     public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/success/input-count.yaml";

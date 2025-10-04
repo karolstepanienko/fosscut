@@ -176,4 +176,11 @@ public class Validate {
         assert(command.getOutput().equals(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR));
     }
 
+    @Test public void maxRelaxLessThanLength() {
+        Command command = new Command("validate " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_MAX_RELAX_LESS_THAN_LENGTH));
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.OUTPUT_MAX_RELAX_LONGER_THAN_LENGTH_ERROR));
+    }
+
 }
