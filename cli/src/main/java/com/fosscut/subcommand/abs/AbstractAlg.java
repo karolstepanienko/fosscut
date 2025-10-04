@@ -31,8 +31,4 @@ public abstract class AbstractAlg extends AbstractInputOutputFile {
             + " generated cutting plan.")
     protected boolean disableTimeMeasurementMetadata;
 
-    public static boolean isRelaxationEnabled(boolean relaxEnabled, Double relaxCost) {
-        return relaxEnabled && relaxCost != null && relaxCost >= 0;
-    }
-
 }

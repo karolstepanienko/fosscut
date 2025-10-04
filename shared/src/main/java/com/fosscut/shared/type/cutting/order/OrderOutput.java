@@ -3,6 +3,7 @@ package com.fosscut.shared.type.cutting.order;
 public class OrderOutput extends OrderElement {
 
     private Integer maxRelax;
+    private Double relaxCost;
 
     public OrderOutput() {}
 
@@ -29,10 +30,19 @@ public class OrderOutput extends OrderElement {
         this.maxRelax = maxRelax;
     }
 
+    public Double getRelaxCost() {
+        return this.relaxCost;
+    }
+
+    public void setRelaxCost(Double relaxCost) {
+        this.relaxCost = relaxCost;
+    }
+
     public String toString() {
         return "Output: length = " + this.getLength()
             + ", count = " + this.getCount()
-            + ", maxRelax = " + this.getMaxRelax();
+            + ", maxRelax = " + this.getMaxRelax()
+            + ", relaxCost = " + this.getRelaxCost();
     }
 
 }

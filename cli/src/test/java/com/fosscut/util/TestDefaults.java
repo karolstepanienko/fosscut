@@ -31,11 +31,13 @@ public class TestDefaults {
     public static final String FAIL_VALIDATION_NONNEGATIVE_INPUT_COUNT = "./test/order/fail/validation-nonnegative-input-count.yaml";
     public static final String FAIL_VALIDATION_NONNEGATIVE_OUTPUT_COUNT = "./test/order/fail/validation-nonnegative-output-count.yaml";
     public static final String FAIL_VALIDATION_OUTPUT_LONGER_THAN_INPUT = "./test/order/fail/validation-output-longer-than-input.yaml";
+    public static final String FAIL_VALIDATION_RELAX_COST_UNDEFINED = "./test/order/fail/validation-relax-cost-undefined.yaml";
 
     public static final String EXAMPLE_ORDER = "./test/order/success/default.yaml";
     public static final String EXAMPLE_INPUT_COUNT_ORDER = "./test/order/success/input-count.yaml";
     public static final String EXAMPLE_INPUT_COUNT_ZEROS_ORDER = "./test/order/success/input-count-zeros.yaml";
     public static final String EXAMPLE_INPUT_COST_ORDER = "./test/order/success/input-cost.yaml";
+    public static final String EXAMPLE_RELAX_COST_ORDER = "./test/order/success/relax-cost.yaml";
     public static final String EXAMPLE_FFD_RELAX_ORDER = "./test/order/success/ffd-relax.yaml";
     public static final String EXAMPLE_FFD_COMPLEX_PATTERN_ORDER = "./test/order/success/ffd-complex-pattern.yaml";
     public static final String EXAMPLE_FFD_LARGE_MULTI_RELAX_ORDER = "./test/order/success/ffd-large-multi-relax.yaml";
@@ -63,6 +65,7 @@ public class TestDefaults {
     public static final String GREEDY_PLAN = "./test/plan/greedy.yaml";
     public static final String GREEDY_SAT_PLAN = "./test/plan/greedy-SAT.yaml";
 
+    public static final String CG_RELAX_COST_PLAN = "./test/plan/relax/cg-relax-cost.yaml";
     public static final String CG_RELAX_0_PLAN = "./test/plan/relax/cg-relax-0.yaml";
     public static final String CG_RELAX_1_PLAN = "./test/plan/relax/cg-relax-1.yaml";
     public static final String CG_MULTI_RELAX_1_PLAN = "./test/plan/relax/cg-multi-relax-1.yaml";
@@ -88,6 +91,7 @@ public class TestDefaults {
     public static final String FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_START_PLAN = "./test/plan/relax/ffd-all-relax-strategies-produce-different-plans-equal-start.yaml";
     public static final String FFD_ALL_RELAX_STRATEGIES_DIFFERENT_PLANS_END_PLAN = "./test/plan/relax/ffd-all-relax-strategies-produce-different-plans-equal-end.yaml";
 
+    public static final String GREEDY_RELAX_COST_PLAN = "./test/plan/relax/greedy-relax-cost.yaml";
     public static final String GREEDY_RELAX_0_PLAN = "./test/plan/relax/greedy-relax-0.yaml";
     public static final String GREEDY_RELAX_1_PLAN = "./test/plan/relax/greedy-relax-1.yaml";
 

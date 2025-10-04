@@ -1,0 +1,16 @@
+inputs:
+  - length: 90
+  - length: 100
+outputs:
+  - length: 20
+    count: 20
+    maxRelax: 1
+    relaxCost: 5
+  - length: 20
+    count: 38
+    maxRelax: 3
+    relaxCost: 1
+  - length: 75
+    count: 8
+    maxRelax: 10
+    relaxCost: 0.1

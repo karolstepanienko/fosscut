@@ -38,6 +38,15 @@ public class CG {
         RepetitiveTests.testVersion(new Command("cg --version"));
     }
 
+    /******************************* Validation **********************************/
+
+    @Test public void cgRelaxCostUndefined() {
+        Command command = new Command("cg -r " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_RELAX_COST_UNDEFINED));
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.RELAX_COST_UNDEFINED_ERROR));
+    }
+
     /******************************* General **********************************/
 
     @Test public void cg() {
@@ -139,6 +148,19 @@ public class CG {
     }
 
     /***************************** Relaxation *********************************/
+
+    @Test public void cgRelaxCostQuietSavePlanToFile() throws IOException {
+        String testFileName = "cgRelaxCostQuietSavePlanToFile";
+        Command command = new Command("cg -d -q -r -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_COST_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.CG_RELAX_COST_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
 
     @Test public void cgRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "cgRelaxCost0QuietSavePlanToFile";

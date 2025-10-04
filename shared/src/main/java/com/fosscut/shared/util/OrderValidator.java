@@ -38,6 +38,7 @@ public class OrderValidator {
         else if (!countHasToBePositive(order.getInputs())) throw new OrderValidationException(SharedMessages.NONNEGATIVE_INPUT_COUNT_ERROR);
         else if (!countHasToBePositive(order.getOutputs())) throw new OrderValidationException(SharedMessages.NONNEGATIVE_OUTPUT_COUNT_ERROR);
         else if (!longestInputLongerThanLongestOutput(order)) throw new OrderValidationException(SharedMessages.OUTPUT_LONGER_THAN_INPUT_ERROR);
+        // TODO maxRelax <= length
         else if (!sumInputLengthLongerThanSumOutputLength(order)) throw new OrderValidationException(SharedMessages.OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR);
         else if (optimizationCriterion == OptimizationCriterion.MIN_COST && !allInputCostsDefined(order.getInputs())) throw new OrderValidationException(SharedMessages.NULL_COST_EXCEPTION);
     }

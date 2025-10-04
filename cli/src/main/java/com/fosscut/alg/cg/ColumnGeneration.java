@@ -17,7 +17,6 @@ import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
@@ -61,7 +60,7 @@ public class ColumnGeneration {
         throws NotIntegerLPTaskException
     {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
-            AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost),
+            relaxEnabled,
             relaxationSpreadStrategy,
             order, params, elapsedTimeMilliseconds
         );
@@ -112,7 +111,7 @@ public class ColumnGeneration {
 
         boolean patternAdded = false;
         if (patternShouldBeAdded) {
-            if (!AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+            if (!relaxEnabled) {
                 patternAdded = copyPattern(inputId, patternGeneration);
             } else {
                 patternAdded = copyPatternWithRelaxation(inputId, patternGeneration);

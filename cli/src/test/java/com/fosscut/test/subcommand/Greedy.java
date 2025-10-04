@@ -38,6 +38,15 @@ public class Greedy {
         RepetitiveTests.testVersion(new Command("greedy --version"));
     }
 
+    /******************************* Validation **********************************/
+
+    @Test public void greedyRelaxCostUndefined() {
+        Command command = new Command("greedy -r " + Utils.getAbsolutePath(TestDefaults.FAIL_VALIDATION_RELAX_COST_UNDEFINED));
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getOutput().contains(SharedMessages.RELAX_COST_UNDEFINED_ERROR));
+    }
+
     /******************************* General **********************************/
 
     @Test public void greedy() {
@@ -128,6 +137,19 @@ public class Greedy {
     }
 
     /***************************** Relaxation *********************************/
+
+    @Test public void greedyRelaxCostQuietSavePlanToFile() throws IOException {
+        String testFileName = "greedyRelaxCostQuietSavePlanToFile";
+        Command command = new Command("greedy -d -q -r -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_RELAX_COST_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.GREEDY_RELAX_COST_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
 
     @Test public void greedyRelaxCost0QuietSavePlanToFile() throws IOException {
         String testFileName = "greedyRelaxCost0QuietSavePlanToFile";

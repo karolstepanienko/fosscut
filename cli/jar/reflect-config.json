@@ -113,7 +113,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"getRelaxCost","parameterTypes":[] }, {"name":"setRelaxCost","parameterTypes":["java.lang.Double"] }]
 },
 {
   "name":"com.fosscut.type.cutting.plan.CuttingPlan",

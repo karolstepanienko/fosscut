@@ -9,7 +9,6 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
-import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
@@ -66,11 +65,8 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     public void solve() throws LPUnfeasibleException {
         setSolver(MPSolver.createSolver(integerSolver.toString()));
 
-        if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
-            initModelWithRelaxation();
-        } else {
-            initModel();
-        }
+        if (relaxEnabled) initModelWithRelaxation();
+        else initModel();
 
         final ResultStatus resultStatus = getSolver().solve();
         printSolution(resultStatus);
@@ -80,7 +76,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         CHPattern pattern = new CHPattern();
         pattern.setInputId(orderInputId);
         pattern.setInput(input);
-        if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
+        if (relaxEnabled) {
             pattern.setPatternDefinition(getPatternDefinitionWithRelaxation());
         } else {
             pattern.setPatternDefinition(getPatternDefinition());
@@ -225,9 +221,11 @@ public class GreedyPatternGeneration extends GreedyLPTask {
                 usageVariables.get(o),
                 getOutputs().get(o).getLength()
             );
+            OrderOutput output = getOutputs().get(o);
+            Double localOutputRelaxCost = output.getRelaxCost() != null ? output.getRelaxCost() : relaxCost;
             objective.setCoefficient(
                 relaxVariables.get(o),
-                -relaxCost
+                -localOutputRelaxCost
             );
         }
         objective.setMaximization();

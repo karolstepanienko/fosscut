@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.subcommand.abs.AbstractAlg;
+import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
@@ -67,11 +67,8 @@ class PatternGeneration extends ColumnGenerationLPTask {
 
         setSolver(MPSolver.createSolver(integerSolver.toString()));
 
-        if (AbstractAlg.isRelaxationEnabled(relaxEnabled, relaxCost)) {
-            initModelWithRelaxation();
-        } else {
-            initModel();
-        }
+        if (relaxEnabled) initModelWithRelaxation();
+        else initModel();
 
         final ResultStatus resultStatus = getSolver().solve();
         printSolution(resultStatus);
@@ -143,8 +140,10 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private void initObjectiveWithRelaxation() {
         MPObjective objective = getSolver().objective();
         for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            OrderOutput output = getOrder().getOutputs().get(o);
+            Double localOutputRelaxCost = output.getRelaxCost() != null ? output.getRelaxCost() : relaxCost;
             objective.setCoefficient(usageVariables.get(o), cuttingPlanDualValues.get(o));
-            objective.setCoefficient(relaxVariables.get(o), -relaxCost);
+            objective.setCoefficient(relaxVariables.get(o), -localOutputRelaxCost);
         }
         objective.setMaximization();
         setObjective(objective);

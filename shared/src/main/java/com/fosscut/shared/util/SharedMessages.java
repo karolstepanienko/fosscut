@@ -11,5 +11,6 @@ public class SharedMessages {
     public static final String OUTPUT_LONGER_THAN_INPUT_ERROR = "Longest input element must be longer than longest output element for the order to be valid.";
     public static final String OUTPUT_SUM_LONGER_THAN_INPUT_SUM_ERROR = "Sum of all available input lengths must be greater than the sum of all required output lengths.";
     public static final String NULL_COST_EXCEPTION = "When minimizing cutting plan cost, cost has to be defined for all input elements.";
+    public static final String RELAX_COST_UNDEFINED_ERROR = "When enabling relaxation, relax cost has to be defined locally for each output element or globally for all outputs using '-c' parameter.";
 
 }

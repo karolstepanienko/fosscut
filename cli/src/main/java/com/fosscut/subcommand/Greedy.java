@@ -8,6 +8,7 @@ import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.util.OrderValidator;
+import com.fosscut.shared.util.RelaxValidator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
@@ -71,6 +72,9 @@ public class Greedy extends AbstractAlg {
 
         OrderValidator validator = new OrderValidator(optimizationCriterion);
         validator.validateOrder(order);
+
+        RelaxValidator relaxValidator = new RelaxValidator(relaxEnabled, relaxCost);
+        relaxValidator.validate(order);
 
         Cleaner cleaner = new Cleaner();
         cleaner.cleanOrder(order);
