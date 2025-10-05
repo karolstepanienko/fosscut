@@ -79,7 +79,8 @@ public class ColumnGeneration {
         while (patternsAdded) {
             CuttingPlanGeneration linearCuttingPlanGeneration =
                 new CuttingPlanGeneration(order, params, false,
-                    optimizationCriterion, linearSolver, integerSolver);
+                    optimizationCriterion, linearSolver, integerSolver,
+                    relaxEnabled);
             linearCuttingPlanGeneration.solve();
             List<Double> demandDualValues = linearCuttingPlanGeneration.getDemandDualValues();
             Map<Integer, Double> supplyDualValues = linearCuttingPlanGeneration.getSupplyDualValues();
@@ -101,7 +102,7 @@ public class ColumnGeneration {
 
         integerCuttingPlanGeneration = new CuttingPlanGeneration(
             order, params, true, optimizationCriterion,
-            linearSolver, integerSolver);
+            linearSolver, integerSolver, relaxEnabled);
         integerCuttingPlanGeneration.solve();
     }
 

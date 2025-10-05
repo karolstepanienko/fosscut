@@ -31,6 +31,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     private OptimizationCriterion optimizationCriterion;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
+    private boolean relaxEnabled;
 
     private List<List<MPVariable>> patternsPerInputVariables;
     private List<MPConstraint> demandConstraints;
@@ -40,7 +41,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         boolean integer,
         OptimizationCriterion optimizationCriterion,
         LinearSolver linearSolver,
-        IntegerSolver integerSolver
+        IntegerSolver integerSolver,
+        boolean relaxEnabled
     ) {
         setOrder(order);
         this.params = params;
@@ -48,6 +50,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         this.optimizationCriterion = optimizationCriterion;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
+        this.relaxEnabled = relaxEnabled;
     }
 
     public void solve() throws LPUnfeasibleException {
@@ -59,6 +62,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         this.demandConstraints = defineDemandConstraints();
         this.supplyConstraints = defineSupplyConstraints();
         setObjective(defineObjective(this.optimizationCriterion));
+        // setObjective(defineExperimentalWasteObjective(this.optimizationCriterion));
         final ResultStatus resultStatus = getSolver().solve();
 
         printSolution(resultStatus);
@@ -168,6 +172,34 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
                         patternsPerInputVariables.get(i).get(p),
                         getOrder().getInputs().get(i).getCost()
                     );
+            }
+        }
+        objective.setMinimization();
+        return objective;
+    }
+
+    /*
+     * Experimental objective function to minimize waste directly.
+     * It does not work well in practice, because it results in a lot worse
+     * sub-problem prices, which leads to worse overall results.
+     */
+    @Deprecated
+    private MPObjective defineExperimentalWasteObjective(OptimizationCriterion criterion) {
+        MPObjective objective = getSolver().objective();
+        for (int i = 0; i < getOrder().getInputs().size(); i++) {
+            for (int p = 0; p < params.getNumberOfPatternsPerInput(i); p++) {
+                Integer sum = 0;
+                for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+                    sum += params.getNipo().get(i).get(p).get(o)
+                        * getOrder().getOutputs().get(o).getLength();
+                    if (relaxEnabled) sum -= params.getRipo().get(i).get(p).get(o);
+                }
+
+                Integer waste = getOrder().getInputs().get(i).getLength() - sum;
+                objective.setCoefficient(
+                    patternsPerInputVariables.get(i).get(p),
+                    waste
+                );
             }
         }
         objective.setMinimization();
