@@ -6,5 +6,7 @@ public enum OptimizationCriterion {
     @JsonProperty("MinCost")
     MIN_COST,
     @JsonProperty("MinWaste")
-    MIN_WASTE
+    MIN_WASTE,
+    @JsonProperty("MinWasteExperimental")
+    MIN_WASTE_EXPERIMENTAL
 }

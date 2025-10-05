@@ -62,7 +62,6 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         this.demandConstraints = defineDemandConstraints();
         this.supplyConstraints = defineSupplyConstraints();
         setObjective(defineObjective(this.optimizationCriterion));
-        // setObjective(defineExperimentalWasteObjective(this.optimizationCriterion));
         final ResultStatus resultStatus = getSolver().solve();
 
         printSolution(resultStatus);
@@ -159,19 +158,40 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     }
 
     private MPObjective defineObjective(OptimizationCriterion criterion) {
+        switch (criterion) {
+            case MIN_WASTE:
+                return defineMinWasteObjective();
+            case MIN_COST:
+                return defineMinCostObjective();
+            case MIN_WASTE_EXPERIMENTAL:
+                return defineMinWasteExperimentalObjective();
+            default:
+                throw new IllegalArgumentException("Unknown optimization criterion: " + criterion);
+        }
+    }
+
+    private MPObjective defineMinWasteObjective() {
         MPObjective objective = getSolver().objective();
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
             for (int p = 0; p < params.getNumberOfPatternsPerInput(i); p++) {
-                if (criterion == OptimizationCriterion.MIN_WASTE)
-                    objective.setCoefficient(
-                        patternsPerInputVariables.get(i).get(p),
-                        getOrder().getInputs().get(i).getLength()
-                    );
-                else // validation will not allow any null input cost if MIN_COST is selected
-                    objective.setCoefficient(
-                        patternsPerInputVariables.get(i).get(p),
-                        getOrder().getInputs().get(i).getCost()
-                    );
+                objective.setCoefficient(
+                    patternsPerInputVariables.get(i).get(p),
+                    getOrder().getInputs().get(i).getLength()
+                );
+            }
+        }
+        objective.setMinimization();
+        return objective;
+    }
+
+    private MPObjective defineMinCostObjective() {
+        MPObjective objective = getSolver().objective();
+        for (int i = 0; i < getOrder().getInputs().size(); i++) {
+            for (int p = 0; p < params.getNumberOfPatternsPerInput(i); p++) {
+                objective.setCoefficient(
+                    patternsPerInputVariables.get(i).get(p),
+                    getOrder().getInputs().get(i).getCost()
+                );
             }
         }
         objective.setMinimization();
@@ -184,7 +204,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
      * sub-problem prices, which leads to worse overall results.
      */
     @Deprecated
-    private MPObjective defineExperimentalWasteObjective(OptimizationCriterion criterion) {
+    private MPObjective defineMinWasteExperimentalObjective() {
         MPObjective objective = getSolver().objective();
         for (int i = 0; i < getOrder().getInputs().size(); i++) {
             for (int p = 0; p < params.getNumberOfPatternsPerInput(i); p++) {

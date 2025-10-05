@@ -89,7 +89,8 @@ public class ColumnGeneration {
             for (int inputId = 0; inputId < order.getInputs().size(); inputId++) {
                 PatternGeneration patternGeneration = new PatternGeneration(
                     order, inputId, demandDualValues,
-                    relaxCost, relaxEnabled, integerSolver
+                    relaxCost, relaxEnabled, integerSolver,
+                    optimizationCriterion
                 );
                 patternGeneration.solve();
 

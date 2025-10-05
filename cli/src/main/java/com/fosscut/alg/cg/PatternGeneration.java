@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
+import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.google.ortools.linearsolver.MPConstraint;
@@ -25,6 +26,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private Double relaxCost;
     private boolean relaxEnabled;
     private IntegerSolver integerSolver;
+    private OptimizationCriterion optimizationCriterion;
 
     private List<MPVariable> usageVariables;
     private List<MPVariable> relaxVariables;
@@ -35,7 +37,8 @@ class PatternGeneration extends ColumnGenerationLPTask {
         List<Double> cuttingPlanDualValues,
         Double relaxCost,
         boolean relaxEnabled,
-        IntegerSolver integerSolver
+        IntegerSolver integerSolver,
+        OptimizationCriterion optimizationCriterion
     ) {
         setOrder(order);
         this.inputId = inputId;
@@ -43,6 +46,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
+        this.optimizationCriterion = optimizationCriterion;
     }
 
     public List<MPVariable> getUsageVariables() {
@@ -77,13 +81,17 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private void initModel() {
         initVariables();
         initConstraints();
-        initObjective();
+        if (optimizationCriterion == OptimizationCriterion.MIN_WASTE_EXPERIMENTAL) {
+            initExperimentalWasteObjective();
+        } else initObjective();
     }
 
     private void initModelWithRelaxation() {
         initVariablesWithRelaxation();
         initConstraintsWithRelaxation();
-        initObjectiveWithRelaxation();
+        if (optimizationCriterion == OptimizationCriterion.MIN_WASTE_EXPERIMENTAL) {
+            initExperimentalWasteObjectiveWithRelaxation();
+        } else initObjectiveWithRelaxation();
     }
 
     private void initVariables() {
@@ -137,6 +145,19 @@ class PatternGeneration extends ColumnGenerationLPTask {
         setObjective(objective);
     }
 
+    // Gives worse results in practice
+    @Deprecated
+    private void initExperimentalWasteObjective() {
+        MPObjective objective = getSolver().objective();
+        objective.setOffset(getOrder().getInputs().get(inputId).getLength());
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            objective.setCoefficient(usageVariables.get(o), -cuttingPlanDualValues.get(o));
+            objective.setCoefficient(usageVariables.get(o), -getOrder().getOutputs().get(o).getLength());
+        }
+        objective.setMinimization();
+        setObjective(objective);
+    }
+
     private void initObjectiveWithRelaxation() {
         MPObjective objective = getSolver().objective();
         for (int o = 0; o < getOrder().getOutputs().size(); o++) {
@@ -146,6 +167,24 @@ class PatternGeneration extends ColumnGenerationLPTask {
             objective.setCoefficient(relaxVariables.get(o), -localOutputRelaxCost);
         }
         objective.setMaximization();
+        setObjective(objective);
+    }
+
+    // Gives similar results in practice
+    // but adds unnecessary complexity for the solver
+    @Deprecated
+    private void initExperimentalWasteObjectiveWithRelaxation() {
+        MPObjective objective = getSolver().objective();
+        objective.setOffset(getOrder().getInputs().get(inputId).getLength());
+
+        for (int o = 0; o < getOrder().getOutputs().size(); o++) {
+            OrderOutput output = getOrder().getOutputs().get(o);
+            Double localOutputRelaxCost = output.getRelaxCost() != null ? output.getRelaxCost() : relaxCost;
+            objective.setCoefficient(usageVariables.get(o), -cuttingPlanDualValues.get(o) -getOrder().getOutputs().get(o).getLength());
+            objective.setCoefficient(relaxVariables.get(o), localOutputRelaxCost + 1);
+        }
+
+        objective.setMinimization();
         setObjective(objective);
     }
 
