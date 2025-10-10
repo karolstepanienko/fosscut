@@ -1,17 +1,18 @@
-package com.fosscut.alg.cutgen;
+package com.fosscut.alg.gen.cut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
+import com.fosscut.alg.gen.AbstractGenAlg;
 import com.fosscut.exception.DuplicatesAreNotAllowedException;
 import com.fosscut.exception.NotSupportedCutGenConfigException;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.type.cutting.plan.PlanInput;
 
 /**
  * MLCSP order generator based on:
@@ -21,51 +22,37 @@ import com.fosscut.shared.type.cutting.order.OrderOutput;
  * <p>Gau, T., and Wascher, G., 1995, CUTGEN1 - a problem generator for the one-dimensional
  * cutting stock problem. European Journal of Operational Research, 84, 572-579.</p>
  */
-public class CutGenAlg {
+public class CutGenAlg extends AbstractGenAlg {
 
-    private Long seed;
-    private Random randomGenerator;
-
-    private int outputTypeCount;
-    private double outputLengthLowerBound;
-    private double outputLengthUpperBound;
     private int averageOutputDemand;
-
-    private Integer inputLength;
-    private Integer inputTypeCount;
-    private Integer inputLengthLowerBound;
-    private Integer inputLengthUpperBound;
-
     private boolean allowOutputTypeDuplicates;
-    private boolean allowInputTypeDuplicates;
 
     public CutGenAlg(
+        Integer inputLength,
+        Integer inputTypeCount,
+        Integer minInputLength,
+        Integer maxInputLength,
+        boolean allowInputTypeDuplicates,
+        int averageOutputDemand,
         int outputTypeCount,
         double outputLengthLowerBound,
         double outputLengthUpperBound,
-        int averageOutputDemand,
-        Integer inputLength,
-        Integer inputTypeCount,
-        Integer inputLengthLowerBound,
-        Integer inputLengthUpperBound,
-        Long seed,
         boolean allowOutputTypeDuplicates,
-        boolean allowInputTypeDuplicates
+        Long seed
     ) {
-        this.outputTypeCount = outputTypeCount;
-        this.outputLengthLowerBound = outputLengthLowerBound;
-        this.outputLengthUpperBound = outputLengthUpperBound;
+        super(
+            inputLength,
+            inputTypeCount,
+            minInputLength,
+            maxInputLength,
+            allowInputTypeDuplicates,
+            outputTypeCount,
+            outputLengthLowerBound,
+            outputLengthUpperBound,
+            seed
+        );
         this.averageOutputDemand = averageOutputDemand;
-        this.inputLength = inputLength;
-        this.inputTypeCount = inputTypeCount;
-        this.inputLengthLowerBound = inputLengthLowerBound;
-        this.inputLengthUpperBound = inputLengthUpperBound;
-        this.seed = seed;
         this.allowOutputTypeDuplicates = allowOutputTypeDuplicates;
-        this.allowInputTypeDuplicates = allowInputTypeDuplicates;
-
-        if (this.seed == null) this.randomGenerator = new Random();
-        else this.randomGenerator = new Random(this.seed);
     }
 
     /**
@@ -84,51 +71,50 @@ public class CutGenAlg {
         throws NotSupportedCutGenConfigException, DuplicatesAreNotAllowedException
     {
         Order order = new Order();
+        List<PlanInput> inputs = generateInputs();
 
-        if (inputTypeCount == null && inputLength != null)
-            order = nextSingleInputOrder();
-        else if (inputTypeCount != null && inputLength == null
-        && inputLengthLowerBound != null && inputLengthUpperBound != null)
-            order = nextMultiInputOrder();
-        else throw new NotSupportedCutGenConfigException("");
+        if (isSingleInputType()) {
+            order = nextSingleInputOrder(inputs);
+        } else if (isMultiInputType()) {
+            order = nextMultiInputOrder(inputs);
+        } else throw new NotSupportedCutGenConfigException("");
 
         return order;
     }
 
-    private Order nextSingleInputOrder() throws DuplicatesAreNotAllowedException {
-        int[] lengths = generateLengths(
+    private Order nextSingleInputOrder(List<PlanInput> inputs)
+        throws DuplicatesAreNotAllowedException
+    {
+        int[] lengths = generateOutputLengths(
             outputTypeCount,
             outputLengthLowerBound,
             outputLengthUpperBound,
-            inputLength
+            inputs.get(0).getLength()
         );
         int[] demands = generateDemands(outputTypeCount);
 
         List<OrderOutput> outputs = merge(lengths, demands);
-        List<OrderInput> inputs = new ArrayList<OrderInput>();
-        inputs.add(new OrderInput(inputLength));
+        List<OrderInput> orderInputs = new ArrayList<OrderInput>();
+        orderInputs.add(new OrderInput(inputs.get(0).getLength()));
 
-        return new Order(inputs, outputs);
+        return new Order(orderInputs, outputs);
     }
 
-    private Order nextMultiInputOrder() throws DuplicatesAreNotAllowedException {
-        List<Integer> inputLengths = new ArrayList<Integer>();
+    private Order nextMultiInputOrder(List<PlanInput> inputs) throws DuplicatesAreNotAllowedException {
         Map<Integer, OrderOutput> outputCountMap = new HashMap<Integer, OrderOutput>();
 
-        int[] outputCountPerInput = divideOrdersBetweenStockItems();
+        int finalInputTypeCount = inputs.size();
 
-        for (int i = 0; i < inputTypeCount; i++) {
-            int inputLength = randomGenerator.nextInt(
-                inputLengthLowerBound,
-                inputLengthUpperBound + 1
-            );
+        if (!allowInputTypeDuplicates && finalInputTypeCount != inputTypeCount)
+            throw new IllegalStateException("Number of generated inputs does not equal the desired one.");
 
-            if (inputLengths.contains(inputLength)) {
-                if (!allowInputTypeDuplicates)
-                    throw new DuplicatesAreNotAllowedException("input");
-            } else inputLengths.add(inputLength);
+        int[] outputCountPerInput = divideOrdersBetweenStockItems(finalInputTypeCount);
 
-            int[] lengths = generateLengths(
+        List<OrderInput> resultInputs = new ArrayList<OrderInput>();
+        for (int i = 0; i < finalInputTypeCount; i++) {
+            int inputLength = inputs.get(i).getLength();
+
+            int[] lengths = generateOutputLengths(
                 outputCountPerInput[i],
                 outputLengthLowerBound,
                 outputLengthUpperBound,
@@ -138,10 +124,7 @@ public class CutGenAlg {
             int[] demands = generateDemands(outputCountPerInput[i]);
             List<OrderOutput> mergedOutputs = merge(lengths, demands);
             addOutputsToMap(outputCountMap, mergedOutputs);
-        }
 
-        List<OrderInput> resultInputs = new ArrayList<OrderInput>();
-        for (Integer inputLength : inputLengths) {
             resultInputs.add(new OrderInput(inputLength));
         }
 
@@ -164,14 +147,11 @@ public class CutGenAlg {
         }
     }
 
-    private int[] generateLengths(int typeCount, double lb, double ub, int il) {
+    private int[] generateOutputLengths(int typeCount, double lb, double ub, int il) {
         int[] result = new int[typeCount];
 
         for (int i = 0; i < result.length; i++) {
-            double rValue = randomGenerator.nextDouble();
-            double length = (lb + (ub - lb) * rValue) * il + rValue;
-
-            result[i] = (int) length;
+            result[i] = generateNewLength(lb, ub, il);
         }
 
         descendingSort(result);
@@ -251,13 +231,13 @@ public class CutGenAlg {
     }
 
 
-    private int[] divideOrdersBetweenStockItems() {
-        int[] result = new int[inputTypeCount];
+    private int[] divideOrdersBetweenStockItems(int finalInputTypeCount) {
+        int[] result = new int[finalInputTypeCount];
 
-        int avrCount = outputTypeCount / inputTypeCount;
+        int avrCount = outputTypeCount / finalInputTypeCount;
         Arrays.fill(result, avrCount);
 
-        for(int i = 0; i < outputTypeCount % inputTypeCount; ++i)
+        for(int i = 0; i < outputTypeCount % finalInputTypeCount; ++i)
         {
             int randomIndex = randomGenerator.nextInt(result.length);
             ++result[randomIndex];

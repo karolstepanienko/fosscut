@@ -1,0 +1,97 @@
+inputs:
+- length: 118
+  patterns:
+  - count: 7
+    patternDefinition:
+    - id: 0
+      count: 1
+    - id: 1
+      count: 1
+    - id: 2
+      count: 1
+  - count: 5
+    patternDefinition:
+    - id: 5
+      count: 1
+    - id: 6
+      count: 1
+  - count: 1
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 3
+      count: 1
+    - id: 4
+      count: 1
+- length: 104
+  patterns:
+  - count: 5
+    patternDefinition:
+    - id: 1
+      count: 4
+  - count: 2
+    patternDefinition:
+    - id: 1
+      count: 1
+    - id: 3
+      count: 1
+    - id: 4
+      count: 1
+  - count: 2
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 7
+      count: 1
+  - count: 4
+    patternDefinition:
+    - id: 1
+      count: 1
+    - id: 8
+      count: 1
+    - id: 9
+      count: 1
+- length: 101
+  patterns:
+  - count: 6
+    patternDefinition:
+    - id: 0
+      count: 1
+    - id: 3
+      count: 1
+  - count: 3
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 5
+      count: 1
+  - count: 3
+    patternDefinition:
+    - id: 6
+      count: 1
+    - id: 8
+      count: 1
+outputs:
+- length: 52
+  count: 13
+- length: 26
+  count: 33
+- length: 40
+  count: 13
+- length: 49
+  count: 9
+- length: 29
+  count: 3
+- length: 61
+  count: 8
+- length: 57
+  count: 8
+- length: 64
+  count: 2
+- length: 44
+  count: 7
+- length: 34
+  count: 4
+metadata:
+  totalWaste: 0
+  totalNeededInputLength: 4098

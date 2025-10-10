@@ -1,11 +1,12 @@
 package com.fosscut.subcommand;
 
-import com.fosscut.alg.gen.cut.CutGenAlg;
+import com.fosscut.alg.gen.optimal.OptimalGenAlg;
 import com.fosscut.shared.exception.FosscutException;
-import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractGen;
 import com.fosscut.type.OutputFormat;
+import com.fosscut.type.cutting.plan.CuttingPlan;
+import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
 import com.fosscut.util.save.Save;
@@ -13,43 +14,35 @@ import com.fosscut.util.save.Save;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "cutgen", versionProvider = PropertiesVersionProvider.class)
-public class CutGen extends AbstractGen {
+@Command(name = "optimalgen", versionProvider = PropertiesVersionProvider.class)
+public class OptimalGen extends AbstractGen {
 
-    @Option(names = { "-d", "--average-output-demand" }, required = true)
-    private int averageOutputDemand;
-
-    @Option(names = { "-ao", "--allow-output-type-duplicates" },
-        defaultValue = "false",
-        description = "Some output types can be generated as duplicates."
-            + " By default an error is thrown if it happens."
-            + " This flag disables that error."
-            + " Number of generated output types might be less than specified.")
-    private boolean allowOutputTypeDuplicates;
+    @Option(names = { "-oc", "--output-count" },
+        description = "Minimal number of outputs in the order."
+            + " Actual number might be higher due to patterns"
+            + " generating multiple outputs.",
+        required = true)
+    private int outputCount;
 
     @Override
     protected void runWithExceptions() throws FosscutException {
-        CutGenAlg cutGenAlg = new CutGenAlg(
+        OptimalGenAlg optimalGenAlg = new OptimalGenAlg(
             inputLength,
             inputTypeCount,
             minInputLength,
             maxInputLength,
             allowInputTypeDuplicates,
-            averageOutputDemand,
+            outputCount,
             outputTypeCount,
             outputLengthLowerBound,
             outputLengthUpperBound,
-            allowOutputTypeDuplicates,
-            seed
-        );
-
-        Order order = null;
-        order = cutGenAlg.nextOrder();
+            seed);
+        CuttingPlan orderWithCuttingPlan = optimalGenAlg.nextOrder();
 
         String orderString = null;
         if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();
-            orderString = yamlDumper.dump(order);
+            orderString = yamlDumper.dump(orderWithCuttingPlan);
         }
 
         Save save = new Save(orderString);
@@ -57,6 +50,9 @@ public class CutGen extends AbstractGen {
 
         PrintResult printResult = new PrintResult("order", outputFile);
         printResult.print(orderString);
+
+        PlanValidator planValidator = new PlanValidator();
+        planValidator.validatePlan(orderWithCuttingPlan);
     }
 
 }

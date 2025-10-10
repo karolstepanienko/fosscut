@@ -1,6 +1,7 @@
 package com.fosscut.type.cutting.plan;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 
@@ -30,6 +31,28 @@ public class Pattern {
 
     public void setPatternDefinition(List<PlanOutput> patternDefinition) {
         this.patternDefinition = patternDefinition;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // same reference
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Pattern pattern = (Pattern) obj;
+        // compares only patternDefinition, not count
+        return getSortedPatternDefinition().equals(pattern.getSortedPatternDefinition());
+    }
+
+    private List<PlanOutput> getSortedPatternDefinition() {
+        patternDefinition.sort((o1, o2) -> {
+            return o1.getId().compareTo(o2.getId());
+        });
+        return patternDefinition;
+    }
+
+    // hashCode() must be overridden when equals() is overridden
+    @Override
+    public int hashCode() {
+        return Objects.hash(count, patternDefinition);
     }
 
     public Integer getTotalOutputsLength(List<OrderOutput> orderOutputs) {

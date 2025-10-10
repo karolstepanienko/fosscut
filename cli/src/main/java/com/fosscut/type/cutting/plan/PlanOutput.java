@@ -1,5 +1,7 @@
 package com.fosscut.type.cutting.plan;
 
+import java.util.Objects;
+
 public class PlanOutput {
 
     private Integer id;
@@ -35,6 +37,26 @@ public class PlanOutput {
 
     public void setRelax(Integer relax) {
         this.relax = relax;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // same reference
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PlanOutput that = (PlanOutput) obj;
+        if (this.relax == null && that.relax != null) return false;
+        if (this.relax != null && that.relax == null) return false;
+        if (this.relax == null && that.relax == null) {
+            return id.equals(that.id) && count.equals(that.count);
+        } else {
+            return id.equals(that.id) && count.equals(that.count) && relax.equals(that.relax);
+        }
+    }
+
+    // hashCode() must be overridden when equals() is overridden
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, count, relax);
     }
 
     @Override

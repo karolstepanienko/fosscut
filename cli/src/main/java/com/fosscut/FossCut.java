@@ -7,6 +7,7 @@ import com.fosscut.subcommand.CutGen;
 import com.fosscut.subcommand.FFD;
 import com.fosscut.subcommand.Greedy;
 import com.fosscut.subcommand.MWE;
+import com.fosscut.subcommand.OptimalGen;
 import com.fosscut.subcommand.Validate;
 import com.fosscut.util.PropertiesVersionProvider;
 
@@ -23,6 +24,7 @@ import picocli.CommandLine.Spec;
         CutGen.class,
         FFD.class,
         Greedy.class,
+        OptimalGen.class,
         Validate.class,
         MWE.class
     }

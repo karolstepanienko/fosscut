@@ -62,7 +62,7 @@ public class CutGen {
 
     @Test public void multiInputOrderSaveToFile() throws IOException {
         String testFileName = "multiInputOrderSaveToFile";
-        Command command = new Command("cutgen -il 1000 -iu 1200 -it 3 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1 -o " + testFileName);
+        Command command = new Command("cutgen -il 1000 -iu 1200 -it 3 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 2 -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(

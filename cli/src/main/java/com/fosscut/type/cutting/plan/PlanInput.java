@@ -9,6 +9,12 @@ public class PlanInput extends Element {
     private Double cost;
     private List<Pattern> patterns;
 
+    public PlanInput() {}
+
+    public PlanInput(Integer length) {
+        super(length);
+    }
+
     public Double getCost() {
         return cost;
     }

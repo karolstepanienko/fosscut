@@ -1,5 +1,8 @@
 package com.fosscut.shared.type.cutting.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderInput extends OrderElement {
 
     private Double cost;

@@ -1,0 +1,41 @@
+inputs:
+- length: 100
+  patterns:
+  - count: 19
+    patternDefinition:
+    - id: 0
+      count: 1
+    - id: 1
+      count: 1
+  - count: 8
+    patternDefinition:
+    - id: 1
+      count: 2
+    - id: 2
+      count: 1
+  - count: 7
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 3
+      count: 1
+  - count: 8
+    patternDefinition:
+    - id: 2
+      count: 2
+    - id: 4
+      count: 1
+outputs:
+- length: 64
+  count: 19
+- length: 36
+  count: 35
+- length: 28
+  count: 31
+- length: 72
+  count: 7
+- length: 44
+  count: 8
+metadata:
+  totalWaste: 0
+  totalNeededInputLength: 4200

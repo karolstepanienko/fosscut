@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fosscut.shared.util.save.YamlDumper;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Order {
 
     private List<OrderInput> inputs;

@@ -2,13 +2,13 @@ inputs:
 - length: 1001
 - length: 1000
 outputs:
-- length: 676
-  count: 10
-- length: 314
-  count: 10
-- length: 667
-  count: 10
-- length: 686
-  count: 10
-- length: 463
-  count: 10
+- length: 688
+  count: 1
+- length: 433
+  count: 15
+- length: 675
+  count: 9
+- length: 679
+  count: 11
+- length: 383
+  count: 14

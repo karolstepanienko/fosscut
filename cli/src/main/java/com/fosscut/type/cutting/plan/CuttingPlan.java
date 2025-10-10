@@ -11,6 +11,12 @@ public class CuttingPlan {
     private Metadata metadata;
 
     public CuttingPlan() {}
+
+    public CuttingPlan(List<PlanInput> inputs, List<OrderOutput> outputs) {
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
+
     public CuttingPlan(
         List<PlanInput> inputs,
         List<OrderOutput> outputs,

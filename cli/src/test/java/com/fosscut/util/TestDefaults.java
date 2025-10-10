@@ -114,6 +114,9 @@ public class TestDefaults {
     public static final String CUTGEN_ALLOW_INPUT_DUPLICATES = "./test/order/cutgen/input-duplicates-order.yaml";
     public static final String CUTGEN_ALLOW_OUTPUT_DUPLICATES = "./test/order/cutgen/output-duplicates-order.yaml";
 
+    public static final String OPTIMAL_GEN_SINGLE_INPUT = "./test/order/optimalgen/single-input.yaml";
+    public static final String OPTIMAL_GEN_MULTI_INPUT = "./test/order/optimalgen/multi-input.yaml";
+
     public static final String PLAN_FAIL_PATTERN_TO_LONG = "./test/plan/fail/pattern-to-long.yaml";
     public static final String PLAN_FAIL_PATTERN_TO_LONG_RELAX = "./test/plan/fail/pattern-to-long-relax.yaml";
     public static final String PLAN_FAIL_DEMAND_NOT_SATISFIED = "./test/plan/fail/demand-not-satisfied.yaml";
