@@ -13,6 +13,10 @@ outputs:
   count: 4
   maxRelax: 0
 metadata:
+  inputCount: 1
+  outputCount: 4
+  inputTypeCount: 2
+  outputTypeCount: 1
   totalWaste: 3
   totalNeededInputLength: 123
   totalCost: 3.0

@@ -37,5 +37,9 @@ outputs:
 - length: 44
   count: 8
 metadata:
+  inputCount: 42
+  outputCount: 100
+  inputTypeCount: 1
+  outputTypeCount: 5
   totalWaste: 0
   totalNeededInputLength: 4200

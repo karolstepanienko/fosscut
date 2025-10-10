@@ -9,6 +9,10 @@ import com.fosscut.shared.type.cutting.order.OrderOutput;
 
 public class Metadata {
     private Long elapsedTimeMilliseconds;
+    private Integer inputCount;
+    private Integer outputCount;
+    private Integer inputTypeCount;
+    private Integer outputTypeCount;
     private List<UnnecessaryOutput> unnecessaryOutputs;
     private Integer totalWaste; // contains only obvious waste from patterns
     // trueTotalWaste = totalWaste + waste from unnecessary outputs
@@ -25,6 +29,10 @@ public class Metadata {
     }
 
     public void calculateMetadata(List<PlanInput> inputs, List<OrderOutput> outputs) {
+        calculateInputCount(inputs);
+        calculateOutputCount(outputs);
+        inputTypeCount = inputs.size();
+        outputTypeCount = outputs.size();
         findUnnecessaryOutputs(inputs, outputs);
         calculateTotalWaste(inputs, outputs);
         if (unnecessaryOutputs != null) calculateTrueTotalWaste(inputs);
@@ -34,6 +42,22 @@ public class Metadata {
 
     public Long getElapsedTimeMilliseconds() {
         return elapsedTimeMilliseconds;
+    }
+
+    public Integer getInputCount() {
+        return inputCount;
+    }
+
+    public Integer getOutputCount() {
+        return outputCount;
+    }
+
+    public Integer getInputTypeCount() {
+        return inputTypeCount;
+    }
+
+    public Integer getOutputTypeCount() {
+        return outputTypeCount;
     }
 
     public List<UnnecessaryOutput> getUnnecessaryOutputs() {
@@ -62,6 +86,22 @@ public class Metadata {
 
     public Double getTotalCost() {
         return totalCost;
+    }
+
+    private void calculateInputCount(List<PlanInput> inputs) {
+        inputCount = 0;
+        for (PlanInput input : inputs) {
+            for (Pattern pattern : input.getPatterns()) {
+                inputCount += pattern.getCount();
+            }
+        }
+    }
+
+    private void calculateOutputCount(List<OrderOutput> outputs) {
+        outputCount = 0;
+        for (OrderOutput output : outputs) {
+            outputCount += output.getCount();
+        }
     }
 
     private void findUnnecessaryOutputs(List<PlanInput> inputs, List<OrderOutput> outputs) {

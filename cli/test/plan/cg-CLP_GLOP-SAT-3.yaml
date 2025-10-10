@@ -69,5 +69,9 @@ outputs:
   count: 8
   maxRelax: 0
 metadata:
+  inputCount: 52
+  outputCount: 135
+  inputTypeCount: 4
+  outputTypeCount: 6
   totalWaste: 35
   totalNeededInputLength: 5120

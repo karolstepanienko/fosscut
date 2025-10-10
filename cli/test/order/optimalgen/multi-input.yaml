@@ -93,5 +93,9 @@ outputs:
 - length: 34
   count: 4
 metadata:
+  inputCount: 38
+  outputCount: 100
+  inputTypeCount: 3
+  outputTypeCount: 10
   totalWaste: 0
   totalNeededInputLength: 4098

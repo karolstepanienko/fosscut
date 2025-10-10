@@ -15,6 +15,8 @@ public class CuttingPlan {
     public CuttingPlan(List<PlanInput> inputs, List<OrderOutput> outputs) {
         this.inputs = inputs;
         this.outputs = outputs;
+        this.metadata = new Metadata();
+        this.metadata.calculateMetadata(inputs, outputs);
     }
 
     public CuttingPlan(

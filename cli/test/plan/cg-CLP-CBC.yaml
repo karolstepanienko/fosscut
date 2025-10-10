@@ -63,6 +63,10 @@ outputs:
   count: 8
   maxRelax: 0
 metadata:
+  inputCount: 52
+  outputCount: 135
+  inputTypeCount: 4
+  outputTypeCount: 6
   unnecessaryOutputs:
   - length: 45
     count: 1

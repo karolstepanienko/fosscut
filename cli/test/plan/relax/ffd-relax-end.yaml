@@ -20,5 +20,9 @@ outputs:
   count: 1
   maxRelax: 0
 metadata:
+  inputCount: 1
+  outputCount: 5
+  inputTypeCount: 1
+  outputTypeCount: 2
   totalWaste: 0
   totalNeededInputLength: 100

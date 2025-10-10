@@ -51,6 +51,10 @@ outputs:
   maxRelax: 10
   relaxCost: 0.1
 metadata:
+  inputCount: 17
+  outputCount: 66
+  inputTypeCount: 2
+  outputTypeCount: 3
   unnecessaryOutputs:
   - length: 20
     count: 1
