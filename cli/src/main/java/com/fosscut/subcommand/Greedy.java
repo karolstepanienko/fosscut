@@ -21,8 +21,10 @@ import com.fosscut.util.LogFormatter;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
+import com.fosscut.util.RedisUriParser;
 import com.fosscut.util.load.OrderLoader;
 import com.fosscut.util.save.Save;
+import com.fosscut.util.save.SaveContentType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -97,7 +99,10 @@ public class Greedy extends AbstractAlg {
             cuttingPlanString = yamlDumper.dump(cuttingPlan);
         }
 
-        Save save = new Save(cuttingPlanString, orderLoader.getOrderUri(orderPath),
+        Save save = new Save(
+            SaveContentType.PLAN,
+            cuttingPlanString,
+            RedisUriParser.getOrderUri(orderPath),
             redisConnectionSecrets);
         save.save(outputFile);
 

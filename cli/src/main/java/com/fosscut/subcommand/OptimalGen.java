@@ -1,5 +1,7 @@
 package com.fosscut.subcommand;
 
+import java.io.File;
+
 import com.fosscut.alg.gen.optimal.OptimalGenAlg;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.util.save.YamlDumper;
@@ -9,7 +11,9 @@ import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
+import com.fosscut.util.RedisUriParser;
 import com.fosscut.util.save.Save;
+import com.fosscut.util.save.SaveContentType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -25,7 +29,9 @@ public class OptimalGen extends AbstractGen {
     private int outputCount;
 
     @Override
-    protected void runWithExceptions() throws FosscutException {
+        protected void runWithExceptions() throws FosscutException {
+        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
+
         OptimalGenAlg optimalGenAlg = new OptimalGenAlg(
             inputLength,
             inputTypeCount,
@@ -45,10 +51,14 @@ public class OptimalGen extends AbstractGen {
             orderString = yamlDumper.dump(orderWithCuttingPlan);
         }
 
-        Save save = new Save(orderString);
-        save.save(outputFile);
+        Save save = new Save(
+            SaveContentType.ORDER,
+            orderString,
+            RedisUriParser.getOrderUri(outputPath),
+            redisConnectionSecrets);
+        save.save(outputPath);
 
-        PrintResult printResult = new PrintResult("order", outputFile);
+        PrintResult printResult = new PrintResult("order", outputPath);
         printResult.print(orderString);
 
         PlanValidator planValidator = new PlanValidator();

@@ -6,7 +6,7 @@ import java.net.URISyntaxException;
 
 import com.fosscut.exception.RedisOrderPathException;
 import com.fosscut.shared.SharedDefaults;
-import com.fosscut.type.OrderURI;
+import com.fosscut.type.RedisURI;
 import com.fosscut.util.Messages;
 import com.fosscut.util.RedisClient;
 
@@ -42,9 +42,9 @@ public class OrderRedisLoader implements Loader {
 
     @Override
     public String load(String orderPath) {
-        OrderURI orderUri = null;
+        RedisURI orderUri = null;
         try {
-            orderUri = new OrderURI(new URI(orderPath));
+            orderUri = new RedisURI(new URI(orderPath));
         } catch (URISyntaxException e) {}
 
         RedisClient redisClient = new RedisClient(redisConnectionSecretsFile);

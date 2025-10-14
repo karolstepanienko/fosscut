@@ -1,12 +1,15 @@
 package com.fosscut.subcommand.abs;
 
-import java.io.File;
-
+import com.fosscut.FossCut;
 import com.fosscut.type.OutputFormat;
 
 import picocli.CommandLine.Option;
+import picocli.CommandLine.ParentCommand;
 
 public abstract class AbstractOutputFile extends AbstractRunnable {
+
+    @ParentCommand
+    protected FossCut fossCut;
 
     @Option(names = { "-f", "--format" },
         defaultValue = "yaml",
@@ -14,7 +17,8 @@ public abstract class AbstractOutputFile extends AbstractRunnable {
     protected OutputFormat outputFormat;
 
     @Option(names = { "-o", "--output" },
-        description = "Path to the file where the cutting plan will be saved.")
-    protected File outputFile;
+        description = "Path or a redis URL to a location where the cutting"
+        + " order/plan should be saved.")
+    protected String outputPath;
 
 }

@@ -1,5 +1,7 @@
 package com.fosscut.subcommand;
 
+import java.io.File;
+
 import com.fosscut.alg.gen.cut.CutGenAlg;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.order.Order;
@@ -8,7 +10,9 @@ import com.fosscut.subcommand.abs.AbstractGen;
 import com.fosscut.type.OutputFormat;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
+import com.fosscut.util.RedisUriParser;
 import com.fosscut.util.save.Save;
+import com.fosscut.util.save.SaveContentType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -29,6 +33,8 @@ public class CutGen extends AbstractGen {
 
     @Override
     protected void runWithExceptions() throws FosscutException {
+        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
+
         CutGenAlg cutGenAlg = new CutGenAlg(
             inputLength,
             inputTypeCount,
@@ -52,10 +58,14 @@ public class CutGen extends AbstractGen {
             orderString = yamlDumper.dump(order);
         }
 
-        Save save = new Save(orderString);
-        save.save(outputFile);
+        Save save = new Save(
+            SaveContentType.ORDER,
+            orderString,
+            RedisUriParser.getOrderUri(outputPath),
+            redisConnectionSecrets);
+        save.save(outputPath);
 
-        PrintResult printResult = new PrintResult("order", outputFile);
+        PrintResult printResult = new PrintResult("order", outputPath);
         printResult.print(orderString);
     }
 

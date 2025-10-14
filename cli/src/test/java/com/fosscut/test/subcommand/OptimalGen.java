@@ -61,4 +61,13 @@ public class OptimalGen {
         );
     }
 
+    @Test public void optimalgenSingleInputRedis() throws IOException {
+        String testFileName = "optimalgenSingleInputRedis";
+        Command command = new Command("optimalgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 5 --seed 1"
+            + " --redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + " -o " + TestDefaults.REDIS_URL + testFileName);
+        command.run();
+        assertEquals(0, command.getExitCode());
+    }
+
 }

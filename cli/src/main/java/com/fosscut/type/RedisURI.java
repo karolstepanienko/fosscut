@@ -2,11 +2,11 @@ package com.fosscut.type;
 
 import java.net.URI;
 
-public class OrderURI {
+public class RedisURI {
 
     URI uri;
 
-    public OrderURI(URI uri) {
+    public RedisURI(URI uri) {
         this.uri = uri;
     }
 

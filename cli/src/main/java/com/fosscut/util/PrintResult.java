@@ -11,18 +11,31 @@ public class PrintResult {
 
     private String name;
     private File outputFile;
+    private String outputPath;
 
     public PrintResult(String name, File outputFile) {
         this.name = name;
         this.outputFile = outputFile;
+        this.outputPath = null;
+    }
+
+    public PrintResult(String name, String outputPath) {
+        this.name = name;
+        this.outputFile = null;
+        this.outputPath = outputPath;
     }
 
     public void print(String result) {
-        if (outputFile == null) {
+        if (shouldPrint()) {
             logger.info("");
             logger.info("Generated " + this.name + ":");
             logger.info(result);
         }
+    }
+
+    private boolean shouldPrint() {
+        if (outputFile == null && outputPath == null) return true;
+        else return false;
     }
 
 }

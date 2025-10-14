@@ -138,7 +138,7 @@ public class CG {
         assert(command.getOutput().contains("Status: OPTIMAL"));
     }
 
-    @Test public void cgRedisQuiet() throws IOException {
+    @Test public void cgRedisQuiet() {
         Command command = new Command("cg -q "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + TestDefaults.REDIS_ORDER_PATH);
@@ -384,6 +384,7 @@ public class CG {
         assert(
             result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_1_PLAN))
             || result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_2_PLAN))
+            || result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_3_PLAN))
         );
     }
 

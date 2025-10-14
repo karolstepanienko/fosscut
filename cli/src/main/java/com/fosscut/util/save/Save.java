@@ -11,24 +11,26 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPooled;
 
 import com.fosscut.shared.SharedDefaults;
-import com.fosscut.type.OrderURI;
+import com.fosscut.type.RedisURI;
 import com.fosscut.util.RedisClient;
+import com.fosscut.util.RedisUriParser;
 
 public class Save {
 
     private static final Logger logger = LoggerFactory.getLogger(Save.class);
 
+    private SaveContentType contentType;
     private String fileContent;
-    private OrderURI orderUri;
+    private RedisURI orderUri;
     private File redisConnectionSecretsFile;
 
-    public Save(String fileContent) {
-        this.fileContent = fileContent;
-        this.orderUri = null;
-        this.redisConnectionSecretsFile = null;
-    }
-
-    public Save(String fileContent, OrderURI orderUri, File redisConnectionSecrets) {
+    public Save(
+        SaveContentType contentType,
+        String fileContent,
+        RedisURI orderUri,
+        File redisConnectionSecrets
+    ) {
+        this.contentType = contentType;
         this.fileContent = fileContent;
         this.orderUri = orderUri;
         this.redisConnectionSecretsFile = redisConnectionSecrets;
@@ -39,6 +41,17 @@ public class Save {
             saveCuttingPlanToFile(outputFile);
         else if (this.redisConnectionSecretsFile != null)
             saveCuttingPlanToRedis();
+    }
+
+    public void save(String outputPath) {
+        if (outputPath == null) return;
+
+        if (this.redisConnectionSecretsFile != null && RedisUriParser.isURI(outputPath)) {
+            saveCuttingPlanToRedis();
+        } else {
+            File outputFile = new File(outputPath);
+            saveCuttingPlanToFile(outputFile);
+        }
     }
 
     private void saveCuttingPlanToFile(File outputFile) {
@@ -56,12 +69,17 @@ public class Save {
     }
 
     private void saveCuttingPlanToRedis() {
+        String prefix = "";
+        if (contentType == SaveContentType.ORDER) prefix = SharedDefaults.REDIS_STRING_ORDER_PREFIX;
+        else if (contentType == SaveContentType.PLAN) prefix = SharedDefaults.REDIS_STRING_PLAN_PREFIX;
+
         RedisClient redisClient = new RedisClient(redisConnectionSecretsFile);
         JedisPooled jedis = redisClient.getWriteClient();
+
         if (jedis != null) {
             jedis.set(
                 SharedDefaults.REDIS_STRING_KEY_PREFIX
-                + SharedDefaults.REDIS_STRING_PLAN_PREFIX
+                + prefix
                 + orderUri.getIdentifier(),
                 fileContent
             );

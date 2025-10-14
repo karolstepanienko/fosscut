@@ -39,7 +39,7 @@ public class CutGen {
         RepetitiveTests.testVersion(new Command("cutgen --version"));
     }
 
-    @Test public void simpleOrder() {
+    @Test public void cutgenSimpleOrder() {
         Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1");
         command.run();
         assertEquals(0, command.getExitCode());
@@ -49,8 +49,8 @@ public class CutGen {
         assert(command.getOutput().contains("- length: 688"));
     }
 
-    @Test public void simpleOrderSaveToFile() throws IOException {
-        String testFileName = "simpleOrderSaveToFile";
+    @Test public void cutgenSimpleOrderSaveToFile() throws IOException {
+        String testFileName = "cutgenSimpleOrderSaveToFile";
         Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1 -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
@@ -60,8 +60,17 @@ public class CutGen {
         );
     }
 
-    @Test public void multiInputOrderSaveToFile() throws IOException {
-        String testFileName = "multiInputOrderSaveToFile";
+    @Test public void cutgenSimpleOrderRedis() {
+        String testFileName = "cutgenSimpleOrderRedis";
+        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1 "
+            + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
+            + " -o " + TestDefaults.REDIS_URL + testFileName);
+        command.run();
+        assertEquals(0, command.getExitCode());
+    }
+
+    @Test public void cutgenMultiInputOrderSaveToFile() throws IOException {
+        String testFileName = "cutgenMultiInputOrderSaveToFile";
         Command command = new Command("cutgen -il 1000 -iu 1200 -it 3 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 2 -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
@@ -71,7 +80,9 @@ public class CutGen {
         );
     }
 
-    @Test public void throwInputDuplicates() {
+    //***************************** Duplicates ********************************/
+
+    @Test public void cutgenThrowInputDuplicates() {
         Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -d 10 --seed 1");
         command.run();
         assertEquals(1, command.getExitCode());
@@ -79,8 +90,8 @@ public class CutGen {
         assert(command.getOutput().contains("Duplicates can be allowed using: '--allow-input-type-duplicates'."));
     }
 
-    @Test public void allowInputDuplicates() throws IOException {
-        String testFileName = "allowInputDuplicates";
+    @Test public void cutgenAllowInputDuplicates() throws IOException {
+        String testFileName = "cutgenAllowInputDuplicates";
         Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -d 10 --seed 1 -ai -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
@@ -90,7 +101,7 @@ public class CutGen {
         );
     }
 
-    @Test public void throwOutputDuplicates() {
+    @Test public void cutgenThrowOutputDuplicates() {
         Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -d 10 --seed 1");
         command.run();
         assertEquals(1, command.getExitCode());
@@ -98,8 +109,8 @@ public class CutGen {
         assert(command.getOutput().contains("Duplicates can be allowed using: '--allow-output-type-duplicates'."));
     }
 
-    @Test public void allowOutputDuplicates() throws IOException {
-        String testFileName = "allowOutputDuplicates";
+    @Test public void cutgenAllowOutputDuplicates() throws IOException {
+        String testFileName = "cutgenAllowOutputDuplicates";
         Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -d 10 --seed 1 -ao -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());

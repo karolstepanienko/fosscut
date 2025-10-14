@@ -17,6 +17,7 @@ public class TestDefaults {
     public static final String EXAMPLE_DIRECTORY = "./test";
 
     public static final String REDIS_ORDER_PATH = "redis://127.0.0.1:6379/example-order";
+    public static final String REDIS_URL = "redis://127.0.0.1:6379/";
     public static final String EXAMPLE_REDIS_CONNECTION_SECRETS = "./test/example-redis-connection-secrets.yaml";
     public static final String REDIS_ORDER_PATH_PROTOCOL_EXCEPTION = "welp://127.0.0.1:6379/example-order";
     public static final String REDIS_ORDER_PATH_HOSTNAME_EXCEPTION = "redis://:6379/example-order";
@@ -58,6 +59,7 @@ public class TestDefaults {
     public static final String CG_PDLP_CBC_PLAN = "./test/plan/cg-PDLP-CBC.yaml";
     public static final String CG_PDLP_SAT_1_PLAN = "./test/plan/cg-PDLP-SAT-1.yaml";
     public static final String CG_PDLP_SAT_2_PLAN = "./test/plan/cg-PDLP-SAT-2.yaml";
+    public static final String CG_PDLP_SAT_3_PLAN = "./test/plan/cg-PDLP-SAT-3.yaml";
     public static final String CG_PDLP_SCIP_PLAN = "./test/plan/cg-PDLP-SCIP.yaml";
 
     public static final String CG_FORCE_LINEAR_IMPROVEMENT_PLAN = "./test/plan/cg-force-linear-improvement.yaml";
