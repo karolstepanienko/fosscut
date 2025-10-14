@@ -102,7 +102,7 @@ graalvmNative {
     }
 }
 
-test {
+tasks.named('test') {
     dependsOn nativeCompile
     testLogging.showStandardStreams = true
 }

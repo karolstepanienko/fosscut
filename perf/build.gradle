@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.fosscut'
+version = '0.0.1'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation project(':shared')
+    testImplementation libs.k8sClient
+    testImplementation libs.junit.jupiter
+    testImplementation libs.logback
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    testLogging.showStandardStreams = true
+}

@@ -21,7 +21,7 @@ dependencies {
     implementation project(':shared')
     implementation libs.springStarter
     implementation libs.springStarterWeb
-    implementation libs.k8sClient
+    implementation libs.k8sTektonClient
     implementation libs.springDataRedis
     implementation libs.springStarterWebflux
     testImplementation libs.springStarterTest
@@ -30,9 +30,6 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-test {
     testLogging.showStandardStreams = true
 }
 
