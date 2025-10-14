@@ -12,9 +12,10 @@ public class CgCPUTest {
         CloudCommand cc = new CloudCommand("cgTest", 
             "echo 'Starting CG test'; sleep 5; echo 'Order command done.'",
             "echo 'Starting generator'; sleep 5; echo 'Generator done.'",
-            true
+            "2", "5Gi",
+            false
         );
-        cc.run(List.of("1", "2", "3"));
+        cc.run(List.of("1", "2", "3", "4", "5", "6"));
     }
 
 }

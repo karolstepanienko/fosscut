@@ -1,6 +1,7 @@
 package com.fosscut.utils;
 
 import java.io.PrintStream;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -8,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.PodBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
+import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.LogWatch;
 
@@ -18,10 +21,14 @@ public class FosscutTestPod {
 
     private String podName;
     private boolean enableLogging;
+    private String cpu;
+    private String memory;
 
-    FosscutTestPod(String podName, boolean enableLogging) {
+    FosscutTestPod(String podName, boolean enableLogging, String cpu, String memory) {
         this.podName = podName;
         this.enableLogging = enableLogging;
+        this.cpu = cpu;
+        this.memory = memory;
     }
 
     public void runSingleCommand(KubernetesClient k8sClient, String fullCommand)
@@ -29,6 +36,7 @@ public class FosscutTestPod {
         Pod pod = buildPod(fullCommand);
         createPod(k8sClient, pod);
 
+        waitForPodScheduling(k8sClient);
         LogWatch watch = null;
         if (enableLogging) watch = attachToPodLogs(k8sClient);
         waitForPodCompletion(k8sClient);
@@ -48,29 +56,46 @@ public class FosscutTestPod {
                     .withName("fosscut-cli-container")
                     .withImage("karolstepanienko/fosscut-cli-native:0.0.1")
                     .withCommand("sh", "-c", fullCommand)
+                    .withResources(getResourceRequirements())
                 .endContainer()
                 .withRestartPolicy("Never")
             .endSpec()
             .build();
     }
 
+    private ResourceRequirements getResourceRequirements() {
+        ResourceRequirements resources = new ResourceRequirements();
+        resources.setLimits(Map.of(
+            "cpu", new Quantity(cpu),
+            "memory", new Quantity(memory)
+        ));
+        resources.setRequests(Map.of(
+            "cpu", new Quantity(cpu),
+            "memory", new Quantity(memory)
+        ));
+        return resources;
+    }
+
     private void createPod(KubernetesClient k8sClient, Pod pod) {
         k8sClient.pods()
-            .inNamespace(TestDefaults.DEFAULT_NAMESPACE)
+            .inNamespace(PerformanceDefaults.DEFAULT_NAMESPACE)
             .resource(pod).create();
         logger.info("Pod created: {}", pod.getMetadata().getName());
     }
 
-    private LogWatch attachToPodLogs(KubernetesClient k8sClient) {
+    private void waitForPodScheduling(KubernetesClient k8sClient) {
         k8sClient.pods()
-                .inNamespace(TestDefaults.DEFAULT_NAMESPACE)
-                .withName(podName)
-                .waitUntilCondition(p -> isPodScheduled(p),
-                        TestDefaults.DEFAULT_COMMAND_TIMEOUT, TimeUnit.SECONDS);
+            .inNamespace(PerformanceDefaults.DEFAULT_NAMESPACE)
+            .withName(podName)
+            .waitUntilCondition(p -> isPodScheduled(p),
+                    PerformanceDefaults.DEFAULT_CLOUD_SCHEDULING_TIMEOUT,
+                    TimeUnit.HOURS);
+    }
 
+    private LogWatch attachToPodLogs(KubernetesClient k8sClient) {
         logger.info("Pod {} logs:", podName);
         LogWatch watch = k8sClient.pods()
-                .inNamespace(TestDefaults.DEFAULT_NAMESPACE)
+                .inNamespace(PerformanceDefaults.DEFAULT_NAMESPACE)
                 .withName(podName)
                 .watchLog(logStream);
 
@@ -85,12 +110,12 @@ public class FosscutTestPod {
 
     private void waitForPodCompletion(KubernetesClient k8sClient) throws InterruptedException {
         k8sClient.pods()
-            .inNamespace(TestDefaults.DEFAULT_NAMESPACE)
+            .inNamespace(PerformanceDefaults.DEFAULT_NAMESPACE)
             .withName(podName)
             .waitUntilCondition(
                 p -> isPodFinished(p),
-                TestDefaults.DEFAULT_COMMAND_TIMEOUT,
-                TimeUnit.SECONDS
+                PerformanceDefaults.DEFAULT_CLOUD_EXECUTION_TIMEOUT,
+                TimeUnit.MINUTES
             );
     }
 
@@ -104,14 +129,14 @@ public class FosscutTestPod {
     }
 
     private void logPodStatus(KubernetesClient k8sClient) {
-        Pod finishedPod = k8sClient.pods().inNamespace(TestDefaults.DEFAULT_NAMESPACE).withName(podName).get();
+        Pod finishedPod = k8sClient.pods().inNamespace(PerformanceDefaults.DEFAULT_NAMESPACE).withName(podName).get();
         String phase = finishedPod.getStatus().getPhase();
         logger.info("Pod finished with status: " + phase);
     }
 
     private void deletePod(KubernetesClient k8sClient) {
         k8sClient.pods()
-            .inNamespace(TestDefaults.DEFAULT_NAMESPACE)
+            .inNamespace(PerformanceDefaults.DEFAULT_NAMESPACE)
             .withName(podName)
             .delete();
         logger.info("Pod deleted: {}", podName);

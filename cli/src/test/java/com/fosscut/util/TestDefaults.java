@@ -10,7 +10,7 @@ public class TestDefaults {
     public static final String LINUX_CMD_PASS_OPTION = "-c";
     public static final String WINDOWS_SHELL = "powershell.exe";
 
-    public static final long DEFAULT_COMMAND_TIMEOUT = 5;
+    public static final long DEFAULT_COMMAND_TIMEOUT = 5; // seconds
 
     public static final String VERSION_STRING = "fosscut version \"0.0.1\"";
 
