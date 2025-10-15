@@ -1,6 +1,8 @@
 package com.fosscut.utils;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -11,6 +13,10 @@ import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.PodBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import io.fabric8.kubernetes.api.model.Volume;
+import io.fabric8.kubernetes.api.model.VolumeBuilder;
+import io.fabric8.kubernetes.api.model.VolumeMount;
+import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.LogWatch;
 
@@ -33,8 +39,7 @@ public class FosscutTestPod {
 
     public void runSingleCommand(KubernetesClient k8sClient, String fullCommand)
         throws InterruptedException {
-        Pod pod = buildPod(fullCommand);
-        createPod(k8sClient, pod);
+        createPod(k8sClient, buildPod(fullCommand));
 
         waitForPodScheduling(k8sClient);
         LogWatch watch = null;
@@ -57,8 +62,10 @@ public class FosscutTestPod {
                     .withImage("karolstepanienko/fosscut-cli-native:0.0.1")
                     .withCommand("sh", "-c", fullCommand)
                     .withResources(getResourceRequirements())
+                    .withVolumeMounts(getVolumeMounts())
                 .endContainer()
                 .withRestartPolicy("Never")
+                .withVolumes(getVolumes())
             .endSpec()
             .build();
     }
@@ -74,6 +81,44 @@ public class FosscutTestPod {
             "memory", new Quantity(memory)
         ));
         return resources;
+    }
+
+    private List<VolumeMount> getVolumeMounts() {
+        List<VolumeMount> volumeMounts = new ArrayList<>();
+        volumeMounts.add(new VolumeMountBuilder()
+            .withName("redis-connection-secrets")
+            .withMountPath("/secrets/redis-connection-secrets.yaml")
+            .withSubPath("redis-connection-secrets.yaml")
+            .withReadOnly(true)
+            .build()
+        );
+        volumeMounts.add(new VolumeMountBuilder()
+            .withName("redis-connection-secrets")
+            .withMountPath("/secrets/keystore.p12")
+            .withSubPath("keystore.p12")
+            .withReadOnly(true)
+            .build()
+        );
+        volumeMounts.add(new VolumeMountBuilder()
+            .withName("redis-connection-secrets")
+            .withMountPath("/secrets/truststore.p12")
+            .withSubPath("truststore.p12")
+            .withReadOnly(true)
+            .build()
+        );
+        return volumeMounts;
+    }
+
+    private List<Volume> getVolumes() {
+        List<Volume> volumes = new ArrayList<>();
+        volumes.add(new VolumeBuilder()
+            .withName("redis-connection-secrets")
+            .withNewSecret()
+                .withSecretName("cli-redis-connection-secrets")
+            .endSecret()
+            .build()
+        );
+        return volumes;
     }
 
     private void createPod(KubernetesClient k8sClient, Pod pod) {
