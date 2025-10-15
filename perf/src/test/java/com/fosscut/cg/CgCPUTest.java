@@ -1,6 +1,6 @@
 package com.fosscut.cg;
 
-import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,14 +8,14 @@ import com.fosscut.utils.CloudCommand;
 
 public class CgCPUTest {
 
-    @Test public void cgTest() throws InterruptedException {
-        CloudCommand cc = new CloudCommand("cgTest", 
-            "echo 'Starting CG test'; sleep 5; echo 'Order command done.'",
-            "echo 'Starting generator'; sleep 5; echo 'Generator done.'",
-            "2", "5Gi",
-            false
+    @Test public void cgCPU2() throws InterruptedException {
+        CloudCommand cc = new CloudCommand("cgCPU2",
+            "cutgen -i 500000 -ol 0.2 -ou 0.6 -ot 100 -d 100",
+            "cg --linear-solver GLOP --integer-solver SCIP",
+            "1", "5Gi",
+            true
         );
-        cc.run(List.of("1", "2", "3", "4", "5", "6"));
+        cc.run(Map.of(1, 1, 2, 2));
     }
 
 }
