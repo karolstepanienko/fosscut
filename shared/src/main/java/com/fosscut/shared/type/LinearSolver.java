@@ -10,5 +10,7 @@ package com.fosscut.shared.type;
 public enum LinearSolver {
     CLP,
     GLOP,
-    PDLP
+    PDLP,
+    CBC,
+    SCIP
 }
