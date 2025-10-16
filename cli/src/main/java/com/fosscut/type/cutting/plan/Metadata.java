@@ -1,5 +1,7 @@
 package com.fosscut.type.cutting.plan;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,7 @@ import com.fosscut.shared.type.cutting.order.OrderOutput;
 
 public class Metadata {
     private Long elapsedTimeMilliseconds;
+    private String timestamp;
     private Integer inputCount;
     private Integer outputCount;
     private Integer inputTypeCount;
@@ -33,6 +36,7 @@ public class Metadata {
         calculateOutputCount(outputs);
         inputTypeCount = inputs.size();
         outputTypeCount = outputs.size();
+        determineTimestamp();
         findUnnecessaryOutputs(inputs, outputs);
         calculateTotalWaste(inputs, outputs);
         if (unnecessaryOutputs != null) calculateTrueTotalWaste(inputs);
@@ -42,6 +46,10 @@ public class Metadata {
 
     public Long getElapsedTimeMilliseconds() {
         return elapsedTimeMilliseconds;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public Integer getInputCount() {
@@ -102,6 +110,11 @@ public class Metadata {
         for (OrderOutput output : outputs) {
             outputCount += output.getCount();
         }
+    }
+
+    private void determineTimestamp() {
+        if (this.elapsedTimeMilliseconds == null) return;
+        this.timestamp = LocalDate.now().toString() + ":" + LocalTime.now();
     }
 
     private void findUnnecessaryOutputs(List<PlanInput> inputs, List<OrderOutput> outputs) {
