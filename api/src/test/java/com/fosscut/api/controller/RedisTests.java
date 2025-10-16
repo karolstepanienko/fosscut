@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fosscut.api.util.ApiDefaults;
+import com.fosscut.shared.SharedDefaults;
 
 import jakarta.servlet.http.Cookie;
 
@@ -81,7 +82,7 @@ public class RedisTests {
     @Order(3)
     void checkOrderSaved_Success() throws Exception {
         // Given
-        Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
+        Cookie cookie = new Cookie(SharedDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
 
         // When & Then
         mockMvc.perform(get("/redis/check/order/saved")
@@ -93,7 +94,7 @@ public class RedisTests {
     @Test
     void checkOrderSaved_Failure() throws Exception {
         // Given
-        Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, "this order does not exist");
+        Cookie cookie = new Cookie(SharedDefaults.COOKIE_IDENTIFIER, "this order does not exist");
 
         // When & Then
         mockMvc.perform(get("/redis/check/order/saved")

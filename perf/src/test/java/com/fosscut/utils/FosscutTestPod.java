@@ -30,6 +30,8 @@ public class FosscutTestPod {
     private String cpu;
     private String memory;
 
+    private String podFinalStatus;
+
     FosscutTestPod(String podName, boolean enableLogging, String cpu, String memory) {
         this.podName = podName;
         this.enableLogging = enableLogging;
@@ -38,7 +40,8 @@ public class FosscutTestPod {
     }
 
     public void runSingleCommand(KubernetesClient k8sClient, String fullCommand)
-        throws InterruptedException {
+    throws InterruptedException {
+        deletePod(k8sClient);  // deletes previously failed pods
         createPod(k8sClient, buildPod(fullCommand));
 
         waitForPodScheduling(k8sClient);
@@ -49,6 +52,10 @@ public class FosscutTestPod {
 
         logPodStatus(k8sClient);
         deletePod(k8sClient);
+
+        if (!podFinalStatus.equals("Succeeded")) {
+            throw new RuntimeException("Pod failed: " + podFinalStatus);
+        }
     }
 
     private Pod buildPod(String fullCommand) {
@@ -169,6 +176,7 @@ public class FosscutTestPod {
             return false;
         } else {
             String phase = pod.getStatus().getPhase();
+            podFinalStatus = phase;
             return "Succeeded".equals(phase) || "Failed".equals(phase);
         }
     }

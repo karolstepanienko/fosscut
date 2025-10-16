@@ -9,6 +9,10 @@ public class PerformanceDefaults {
     public static final String CLI_TOOL_PATH = "fosscut";
     public static final String CLOUD_REDIS_URL = "redis://redis-replicas.redis.svc.cluster.local:6379/";
     public static final String CLOUD_REDIS_SECRETS_PATH = "--redis-connection-secrets /secrets/redis-connection-secrets.yaml";
+    public static final String RESULTS_PATH = "." + System.getProperty("file.separator") + "results" + System.getProperty("file.separator");
+    public static final String FOSSCUT_API_REDIS_URL = "https://haproxy-kubernetes-ingress.haproxy-controller/api/redis/get/";
+    public static final String FOSSCUT_API_HOSTNAME = "fosscut.com";
+    public static final String FOSSCUT_API_TRUSTSTORE_PATH = "../helm/secrets/haproxy-truststore.jks";
 
     public static final String DEFAULT_CPU = "2";
     public static final String DEFAULT_MEMORY = "5Gi";

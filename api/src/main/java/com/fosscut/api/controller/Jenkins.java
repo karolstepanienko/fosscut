@@ -12,6 +12,7 @@ import com.fosscut.api.client.FosscutJenkinsClient;
 import com.fosscut.api.type.JenkinsJobLogsDTO;
 import com.fosscut.api.type.Settings;
 import com.fosscut.api.util.ApiDefaults;
+import com.fosscut.shared.SharedDefaults;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -25,7 +26,7 @@ public class Jenkins {
     @PostMapping("/job/run")
     @ResponseBody
     public String triggerJenkinsJob(
-        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier,
         @CookieValue(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER) String settingsString,
         HttpServletResponse response
     ) {

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fosscut.api.TestDefaults;
 import com.fosscut.api.type.AirflowDAGLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
+import com.fosscut.shared.SharedDefaults;
 
 import jakarta.servlet.http.Cookie;
 
@@ -45,7 +46,7 @@ public class AirflowTests {
     @Order(2)
     void dagRun_Success() throws Exception {
         // Given
-        Cookie cookie = new Cookie(ApiDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
+        Cookie cookie = new Cookie(SharedDefaults.COOKIE_IDENTIFIER, ApiDefaults.TEST_ORDER_IDENTIFIER);
         Cookie cookieSettings = new Cookie(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER, TestDefaults.getDefaultSettingsJson());
 
         // When & Then

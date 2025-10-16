@@ -1,6 +1,9 @@
 package com.fosscut.utils;
 
+import java.io.IOException;
 import java.util.Map;
+
+import com.fosscut.shared.util.save.SaveFile;
 
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
@@ -14,6 +17,8 @@ public class CloudCommand {
     private String memory;
     private boolean enableLogging;
 
+    private RedisClient redisClient;
+
     public CloudCommand(String testName, String orderCommand, String planCommand) {
         this.testName = testName;
         this.orderCommand = orderCommand;
@@ -21,6 +26,7 @@ public class CloudCommand {
         this.cpu = PerformanceDefaults.DEFAULT_CPU;
         this.memory = PerformanceDefaults.DEFAULT_MEMORY;
         this.enableLogging = false;
+        this.redisClient = new RedisClient();
     }
 
     public CloudCommand(String testName, String orderCommand, String planCommand, String cpu, String memory) {
@@ -30,6 +36,7 @@ public class CloudCommand {
         this.cpu = cpu;
         this.memory = memory;
         this.enableLogging = false;
+        this.redisClient = new RedisClient();
     }
 
     public CloudCommand(String testName, String orderCommand, String planCommand, String cpu, String memory, boolean enableLogging) {
@@ -39,6 +46,7 @@ public class CloudCommand {
         this.cpu = cpu;
         this.memory = memory;
         this.enableLogging = enableLogging;
+        this.redisClient = new RedisClient();
     }
 
     public void run(Map<Integer, Integer> seeds) throws InterruptedException {
@@ -47,7 +55,8 @@ public class CloudCommand {
                 try {
                     new FosscutTestPod(getPodName(seed), enableLogging, cpu, memory)
                         .runSingleCommand(k8sClient, buildCommand(seed));
-                } catch (InterruptedException e) {
+                    downloadFromRedis(seed);
+                } catch (InterruptedException | RuntimeException | IOException e) {
                     Thread.currentThread().interrupt();
                     throw new RuntimeException(e);
                 }
@@ -84,6 +93,18 @@ public class CloudCommand {
 
     private String getRunIdentifier(Map.Entry<Integer, Integer> seed) {
         return "-run-" + seed.getKey() + "-seed-" + seed.getValue();
+    }
+
+    private void downloadFromRedis(Map.Entry<Integer, Integer> seed)
+        throws RuntimeException, IOException
+    {
+        String plan = redisClient.getPlan(getRedisKey(seed));
+        SaveFile.saveContentToFile(plan,
+            PerformanceDefaults.RESULTS_PATH + getRedisKey(seed) + "-plan.yaml");
+
+        String order = redisClient.getOrder(getRedisKey(seed));
+        SaveFile.saveContentToFile(order,
+            PerformanceDefaults.RESULTS_PATH + getRedisKey(seed) + "-order.yaml");
     }
 
 }

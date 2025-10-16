@@ -6,4 +6,6 @@ public class SharedDefaults {
     public static final String REDIS_STRING_ORDER_PREFIX = "order:";
     public static final String REDIS_STRING_PLAN_PREFIX = "plan:";
 
+    public static final String COOKIE_IDENTIFIER = "fosscut_orderIdentifier";
+
 }

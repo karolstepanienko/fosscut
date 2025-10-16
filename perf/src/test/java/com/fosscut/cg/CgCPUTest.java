@@ -10,12 +10,12 @@ public class CgCPUTest {
 
     @Test public void cgCPU2() throws InterruptedException {
         CloudCommand cc = new CloudCommand("cgCPU2",
-            "cutgen -i 500000 -ol 0.2 -ou 0.6 -ot 100 -d 100",
+            "cutgen -i 1000 -ol 0.3 -ou 0.5 -ot 10 -d 100",
             "cg --linear-solver GLOP --integer-solver SCIP",
             "1", "5Gi",
             true
         );
-        cc.run(Map.of(1, 1, 2, 2));
+        cc.run(Map.of(1, 3, 2, 5));
     }
 
 }

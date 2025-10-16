@@ -71,20 +71,35 @@ public class Redis {
 
     @GetMapping("/check/order/saved")
     @ResponseBody
-    public boolean checkOrderSavedInRedis(@CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier) {
+    public boolean checkOrderSavedInRedis(@CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier) {
         String key = SharedDefaults.REDIS_STRING_KEY_PREFIX + SharedDefaults.REDIS_STRING_ORDER_PREFIX + identifier;
         String value = template.opsForValue().get(key);
         return value != null;
     }
 
+    @GetMapping("/get/order")
+    @ResponseBody
+    public String getOrderFromRedis(@CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier) {
+        return getFromRedis("order", identifier);
+    }
+
     @GetMapping("/get/plan")
     @ResponseBody
-    public String getPlanFromRedis(@CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier) {
+    public String getPlanFromRedis(@CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier) {
+        return getFromRedis("plan", identifier);
+    }
+
+    private String getFromRedis(String type, String identifier) throws ResponseStatusException {
         if (identifier == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "identifier is null");
         }
 
-        String key = SharedDefaults.REDIS_STRING_KEY_PREFIX + SharedDefaults.REDIS_STRING_PLAN_PREFIX + identifier;
+        String prefix = null;
+        if (type == "plan") prefix = SharedDefaults.REDIS_STRING_PLAN_PREFIX;
+        else if (type == "order") prefix = SharedDefaults.REDIS_STRING_ORDER_PREFIX;
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid type");
+
+        String key = SharedDefaults.REDIS_STRING_KEY_PREFIX + prefix + identifier;
         String value = template.opsForValue().get(key);
 
         if (value == null) {

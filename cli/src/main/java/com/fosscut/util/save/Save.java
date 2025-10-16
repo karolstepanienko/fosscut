@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPooled;
 
 import com.fosscut.shared.SharedDefaults;
+import com.fosscut.shared.util.save.SaveFile;
 import com.fosscut.type.RedisURI;
 import com.fosscut.util.RedisClient;
 import com.fosscut.util.RedisUriParser;
@@ -38,7 +39,7 @@ public class Save {
 
     public void save(File outputFile) {
         if (outputFile != null)
-            saveCuttingPlanToFile(outputFile);
+            SaveFile.saveContentToFile(fileContent, outputFile);
         else if (this.redisConnectionSecretsFile != null)
             saveCuttingPlanToRedis();
     }
@@ -50,21 +51,7 @@ public class Save {
             saveCuttingPlanToRedis();
         } else {
             File outputFile = new File(outputPath);
-            saveCuttingPlanToFile(outputFile);
-        }
-    }
-
-    private void saveCuttingPlanToFile(File outputFile) {
-        try {
-            outputFile.createNewFile();  // will do nothing if file exists
-            PrintWriter out = new PrintWriter(outputFile);
-            out.print(fileContent);
-            out.close();
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            logger.error("Unable to save file.");
-            logger.error(e.getMessage());
+            SaveFile.saveContentToFile(fileContent, outputFile);
         }
     }
 

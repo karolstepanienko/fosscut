@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fosscut.api.TestDefaults;
 import com.fosscut.api.type.TektonTaskRunLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
+import com.fosscut.shared.SharedDefaults;
 
 import jakarta.servlet.http.Cookie;
 
@@ -35,7 +36,7 @@ public class TektonTests {
 
     // Given
     private static final Cookie cookie = new Cookie(
-        ApiDefaults.COOKIE_IDENTIFIER,
+        SharedDefaults.COOKIE_IDENTIFIER,
         ApiDefaults.TEST_ORDER_IDENTIFIER
     );
 

@@ -14,6 +14,7 @@ import com.fosscut.api.client.FosscutTektonClient;
 import com.fosscut.api.type.Settings;
 import com.fosscut.api.type.TektonTaskRunLogsDTO;
 import com.fosscut.api.util.ApiDefaults;
+import com.fosscut.shared.SharedDefaults;
 
 @Controller
 @RequestMapping("/tekton")
@@ -24,7 +25,7 @@ public class Tekton {
 
     @PostMapping("/taskRun/create")
     public void taskRunCreate(
-        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier,
         @CookieValue(ApiDefaults.COOKIE_SETTINGS_IDENTIFIER) String settingsString,
         HttpServletResponse response
     ) {
@@ -43,7 +44,7 @@ public class Tekton {
 
     @PostMapping("/taskRun/delete")
     public void taskRunDelete(
-        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier,
         HttpServletResponse response
     ) {
         if (!ftkn.taskRunExists(identifier)) {
@@ -56,7 +57,7 @@ public class Tekton {
     @GetMapping("/taskRun/logs")
     @ResponseBody
     public TektonTaskRunLogsDTO getTaskRunLogs(
-        @CookieValue(ApiDefaults.COOKIE_IDENTIFIER) String identifier,
+        @CookieValue(SharedDefaults.COOKIE_IDENTIFIER) String identifier,
         HttpServletResponse response
     ) {
         TektonTaskRunLogsDTO taskRunLogsDTO = null;
