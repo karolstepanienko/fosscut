@@ -14,7 +14,6 @@ import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
-import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
@@ -29,6 +28,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     private Double relaxCost;
     private boolean relaxEnabled;
     private IntegerSolver integerSolver;
+    private int integerNumThreads;
 
     private RelaxationSpread relaxationSpread;
     private List<MPVariable> usageVariables;
@@ -42,7 +42,8 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         Double relaxCost,
         boolean relaxEnabled,
         RelaxationSpreadStrategy relaxationSpreadStrategy,
-        IntegerSolver integerSolver
+        IntegerSolver integerSolver,
+        int integerNumThreads
     ) {
         setOutputs(outputs);
         this.orderInputId = orderInputId;
@@ -52,6 +53,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
         this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);
+        this.integerNumThreads = integerNumThreads;
     }
 
     public void setUsageVariables(List<MPVariable> usageVariables) {
@@ -63,7 +65,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
     }
 
     public void solve() throws LPUnfeasibleException {
-        setSolver(MPSolver.createSolver(integerSolver.toString()));
+        createSolver(integerSolver.toString(), integerNumThreads);
 
         if (relaxEnabled) initModelWithRelaxation();
         else initModel();

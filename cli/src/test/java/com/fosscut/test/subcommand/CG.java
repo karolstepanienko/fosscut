@@ -126,6 +126,21 @@ public class CG {
         assert(command.getOutput().contains("elapsedTimeMilliseconds:"));
     }
 
+    /**************************** Multithreading ******************************/
+
+    @Test public void cgMultithreading() throws IOException {
+        String testFileName = "cgMultithreading";
+        Command command = new Command("cg -ln 1 -in 1 -d -q -o  " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.CG_CLP_GLOP_SCIP_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
     /******************************** Redis ***********************************/
 
     @Test public void cgRedis() {
@@ -379,12 +394,11 @@ public class CG {
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().equals(""));
 
-        // SAT solver is nondeterministic, it can randomly generate two different cutting plans
-        String result = Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName);
-        assert(
-            result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_1_PLAN))
-            || result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_2_PLAN))
-            || result.equals(Utils.loadFile(TestDefaults.CG_PDLP_SAT_3_PLAN))
+        // SAT solver is nondeterministic, it can randomly generate
+        // different cutting plans when using multithreading
+        assertEquals(
+            Utils.loadFile(TestDefaults.CG_PDLP_SAT_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
         );
     }
 

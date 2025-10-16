@@ -34,6 +34,8 @@ public class ColumnGeneration {
     private boolean forceLinearImprovement;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
+    private int linearNumThreads;
+    private int integerNumThreads;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
@@ -44,7 +46,9 @@ public class ColumnGeneration {
         RelaxationSpreadStrategy relaxationSpreadStrategy,
         boolean forceLinearImprovement,
         LinearSolver linearSolver,
-        IntegerSolver integerSolver
+        IntegerSolver integerSolver,
+        int linearNumThreads,
+        int integerNumThreads
     ) {
         this.order = order;
         this.relaxCost = relaxCost;
@@ -54,6 +58,8 @@ public class ColumnGeneration {
         this.forceLinearImprovement = forceLinearImprovement;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
+        this.linearNumThreads = linearNumThreads;
+        this.integerNumThreads = integerNumThreads;
     }
 
     public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds)
@@ -80,7 +86,7 @@ public class ColumnGeneration {
             CuttingPlanGeneration linearCuttingPlanGeneration =
                 new CuttingPlanGeneration(order, params, false,
                     optimizationCriterion, linearSolver, integerSolver,
-                    relaxEnabled);
+                    linearNumThreads, integerNumThreads, relaxEnabled);
             linearCuttingPlanGeneration.solve();
             List<Double> demandDualValues = linearCuttingPlanGeneration.getDemandDualValues();
             Map<Integer, Double> supplyDualValues = linearCuttingPlanGeneration.getSupplyDualValues();
@@ -90,7 +96,7 @@ public class ColumnGeneration {
                 PatternGeneration patternGeneration = new PatternGeneration(
                     order, inputId, demandDualValues,
                     relaxCost, relaxEnabled, integerSolver,
-                    optimizationCriterion
+                    integerNumThreads, optimizationCriterion
                 );
                 patternGeneration.solve();
 
@@ -103,7 +109,8 @@ public class ColumnGeneration {
 
         integerCuttingPlanGeneration = new CuttingPlanGeneration(
             order, params, true, optimizationCriterion,
-            linearSolver, integerSolver, relaxEnabled);
+            linearSolver, integerSolver, linearNumThreads, integerNumThreads,
+            relaxEnabled);
         integerCuttingPlanGeneration.solve();
     }
 

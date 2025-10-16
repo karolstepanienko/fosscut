@@ -13,7 +13,6 @@ import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
-import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
@@ -26,6 +25,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
     private Double relaxCost;
     private boolean relaxEnabled;
     private IntegerSolver integerSolver;
+    private int integerNumThreads;
     private OptimizationCriterion optimizationCriterion;
 
     private List<MPVariable> usageVariables;
@@ -38,6 +38,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         Double relaxCost,
         boolean relaxEnabled,
         IntegerSolver integerSolver,
+        int integerNumThreads,
         OptimizationCriterion optimizationCriterion
     ) {
         setOrder(order);
@@ -46,6 +47,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         this.relaxCost = relaxCost;
         this.relaxEnabled = relaxEnabled;
         this.integerSolver = integerSolver;
+        this.integerNumThreads = integerNumThreads;
         this.optimizationCriterion = optimizationCriterion;
     }
 
@@ -69,7 +71,7 @@ class PatternGeneration extends ColumnGenerationLPTask {
         logger.info("");
         logger.info("Starting pattern generation...");
 
-        setSolver(MPSolver.createSolver(integerSolver.toString()));
+        createSolver(integerSolver.toString(), integerNumThreads);
 
         if (relaxEnabled) initModelWithRelaxation();
         else initModel();

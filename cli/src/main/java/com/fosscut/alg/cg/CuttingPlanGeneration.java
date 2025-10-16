@@ -18,7 +18,6 @@ import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
-import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPSolver.ResultStatus;
 import com.google.ortools.linearsolver.MPVariable;
 
@@ -31,6 +30,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     private OptimizationCriterion optimizationCriterion;
     private LinearSolver linearSolver;
     private IntegerSolver integerSolver;
+    private int linearNumThreads;
+    private int integerNumThreads;
     private boolean relaxEnabled;
 
     private List<List<MPVariable>> patternsPerInputVariables;
@@ -42,6 +43,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         OptimizationCriterion optimizationCriterion,
         LinearSolver linearSolver,
         IntegerSolver integerSolver,
+        int linearNumThreads,
+        int integerNumThreads,
         boolean relaxEnabled
     ) {
         setOrder(order);
@@ -50,6 +53,8 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         this.optimizationCriterion = optimizationCriterion;
         this.linearSolver = linearSolver;
         this.integerSolver = integerSolver;
+        this.linearNumThreads = linearNumThreads;
+        this.integerNumThreads = integerNumThreads;
         this.relaxEnabled = relaxEnabled;
     }
 
@@ -57,7 +62,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         logger.info("");
         logger.info("Starting cutting plan generation...");
 
-        setSolver(defineSolver());
+        defineSolver();
         this.patternsPerInputVariables = defineVariables();
         this.demandConstraints = defineDemandConstraints();
         this.supplyConstraints = defineSupplyConstraints();
@@ -101,11 +106,12 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         return supplyDualValues;
     }
 
-    private MPSolver defineSolver() {
-        MPSolver solver;
-        if (integer) solver = MPSolver.createSolver(integerSolver.toString());
-        else solver = MPSolver.createSolver(linearSolver.toString());
-        return solver;
+    private void defineSolver() {
+        if (integer) {
+            createSolver(integerSolver.toString(), integerNumThreads);
+        } else {
+            createSolver(linearSolver.toString(), linearNumThreads);
+        }
     }
 
     private List<List<MPVariable>> defineVariables() {

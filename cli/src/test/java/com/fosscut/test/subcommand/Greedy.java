@@ -115,6 +115,21 @@ public class Greedy {
         assert(command.getOutput().contains("elapsedTimeMilliseconds:"));
     }
 
+    /**************************** Multithreading ******************************/
+
+    @Test public void greedyMultithreading() throws IOException {
+        String testFileName = "greedyMultithreading";
+        Command command = new Command("greedy -in 1 -d -q -o " + testFileName + " "
+            + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().equals(""));
+        assertEquals(
+            Utils.loadFile(TestDefaults.GREEDY_PLAN),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
     /******************************** Redis ***********************************/
 
     @Test public void greedyRedis() {

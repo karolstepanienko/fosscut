@@ -23,8 +23,9 @@ public abstract class LPTask {
         return solver;
     }
 
-    public void setSolver(MPSolver solver) {
-        this.solver = solver;
+    public void createSolver(String solverType, int numThreads) {
+        this.solver = MPSolver.createSolver(solverType);
+        this.solver.setNumThreads(numThreads);
     }
 
     public MPObjective getObjective() {

@@ -26,11 +26,13 @@ public class GreedyAlg extends ConstructiveHeuristic {
     private boolean relaxEnabled;
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
     private IntegerSolver integerSolver;
+    private int integerNumThreads;
 
     public GreedyAlg(Order order, Double relaxCost, boolean relaxEnabled,
         RelaxationSpreadStrategy relaxationSpreadStrategy,
         OptimizationCriterion optimizationCriterion,
-        IntegerSolver integerSolver
+        IntegerSolver integerSolver,
+        int integerNumThreads
     ) {
         super(optimizationCriterion);
         this.order = order;
@@ -38,6 +40,7 @@ public class GreedyAlg extends ConstructiveHeuristic {
         this.relaxEnabled = relaxEnabled;
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
         this.integerSolver = integerSolver;
+        this.integerNumThreads = integerNumThreads;
     }
 
     public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds) {
@@ -71,7 +74,8 @@ public class GreedyAlg extends ConstructiveHeuristic {
                         relaxCost,
                         relaxEnabled,
                         relaxationSpreadStrategy,
-                        integerSolver
+                        integerSolver,
+                        integerNumThreads
                     );
                 greedyPatternGeneration.solve();
                 patterns.add(greedyPatternGeneration.getPattern());

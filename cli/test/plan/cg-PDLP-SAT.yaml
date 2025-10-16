@@ -5,7 +5,7 @@ inputs:
     patternDefinition:
     - id: 2
       count: 2
-  - count: 5
+  - count: 3
     patternDefinition:
     - id: 1
       count: 2
@@ -17,7 +17,11 @@ inputs:
     patternDefinition:
     - id: 0
       count: 5
-  - count: 8
+  - count: 2
+    patternDefinition:
+    - id: 1
+      count: 5
+  - count: 10
     patternDefinition:
     - id: 3
       count: 2
@@ -33,7 +37,7 @@ inputs:
     patternDefinition:
     - id: 4
       count: 2
-  - count: 3
+  - count: 1
     patternDefinition:
     - id: 1
       count: 3

@@ -19,6 +19,7 @@ import com.fosscut.util.AlgTimer;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
+import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -60,6 +61,16 @@ public class CG extends AbstractAlg {
         defaultValue = Defaults.DEFAULT_PARAM_INTEGER_SOLVER,
         description = "One of: (${COMPLETION-CANDIDATES}).")
     private IntegerSolver integerSolver;
+
+    @Option(names = { "-ln", "--linear-num-threads" },
+        defaultValue = Defaults.DEFAULT_NUM_THREADS,
+        description = Messages.LINEAR_NUM_THREADS_DESCRIPTION)
+    private int linearNumThreads;
+
+    @Option(names = { "-in", "--integer-num-threads" },
+        defaultValue = Defaults.DEFAULT_NUM_THREADS,
+        description = Messages.INTEGER_NUM_THREADS_DESCRIPTION)
+    private int integerNumThreads;
 
     @Option(names = { "--force-linear-improvement", "-fli" },
         defaultValue = "false",
@@ -105,7 +116,7 @@ public class CG extends AbstractAlg {
         ColumnGeneration columnGeneration = new ColumnGeneration(
             order, relaxCost, relaxEnabled, optimizationCriterion,
             relaxationSpreadStrategy, forceLinearImprovement,
-            linearSolver, integerSolver);
+            linearSolver, integerSolver, linearNumThreads, integerNumThreads);
         columnGeneration.run();
         if (!disableTimeMeasurementMetadata) {
             timer.stop();

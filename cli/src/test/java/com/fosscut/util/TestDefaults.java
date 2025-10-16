@@ -57,9 +57,7 @@ public class TestDefaults {
     public static final String CG_GLOP_CBC_PLAN = "./test/plan/cg-GLOP-CBC.yaml";
 
     public static final String CG_PDLP_CBC_PLAN = "./test/plan/cg-PDLP-CBC.yaml";
-    public static final String CG_PDLP_SAT_1_PLAN = "./test/plan/cg-PDLP-SAT-1.yaml";
-    public static final String CG_PDLP_SAT_2_PLAN = "./test/plan/cg-PDLP-SAT-2.yaml";
-    public static final String CG_PDLP_SAT_3_PLAN = "./test/plan/cg-PDLP-SAT-3.yaml";
+    public static final String CG_PDLP_SAT_PLAN = "./test/plan/cg-PDLP-SAT.yaml";
     public static final String CG_PDLP_SCIP_PLAN = "./test/plan/cg-PDLP-SCIP.yaml";
 
     public static final String CG_FORCE_LINEAR_IMPROVEMENT_PLAN = "./test/plan/cg-force-linear-improvement.yaml";

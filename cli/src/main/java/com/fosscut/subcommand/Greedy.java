@@ -18,6 +18,7 @@ import com.fosscut.util.AlgTimer;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
 import com.fosscut.util.LogFormatter;
+import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -55,6 +56,11 @@ public class Greedy extends AbstractAlg {
         description = "One of: (${COMPLETION-CANDIDATES}).")
     private IntegerSolver integerSolver;
 
+    @Option(names = { "-in", "--integer-num-threads" },
+        defaultValue = Defaults.DEFAULT_NUM_THREADS,
+        description = Messages.INTEGER_NUM_THREADS_DESCRIPTION)
+    private int integerNumThreads;
+
     @Spec
     private CommandSpec spec;
 
@@ -85,7 +91,8 @@ public class Greedy extends AbstractAlg {
         Long algElapsedTime = null;
         if (!disableTimeMeasurementMetadata) timer.start();
         GreedyAlg greedy = new GreedyAlg(order, relaxCost, relaxEnabled,
-            relaxationSpreadStrategy, optimizationCriterion, integerSolver);
+            relaxationSpreadStrategy, optimizationCriterion, integerSolver,
+            integerNumThreads);
         greedy.run();
         if (!disableTimeMeasurementMetadata) {
             timer.stop();

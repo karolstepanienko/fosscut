@@ -31,4 +31,14 @@ public class Messages {
         + " relaxation strategies affect only output elements of the same type."
         + " Relaxation is not spread between different output types in a pattern.";
 
+    public static final String LINEAR_NUM_THREADS_DESCRIPTION =
+        "Number of threads to use for solving linear programming tasks"
+        + " using an linear solver."
+        + " Most solvers are single-threaded by default.";
+
+    public static final String INTEGER_NUM_THREADS_DESCRIPTION =
+        "Number of threads to use for solving linear programming tasks"
+        + " (with integer constraints) using an integer solver."
+        + " Most solvers are single-threaded by default.";
+
 }
