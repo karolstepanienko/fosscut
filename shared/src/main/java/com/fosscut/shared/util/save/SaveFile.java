@@ -18,7 +18,15 @@ public class SaveFile {
         saveContentToFile(content, outputFile);
     }
 
+    public static void createDirectoriesForFile(File outputFile) {
+        File parentDir = outputFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+    }
+
     public static void saveContentToFile(String content, File outputFile) {
+        createDirectoriesForFile(outputFile);
         try {
             // it cannot create directories automatically and will throw IOException
             outputFile.createNewFile();  // will do nothing if file exists

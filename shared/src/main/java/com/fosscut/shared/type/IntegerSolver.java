@@ -5,7 +5,7 @@ package com.fosscut.shared.type;
  * solvers. Only a compatible subset of open source solvers were chosen.
  */
 public enum IntegerSolver {
-    CBC,
-    SAT,
-    SCIP
+    CBC, // single-threaded
+    SAT, // multi-threaded
+    SCIP // multi-threaded
 }

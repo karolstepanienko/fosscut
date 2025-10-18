@@ -1,6 +1,7 @@
 package com.fosscut.utils;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fosscut.shared.util.save.SaveFile;
@@ -10,6 +11,7 @@ import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 
 public class CloudCommand {
 
+    private String resultsFolderName;
     private String testName;
     private String orderCommand;
     private String planCommand;
@@ -19,7 +21,8 @@ public class CloudCommand {
 
     private RedisClient redisClient;
 
-    public CloudCommand(String testName, String orderCommand, String planCommand) {
+    public CloudCommand(String resultsFolderName, String testName, String orderCommand, String planCommand) {
+        this.resultsFolderName = prepareResultsFolderName(resultsFolderName);
         this.testName = testName;
         this.orderCommand = orderCommand;
         this.planCommand = planCommand;
@@ -29,7 +32,8 @@ public class CloudCommand {
         this.redisClient = new RedisClient();
     }
 
-    public CloudCommand(String testName, String orderCommand, String planCommand, String cpu, String memory) {
+    public CloudCommand(String resultsFolderName, String testName, String orderCommand, String planCommand, String cpu, String memory) {
+        this.resultsFolderName = prepareResultsFolderName(resultsFolderName);
         this.testName = testName;
         this.orderCommand = orderCommand;
         this.planCommand = planCommand;
@@ -39,7 +43,8 @@ public class CloudCommand {
         this.redisClient = new RedisClient();
     }
 
-    public CloudCommand(String testName, String orderCommand, String planCommand, String cpu, String memory, boolean enableLogging) {
+    public CloudCommand(String resultsFolderName, String testName, String orderCommand, String planCommand, String cpu, String memory, boolean enableLogging) {
+        this.resultsFolderName = prepareResultsFolderName(resultsFolderName);
         this.testName = testName;
         this.orderCommand = orderCommand;
         this.planCommand = planCommand;
@@ -62,6 +67,20 @@ public class CloudCommand {
                 }
             });
         }
+    }
+
+    // each seed will be run eachSeedRuns times
+    // use for examples where generated results are non-deterministic
+    public void run(Map<Integer, Integer> seeds, int eachSeedRuns) throws InterruptedException {
+        Map<Integer, Integer> newSeedsMap = new HashMap<>();
+        Integer run = 0;
+        for (Map.Entry<Integer, Integer> entry : seeds.entrySet()) {
+            for (int i = 1; i <= eachSeedRuns; i++) {
+                newSeedsMap.put(run, entry.getValue());
+                run++;
+            }
+        }
+        run(newSeedsMap);
     }
 
     private String getPodName(Map.Entry<Integer, Integer> seed) {
@@ -95,16 +114,23 @@ public class CloudCommand {
         return "-run-" + seed.getKey() + "-seed-" + seed.getValue();
     }
 
+    private String prepareResultsFolderName(String resultsFolderName) {
+        if (!resultsFolderName.endsWith(System.getProperty("file.separator")))
+            return resultsFolderName + System.getProperty("file.separator");
+        else
+            return resultsFolderName;
+    }
+
     private void downloadFromRedis(Map.Entry<Integer, Integer> seed)
         throws RuntimeException, IOException
     {
+        String targetDir = PerformanceDefaults.RESULTS_PATH + resultsFolderName;
+
         String plan = redisClient.getPlan(getRedisKey(seed));
-        SaveFile.saveContentToFile(plan,
-            PerformanceDefaults.RESULTS_PATH + getRedisKey(seed) + "-plan.yaml");
+        SaveFile.saveContentToFile(plan, targetDir + getRedisKey(seed) + "-plan.yaml");
 
         String order = redisClient.getOrder(getRedisKey(seed));
-        SaveFile.saveContentToFile(order,
-            PerformanceDefaults.RESULTS_PATH + getRedisKey(seed) + "-order.yaml");
+        SaveFile.saveContentToFile(order, targetDir + getRedisKey(seed) + "-order.yaml");
     }
 
 }

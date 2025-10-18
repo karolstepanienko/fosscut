@@ -8,9 +8,7 @@ package com.fosscut.shared.type;
  * to be able to provide dual variables.
  */
 public enum LinearSolver {
-    CLP,
-    GLOP,
-    PDLP,
-    CBC,
-    SCIP
+    CLP,  // single-threaded
+    GLOP, // single-threaded
+    PDLP  // multi-threaded
 }
