@@ -1,4 +1,4 @@
-package com.fosscut.type.cutting.plan;
+package com.fosscut.shared.type.cutting.plan;
 
 import java.util.List;
 

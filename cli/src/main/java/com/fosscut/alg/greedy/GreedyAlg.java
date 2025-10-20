@@ -12,9 +12,9 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHPattern;
-import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.google.ortools.Loader;
 
 public class GreedyAlg extends ConstructiveHeuristic {
@@ -43,7 +43,7 @@ public class GreedyAlg extends ConstructiveHeuristic {
         this.integerNumThreads = integerNumThreads;
     }
 
-    public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds) {
+    public Plan getCuttingPlan(Long elapsedTimeMilliseconds) {
         return getCuttingPlan(order, elapsedTimeMilliseconds);
     }
 

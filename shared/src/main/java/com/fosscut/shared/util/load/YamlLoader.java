@@ -14,11 +14,16 @@ public class YamlLoader {
 
     public Order loadOrder(String orderString) throws JsonProcessingException {
         logger.info("Loading order...");
-        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
-        Order order = new Order();
-        order = yamlMapper.readValue(orderString, Order.class);
+        Order order = loadClassFromYamlString(orderString, Order.class);
         logger.info("Order loaded.");
         return order;
+    }
+
+    public <T> T loadClassFromYamlString(String yamlString, Class<T> clazz)
+        throws JsonProcessingException {
+        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+        T object = yamlMapper.readValue(yamlString, clazz);
+        return object;
     }
 
 }

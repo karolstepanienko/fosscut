@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fosscut.shared.type.cutting.order.OrderInput;
-import com.fosscut.type.cutting.plan.PlanOutput;
+import com.fosscut.shared.type.cutting.plan.PlanOutput;
 
 /*
  * Constructive heuristic pattern.

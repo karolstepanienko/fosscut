@@ -9,10 +9,10 @@ import com.fosscut.alg.gen.AbstractGenAlg;
 import com.fosscut.exception.DuplicatesAreNotAllowedException;
 import com.fosscut.exception.NotSupportedCutGenConfigException;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
-import com.fosscut.type.cutting.plan.CuttingPlan;
-import com.fosscut.type.cutting.plan.Pattern;
-import com.fosscut.type.cutting.plan.PlanInput;
-import com.fosscut.type.cutting.plan.PlanOutput;
+import com.fosscut.shared.type.cutting.plan.Pattern;
+import com.fosscut.shared.type.cutting.plan.Plan;
+import com.fosscut.shared.type.cutting.plan.PlanInput;
+import com.fosscut.shared.type.cutting.plan.PlanOutput;
 
 public class OptimalGenAlg extends AbstractGenAlg {
 
@@ -47,13 +47,13 @@ public class OptimalGenAlg extends AbstractGenAlg {
         this.outputTypeMap = new HashMap<>();
     }
 
-    public CuttingPlan nextOrder()
+    public Plan nextOrder()
         throws NotSupportedCutGenConfigException,
         DuplicatesAreNotAllowedException
     {
         List<PlanInput> inputs = divideInputsIntoOutputs(generateInputs());
         List<OrderOutput> outputs = new ArrayList<>(outputTypeMap.values());
-        CuttingPlan orderWithCuttingPlan = new CuttingPlan(inputs, outputs);
+        Plan orderWithCuttingPlan = new Plan(inputs, outputs);
         return orderWithCuttingPlan;
     }
 

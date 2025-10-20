@@ -14,9 +14,9 @@ import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
-import com.fosscut.type.cutting.plan.CuttingPlan;
 
 public abstract class ConstructiveHeuristic {
 
@@ -32,7 +32,7 @@ public abstract class ConstructiveHeuristic {
         this.optimizationCriterion = optimizationCriterion;
     }
 
-    protected CuttingPlan getCuttingPlan(Order order, Long elapsedTimeMilliseconds) {
+    protected Plan getCuttingPlan(Order order, Long elapsedTimeMilliseconds) {
         CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order);
         return chCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns, elapsedTimeMilliseconds);
     }

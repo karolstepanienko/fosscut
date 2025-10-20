@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.plan.Pattern;
+import com.fosscut.shared.type.cutting.plan.Plan;
+import com.fosscut.shared.type.cutting.plan.PlanInput;
 import com.fosscut.type.cutting.CHPattern;
-import com.fosscut.type.cutting.plan.CuttingPlan;
-import com.fosscut.type.cutting.plan.Pattern;
-import com.fosscut.type.cutting.plan.PlanInput;
 
 public class CHCuttingPlanFormatter {
 
@@ -18,11 +18,11 @@ public class CHCuttingPlanFormatter {
         this.order = order;
     }
 
-    public CuttingPlan getCuttingPlan(
+    public Plan getCuttingPlan(
         List<CHPattern> cuttingPlanPatterns,
         Long elapsedTimeMilliseconds
     ) {
-        return new CuttingPlan(
+        return new Plan(
             getPlanInputs(cuttingPlanPatterns),
             order.getOutputs(),
             elapsedTimeMilliseconds

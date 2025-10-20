@@ -1,11 +1,17 @@
 package com.fosscut.cg;
 
+import java.io.IOException;
 import java.util.Map;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+import com.fosscut.plot.PlotData;
 import com.fosscut.utils.CloudCommand;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CgCPUMultithreadedSCIPTest {
 
     private static String folderName = "CgCPUMultithreadedSCIPTest";
@@ -15,69 +21,82 @@ public class CgCPUMultithreadedSCIPTest {
     private static int SEED = 5;
     private static int N_RUNS_WITH_IDENTICAL_SEED = 10;
 
-    @Test public void cgCPU1MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx05() throws InterruptedException {
+        // SCIP in one thread is deterministic so running only one run
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx0.5",
+            orderCommand, planCommand + "-in " + "1", "0.5", memory,
+            false
+        ).run(Map.of(0, SEED));
+    }
+
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx1() throws InterruptedException {
         String numThreads = "1";
         // SCIP in one thread is deterministic so running only one run
-        new CloudCommand(folderName, "cgCPU1MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx1",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED));
     }
 
-    @Test public void cgCPU2MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx2() throws InterruptedException {
         String numThreads = "2";
-        new CloudCommand(folderName, "cgCPU2MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx2",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
     }
 
-    @Test public void cgCPU3MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx3() throws InterruptedException {
         String numThreads = "3";
-        new CloudCommand(folderName, "cgCPU3MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx3",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
     }
 
-    @Test public void cgCPU4MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx4() throws InterruptedException {
         String numThreads = "4";
-        new CloudCommand(folderName, "cgCPU4MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx4",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
     }
 
-    @Test public void cgCPU5MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx5() throws InterruptedException {
         String numThreads = "5";
-        new CloudCommand(folderName, "cgCPU5MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx5",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
     }
 
-    @Test public void cgCPU6MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx6() throws InterruptedException {
         String numThreads = "6";
-        new CloudCommand(folderName, "cgCPU6MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx6",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
     }
 
-    @Test public void cgCPU7MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx7() throws InterruptedException {
         String numThreads = "7";
-        new CloudCommand(folderName, "cgCPU7MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx7",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
     }
 
-    @Test public void cgCPU8MultithreadedSCIP() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedSCIPx8() throws InterruptedException {
         String numThreads = "8";
-        new CloudCommand(folderName, "cgCPU8MultithreadedSCIP",
+        new CloudCommand(folderName, "cgCPUMultithreadedSCIPx8",
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         ).run(Map.of(0, SEED), N_RUNS_WITH_IDENTICAL_SEED);
+    }
+
+    @Test @Order(2) public void cgCPUMultithreadedSCIPPlot() throws IOException {
+        PlotData plotData = new PlotData(folderName);
+        plotData.getAverageElapsedTimeMilliseconds();
     }
 
 }

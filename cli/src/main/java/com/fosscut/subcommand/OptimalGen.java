@@ -4,10 +4,10 @@ import java.io.File;
 
 import com.fosscut.alg.gen.optimal.OptimalGenAlg;
 import com.fosscut.shared.exception.FosscutException;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractGen;
 import com.fosscut.type.OutputFormat;
-import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
@@ -43,7 +43,7 @@ public class OptimalGen extends AbstractGen {
             outputLengthLowerBound,
             outputLengthUpperBound,
             seed);
-        CuttingPlan orderWithCuttingPlan = optimalGenAlg.nextOrder();
+        Plan orderWithCuttingPlan = optimalGenAlg.nextOrder();
 
         String orderString = null;
         if (outputFormat == OutputFormat.yaml) {

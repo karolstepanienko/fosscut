@@ -111,7 +111,7 @@ public class CloudCommand {
     }
 
     private String getRunIdentifier(Map.Entry<Integer, Integer> seed) {
-        return "-run-" + seed.getKey() + "-seed-" + seed.getValue();
+        return PerformanceDefaults.RESULTS_RUN_PREFIX + seed.getKey() + "-seed-" + seed.getValue();
     }
 
     private String prepareResultsFolderName(String resultsFolderName) {
@@ -127,10 +127,10 @@ public class CloudCommand {
         String targetDir = PerformanceDefaults.RESULTS_PATH + resultsFolderName;
 
         String plan = redisClient.getPlan(getRedisKey(seed));
-        SaveFile.saveContentToFile(plan, targetDir + getRedisKey(seed) + "-plan.yaml");
+        SaveFile.saveContentToFile(plan, targetDir + getRedisKey(seed) + PerformanceDefaults.RESULTS_PLAN_SUFFIX);
 
         String order = redisClient.getOrder(getRedisKey(seed));
-        SaveFile.saveContentToFile(order, targetDir + getRedisKey(seed) + "-order.yaml");
+        SaveFile.saveContentToFile(order, targetDir + getRedisKey(seed) + PerformanceDefaults.RESULTS_ORDER_SUFFIX);
     }
 
 }

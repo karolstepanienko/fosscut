@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fosscut.exception.PlanValidationException;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
+import com.fosscut.shared.type.cutting.plan.Pattern;
+import com.fosscut.shared.type.cutting.plan.Plan;
+import com.fosscut.shared.type.cutting.plan.PlanInput;
+import com.fosscut.shared.type.cutting.plan.PlanOutput;
 import com.fosscut.shared.util.save.YamlDumper;
-import com.fosscut.type.cutting.plan.CuttingPlan;
-import com.fosscut.type.cutting.plan.Pattern;
-import com.fosscut.type.cutting.plan.PlanInput;
-import com.fosscut.type.cutting.plan.PlanOutput;
 
 public class PlanValidator {
 
@@ -28,13 +28,13 @@ public class PlanValidator {
 
     public PlanValidator() {}
 
-    public void validatePlan(CuttingPlan plan) throws PlanValidationException {
+    public void validatePlan(Plan plan) throws PlanValidationException {
         logger.info("Running plan validation...");
         this.validate(plan);
         logger.info("Plan valid.");
     }
 
-    private void validate(CuttingPlan plan) throws PlanValidationException {
+    private void validate(Plan plan) throws PlanValidationException {
         if (!patternsFitInInputs(plan)) throw new PlanValidationException(
             Messages.PLAN_PATTERN_DOES_NOT_FIT_IN_INPUT
             + " \n" + offendingPattern.toString()
@@ -53,7 +53,7 @@ public class PlanValidator {
 
     /******************** Do patterns fit in inputs? **************************/
 
-    private boolean patternsFitInInputs(CuttingPlan plan) {
+    private boolean patternsFitInInputs(Plan plan) {
         for (PlanInput input : plan.getInputs()) {
             if (!patternsFitInInput(input, plan.getOutputs())) {
                 return false;
@@ -144,7 +144,7 @@ public class PlanValidator {
 
     /*********************** Is demand satisfied? *****************************/
 
-    private boolean isDemandSatisfied(CuttingPlan plan) {
+    private boolean isDemandSatisfied(Plan plan) {
         Map<Integer, Integer> expectedOutputDemands = new HashMap<>();
         for (int id = 0; id < plan.getOutputs().size(); id++) {
             expectedOutputDemands.put(id, plan.getOutputs().get(id).getCount());
@@ -214,7 +214,7 @@ public class PlanValidator {
 
     /*********************** Is relax <= maxRelax? ****************************/
 
-    private boolean isRelaxLEQMaxRelax(CuttingPlan plan) {
+    private boolean isRelaxLEQMaxRelax(Plan plan) {
         for (PlanInput input : plan.getInputs()) {
             for (Pattern pattern : input.getPatterns()) {
                 for (PlanOutput planOutput : pattern.getPatternDefinition()) {

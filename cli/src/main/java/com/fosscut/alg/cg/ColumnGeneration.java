@@ -17,8 +17,8 @@ import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.type.RelaxationSpreadStrategy;
-import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.Defaults;
 import com.google.ortools.Loader;
 
@@ -62,7 +62,7 @@ public class ColumnGeneration {
         this.integerNumThreads = integerNumThreads;
     }
 
-    public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds)
+    public Plan getCuttingPlan(Long elapsedTimeMilliseconds)
         throws NotIntegerLPTaskException
     {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(

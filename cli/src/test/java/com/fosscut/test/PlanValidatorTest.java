@@ -13,22 +13,22 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fosscut.exception.PlanValidationException;
-import com.fosscut.type.cutting.plan.CuttingPlan;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
 import com.fosscut.util.TestDefaults;
 
 public class PlanValidatorTest {
 
-    private static CuttingPlan loadPlanFromFile(String path) throws IOException {
+    private static Plan loadPlanFromFile(String path) throws IOException {
         File planFile = new File(path);
         String planString = Files.readString(Paths.get(planFile.getPath()));
         ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
-        return yamlMapper.readValue(planString, CuttingPlan.class);
+        return yamlMapper.readValue(planString, Plan.class);
     }
 
     @Test public void testValidatePlan() throws IOException {
-        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG);
+        Plan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG);
 
         PlanValidator validator = new PlanValidator();
 
@@ -48,7 +48,7 @@ public class PlanValidatorTest {
     }
 
     @Test public void testValidatePlanRelax() throws IOException {
-        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG_RELAX);
+        Plan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_PATTERN_TO_LONG_RELAX);
 
         PlanValidator validator = new PlanValidator();
 
@@ -69,7 +69,7 @@ public class PlanValidatorTest {
     }
 
     @Test public void testValidatePlanDemand() throws IOException {
-        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_DEMAND_NOT_SATISFIED);
+        Plan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_DEMAND_NOT_SATISFIED);
 
         PlanValidator validator = new PlanValidator();
 
@@ -89,7 +89,7 @@ public class PlanValidatorTest {
     }
 
     @Test public void testValidatePlanRelaxLEQMaxRelax() throws IOException {
-        CuttingPlan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_RELAX_GREATER_THAN_MAX_RELAX);
+        Plan plan = loadPlanFromFile(TestDefaults.PLAN_FAIL_RELAX_GREATER_THAN_MAX_RELAX);
 
         PlanValidator validator = new PlanValidator();
 

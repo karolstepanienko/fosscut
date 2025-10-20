@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.fosscut.exception.DuplicatesAreNotAllowedException;
 import com.fosscut.exception.NotSupportedCutGenConfigException;
-import com.fosscut.type.cutting.plan.PlanInput;
+import com.fosscut.shared.type.cutting.plan.PlanInput;
 
 public abstract class AbstractGenAlg {
 

@@ -116,42 +116,42 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getMaxRelax","parameterTypes":[] }, {"name":"setMaxRelax","parameterTypes":["java.lang.Integer"] }, {"name":"getRelaxCost","parameterTypes":[] }, {"name":"setRelaxCost","parameterTypes":["java.lang.Double"] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.CuttingPlan",
+  "name":"com.fosscut.shared.type.cutting.plan.Plan",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getInputs","parameterTypes":[] }, {"name":"getOutputs","parameterTypes":[] }, {"name":"getMetadata","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.Metadata",
+  "name":"com.fosscut.shared.type.cutting.plan.Metadata",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getElapsedTimeMilliseconds","parameterTypes":[] }, {"name":"getTimestamp","parameterTypes":[] }, {"name":"getInputCount","parameterTypes":[] }, {"name":"getOutputCount","parameterTypes":[] }, {"name":"getInputTypeCount","parameterTypes":[] }, {"name":"getOutputTypeCount","parameterTypes":[] }, {"name":"getUnnecessaryOutputs","parameterTypes":[] }, {"name":"getTotalWaste","parameterTypes":[] }, {"name":"getTrueTotalWaste","parameterTypes":[] }, {"name":"getMinTrueTotalWaste","parameterTypes":[] }, {"name":"getMaxTrueTotalWaste","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.UnnecessaryOutput",
+  "name":"com.fosscut.shared.type.cutting.plan.UnnecessaryOutput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getId","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.Pattern",
+  "name":"com.fosscut.shared.type.cutting.plan.Pattern",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getCount","parameterTypes":[] }, {"name":"getPatternDefinition","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.PlanInput",
+  "name":"com.fosscut.shared.type.cutting.plan.PlanInput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"getPatterns","parameterTypes":[] }, {"name":"getCost","parameterTypes":[] }]
 },
 {
-  "name":"com.fosscut.type.cutting.plan.PlanOutput",
+  "name":"com.fosscut.shared.type.cutting.plan.PlanOutput",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"getId","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }, {"name":"getRelax","parameterTypes":[] }]

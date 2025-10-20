@@ -8,13 +8,13 @@ import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.shared.util.OrderValidator;
 import com.fosscut.shared.util.RelaxValidator;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
 import com.fosscut.type.OutputFormat;
-import com.fosscut.type.cutting.plan.CuttingPlan;
 import com.fosscut.util.AlgTimer;
 import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
@@ -123,7 +123,7 @@ public class CG extends AbstractAlg {
             algElapsedTime = timer.getElapsedTimeMillis();
         }
 
-        CuttingPlan cuttingPlan = columnGeneration.getCuttingPlan(algElapsedTime);
+        Plan cuttingPlan = columnGeneration.getCuttingPlan(algElapsedTime);
         String cuttingPlanString = null;
         if (outputFormat == OutputFormat.yaml) {
             YamlDumper yamlDumper = new YamlDumper();

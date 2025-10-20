@@ -8,8 +8,8 @@ import com.fosscut.utils.CloudCommand;
 
 public class CgCPUTest {
 
-    @Test public void cgCPU2() throws InterruptedException {
-        CloudCommand cc = new CloudCommand("CgCPUTest", "cgCPU2",
+    @Test public void cgCPUx2() throws InterruptedException {
+        CloudCommand cc = new CloudCommand("CgCPUTest", "cgCPUx2",
             "cutgen -i 1000 -ol 0.3 -ou 0.5 -ot 10 -d 100",
             "cg --linear-solver GLOP --integer-solver SCIP",
             "1", "5Gi",

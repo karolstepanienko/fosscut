@@ -12,10 +12,10 @@ import com.fosscut.exception.LPUnfeasibleException;
 import com.fosscut.shared.type.OptimizationCriterion;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
+import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHOutput;
 import com.fosscut.type.cutting.CHPattern;
-import com.fosscut.type.cutting.plan.CuttingPlan;
 
 public class FirstFitDecreasing extends ConstructiveHeuristic {
 
@@ -35,7 +35,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
     }
 
-    public CuttingPlan getCuttingPlan(Long elapsedTimeMilliseconds) {
+    public Plan getCuttingPlan(Long elapsedTimeMilliseconds) {
         return getCuttingPlan(orderSortedOutputs, elapsedTimeMilliseconds);
     }
 

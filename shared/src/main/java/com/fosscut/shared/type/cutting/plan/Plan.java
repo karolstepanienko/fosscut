@@ -1,25 +1,25 @@
-package com.fosscut.type.cutting.plan;
+package com.fosscut.shared.type.cutting.plan;
 
 import java.util.List;
 
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.fosscut.shared.util.save.YamlDumper;
 
-public class CuttingPlan {
+public class Plan {
     private List<PlanInput> inputs;
     private List<OrderOutput> outputs;
     private Metadata metadata;
 
-    public CuttingPlan() {}
+    public Plan() {}
 
-    public CuttingPlan(List<PlanInput> inputs, List<OrderOutput> outputs) {
+    public Plan(List<PlanInput> inputs, List<OrderOutput> outputs) {
         this.inputs = inputs;
         this.outputs = outputs;
         this.metadata = new Metadata();
         this.metadata.calculateMetadata(inputs, outputs);
     }
 
-    public CuttingPlan(
+    public Plan(
         List<PlanInput> inputs,
         List<OrderOutput> outputs,
         Long elapsedTimeMilliseconds

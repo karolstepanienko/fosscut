@@ -12,7 +12,7 @@ import com.fosscut.exception.NotSupportedCutGenConfigException;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.order.OrderInput;
 import com.fosscut.shared.type.cutting.order.OrderOutput;
-import com.fosscut.type.cutting.plan.PlanInput;
+import com.fosscut.shared.type.cutting.plan.PlanInput;
 
 /**
  * MLCSP order generator based on:

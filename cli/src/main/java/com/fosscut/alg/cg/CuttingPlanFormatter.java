@@ -7,11 +7,11 @@ import com.fosscut.alg.RelaxationSpread;
 import com.fosscut.alg.SingleOutput;
 import com.fosscut.exception.NotIntegerLPTaskException;
 import com.fosscut.shared.type.cutting.order.Order;
+import com.fosscut.shared.type.cutting.plan.Pattern;
+import com.fosscut.shared.type.cutting.plan.Plan;
+import com.fosscut.shared.type.cutting.plan.PlanInput;
+import com.fosscut.shared.type.cutting.plan.PlanOutput;
 import com.fosscut.type.RelaxationSpreadStrategy;
-import com.fosscut.type.cutting.plan.CuttingPlan;
-import com.fosscut.type.cutting.plan.Pattern;
-import com.fosscut.type.cutting.plan.PlanInput;
-import com.fosscut.type.cutting.plan.PlanOutput;
 
 public class CuttingPlanFormatter {
     private boolean relaxEnabled;
@@ -34,9 +34,9 @@ public class CuttingPlanFormatter {
         this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);
     }
 
-    public CuttingPlan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
+    public Plan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
             throws NotIntegerLPTaskException {
-        return new CuttingPlan(
+        return new Plan(
             getPlanInputs(integerCuttingPlanGeneration),
             order.getOutputs(),
             elapsedTimeMilliseconds
