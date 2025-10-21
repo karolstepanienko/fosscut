@@ -41,7 +41,7 @@ public class FosscutTestPod {
 
     public void runSingleCommand(KubernetesClient k8sClient, String fullCommand)
     throws InterruptedException {
-        deletePod(k8sClient);  // deletes previously failed pods
+        deletePod(k8sClient); // deletes previously failed pods
         createPod(k8sClient, buildPod(fullCommand));
 
         waitForPodScheduling(k8sClient);
@@ -51,10 +51,11 @@ public class FosscutTestPod {
         if (watch != null) watch.close();
 
         logPodStatus(k8sClient);
-        deletePod(k8sClient);
 
         if (!podFinalStatus.equals("Succeeded")) {
             throw new RuntimeException("Pod failed: " + podFinalStatus);
+        } else {
+            deletePod(k8sClient);
         }
     }
 

@@ -1,12 +1,13 @@
 package com.fosscut.cg;
 
-import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import com.fosscut.AbstractTest;
 import com.fosscut.utils.CloudCommand;
 
-public class CgCPUTest {
+public class CgCPUTest extends AbstractTest {
 
     @Test public void cgCPUx2() throws InterruptedException {
         CloudCommand cc = new CloudCommand("CgCPUTest", "cgCPUx2",
@@ -15,7 +16,7 @@ public class CgCPUTest {
             "1", "5Gi",
             true
         );
-        cc.run(Map.of(1, 3, 2, 5));
+        assertTrue(cc.run(LinkedHashMap_of(1, 3, 2, 5)));
     }
 
 }

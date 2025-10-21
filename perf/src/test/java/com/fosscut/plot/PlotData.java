@@ -5,26 +5,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.shared.util.load.YamlLoader;
-import com.fosscut.utils.PerformanceDefaults;
+import com.fosscut.utils.ResultsFilesAfter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 
-public class PlotData {
+public class PlotData extends ResultsFilesAfter {
 
-    private String folderPath;
-
-    private List<File> orderFiles;
-    private List<File> planFiles;
-    private List<String> xAxisLabels;
     private Map<String, List<Plan>> plans;
     // orders - in the future could be used for gathering pattern statistics
     // for orders with known optimal solutions
@@ -32,6 +23,7 @@ public class PlotData {
 
     // xAxisLabel -> average value
     private Map<String, Double> averageElapsedTimeMilliseconds;
+    private Map<String, Double> averageElapsedTimeSeconds;
     private Map<String, Double> averageInputCount;
     private Map<String, Double> averageOutputCount; // constant for an order
     private Map<String, Double> averageTotalWaste;
@@ -42,18 +34,20 @@ public class PlotData {
     private Map<String, Double> averageTotalCost;
 
     public PlotData(String folderPath) throws IOException {
-        this.folderPath = PerformanceDefaults.RESULTS_PATH + folderPath;
-        this.orderFiles = getOrderFiles();
-        this.planFiles = getPlanFiles();
-        this.xAxisLabels = getXAxisLabels();
+        super(folderPath);
         this.orders = loadObjectsToMap(Order.class);
         this.plans = loadObjectsToMap(Plan.class);
         calculateSimpleFieldAverages();
+        calculateElapsedTimeSeconds();
         calculateAdvancedFieldAverages();
     }
 
     public Map<String, Double> getAverageElapsedTimeMilliseconds() {
         return averageElapsedTimeMilliseconds;
+    }
+
+    public Map<String, Double> getAverageElapsedTimeSeconds() {
+        return averageElapsedTimeSeconds;
     }
 
     public Map<String, Double> getAverageInputCount() {
@@ -86,44 +80,6 @@ public class PlotData {
 
     public Map<String, Double> getAverageTotalCost() {
         return averageTotalCost;
-    }
-
-    private List<File> getOrderFiles() {
-        return getFilesWithSuffix(PerformanceDefaults.RESULTS_ORDER_SUFFIX);
-    }
-
-    private List<File> getPlanFiles() {
-        return getFilesWithSuffix(PerformanceDefaults.RESULTS_PLAN_SUFFIX);
-    }
-
-    private List<File> getFilesWithSuffix(String suffix) {
-        File folder = new File(folderPath);
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(suffix));
-        return files != null ? Arrays.asList(files) : Collections.emptyList();
-    }
-
-    private List<String> getXAxisLabels() {
-        Set<String> xAxisLabelsSet = new HashSet<>();
-        for (File file : planFiles) {
-            String fileName = file.getName();
-            String[] xParts = fileName.split("x");
-            String label = xParts[1].split(PerformanceDefaults.RESULTS_RUN_PREFIX)[0];
-            xAxisLabelsSet.add(label);
-        }
-
-        List<Double> numericLabels = new ArrayList<>();
-        for (String label : xAxisLabelsSet) {
-            numericLabels.add(Double.parseDouble(label));
-        }
-
-        Collections.sort(numericLabels);
-        xAxisLabels = new ArrayList<>();
-        for (int i = 0; i < numericLabels.size(); i++) {
-            String sortedLabel = String.valueOf(numericLabels.get(i)).replaceAll("\\.0$", "");
-            xAxisLabels.add(sortedLabel);
-        }
-
-        return xAxisLabels;
     }
 
     private <T> Map<String, List<T>> loadObjectsToMap(Class<T> clazz) throws IOException {
@@ -194,6 +150,15 @@ public class PlotData {
 
             double localAverageTotalNeededInputLength = totalNeededInputLengthSum / plansForLabel.size();
             averageTotalNeededInputLength.put(xAxisLabel, localAverageTotalNeededInputLength);
+        }
+    }
+
+    private void calculateElapsedTimeSeconds() {
+        averageElapsedTimeSeconds = new HashMap<>();
+        for (String xAxisLabel : xAxisLabels) {
+            double elapsedTimeMilliseconds = averageElapsedTimeMilliseconds.get(xAxisLabel);
+            double elapsedTimeSeconds = elapsedTimeMilliseconds / 1000.0;
+            averageElapsedTimeSeconds.put(xAxisLabel, elapsedTimeSeconds);
         }
     }
 

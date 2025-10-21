@@ -1,7 +1,7 @@
 package com.fosscut.utils;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.fosscut.shared.util.save.SaveFile;
@@ -9,52 +9,60 @@ import com.fosscut.shared.util.save.SaveFile;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 
-public class CloudCommand {
+public class CloudCommand extends ResultsFilesBefore {
 
-    private String resultsFolderName;
     private String testName;
+    private String xAxisLabel;
     private String orderCommand;
     private String planCommand;
     private String cpu;
     private String memory;
     private boolean enableLogging;
 
+    private String resultsFolderName;
     private RedisClient redisClient;
+    private int failedRuns;
 
-    public CloudCommand(String resultsFolderName, String testName, String orderCommand, String planCommand) {
-        this.resultsFolderName = prepareResultsFolderName(resultsFolderName);
+    public CloudCommand(String testName, String xAxisLabel, String orderCommand, String planCommand) {
+        this.resultsFolderName = prepareResultsFolderName(testName);
         this.testName = testName;
+        this.xAxisLabel = xAxisLabel;
         this.orderCommand = orderCommand;
         this.planCommand = planCommand;
         this.cpu = PerformanceDefaults.DEFAULT_CPU;
         this.memory = PerformanceDefaults.DEFAULT_MEMORY;
         this.enableLogging = false;
         this.redisClient = new RedisClient();
+        this.failedRuns = 0;
     }
 
-    public CloudCommand(String resultsFolderName, String testName, String orderCommand, String planCommand, String cpu, String memory) {
-        this.resultsFolderName = prepareResultsFolderName(resultsFolderName);
+    public CloudCommand(String testName, String xAxisLabel, String orderCommand, String planCommand, String cpu, String memory) {
+        this.resultsFolderName = prepareResultsFolderName(testName);
         this.testName = testName;
+        this.xAxisLabel = xAxisLabel;
         this.orderCommand = orderCommand;
         this.planCommand = planCommand;
         this.cpu = cpu;
         this.memory = memory;
         this.enableLogging = false;
         this.redisClient = new RedisClient();
+        this.failedRuns = 0;
     }
 
-    public CloudCommand(String resultsFolderName, String testName, String orderCommand, String planCommand, String cpu, String memory, boolean enableLogging) {
-        this.resultsFolderName = prepareResultsFolderName(resultsFolderName);
+    public CloudCommand(String testName, String xAxisLabel, String orderCommand, String planCommand, String cpu, String memory, boolean enableLogging) {
+        this.resultsFolderName = prepareResultsFolderName(testName);
         this.testName = testName;
+        this.xAxisLabel = xAxisLabel;
         this.orderCommand = orderCommand;
         this.planCommand = planCommand;
         this.cpu = cpu;
         this.memory = memory;
         this.enableLogging = enableLogging;
         this.redisClient = new RedisClient();
+        this.failedRuns = 0;
     }
 
-    public void run(Map<Integer, Integer> seeds) throws InterruptedException {
+    public boolean run(LinkedHashMap<Integer, Integer> seeds) throws InterruptedException {
         try (KubernetesClient k8sClient = new KubernetesClientBuilder().build()) {
             seeds.entrySet().parallelStream().forEach(seed -> {
                 try {
@@ -63,29 +71,25 @@ public class CloudCommand {
                     downloadFromRedis(seed);
                 } catch (InterruptedException | RuntimeException | IOException e) {
                     Thread.currentThread().interrupt();
-                    throw new RuntimeException(e);
+                    failedRuns++;
                 }
             });
         }
+        saveCloudCommandResultsReport(seeds.size());
+        return failedRuns == 0;
     }
 
     // each seed will be run eachSeedRuns times
     // use for examples where generated results are non-deterministic
-    public void run(Map<Integer, Integer> seeds, int eachSeedRuns) throws InterruptedException {
-        Map<Integer, Integer> newSeedsMap = new HashMap<>();
-        Integer run = 0;
-        for (Map.Entry<Integer, Integer> entry : seeds.entrySet()) {
-            for (int i = 1; i <= eachSeedRuns; i++) {
-                newSeedsMap.put(run, entry.getValue());
-                run++;
-            }
-        }
-        run(newSeedsMap);
+    public boolean run(LinkedHashMap<Integer, Integer> seeds, int eachSeedRuns,
+        int eachSeedRunsStart, int eachSeedRunsEnd)
+    throws InterruptedException {
+        return run(generateFinalSeedsMap(seeds, eachSeedRuns, eachSeedRunsStart, eachSeedRunsEnd));
     }
 
     private String getPodName(Map.Entry<Integer, Integer> seed) {
         // Has to be lowercase since Kubernetes requires pod names to be lowercase
-        return getRedisKey(seed).toLowerCase();
+        return getRedisKey(testName, xAxisLabel,seed).toLowerCase();
     }
 
     private String buildCommand(Map.Entry<Integer, Integer> seed) {
@@ -96,22 +100,14 @@ public class CloudCommand {
         return PerformanceDefaults.CLI_TOOL_PATH
             + " " + orderCommand  + " --seed " + seed.getValue()
             + " " + PerformanceDefaults.CLOUD_REDIS_SECRETS_PATH
-            + " -o " + PerformanceDefaults.CLOUD_REDIS_URL + getRedisKey(seed);
+            + " -o " + PerformanceDefaults.CLOUD_REDIS_URL + getRedisKey(testName, xAxisLabel, seed);
     }
 
     private String buildPlanCommand(Map.Entry<Integer, Integer> seed) {
         return PerformanceDefaults.CLI_TOOL_PATH
             + " " + planCommand
             + " " + PerformanceDefaults.CLOUD_REDIS_SECRETS_PATH
-            + " " + PerformanceDefaults.CLOUD_REDIS_URL + getRedisKey(seed);
-    }
-
-    private String getRedisKey(Map.Entry<Integer, Integer> seed) {
-        return testName + getRunIdentifier(seed);
-    }
-
-    private String getRunIdentifier(Map.Entry<Integer, Integer> seed) {
-        return PerformanceDefaults.RESULTS_RUN_PREFIX + seed.getKey() + "-seed-" + seed.getValue();
+            + " " + PerformanceDefaults.CLOUD_REDIS_URL + getRedisKey(testName, xAxisLabel, seed);
     }
 
     private String prepareResultsFolderName(String resultsFolderName) {
@@ -126,11 +122,23 @@ public class CloudCommand {
     {
         String targetDir = PerformanceDefaults.RESULTS_PATH + resultsFolderName;
 
-        String plan = redisClient.getPlan(getRedisKey(seed));
-        SaveFile.saveContentToFile(plan, targetDir + getRedisKey(seed) + PerformanceDefaults.RESULTS_PLAN_SUFFIX);
+        String plan = redisClient.getPlan(getRedisKey(testName, xAxisLabel, seed));
+        SaveFile.saveContentToFile(plan, targetDir + getPlanFileName(testName, xAxisLabel, seed));
 
-        String order = redisClient.getOrder(getRedisKey(seed));
-        SaveFile.saveContentToFile(order, targetDir + getRedisKey(seed) + PerformanceDefaults.RESULTS_ORDER_SUFFIX);
+        String order = redisClient.getOrder(getRedisKey(testName, xAxisLabel, seed));
+        SaveFile.saveContentToFile(order, targetDir + getOrderFileName(testName, xAxisLabel, seed));
+    }
+
+    private void saveCloudCommandResultsReport(int totalRuns) {
+        String reportContent = "CloudCommand Report " + xAxisLabel + ": "
+            + "Total Runs: " + totalRuns + "; "
+            + "Failed Runs: " + failedRuns + "; "
+            + "Successful Runs: " + (totalRuns - failedRuns) + ";\n";
+
+        String reportFilePath = PerformanceDefaults.RESULTS_PATH
+            + resultsFolderName + "CloudCommand_" + xAxisLabel + "_Report.txt";
+
+        SaveFile.saveContentToFile(reportContent, reportFilePath);
     }
 
 }
