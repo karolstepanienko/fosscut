@@ -133,7 +133,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             plotData.getAverageTotalWaste(),
             "Liczba wątków",
             "Średni odpad",
-            "1"
+            "1", null, null, "16"
         ).generatePlot();
 
         new XYPlot(testName + "Time.tex",
@@ -141,7 +141,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             plotData.getAverageElapsedTimeSeconds(),
             "Liczba wątków",
             "Średni czas pracy algorytmu [s]",
-            "1"
+            "1", null, null, null
         ).generatePlot();
     }
 

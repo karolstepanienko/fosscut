@@ -12,6 +12,9 @@ public class XYPlot {
     private List<String> xAxisLabels;
     private Map<String, Double> dataSeries;
     private String xMin;
+    private String xMax;
+    private String yMin;
+    private String yMax;
     private String xLabel;
     private String yLabel;
 
@@ -35,7 +38,10 @@ public class XYPlot {
         Map<String, Double> dataSeries,
         String xLabel,
         String yLabel,
-        String xMin
+        String xMin,
+        String xMax,
+        String yMin,
+        String yMax
     ) {
         this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;
         this.xAxisLabels = xAxisLabels;
@@ -43,6 +49,9 @@ public class XYPlot {
         this.xLabel = xLabel;
         this.yLabel = yLabel;
         this.xMin = xMin;
+        this.xMax = xMax;
+        this.yMin = yMin;
+        this.yMax = yMax;
     }
 
     public void generatePlot() {
@@ -70,7 +79,8 @@ public class XYPlot {
         StringBuilder options = new StringBuilder();
         options.append("[%\n");
         options.append("width=\\textwidth,\n");
-        options.append("height=8cm,\n");
+        options.append("height=7cm,\n");
+        options.append("grid=both,\n");
         options.append("xmin=").append(calculateXMin()).append(",\n");
         options.append("xmax=").append(calculateXMax()).append(",\n");
         options.append("ymin=").append(calculateYMin()).append(",\n");
@@ -87,20 +97,24 @@ public class XYPlot {
     private String calculateXMin() {
         if (xMin != null) {
             return xMin;
-        } else {
-            return xAxisLabels.get(0);
         }
+        return xAxisLabels.get(0);
     }
 
     private String calculateXMax() {
+        if (xMax != null) {
+            return xMax;
+        }
         return xAxisLabels.get(xAxisLabels.size() - 1);
     }
 
     private Double calculateMinValue() {
         Double minValue = Double.MAX_VALUE;
-        for (Double value : dataSeries.values()) {
-            if (value < minValue) {
-                minValue = value;
+        for (Map.Entry<String, Double> entry : dataSeries.entrySet()) {
+            if (Double.parseDouble(entry.getKey()) >= Double.parseDouble(this.xMin)) {
+                if (entry.getValue() < minValue) {
+                    minValue = entry.getValue();
+                }
             }
         }
         return minValue;
@@ -108,20 +122,28 @@ public class XYPlot {
 
     private Double calculateMaxValue() {
         Double maxValue = Double.MIN_VALUE;
-        for (Double value : dataSeries.values()) {
-            if (value > maxValue) {
-                maxValue = value;
+        for (Map.Entry<String, Double> entry : dataSeries.entrySet()) {
+            if (Double.parseDouble(entry.getKey()) >= Double.parseDouble(this.xMin)) {
+                if (entry.getValue() > maxValue) {
+                    maxValue = entry.getValue();
+                }
             }
         }
         return maxValue;
     }
 
     private String calculateYMin() {
+        if (yMin != null) {
+            return yMin;
+        }
         Double range = calculateMaxValue() - calculateMinValue();
         return String.valueOf(Math.floor(calculateMinValue() - 0.1 * range));
     }
 
     private String calculateYMax() {
+        if (yMax != null) {
+            return yMax;
+        }
         Double range = calculateMaxValue() - calculateMinValue();
         return String.valueOf(Math.ceil(calculateMaxValue() + 0.1 * range));
     }
