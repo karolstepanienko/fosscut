@@ -78,7 +78,7 @@ public class XYPlot {
     private String getAxisOptions() {
         StringBuilder options = new StringBuilder();
         options.append("[%\n");
-        options.append("width=\\textwidth,\n");
+        options.append("width=0.98\\textwidth,\n");
         options.append("height=7cm,\n");
         options.append("grid=both,\n");
         options.append("xmin=").append(calculateXMin()).append(",\n");
