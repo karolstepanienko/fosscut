@@ -111,7 +111,7 @@ public class XYPlot {
     private Double calculateMinValue() {
         Double minValue = Double.MAX_VALUE;
         for (Map.Entry<String, Double> entry : dataSeries.entrySet()) {
-            if (Double.parseDouble(entry.getKey()) >= Double.parseDouble(this.xMin)) {
+            if (this.xMin == null || (this.xMin != null && Double.parseDouble(entry.getKey()) >= Double.parseDouble(this.xMin))) {
                 if (entry.getValue() < minValue) {
                     minValue = entry.getValue();
                 }
@@ -123,7 +123,7 @@ public class XYPlot {
     private Double calculateMaxValue() {
         Double maxValue = Double.MIN_VALUE;
         for (Map.Entry<String, Double> entry : dataSeries.entrySet()) {
-            if (Double.parseDouble(entry.getKey()) >= Double.parseDouble(this.xMin)) {
+            if (this.xMin == null || (this.xMin != null && Double.parseDouble(entry.getKey()) >= Double.parseDouble(this.xMin))) {
                 if (entry.getValue() > maxValue) {
                     maxValue = entry.getValue();
                 }

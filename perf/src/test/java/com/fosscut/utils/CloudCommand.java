@@ -2,6 +2,7 @@ package com.fosscut.utils;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import com.fosscut.shared.util.save.SaveFile;
@@ -79,12 +80,20 @@ public class CloudCommand extends ResultsFilesBefore {
         return failedRuns == 0;
     }
 
-    // each seed will be run eachSeedRuns times
+    public boolean run(LinkedList<Integer> seeds) throws InterruptedException {
+        return run(generateFinalSeedsMap(seeds, 1));
+    }
+
+    public boolean run(LinkedList<Integer> seeds, int nRunsInit) throws InterruptedException {
+        return run(generateFinalSeedsMap(seeds, nRunsInit));
+    }
+
+    // each seed will be run eachSeedRunsEnd - eachSeedRunsStart times
     // use for examples where generated results are non-deterministic
-    public boolean run(LinkedHashMap<Integer, Integer> seeds, int eachSeedRuns,
+    public boolean run(LinkedList<Integer> seeds, int nRunsInit,
         int eachSeedRunsStart, int eachSeedRunsEnd)
     throws InterruptedException {
-        return run(generateFinalSeedsMap(seeds, eachSeedRuns, eachSeedRunsStart, eachSeedRunsEnd));
+        return run(generateFinalSeedsMap(seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd));
     }
 
     private String getPodName(Map.Entry<Integer, Integer> seed) {

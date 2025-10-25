@@ -4,13 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import com.fosscut.AbstractTest;
 import com.fosscut.plot.PlotData;
@@ -18,6 +20,7 @@ import com.fosscut.plot.XYPlot;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
+@Execution(ExecutionMode.CONCURRENT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CgCPUMultithreadedSCIPTest extends AbstractTest {
 
@@ -26,9 +29,9 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
     private static String planCommand = "cg --linear-solver GLOP --integer-solver SCIP -ln 1 ";
     private static String memory = "5Gi";
     // five orders
-    private static LinkedHashMap<Integer, Integer> seeds = LinkedHashMap_of(0, 5, 1, 7, 2, 9, 3, 11, 4, 19);
+    private static LinkedList<Integer> seeds = LinkedList_of(5, 7, 9, 11, 19);
     // each order is ran this amount of times
-    private static int N_RUNS_WITH_IDENTICAL_SEED = 1000; // larger than range to accommodate for future increases
+    private static int N_RUNS_INIT = 1000; // larger than range to accommodate for future increases
     private static int N_RUNS_WITH_IDENTICAL_SEED_START = 1;
     private static int N_RUNS_WITH_IDENTICAL_SEED_END = 100;
 
@@ -57,7 +60,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx3() throws InterruptedException {
@@ -66,7 +69,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx4() throws InterruptedException {
@@ -75,7 +78,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx5() throws InterruptedException {
@@ -84,7 +87,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx6() throws InterruptedException {
@@ -93,7 +96,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx7() throws InterruptedException {
@@ -102,7 +105,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx8() throws InterruptedException {
@@ -111,7 +114,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
             orderCommand, planCommand + "-in " + numThreads, numThreads, memory,
             false
         );
-        assertTrue(cmd.run(seeds, N_RUNS_WITH_IDENTICAL_SEED, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+        assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
     /***************************** Results Report *****************************/
@@ -119,7 +122,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
     @Test @Order(2) public void cgCPUMultithreadedSCIPResultsReport() {
         ResultsReport report = new ResultsReport(testName,
             new ArrayList<>(List.of("0.5", "1")),
-            seeds, N_RUNS_WITH_IDENTICAL_SEED,
+            seeds, N_RUNS_INIT,
             N_RUNS_WITH_IDENTICAL_SEED_START,
             N_RUNS_WITH_IDENTICAL_SEED_END
         );

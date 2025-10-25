@@ -7,5 +7,5 @@ package com.fosscut.shared.type;
 public enum IntegerSolver {
     CBC, // single-threaded
     SAT, // multi-threaded
-    SCIP // multi-threaded
+    SCIP // multi-threaded, non-deterministic when using more than one thread
 }

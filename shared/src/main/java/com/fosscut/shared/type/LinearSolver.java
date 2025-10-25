@@ -10,5 +10,5 @@ package com.fosscut.shared.type;
 public enum LinearSolver {
     CLP,  // single-threaded
     GLOP, // single-threaded
-    PDLP  // multi-threaded
+    PDLP  // multi-threaded, deterministic when using a fixed number of threads
 }

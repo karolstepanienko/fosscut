@@ -1,23 +1,36 @@
 package com.fosscut.utils;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public abstract class ResultsFilesBefore {
 
     public static LinkedHashMap<Integer, Integer> generateFinalSeedsMap(
-        LinkedHashMap<Integer, Integer> seeds, int eachSeedRuns,
+        LinkedList<Integer> seeds, int nRunsInit
+    ) {
+        LinkedHashMap<Integer, Integer> newSeedsMap = new LinkedHashMap<>();
+        int run = nRunsInit;
+        for (Integer seed : seeds) {
+            newSeedsMap.put(run, seed);
+            run++;
+        }
+        return newSeedsMap;
+    }
+
+    public static LinkedHashMap<Integer, Integer> generateFinalSeedsMap(
+        LinkedList<Integer> seeds, int nRunsInit,
         int eachSeedRunsStart, int eachSeedRunsEnd
     ) {
         LinkedHashMap<Integer, Integer> newSeedsMap = new LinkedHashMap<>();
-        Integer run = eachSeedRuns;
-        for (Map.Entry<Integer, Integer> entry : seeds.entrySet()) {
+        int run = nRunsInit;
+        for (Integer seed : seeds) {
             run += eachSeedRunsStart;
             for (int i = eachSeedRunsStart; i <= eachSeedRunsEnd; i++) {
-                newSeedsMap.put(run, entry.getValue());
+                newSeedsMap.put(run, seed);
                 run++;
             }
-            run += eachSeedRuns - eachSeedRunsEnd - 1;
+            run += nRunsInit - eachSeedRunsEnd - 1;
         }
         return newSeedsMap;
     }

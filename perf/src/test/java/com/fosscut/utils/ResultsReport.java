@@ -21,19 +21,27 @@ public class ResultsReport extends ResultsFilesAfter {
 
     public ResultsReport(String testName,
         List<String> ignoredXAxisLabels,
-        LinkedHashMap<Integer, Integer> seeds) {
+        LinkedList<Integer> seeds) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
-        this.finalSeedsMap = generateFinalSeedsMap(seeds, 1, 1, 1);
+        this.finalSeedsMap = generateFinalSeedsMap(seeds, 1);
     }
 
     public ResultsReport(String testName,
         List<String> ignoredXAxisLabels,
-        LinkedHashMap<Integer, Integer> seeds,
-        int eachSeedRuns, int eachSeedRunsStart, int eachSeedRunsEnd) {
+        LinkedList<Integer> seeds, int nRunsInit) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
-        this.finalSeedsMap = generateFinalSeedsMap(seeds, eachSeedRuns, eachSeedRunsStart, eachSeedRunsEnd);
+        this.finalSeedsMap = generateFinalSeedsMap(seeds, nRunsInit);
+    }
+
+    public ResultsReport(String testName,
+        List<String> ignoredXAxisLabels,
+        LinkedList<Integer> seeds,
+        int nRunsInit, int eachSeedRunsStart, int eachSeedRunsEnd) {
+        super(testName);
+        this.ignoredXAxisLabels = ignoredXAxisLabels;
+        this.finalSeedsMap = generateFinalSeedsMap(seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd);
     }
 
     public void generateReport() {
