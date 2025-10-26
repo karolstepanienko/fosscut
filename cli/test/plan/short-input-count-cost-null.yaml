@@ -20,3 +20,4 @@ metadata:
   totalWaste: 3
   totalNeededInputLength: 123
   totalCost: 3.0
+  planStatus: "COMPLETE"

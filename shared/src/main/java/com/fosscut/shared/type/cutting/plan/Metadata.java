@@ -24,8 +24,11 @@ public class Metadata {
     private Integer maxTrueTotalWaste; // chosen unnecessary outputs with lowest relax values
     private Integer totalNeededInputLength;
     private Double totalCost;
+    private PlanStatus planStatus;
 
-    public Metadata() {}
+    public Metadata() {
+        planStatus = PlanStatus.TIMEOUT;
+    }
 
     public Metadata(Long elapsedTimeMilliseconds) {
         this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
@@ -42,6 +45,7 @@ public class Metadata {
         if (unnecessaryOutputs != null) calculateTrueTotalWaste(inputs);
         calculateTotalNeededInputLength(inputs);
         calculateTotalCost(inputs);
+        planStatus = PlanStatus.COMPLETE;
     }
 
     public Long getElapsedTimeMilliseconds() {
@@ -94,6 +98,10 @@ public class Metadata {
 
     public Double getTotalCost() {
         return totalCost;
+    }
+
+    public PlanStatus getPlanStatus() {
+        return planStatus;
     }
 
     private void calculateInputCount(List<PlanInput> inputs) {

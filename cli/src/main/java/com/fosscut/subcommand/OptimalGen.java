@@ -1,19 +1,18 @@
 package com.fosscut.subcommand;
 
-import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.TimeoutException;
 
 import com.fosscut.alg.gen.optimal.OptimalGenAlg;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.plan.Plan;
-import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractGen;
-import com.fosscut.type.OutputFormat;
+import com.fosscut.util.Messages;
 import com.fosscut.util.PlanValidator;
-import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
-import com.fosscut.util.RedisUriParser;
-import com.fosscut.util.save.Save;
-import com.fosscut.util.save.SaveContentType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -29,9 +28,24 @@ public class OptimalGen extends AbstractGen {
     private int outputCount;
 
     @Override
-        protected void runWithExceptions() throws FosscutException {
-        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
+    protected void runWithExceptions()
+    throws FosscutException, TimeoutException {
+        handleOrderFuture(generateOrderFuture());
+    }
 
+    private CompletableFuture<Plan> generateOrderFuture() throws FosscutException {
+        CompletableFuture<Plan> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                return generateOrderWithCuttingPlan();
+            } catch (FosscutException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return future.orTimeout(timeoutAmount, timeoutUnit);
+    }
+
+    Plan generateOrderWithCuttingPlan() throws FosscutException {
         OptimalGenAlg optimalGenAlg = new OptimalGenAlg(
             inputLength,
             inputTypeCount,
@@ -43,26 +57,30 @@ public class OptimalGen extends AbstractGen {
             outputLengthLowerBound,
             outputLengthUpperBound,
             seed);
-        Plan orderWithCuttingPlan = optimalGenAlg.nextOrder();
+        return optimalGenAlg.nextOrder();
+    }
 
-        String orderString = null;
-        if (outputFormat == OutputFormat.yaml) {
-            YamlDumper yamlDumper = new YamlDumper();
-            orderString = yamlDumper.dump(orderWithCuttingPlan);
+    private void handleOrderFuture(CompletableFuture<Plan> future)
+    throws FosscutException, TimeoutException {
+        try {
+            Plan orderWithCuttingPlan = future.join();
+            handleGeneratedOrder(orderWithCuttingPlan);
+            PlanValidator planValidator = new PlanValidator();
+            planValidator.validatePlan(orderWithCuttingPlan);
+        } catch (CompletionException e) {
+            if (e.getCause() instanceof TimeoutException) {
+                StringWriter sw = new StringWriter();
+                e.getCause().printStackTrace(new PrintWriter(sw));
+                throw new TimeoutException(
+                    sw.toString()
+                    + Messages.ORDER_GENERATION_TIMEOUT
+                    + timeoutAmount + " " + timeoutUnit.toString().toLowerCase()
+                    + "."
+                );
+            } else {
+                throw e; // rethrow FosscutExceptions and others
+            }
         }
-
-        Save save = new Save(
-            SaveContentType.ORDER,
-            orderString,
-            RedisUriParser.getOrderUri(outputPath),
-            redisConnectionSecrets);
-        save.save(outputPath);
-
-        PrintResult printResult = new PrintResult("order", outputPath);
-        printResult.print(orderString);
-
-        PlanValidator planValidator = new PlanValidator();
-        planValidator.validatePlan(orderWithCuttingPlan);
     }
 
 }

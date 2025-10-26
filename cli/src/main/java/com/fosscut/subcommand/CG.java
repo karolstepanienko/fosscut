@@ -1,7 +1,8 @@
 package com.fosscut.subcommand;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
 
 import com.fosscut.alg.cg.ColumnGeneration;
 import com.fosscut.shared.exception.FosscutException;
@@ -9,24 +10,11 @@ import com.fosscut.shared.type.IntegerSolver;
 import com.fosscut.shared.type.LinearSolver;
 import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.plan.Plan;
-import com.fosscut.shared.util.OrderValidator;
-import com.fosscut.shared.util.RelaxValidator;
-import com.fosscut.shared.util.load.YamlLoader;
-import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractAlg;
-import com.fosscut.type.OutputFormat;
 import com.fosscut.util.AlgTimer;
-import com.fosscut.util.Cleaner;
 import com.fosscut.util.Defaults;
-import com.fosscut.util.LogFormatter;
 import com.fosscut.util.Messages;
-import com.fosscut.util.PlanValidator;
-import com.fosscut.util.PrintResult;
 import com.fosscut.util.PropertiesVersionProvider;
-import com.fosscut.util.RedisUriParser;
-import com.fosscut.util.load.OrderLoader;
-import com.fosscut.util.save.Save;
-import com.fosscut.util.save.SaveContentType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -36,8 +24,6 @@ import picocli.CommandLine.Spec;
 
 @Command(name = "cg", versionProvider = PropertiesVersionProvider.class)
 public class CG extends AbstractAlg {
-
-    private Double relaxCost;
 
     @Option(names = { "-c", "--relaxation-cost" },
     description = "Cost of relaxing the length of an output element by"
@@ -51,6 +37,7 @@ public class CG extends AbstractAlg {
         }
         this.relaxCost = relaxCost;
     }
+    private Double relaxCost;
 
     @Option(names = { "--linear-solver" },
         defaultValue = Defaults.DEFAULT_PARAM_LINEAR_SOLVER,
@@ -88,60 +75,32 @@ public class CG extends AbstractAlg {
     private CommandSpec spec;
 
     @Override
-    protected void runWithExceptions() throws FosscutException, IOException {
-        boolean quietModeRequested = fossCut.getQuietModeRequested();
-        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
+    protected void runWithExceptions()
+    throws FosscutException, IOException, TimeoutException {
+        Order order = prepareOrder();
+        validateRelax(order, relaxCost);
+        CompletableFuture<Plan> future = generatePlanFuture(order);
+        handlePlanFuture(future);
+    }
 
-        LogFormatter logFormatter = new LogFormatter(quietModeRequested);
-        logFormatter.configure();
-
-        OrderLoader orderLoader = new OrderLoader(redisConnectionSecrets);
-        String orderString = orderLoader.load(orderPath);
-
-        YamlLoader yamlLoader = new YamlLoader();
-        Order order = yamlLoader.loadOrder(orderString);
-
-        OrderValidator validator = new OrderValidator(optimizationCriterion);
-        validator.validateOrder(order);
-
-        RelaxValidator relaxValidator = new RelaxValidator(relaxEnabled, relaxCost);
-        relaxValidator.validate(order);
-
-        Cleaner cleaner = new Cleaner();
-        cleaner.cleanOrder(order);
-
+    @Override
+    protected Plan generatePlan(Order order) throws FosscutException {
         AlgTimer timer = new AlgTimer();
         Long algElapsedTime = null;
         if (!disableTimeMeasurementMetadata) timer.start();
+
         ColumnGeneration columnGeneration = new ColumnGeneration(
             order, relaxCost, relaxEnabled, optimizationCriterion,
             relaxationSpreadStrategy, forceLinearImprovement,
             linearSolver, integerSolver, linearNumThreads, integerNumThreads);
         columnGeneration.run();
+
         if (!disableTimeMeasurementMetadata) {
             timer.stop();
             algElapsedTime = timer.getElapsedTimeMillis();
         }
 
-        Plan cuttingPlan = columnGeneration.getCuttingPlan(algElapsedTime);
-        String cuttingPlanString = null;
-        if (outputFormat == OutputFormat.yaml) {
-            YamlDumper yamlDumper = new YamlDumper();
-            cuttingPlanString = yamlDumper.dump(cuttingPlan);
-        }
-
-        Save save = new Save(
-            SaveContentType.PLAN,
-            cuttingPlanString,
-            RedisUriParser.getOrderUri(orderPath),
-            redisConnectionSecrets);
-        save.save(outputFile);
-
-        PrintResult printResult = new PrintResult("cutting plan", outputFile);
-        printResult.print(cuttingPlanString);
-
-        PlanValidator planValidator = new PlanValidator();
-        planValidator.validatePlan(cuttingPlan);
+        return columnGeneration.getCuttingPlan(algElapsedTime);
     }
 
 }

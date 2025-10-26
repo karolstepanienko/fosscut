@@ -38,6 +38,13 @@ public class Greedy {
         RepetitiveTests.testVersion(new Command("greedy --version"));
     }
 
+    @Test public void timeout() {
+        RepetitiveTests.testTimeout(
+            new Command("greedy " + " --timeout-amount 1 --timeout-unit NANOSECONDS " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER)),
+            Messages.PLAN_GENERATION_TIMEOUT
+        );
+    }
+
     /******************************* Validation **********************************/
 
     @Test public void greedyRelaxCostUndefined() {
@@ -333,7 +340,7 @@ public class Greedy {
             + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assert(command.getError().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
     }
 
     @Test public void greedyInputCountExecutionErrorQuiet() {
@@ -341,7 +348,7 @@ public class Greedy {
             + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assert(command.getError().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
     }
 
     /******************************* Cost *************************************/

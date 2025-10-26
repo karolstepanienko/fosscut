@@ -38,6 +38,13 @@ public class CG {
         RepetitiveTests.testVersion(new Command("cg --version"));
     }
 
+    @Test public void timeout() {
+        RepetitiveTests.testTimeout(
+            new Command("cg " + " --timeout-amount 1 --timeout-unit NANOSECONDS " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER)),
+            Messages.PLAN_GENERATION_TIMEOUT
+        );
+    }
+
     /******************************* Validation **********************************/
 
     @Test public void cgRelaxCostUndefined() {
@@ -447,14 +454,14 @@ public class CG {
         Command command = new Command("cg " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_EXCEPTION));
+        assert(command.getError().contains(Messages.LP_UNFEASIBLE_EXCEPTION));
     }
 
     @Test public void cgInputCountExecutionErrorQuiet() {
         Command command = new Command("cg -q " + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().equals(Messages.LP_UNFEASIBLE_EXCEPTION));
+        assert(command.getError().contains(Messages.LP_UNFEASIBLE_EXCEPTION));
     }
 
     /******************************* Cost *************************************/

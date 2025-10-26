@@ -29,3 +29,4 @@ metadata:
   outputTypeCount: 3
   totalWaste: 0
   totalNeededInputLength: 15
+  planStatus: "COMPLETE"

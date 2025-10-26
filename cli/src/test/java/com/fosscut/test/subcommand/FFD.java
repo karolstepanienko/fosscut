@@ -38,6 +38,13 @@ public class FFD {
         RepetitiveTests.testVersion(new Command("ffd --version"));
     }
 
+    @Test public void timeout() {
+        RepetitiveTests.testTimeout(
+            new Command("ffd " + " --timeout-amount 1 --timeout-unit NANOSECONDS " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_ORDER)),
+            Messages.PLAN_GENERATION_TIMEOUT
+        );
+    }
+
     /******************************* General **********************************/
 
     @Test public void ffd() {
@@ -471,7 +478,7 @@ public class FFD {
             + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assert(command.getError().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
     }
 
     @Test public void ffdInputCountExecutionErrorQuiet() {
@@ -479,7 +486,7 @@ public class FFD {
             + Utils.getAbsolutePath(TestDefaults.FAIL_EXECUTION_INPUT_COUNT));
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().equals(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
+        assert(command.getError().contains(Messages.UNABLE_TO_GENERATE_NEW_PATTERNS));
     }
 
     /******************************* Cost *************************************/

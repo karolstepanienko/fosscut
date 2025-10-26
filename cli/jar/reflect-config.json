@@ -127,7 +127,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getElapsedTimeMilliseconds","parameterTypes":[] }, {"name":"getTimestamp","parameterTypes":[] }, {"name":"getInputCount","parameterTypes":[] }, {"name":"getOutputCount","parameterTypes":[] }, {"name":"getInputTypeCount","parameterTypes":[] }, {"name":"getOutputTypeCount","parameterTypes":[] }, {"name":"getUnnecessaryOutputs","parameterTypes":[] }, {"name":"getTotalWaste","parameterTypes":[] }, {"name":"getTrueTotalWaste","parameterTypes":[] }, {"name":"getMinTrueTotalWaste","parameterTypes":[] }, {"name":"getMaxTrueTotalWaste","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }]
+  "methods":[{"name":"getElapsedTimeMilliseconds","parameterTypes":[] }, {"name":"getTimestamp","parameterTypes":[] }, {"name":"getInputCount","parameterTypes":[] }, {"name":"getOutputCount","parameterTypes":[] }, {"name":"getInputTypeCount","parameterTypes":[] }, {"name":"getOutputTypeCount","parameterTypes":[] }, {"name":"getUnnecessaryOutputs","parameterTypes":[] }, {"name":"getTotalWaste","parameterTypes":[] }, {"name":"getTrueTotalWaste","parameterTypes":[] }, {"name":"getMinTrueTotalWaste","parameterTypes":[] }, {"name":"getMaxTrueTotalWaste","parameterTypes":[] }, {"name":"getTotalNeededInputLength","parameterTypes":[] }, {"name":"getTotalCost","parameterTypes":[] }, {"name":"getPlanStatus","parameterTypes":[] }]
 },
 {
   "name":"com.fosscut.shared.type.cutting.plan.UnnecessaryOutput",

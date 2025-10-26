@@ -77,3 +77,4 @@ metadata:
   totalWaste: 0
   trueTotalWaste: 45
   totalNeededInputLength: 5130
+  planStatus: "COMPLETE"

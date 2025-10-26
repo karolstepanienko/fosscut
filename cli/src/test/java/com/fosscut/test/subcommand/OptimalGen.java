@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.fosscut.util.Command;
+import com.fosscut.util.Messages;
 import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.TestDefaults;
 import com.fosscut.util.Utils;
@@ -37,6 +38,13 @@ public class OptimalGen {
 
     @Test public void longVersion() {
         RepetitiveTests.testVersion(new Command("optimalgen --version"));
+    }
+
+    @Test public void timeout() {
+        RepetitiveTests.testTimeout(
+            new Command("optimalgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 10 --seed 1 --timeout-amount 1 --timeout-unit NANOSECONDS"),
+            Messages.ORDER_GENERATION_TIMEOUT
+        );
     }
 
     @Test public void optimalgenSingleInput() throws IOException {

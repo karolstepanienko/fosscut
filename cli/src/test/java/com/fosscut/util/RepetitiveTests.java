@@ -34,6 +34,12 @@ public class RepetitiveTests {
         assertEquals(0, command.getExitCode());
     }
 
+    public static void testTimeout(Command command, String timeoutMessage) {
+        command.run();
+        assert(command.getOutput().contains(timeoutMessage));
+        assertEquals(1, command.getExitCode());
+    }
+
     private static String extractAfter(String input, String key) {
         int index = input.indexOf(key);
         if (index != -1) {

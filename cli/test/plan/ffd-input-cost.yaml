@@ -74,3 +74,4 @@ metadata:
   totalWaste: 45
   totalNeededInputLength: 5130
   totalCost: 676.0
+  planStatus: "COMPLETE"

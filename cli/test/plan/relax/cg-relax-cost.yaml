@@ -64,3 +64,4 @@ metadata:
   minTrueTotalWaste: 27
   maxTrueTotalWaste: 28
   totalNeededInputLength: 1630
+  planStatus: "COMPLETE"

@@ -1,18 +1,17 @@
 package com.fosscut.subcommand;
 
-import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.TimeoutException;
 
 import com.fosscut.alg.gen.cut.CutGenAlg;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.order.Order;
-import com.fosscut.shared.util.save.YamlDumper;
 import com.fosscut.subcommand.abs.AbstractGen;
-import com.fosscut.type.OutputFormat;
-import com.fosscut.util.PrintResult;
+import com.fosscut.util.Messages;
 import com.fosscut.util.PropertiesVersionProvider;
-import com.fosscut.util.RedisUriParser;
-import com.fosscut.util.save.Save;
-import com.fosscut.util.save.SaveContentType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -32,9 +31,24 @@ public class CutGen extends AbstractGen {
     private boolean allowOutputTypeDuplicates;
 
     @Override
-    protected void runWithExceptions() throws FosscutException {
-        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
+    protected void runWithExceptions()
+    throws FosscutException, TimeoutException {
+        handleOrderFuture(generateOrderFuture());
+    }
 
+    private CompletableFuture<Order> generateOrderFuture() throws FosscutException {
+        CompletableFuture<Order> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                return generateOrder();
+            } catch (FosscutException e) {
+                throw new CompletionException(e);
+            }
+        });
+
+        return future.orTimeout(timeoutAmount, timeoutUnit);
+    }
+
+    private Order generateOrder() throws FosscutException {
         CutGenAlg cutGenAlg = new CutGenAlg(
             inputLength,
             inputTypeCount,
@@ -48,25 +62,27 @@ public class CutGen extends AbstractGen {
             allowOutputTypeDuplicates,
             seed
         );
+        return cutGenAlg.nextOrder();
+    }
 
-        Order order = null;
-        order = cutGenAlg.nextOrder();
-
-        String orderString = null;
-        if (outputFormat == OutputFormat.yaml) {
-            YamlDumper yamlDumper = new YamlDumper();
-            orderString = yamlDumper.dump(order);
+    private void handleOrderFuture(CompletableFuture<Order> future)
+    throws FosscutException, TimeoutException {
+        try {
+            handleGeneratedOrder(future.join());
+        } catch (CompletionException e) {
+            if (e.getCause() instanceof TimeoutException) {
+                StringWriter sw = new StringWriter();
+                e.getCause().printStackTrace(new PrintWriter(sw));
+                throw new TimeoutException(
+                    sw.toString()
+                    + Messages.ORDER_GENERATION_TIMEOUT
+                    + timeoutAmount + " " + timeoutUnit.toString().toLowerCase()
+                    + "."
+                );
+            } else {
+                throw e; // rethrow FosscutExceptions and others
+            }
         }
-
-        Save save = new Save(
-            SaveContentType.ORDER,
-            orderString,
-            RedisUriParser.getOrderUri(outputPath),
-            redisConnectionSecrets);
-        save.save(outputPath);
-
-        PrintResult printResult = new PrintResult("order", outputPath);
-        printResult.print(orderString);
     }
 
 }

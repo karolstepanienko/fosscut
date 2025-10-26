@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.fosscut.util.Command;
+import com.fosscut.util.Messages;
 import com.fosscut.util.RepetitiveTests;
 import com.fosscut.util.TestDefaults;
 import com.fosscut.util.Utils;
@@ -37,6 +38,13 @@ public class CutGen {
 
     @Test public void longVersion() {
         RepetitiveTests.testVersion(new Command("cutgen --version"));
+    }
+
+    @Test public void timeout() {
+        RepetitiveTests.testTimeout(
+            new Command("cutgen -i 999999999 -ol 0.1 -ou 0.9 -ot 19999 -d 999999999 --seed 1 --timeout-amount 1 --timeout-unit NANOSECONDS"),
+            Messages.ORDER_GENERATION_TIMEOUT
+        );
     }
 
     @Test public void cutgenSimpleOrder() {
@@ -86,8 +94,8 @@ public class CutGen {
         Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -d 10 --seed 1");
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().contains("Duplicates detected while generating input elements."));
-        assert(command.getOutput().contains("Duplicates can be allowed using: '--allow-input-type-duplicates'."));
+        assert(command.getError().contains("Duplicates detected while generating input elements."));
+        assert(command.getError().contains("Duplicates can be allowed using: '--allow-input-type-duplicates'."));
     }
 
     @Test public void cutgenAllowInputDuplicates() throws IOException {
@@ -105,8 +113,8 @@ public class CutGen {
         Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -d 10 --seed 1");
         command.run();
         assertEquals(1, command.getExitCode());
-        assert(command.getOutput().contains("Duplicates detected while generating output elements."));
-        assert(command.getOutput().contains("Duplicates can be allowed using: '--allow-output-type-duplicates'."));
+        assert(command.getError().contains("Duplicates detected while generating output elements."));
+        assert(command.getError().contains("Duplicates can be allowed using: '--allow-output-type-duplicates'."));
     }
 
     @Test public void cutgenAllowOutputDuplicates() throws IOException {

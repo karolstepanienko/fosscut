@@ -10,7 +10,9 @@ public class Plan {
     private List<OrderOutput> outputs;
     private Metadata metadata;
 
-    public Plan() {}
+    public Plan() {
+        this.metadata = new Metadata();
+    }
 
     public Plan(List<PlanInput> inputs, List<OrderOutput> outputs) {
         this.inputs = inputs;

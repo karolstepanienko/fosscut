@@ -1,5 +1,14 @@
 package com.fosscut.subcommand.abs;
 
+import java.io.File;
+
+import com.fosscut.shared.util.save.YamlDumper;
+import com.fosscut.type.OutputFormat;
+import com.fosscut.util.PrintResult;
+import com.fosscut.util.RedisUriParser;
+import com.fosscut.util.save.Save;
+import com.fosscut.util.save.SaveContentType;
+
 import picocli.CommandLine.Option;
 
 /**
@@ -61,5 +70,25 @@ public abstract class AbstractGen extends AbstractOutputFile {
             + " element length.",
         required = true)
     protected double outputLengthUpperBound;
+
+    protected void handleGeneratedOrder(Object object) {
+        File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
+
+        String orderString = null;
+        if (outputFormat == OutputFormat.yaml) {
+            YamlDumper yamlDumper = new YamlDumper();
+            orderString = yamlDumper.dump(object);
+        }
+
+        Save save = new Save(
+            SaveContentType.ORDER,
+            orderString,
+            RedisUriParser.getOrderUri(outputPath),
+            redisConnectionSecrets);
+        save.save(outputPath);
+
+        PrintResult printResult = new PrintResult("order", outputPath);
+        printResult.print(orderString);
+    }
 
 }
