@@ -1,6 +1,7 @@
 package com.fosscut.utils;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -16,6 +17,8 @@ public class ResultsReport extends ResultsFilesAfter {
 
     private List<String> ignoredXAxisLabels;
 
+    private LinkedHashMap<String, LinkedHashMap<String, String>> missingRuns;
+    private LinkedHashMap<String, LinkedHashMap<String, String>> timeoutRuns;
     private LinkedHashMap<Integer, Integer> finalSeedsMap;
     private LinkedList<String> expectedPlanFileNames;
 
@@ -45,7 +48,7 @@ public class ResultsReport extends ResultsFilesAfter {
     }
 
     public void generateReport() {
-        LinkedHashMap<String, LinkedHashMap<String, String>> missingRuns = findMissingRuns();
+        findMissingRuns();
         List<String> incorrectFileNames = findIncorrectFileNames();
         StringBuilder reportContent = new StringBuilder();
         reportContent.append(generateRerunCommands(missingRuns));
@@ -55,16 +58,33 @@ public class ResultsReport extends ResultsFilesAfter {
             + "report.sh");
     }
 
-    public LinkedHashMap<String, LinkedHashMap<String, String>> findMissingRuns() {
+    public void findMissingRuns() {
         expectedPlanFileNames = new LinkedList<>();
-        LinkedHashMap<String, LinkedHashMap<String, String>> missingRuns = new LinkedHashMap<>();
+        missingRuns = new LinkedHashMap<>();
+        timeoutRuns = new LinkedHashMap<>();
         for (String xAxisLabel : xAxisLabels) {
             if (ignoredXAxisLabels.contains(xAxisLabel)) { continue; }
             for (Map.Entry<Integer, Integer> entry : finalSeedsMap.entrySet()) {
                 String expectedPlanFileName = getPlanFileName(testName, "x" + xAxisLabel, entry);
                 expectedPlanFileNames.add(expectedPlanFileName);
-                boolean planFileExists = planFiles.stream().anyMatch(file -> file.getName().equals(expectedPlanFileName));
-                if (!planFileExists) {
+
+                boolean planFileExists = false;
+                boolean isTimeout = false;
+                for (File file : planFiles) {
+                    if (file.getName().equals(expectedPlanFileName)) {
+                        planFileExists = true;
+                        try {
+                            String content = Files.readString(file.getAbsoluteFile().toPath());
+                            if (content.contains("planStatus: \"TIMEOUT\"")) {
+                                isTimeout = true;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                if (!planFileExists || isTimeout) {
                     // missing run found
                     String run = String.valueOf(entry.getKey());
                     String seed = String.valueOf(entry.getValue());
@@ -75,10 +95,19 @@ public class ResultsReport extends ResultsFilesAfter {
                             put(run, seed);
                         }});
                     }
+                    // timeout run found
+                    if (isTimeout) {
+                        if (timeoutRuns.containsKey(xAxisLabel)) {
+                            timeoutRuns.get(xAxisLabel).put(run, seed);
+                        } else {
+                            timeoutRuns.put(xAxisLabel, new LinkedHashMap<String, String>() {{
+                                put(run, seed);
+                            }});
+                        }
+                    }
                 }
             }
         }
-        return missingRuns;
     }
 
     public List<String> findIncorrectFileNames() {
@@ -106,22 +135,31 @@ public class ResultsReport extends ResultsFilesAfter {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, LinkedHashMap<String, String>> xAxisEntry : missingRuns.entrySet()) {
             String xAxisLabel = xAxisEntry.getKey();
-            sb.append("# Missing runs for xAxisLabel: ").append(xAxisLabel).append("\n");
-            sb.append("assertTrue(cmd.run(LinkedHashMap_of(");
-            LinkedHashMap<String, String> runsMap = xAxisEntry.getValue();
-            for (Map.Entry<String, String> runEntry : runsMap.entrySet()) {
-                String run = runEntry.getKey();
-                String seed = runEntry.getValue();
-                sb.append(run).append(", ").append(seed).append(", ");
+            sb.append("# xAxisLabel: ").append(xAxisLabel).append(", line 1: missing runs (including timeout runs), line 2: only timeout runs").append("\n");
+
+            sb = generateRerunCommand(sb, xAxisEntry.getValue());
+            if (timeoutRuns.containsKey(xAxisLabel)) {
+                sb = generateRerunCommand(sb, timeoutRuns.get(xAxisLabel));
             }
-            // remove last comma and space if present
-            int len = sb.length();
-            if (len >= 2 && sb.substring(len - 2, len).equals(", ")) {
-                sb.delete(len - 2, len);
-            }
-            sb.append(")));\n");
         }
         return sb.toString();
+    }
+
+    private StringBuilder generateRerunCommand(StringBuilder sb,
+        LinkedHashMap<String, String> runsMap) {
+        sb.append("assertTrue(cmd.run(LinkedHashMap_of(");
+        for (Map.Entry<String, String> runEntry : runsMap.entrySet()) {
+            String run = runEntry.getKey();
+            String seed = runEntry.getValue();
+            sb.append(run).append(", ").append(seed).append(", ");
+        }
+        // remove last comma and space if present
+        int len = sb.length();
+        if (len >= 2 && sb.substring(len - 2, len).equals(", ")) {
+            sb.delete(len - 2, len);
+        }
+        sb.append(")));\n");
+        return sb;
     }
 
     public String generateRemoveCommands(List<String> incorrectFileNames) {
