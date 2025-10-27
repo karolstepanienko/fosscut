@@ -24,6 +24,14 @@ public class ResultsReport extends ResultsFilesAfter {
 
     public ResultsReport(String testName,
         List<String> ignoredXAxisLabels,
+        LinkedHashMap<Integer, Integer> seeds) {
+        super(testName);
+        this.ignoredXAxisLabels = ignoredXAxisLabels;
+        this.finalSeedsMap = seeds;
+    }
+
+    public ResultsReport(String testName,
+        List<String> ignoredXAxisLabels,
         LinkedList<Integer> seeds) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
@@ -147,7 +155,7 @@ public class ResultsReport extends ResultsFilesAfter {
 
     private StringBuilder generateRerunCommand(StringBuilder sb,
         LinkedHashMap<String, String> runsMap) {
-        sb.append("assertTrue(cmd.run(LinkedHashMap_of(");
+        sb.append("# assertTrue(cmd.run(LinkedHashMap_of(");
         for (Map.Entry<String, String> runEntry : runsMap.entrySet()) {
             String run = runEntry.getKey();
             String seed = runEntry.getValue();
@@ -165,6 +173,12 @@ public class ResultsReport extends ResultsFilesAfter {
     public String generateRemoveCommands(List<String> incorrectFileNames) {
         StringBuilder sb = new StringBuilder();
         for (String fileName : incorrectFileNames) {
+            // remove order command
+            sb.append("rm ").append(fileName.replace(
+                PerformanceDefaults.RESULTS_PLAN_SUFFIX,
+                PerformanceDefaults.RESULTS_ORDER_SUFFIX)
+            ).append("\n");
+            // remove plan command
             sb.append("rm ").append(fileName).append("\n");
         }
         return sb.toString();
