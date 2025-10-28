@@ -1,6 +1,7 @@
 package com.fosscut.utils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -64,6 +65,30 @@ public class CloudCommand extends ResultsFilesBefore {
     }
 
     public boolean run(LinkedHashMap<Integer, Integer> seeds) throws InterruptedException {
+        return runAllGivenSeeds(removeAlreadyExecutedRuns(seeds));
+    }
+
+    public boolean run(LinkedList<Integer> seeds) throws InterruptedException {
+        return runAllGivenSeeds(removeAlreadyExecutedRuns(seeds, 1));
+    }
+
+    public boolean run(LinkedList<Integer> seeds, int nRunsInit) throws InterruptedException {
+        return runAllGivenSeeds(removeAlreadyExecutedRuns(seeds, nRunsInit));
+    }
+
+    // each seed will be run eachSeedRunsEnd - eachSeedRunsStart times
+    // use for examples where generated results are non-deterministic
+    public boolean run(LinkedList<Integer> seeds, int nRunsInit,
+        int eachSeedRunsStart, int eachSeedRunsEnd)
+    throws InterruptedException {
+        LinkedHashMap<Integer, Integer> finalSeedsMap = generateFinalSeedsMap(
+            seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd);
+        finalSeedsMap = removeAlreadyExecutedRuns(
+            seeds, finalSeedsMap, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd);
+        return runAllGivenSeeds(finalSeedsMap);
+    }
+
+    private boolean runAllGivenSeeds(LinkedHashMap<Integer, Integer> seeds) throws InterruptedException {
         try (KubernetesClient k8sClient = new KubernetesClientBuilder().build()) {
             seeds.entrySet().parallelStream().forEach(seed -> {
                 try {
@@ -80,20 +105,48 @@ public class CloudCommand extends ResultsFilesBefore {
         return failedRuns == 0;
     }
 
-    public boolean run(LinkedList<Integer> seeds) throws InterruptedException {
-        return run(generateFinalSeedsMap(seeds, 1));
+    private LinkedHashMap<Integer, Integer> removeAlreadyExecutedRuns(
+        LinkedHashMap<Integer, Integer> seeds) {
+        ResultsReport report = new ResultsReport(testName, new ArrayList<>(),
+            seeds
+        );
+        report.generateReportData();
+        LinkedHashMap<Integer, Integer> missingSeedsRuns =
+            report.getMissingRuns().get(xAxisLabel.substring(1));
+
+        if (missingSeedsRuns == null) return seeds;
+        else return missingSeedsRuns;
     }
 
-    public boolean run(LinkedList<Integer> seeds, int nRunsInit) throws InterruptedException {
-        return run(generateFinalSeedsMap(seeds, nRunsInit));
+    private LinkedHashMap<Integer, Integer> removeAlreadyExecutedRuns(
+        LinkedList<Integer> seeds, int nRunsInit
+    ) {
+        ResultsReport report = new ResultsReport(testName, new ArrayList<>(),
+            seeds, nRunsInit
+        );
+        report.generateReportData();
+        LinkedHashMap<Integer, Integer> missingSeedsRuns =
+            report.getMissingRuns().get(xAxisLabel.substring(1));
+
+        if (missingSeedsRuns == null) return generateFinalSeedsMap(seeds, nRunsInit);
+        else return missingSeedsRuns;
     }
 
-    // each seed will be run eachSeedRunsEnd - eachSeedRunsStart times
-    // use for examples where generated results are non-deterministic
-    public boolean run(LinkedList<Integer> seeds, int nRunsInit,
-        int eachSeedRunsStart, int eachSeedRunsEnd)
-    throws InterruptedException {
-        return run(generateFinalSeedsMap(seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd));
+    private LinkedHashMap<Integer, Integer> removeAlreadyExecutedRuns(
+        LinkedList<Integer> seeds,
+        LinkedHashMap<Integer, Integer> finalSeedsMap,
+        int nRunsInit, int eachSeedRunsStart, int eachSeedRunsEnd
+    ) {
+        ResultsReport report = new ResultsReport(testName, new ArrayList<>(),
+            seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd
+        );
+        report.generateReportData();
+        LinkedHashMap<Integer, Integer> missingSeedsRuns =
+            report.getMissingRuns().get(xAxisLabel.substring(1));
+
+    
+        if (missingSeedsRuns == null) return finalSeedsMap;
+        else return missingSeedsRuns;
     }
 
     private String getPodName(Map.Entry<Integer, Integer> seed) {

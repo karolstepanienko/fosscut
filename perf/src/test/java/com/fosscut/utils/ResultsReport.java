@@ -17,10 +17,11 @@ public class ResultsReport extends ResultsFilesAfter {
 
     private List<String> ignoredXAxisLabels;
 
-    private LinkedHashMap<String, LinkedHashMap<String, String>> missingRuns;
-    private LinkedHashMap<String, LinkedHashMap<String, String>> timeoutRuns;
     private LinkedHashMap<Integer, Integer> finalSeedsMap;
     private LinkedList<String> expectedPlanFileNames;
+    private LinkedHashMap<String, LinkedHashMap<Integer, Integer>> missingRuns;
+    private LinkedHashMap<String, LinkedHashMap<Integer, Integer>> timeoutRuns;
+    private List<String> incorrectFileNames;
 
     public ResultsReport(String testName,
         List<String> ignoredXAxisLabels,
@@ -55,9 +56,17 @@ public class ResultsReport extends ResultsFilesAfter {
         this.finalSeedsMap = generateFinalSeedsMap(seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd);
     }
 
-    public void generateReport() {
+    public LinkedHashMap<String, LinkedHashMap<Integer, Integer>> getMissingRuns() {
+        return missingRuns;
+    }
+
+    public void generateReportData() {
         findMissingRuns();
-        List<String> incorrectFileNames = findIncorrectFileNames();
+        findIncorrectFileNames();
+    }
+
+    public void generateReport() {
+        generateReportData();
         StringBuilder reportContent = new StringBuilder();
         reportContent.append(generateRerunCommands(missingRuns));
         reportContent.append(generateRemoveCommands(incorrectFileNames));
@@ -66,7 +75,7 @@ public class ResultsReport extends ResultsFilesAfter {
             + "report.sh");
     }
 
-    public void findMissingRuns() {
+    private void findMissingRuns() {
         expectedPlanFileNames = new LinkedList<>();
         missingRuns = new LinkedHashMap<>();
         timeoutRuns = new LinkedHashMap<>();
@@ -94,12 +103,12 @@ public class ResultsReport extends ResultsFilesAfter {
 
                 if (!planFileExists || isTimeout) {
                     // missing run found
-                    String run = String.valueOf(entry.getKey());
-                    String seed = String.valueOf(entry.getValue());
+                    Integer run = entry.getKey();
+                    Integer seed = entry.getValue();
                     if (missingRuns.containsKey(xAxisLabel)) {
                         missingRuns.get(xAxisLabel).put(run, seed);
                     } else {
-                        missingRuns.put(xAxisLabel, new LinkedHashMap<String, String>() {{
+                        missingRuns.put(xAxisLabel, new LinkedHashMap<Integer, Integer>() {{
                             put(run, seed);
                         }});
                     }
@@ -108,7 +117,7 @@ public class ResultsReport extends ResultsFilesAfter {
                         if (timeoutRuns.containsKey(xAxisLabel)) {
                             timeoutRuns.get(xAxisLabel).put(run, seed);
                         } else {
-                            timeoutRuns.put(xAxisLabel, new LinkedHashMap<String, String>() {{
+                            timeoutRuns.put(xAxisLabel, new LinkedHashMap<Integer, Integer>() {{
                                 put(run, seed);
                             }});
                         }
@@ -118,8 +127,8 @@ public class ResultsReport extends ResultsFilesAfter {
         }
     }
 
-    public List<String> findIncorrectFileNames() {
-        List<String> incorrectFileNames = new ArrayList<>();
+    private void findIncorrectFileNames() {
+        incorrectFileNames = new ArrayList<>();
         for (File file : planFiles) {
             String fileName = file.getName();
             if (!expectedPlanFileNames.contains(fileName)) {
@@ -136,12 +145,11 @@ public class ResultsReport extends ResultsFilesAfter {
                 }
             }
         }
-        return incorrectFileNames;
     }
 
-    public String generateRerunCommands(LinkedHashMap<String, LinkedHashMap<String, String>> missingRuns) {
+    private String generateRerunCommands(LinkedHashMap<String, LinkedHashMap<Integer, Integer>> missingRuns) {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, LinkedHashMap<String, String>> xAxisEntry : missingRuns.entrySet()) {
+        for (Map.Entry<String, LinkedHashMap<Integer, Integer>> xAxisEntry : missingRuns.entrySet()) {
             String xAxisLabel = xAxisEntry.getKey();
             sb.append("# xAxisLabel: ").append(xAxisLabel).append(", line 1: missing runs (including timeout runs), line 2: only timeout runs").append("\n");
 
@@ -154,11 +162,11 @@ public class ResultsReport extends ResultsFilesAfter {
     }
 
     private StringBuilder generateRerunCommand(StringBuilder sb,
-        LinkedHashMap<String, String> runsMap) {
+        LinkedHashMap<Integer, Integer> runsMap) {
         sb.append("# assertTrue(cmd.run(LinkedHashMap_of(");
-        for (Map.Entry<String, String> runEntry : runsMap.entrySet()) {
-            String run = runEntry.getKey();
-            String seed = runEntry.getValue();
+        for (Map.Entry<Integer, Integer> runEntry : runsMap.entrySet()) {
+            Integer run = runEntry.getKey();
+            Integer seed = runEntry.getValue();
             sb.append(run).append(", ").append(seed).append(", ");
         }
         // remove last comma and space if present
@@ -170,7 +178,7 @@ public class ResultsReport extends ResultsFilesAfter {
         return sb;
     }
 
-    public String generateRemoveCommands(List<String> incorrectFileNames) {
+    private String generateRemoveCommands(List<String> incorrectFileNames) {
         StringBuilder sb = new StringBuilder();
         for (String fileName : incorrectFileNames) {
             // remove order command

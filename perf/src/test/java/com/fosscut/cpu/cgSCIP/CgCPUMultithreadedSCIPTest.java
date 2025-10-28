@@ -25,8 +25,8 @@ import com.fosscut.utils.ResultsReport;
 public class CgCPUMultithreadedSCIPTest extends AbstractTest {
 
     private static String testName = "cgCPUMultithreadedSCIP";
-    private static String orderCommand = "optimalgen -iu 1000 -il 100 -it 5 -ol 0.4 -ou 0.8 -oc 1000 -ot 30";
-    private static String planCommand = "cg --linear-solver GLOP --integer-solver SCIP -ln 1 ";
+    private static String orderCommand = "optimalgen -iu 1000 -il 100 -it 5 -ol 0.4 -ou 0.8 -oc 1000 -ot 30 --timeout-amount 10 --timeout-unit SECONDS";
+    private static String planCommand = "cg --linear-solver GLOP --integer-solver SCIP -ln 1 --timeout-amount 2 --timeout-unit MINUTES";
     private static String memory = "5Gi";
     // five orders
     private static LinkedList<Integer> seeds = LinkedList_of(5, 7, 9, 11, 19);
@@ -149,7 +149,5 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
         );
         assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
-
-
 
 }
