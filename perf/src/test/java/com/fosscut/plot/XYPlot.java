@@ -137,7 +137,9 @@ public class XYPlot {
             return yMin;
         }
         Double range = calculateMaxValue() - calculateMinValue();
-        return String.valueOf(Math.floor(calculateMinValue() - 0.1 * range));
+        int newYMin = (int) Math.floor(calculateMinValue() - 0.1 * range);
+        if (isOdd(newYMin)) newYMin--;
+        return String.valueOf(newYMin);
     }
 
     private String calculateYMax() {
@@ -145,7 +147,13 @@ public class XYPlot {
             return yMax;
         }
         Double range = calculateMaxValue() - calculateMinValue();
-        return String.valueOf(Math.ceil(calculateMaxValue() + 0.1 * range));
+        int newYMax = (int) Math.floor(calculateMaxValue() + 0.1 * range);
+        if (isOdd(newYMax)) newYMax++;
+        return String.valueOf(newYMax);
+    }
+
+    private boolean isOdd(int n) {
+        return n % 2 == 1;
     }
 
     private String startPlot() {

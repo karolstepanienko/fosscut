@@ -42,6 +42,10 @@ public class PlotData extends ResultsFilesAfter {
         calculateAdvancedFieldAverages();
     }
 
+    public Map<String, List<Order>> getOrders() {
+        return this.orders;
+    }
+
     public Map<String, Double> getAverageElapsedTimeMilliseconds() {
         return averageElapsedTimeMilliseconds;
     }

@@ -1,4 +1,4 @@
-package com.fosscut.cg;
+package com.fosscut.cpu.cgSCIP;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,6 +34,39 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
     private static int N_RUNS_INIT = 1000; // larger than range to accommodate for future increases
     private static int N_RUNS_WITH_IDENTICAL_SEED_START = 1;
     private static int N_RUNS_WITH_IDENTICAL_SEED_END = 100;
+
+    /***************************** Results Report *****************************/
+
+    @Test @Order(2) public void cgCPUMultithreadedSCIPResultsReport() {
+        ResultsReport report = new ResultsReport(testName,
+            new ArrayList<>(List.of("0.5", "1")),
+            seeds, N_RUNS_INIT,
+            N_RUNS_WITH_IDENTICAL_SEED_START,
+            N_RUNS_WITH_IDENTICAL_SEED_END
+        );
+        report.generateReport();
+    }
+
+    @Test @Order(2) public void cgCPUMultithreadedSCIPPlot() throws IOException {
+        PlotData plotData = new PlotData(testName);
+        new XYPlot(testName + "Waste.tex",
+            plotData.getXAxisLabels(),
+            plotData.getAverageTotalWaste(),
+            "Liczba wątków",
+            "Średni odpad",
+            "1", null, null, "16"
+        ).generatePlot();
+
+        new XYPlot(testName + "Time.tex",
+            plotData.getXAxisLabels(),
+            plotData.getAverageElapsedTimeSeconds(),
+            "Liczba wątków",
+            "Średni czas pracy algorytmu [s]",
+            "1", null, null, null
+        ).generatePlot();
+    }
+
+    /********************************* Tests **********************************/
 
     @Test @Order(1) public void cgCPUMultithreadedSCIPx05() throws InterruptedException {
         // SCIP in one thread is deterministic so running only one run
@@ -117,35 +150,6 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
         assertTrue(cmd.run(seeds, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
-    /***************************** Results Report *****************************/
 
-    @Test @Order(2) public void cgCPUMultithreadedSCIPResultsReport() {
-        ResultsReport report = new ResultsReport(testName,
-            new ArrayList<>(List.of("0.5", "1")),
-            seeds, N_RUNS_INIT,
-            N_RUNS_WITH_IDENTICAL_SEED_START,
-            N_RUNS_WITH_IDENTICAL_SEED_END
-        );
-        report.generateReport();
-    }
-
-    @Test @Order(2) public void cgCPUMultithreadedSCIPPlot() throws IOException {
-        PlotData plotData = new PlotData(testName);
-        new XYPlot(testName + "Waste.tex",
-            plotData.getXAxisLabels(),
-            plotData.getAverageTotalWaste(),
-            "Liczba wątków",
-            "Średni odpad",
-            "1", null, null, "16"
-        ).generatePlot();
-
-        new XYPlot(testName + "Time.tex",
-            plotData.getXAxisLabels(),
-            plotData.getAverageElapsedTimeSeconds(),
-            "Liczba wątków",
-            "Średni czas pracy algorytmu [s]",
-            "1", null, null, null
-        ).generatePlot();
-    }
 
 }
