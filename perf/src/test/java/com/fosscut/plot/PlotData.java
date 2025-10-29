@@ -6,9 +6,9 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
-import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.shared.util.load.YamlLoader;
+import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsFilesAfter;
 
 import java.util.ArrayList;
@@ -16,10 +16,26 @@ import java.util.HashMap;
 
 public class PlotData extends ResultsFilesAfter {
 
-    private Map<String, List<Plan>> plans;
-    // orders - in the future could be used for gathering pattern statistics
-    // for orders with known optimal solutions
-    private Map<String, List<Order>> orders;
+    private Map<String, List<OrderAndPlanPair>> orderAndPlanPairs;
+
+    private class OrderAndPlanPair {
+        // object type of a loaded order is Plan to also load metadata
+        private Plan order;
+        private Plan plan;
+
+        public OrderAndPlanPair(Plan order, Plan plan) {
+            this.order = order;
+            this.plan = plan;
+        }
+
+        public Plan getOrder() {
+            return order;
+        }
+
+        public Plan getPlan() {
+            return plan;
+        }
+    }
 
     // xAxisLabel -> average value
     private Map<String, Double> averageElapsedTimeMilliseconds;
@@ -27,6 +43,7 @@ public class PlotData extends ResultsFilesAfter {
     private Map<String, Double> averageInputCount;
     private Map<String, Double> averageOutputCount; // constant for an order
     private Map<String, Double> averageTotalWaste;
+    private Map<String, Double> averagePercentageWasteAboveOptimal; // uses order's optimal totalNeededInputLength to calculate waste percentage
     private Map<String, Double> averageTrueTotalWaste;
     private Map<String, Double> averageMinTrueTotalWaste;
     private Map<String, Double> averageMaxTrueTotalWaste;
@@ -35,15 +52,15 @@ public class PlotData extends ResultsFilesAfter {
 
     public PlotData(String folderPath) throws IOException {
         super(folderPath);
-        this.orders = loadObjectsToMap(Order.class);
-        this.plans = loadObjectsToMap(Plan.class);
+        loadOrderAndPlanPairs();
         calculateSimpleFieldAverages();
         calculateElapsedTimeSeconds();
+        calculatePercentageWasteAboveOptimal();
         calculateAdvancedFieldAverages();
     }
 
-    public Map<String, List<Order>> getOrders() {
-        return this.orders;
+    public Map<String, List<OrderAndPlanPair>> getOrderAndPlanPairs() {
+        return this.orderAndPlanPairs;
     }
 
     public Map<String, Double> getAverageElapsedTimeMilliseconds() {
@@ -66,6 +83,10 @@ public class PlotData extends ResultsFilesAfter {
         return averageTotalWaste;
     }
 
+    public Map<String, Double> getAveragePercentageWasteAboveOptimal() {
+        return averagePercentageWasteAboveOptimal;
+    }
+
     public Map<String, Double> getAverageTrueTotalWaste() {
         return averageTrueTotalWaste;
     }
@@ -86,14 +107,25 @@ public class PlotData extends ResultsFilesAfter {
         return averageTotalCost;
     }
 
-    private <T> Map<String, List<T>> loadObjectsToMap(Class<T> clazz) throws IOException {
-        Map<String, List<T>> objects = new HashMap<>();
+    private void loadOrderAndPlanPairs() throws IOException {
+        orderAndPlanPairs = new HashMap<>();
         for (String xAxisLabel : xAxisLabels) {
-            List<File> filteredFiles = filterFilesByXAxisLabel(planFiles, xAxisLabel);
-            List<T> plansForLabel = loadObjectsFromFiles(filteredFiles, clazz);
-            objects.put(xAxisLabel, plansForLabel);
+            List<File> filteredOrderFiles = filterFilesByXAxisLabel(orderFiles, xAxisLabel);
+            List<File> filteredPlanFiles = filterFilesByXAxisLabel(planFiles, xAxisLabel);
+
+            for (File orderFile : filteredOrderFiles) {
+                for (File planFile : filteredPlanFiles) {
+                    String orderName = orderFile.getName().replace(PerformanceDefaults.RESULTS_ORDER_SUFFIX, "");
+                    String planName = planFile.getName().replace(PerformanceDefaults.RESULTS_PLAN_SUFFIX, "");
+                    if (orderName.equals(planName)) {
+                        Plan order = loadObjectFromFile(orderFile, Plan.class);
+                        Plan plan = loadObjectFromFile(planFile, Plan.class);
+                        OrderAndPlanPair pair = new OrderAndPlanPair(order, plan);
+                        orderAndPlanPairs.computeIfAbsent(xAxisLabel, k -> new ArrayList<>()).add(pair);
+                    }
+                }
+            }
         }
-        return objects;
     }
 
     private List<File> filterFilesByXAxisLabel(List<File> files, String xAxisLabel) {
@@ -107,14 +139,10 @@ public class PlotData extends ResultsFilesAfter {
         return filteredFiles;
     }
 
-    private <T> List<T> loadObjectsFromFiles(List<File> files, Class<T> clazz) throws IOException {
-        List<T> objects = new ArrayList<>();
+    private <T> T loadObjectFromFile(File file, Class<T> clazz) throws IOException {
         YamlLoader yamlLoader = new YamlLoader();
-        for (File file : files) {
-            String fileContent = Files.readString(file.toPath());
-            objects.add(yamlLoader.loadClassFromYamlString(fileContent, clazz));
-        }
-        return objects;
+        String fileContent = Files.readString(file.toPath());
+        return yamlLoader.loadClassFromYamlString(fileContent, clazz);
     }
 
     private void calculateSimpleFieldAverages() {
@@ -124,7 +152,7 @@ public class PlotData extends ResultsFilesAfter {
         averageTotalWaste = new HashMap<>();
         averageTotalNeededInputLength = new HashMap<>();
         for (String xAxisLabel : xAxisLabels) {
-            List<Plan> plansForLabel = plans.get(xAxisLabel);
+            List<OrderAndPlanPair> pairsForLabel = orderAndPlanPairs.get(xAxisLabel);
 
             double elapsedTimeSum = 0.0;
             double inputCountSum = 0.0;
@@ -132,27 +160,27 @@ public class PlotData extends ResultsFilesAfter {
             double totalWasteSum = 0.0;
             double totalNeededInputLengthSum = 0.0;
 
-            for (Plan plan : plansForLabel) {
-                elapsedTimeSum += plan.getMetadata().getElapsedTimeMilliseconds();
-                inputCountSum += plan.getMetadata().getInputCount();
-                outputCountSum += plan.getMetadata().getOutputCount();
-                totalWasteSum += plan.getMetadata().getTotalWaste();
-                totalNeededInputLengthSum += plan.getMetadata().getTotalNeededInputLength();
+            for (OrderAndPlanPair pair : pairsForLabel) {
+                elapsedTimeSum += pair.getPlan().getMetadata().getElapsedTimeMilliseconds();
+                inputCountSum += pair.getPlan().getMetadata().getInputCount();
+                outputCountSum += pair.getPlan().getMetadata().getOutputCount();
+                totalWasteSum += pair.getPlan().getMetadata().getTotalWaste();
+                totalNeededInputLengthSum += pair.getPlan().getMetadata().getTotalNeededInputLength();
             }
 
-            double localAverageElapsedTime = elapsedTimeSum / plansForLabel.size();
+            double localAverageElapsedTime = elapsedTimeSum / pairsForLabel.size();
             averageElapsedTimeMilliseconds.put(xAxisLabel, localAverageElapsedTime);
 
-            double localAverageInputCount = inputCountSum / plansForLabel.size();
+            double localAverageInputCount = inputCountSum / pairsForLabel.size();
             averageInputCount.put(xAxisLabel, localAverageInputCount);
 
-            double localAverageOutputCount = outputCountSum / plansForLabel.size();
+            double localAverageOutputCount = outputCountSum / pairsForLabel.size();
             averageOutputCount.put(xAxisLabel, localAverageOutputCount);
 
-            double localAverageTotalWaste = totalWasteSum / plansForLabel.size();
+            double localAverageTotalWaste = totalWasteSum / pairsForLabel.size();
             averageTotalWaste.put(xAxisLabel, localAverageTotalWaste);
 
-            double localAverageTotalNeededInputLength = totalNeededInputLengthSum / plansForLabel.size();
+            double localAverageTotalNeededInputLength = totalNeededInputLengthSum / pairsForLabel.size();
             averageTotalNeededInputLength.put(xAxisLabel, localAverageTotalNeededInputLength);
         }
     }
@@ -166,45 +194,80 @@ public class PlotData extends ResultsFilesAfter {
         }
     }
 
+    private void calculatePercentageWasteAboveOptimal() {
+        averagePercentageWasteAboveOptimal = new HashMap<>();
+        boolean cutgenDetected = false;
+        for (String xAxisLabel : xAxisLabels) {
+            if (cutgenDetected) break;
+
+            List<OrderAndPlanPair> pairsForLabel = orderAndPlanPairs.get(xAxisLabel);
+
+            List<Double> percentageWastes = new ArrayList<>();
+
+            for (OrderAndPlanPair pair : pairsForLabel) {
+                Integer optimalTotalNeededInputLength = pair.getOrder().getMetadata().getTotalNeededInputLength();
+                Integer calculatedTotalNeededInputLength = pair.getPlan().getMetadata().getTotalNeededInputLength();
+
+                if (optimalTotalNeededInputLength != null && optimalTotalNeededInputLength > 0) {
+                    double percentageWaste = (double)
+                        (calculatedTotalNeededInputLength - optimalTotalNeededInputLength)
+                        * 100.0 / optimalTotalNeededInputLength;
+                    percentageWastes.add(percentageWaste);
+                } else {
+                    cutgenDetected = true;
+                    break;
+                }
+            }
+
+            double averagePercentageWaste = percentageWastes.stream()
+                .mapToDouble(Double::doubleValue)
+                .average().orElse(-200.0); // high negative value to indicate an error
+
+            averagePercentageWasteAboveOptimal.put(xAxisLabel, averagePercentageWaste);
+        }
+        // do not generate average percentage waste when optimal solution is not known
+        if (cutgenDetected) averagePercentageWasteAboveOptimal = null;
+    }
+
     private void calculateAdvancedFieldAverages() {
         averageTrueTotalWaste = new HashMap<>();
         averageMinTrueTotalWaste = new HashMap<>();
         averageMaxTrueTotalWaste = new HashMap<>();
         averageTotalCost = new HashMap<>();
         for (String xAxisLabel : xAxisLabels) {
-            List<Plan> plansForLabel = plans.get(xAxisLabel);
+            List<OrderAndPlanPair> pairsForLabel = orderAndPlanPairs.get(xAxisLabel);
 
             List<Integer> trueTotalWastes = new ArrayList<>();
             List<Integer> minTrueTotalWastes = new ArrayList<>();
             List<Integer> maxTrueTotalWastes = new ArrayList<>();
             List<Double> totalCosts = new ArrayList<>();
 
-            for (Plan plan : plansForLabel) {
-                Integer localTotalWaste = plan.getMetadata().getTotalWaste();
-                Integer localTrueTotalWaste = plan.getMetadata().getTrueTotalWaste();
+            for (OrderAndPlanPair pair : pairsForLabel) {
+                Integer localTotalWaste = pair.getPlan().getMetadata().getTotalWaste();
+                Integer localTrueTotalWaste = pair.getPlan().getMetadata().getTrueTotalWaste();
 
                 trueTotalWastes.add(localTrueTotalWaste == null
                     ? localTotalWaste
                     : localTrueTotalWaste);
 
-                if (plan.getMetadata().getMinTrueTotalWaste() != null) {
-                    minTrueTotalWastes.add(plan.getMetadata().getMinTrueTotalWaste());
+                if (pair.getPlan().getMetadata().getMinTrueTotalWaste() != null) {
+                    minTrueTotalWastes.add(pair.getPlan().getMetadata().getMinTrueTotalWaste());
                 } else if (localTrueTotalWaste != null) {
                     minTrueTotalWastes.add(localTrueTotalWaste);
                 } else {
                     minTrueTotalWastes.add(localTotalWaste);
                 }
 
-                if (plan.getMetadata().getMaxTrueTotalWaste() != null) {
-                    maxTrueTotalWastes.add(plan.getMetadata().getMaxTrueTotalWaste());
+                if (pair.getPlan().getMetadata().getMaxTrueTotalWaste() != null) {
+                    maxTrueTotalWastes.add(pair.getPlan().getMetadata().getMaxTrueTotalWaste());
                 } else if (localTrueTotalWaste != null) {
                     maxTrueTotalWastes.add(localTrueTotalWaste);
                 } else {
                     maxTrueTotalWastes.add(localTotalWaste);
                 }
 
-                if (plan.getMetadata().getTotalCost() != null) {
-                    totalCosts.add(plan.getMetadata().getTotalCost());
+                if (pair.getPlan().getMetadata().getTotalCost() != null) {
+                    totalCosts.add(pair.getPlan().getMetadata().getTotalCost());
                 }
             }
 
