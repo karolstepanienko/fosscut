@@ -2,7 +2,6 @@
 # Run a command and capture its output into a Python variable.
 
 import subprocess
-import sys
 import os
 
 def run_command(cmd, use_shell=False, check=False):
@@ -22,7 +21,7 @@ def run_command(cmd, use_shell=False, check=False):
     return proc.returncode, proc.stdout, proc.stderr
 
 def get_fosscut_command(seed):
-    cdCommand = "cd " + os.getcwd() + "/../../../../../../../cli/build/native/nativeCompile/"
+    cdCommand = "cd " + os.getcwd() + "/../../../../../../../../cli/build/native/nativeCompile/"
     fosscutCommand = "./fosscut "
     cmd = []
     cmd.append(cdCommand)
@@ -37,7 +36,7 @@ def get_fosscut_command(seed):
 
 def run_fosscut_command():
     good_seeds = []
-    for seed in range(559, 1000):
+    for seed in range(558, 1000):
         cmd = get_fosscut_command(seed)
         rc, stdout, stderr = run_command(cmd, use_shell=True, check=False)
         if (rc is None) or (rc != 0):
@@ -50,6 +49,7 @@ def run_fosscut_command():
                     good_seeds.append(seed)
                     print(f"Good seeds: {good_seeds}")
     print(f"Good seeds: {good_seeds}")
+
 def main():
     run_fosscut_command()
 

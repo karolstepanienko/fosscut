@@ -144,7 +144,6 @@ public class CloudCommand extends ResultsFilesBefore {
         LinkedHashMap<Integer, Integer> missingSeedsRuns =
             report.getMissingRuns().get(xAxisLabel.substring(1));
 
-    
         if (missingSeedsRuns == null) return finalSeedsMap;
         else return missingSeedsRuns;
     }
