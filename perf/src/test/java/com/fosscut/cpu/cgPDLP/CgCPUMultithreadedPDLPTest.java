@@ -17,6 +17,7 @@ import com.fosscut.AbstractTest;
 import com.fosscut.plot.PlotData;
 import com.fosscut.plot.XYPlot;
 import com.fosscut.utils.CloudCommand;
+import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsReport;
 
 // PDLP is deterministic with multithreading
@@ -89,17 +90,17 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
         new XYPlot(testName + "Time.tex",
             plotData.getXAxisLabels(),
             plotData.getAverageElapsedTimeSeconds(),
-            "Liczba wątków",
-            "Średni czas pracy algorytmu [s]",
-            null, null, null, "60"
+            PerformanceDefaults.GRAPH_X_LABEL_CPU,
+            PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+            "1", null, "0", "50"
         ).generatePlot();
 
-        new XYPlot(testName + "Waste.tex",
+        new XYPlot(testName + "WastePercentage.tex",
             plotData.getXAxisLabels(),
-            plotData.getAverageTotalWaste(),
-            "Liczba wątków",
-            "Średni odpad",
-            null, null, null, "20"
+            plotData.getAveragePercentageWasteAboveOptimal(),
+            PerformanceDefaults.GRAPH_X_LABEL_CPU,
+            PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+            "1", null, "0.008", "0.016"
         ).generatePlot();
     }
 

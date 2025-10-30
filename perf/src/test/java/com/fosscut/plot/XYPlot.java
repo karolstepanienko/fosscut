@@ -81,8 +81,7 @@ public class XYPlot {
         options.append("width=0.98\\textwidth,\n");
         options.append("height=7cm,\n");
         options.append("grid=both,\n");
-        options.append("xmin=").append(calculateXMin()).append(",\n");
-        options.append("xmax=").append(calculateXMax()).append(",\n");
+        options.append("xtick={").append(calculateXTicks()).append("},\n");
         options.append("ymin=").append(calculateYMin()).append(",\n");
         options.append("ymax=").append(calculateYMax()).append(",\n");
         options.append("xlabel style={font=\\color{white!15!black}},\n");
@@ -106,6 +105,37 @@ public class XYPlot {
             return xMax;
         }
         return xAxisLabels.get(xAxisLabels.size() - 1);
+    }
+
+    private String calculateXTicks() {
+        StringBuilder xTicks = new StringBuilder();
+        for (String label : getFilteredXAxisLabels()) {
+            xTicks.append(label).append(", ");
+        }
+        // Remove last comma and space
+        if (xTicks.length() > 2) {
+            xTicks.setLength(xTicks.length() - 2);
+        }
+        return xTicks.toString();
+    }
+
+    private List<String> getFilteredXAxisLabels() {
+        if (xMin == null && xMax == null) {
+            return xAxisLabels;
+        } else if (xMin != null && xMax == null) {
+            return xAxisLabels.stream()
+                .filter(label -> Double.parseDouble(label) >= Double.parseDouble(xMin))
+                .toList();
+        } else if (xMin == null) { // xMax != null
+            return xAxisLabels.stream()
+                .filter(label -> Double.parseDouble(label) <= Double.parseDouble(xMax))
+                .toList();
+        } else {
+            return xAxisLabels.stream()
+                .filter(label -> Double.parseDouble(label) >= Double.parseDouble(xMin))
+                .filter(label -> Double.parseDouble(label) <= Double.parseDouble(xMax))
+                .toList();
+        }
     }
 
     private Double calculateMinValue() {
@@ -167,7 +197,7 @@ public class XYPlot {
     private String getPlotData() {
         StringBuilder plotData = new StringBuilder();
 
-        for (String label : xAxisLabels) {
+        for (String label : getFilteredXAxisLabels()) {
             Double value = dataSeries.get(label);
             plotData.append(label).append(" ").append(value).append(" \\\\\n");
         }

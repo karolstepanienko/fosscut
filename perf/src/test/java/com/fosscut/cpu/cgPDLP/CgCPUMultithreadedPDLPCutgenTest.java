@@ -17,6 +17,7 @@ import com.fosscut.AbstractTest;
 import com.fosscut.plot.PlotData;
 import com.fosscut.plot.XYPlot;
 import com.fosscut.utils.CloudCommand;
+import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsReport;
 
 // NOT USED in fosscut-doc:
@@ -76,8 +77,8 @@ public class CgCPUMultithreadedPDLPCutgenTest extends AbstractTest {
         new XYPlot(testName + "Time.tex",
             plotData.getXAxisLabels(),
             plotData.getAverageElapsedTimeSeconds(),
-            "Liczba wątków",
-            "Średni czas pracy algorytmu [s]",
+            PerformanceDefaults.GRAPH_X_LABEL_CPU,
+            PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
             null, null, null, "100"
         ).generatePlot();
 

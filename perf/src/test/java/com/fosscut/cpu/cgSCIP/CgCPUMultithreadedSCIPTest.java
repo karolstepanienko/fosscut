@@ -18,6 +18,7 @@ import com.fosscut.AbstractTest;
 import com.fosscut.plot.PlotData;
 import com.fosscut.plot.XYPlot;
 import com.fosscut.utils.CloudCommand;
+import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsReport;
 
 @Execution(ExecutionMode.CONCURRENT)
@@ -49,20 +50,21 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
 
     @Test @Order(2) public void cgCPUMultithreadedSCIPPlot() throws IOException {
         PlotData plotData = new PlotData(testName);
-        new XYPlot(testName + "Waste.tex",
-            plotData.getXAxisLabels(),
-            plotData.getAverageTotalWaste(),
-            "Liczba wątków",
-            "Średni odpad",
-            "1", null, null, "16"
-        ).generatePlot();
 
         new XYPlot(testName + "Time.tex",
             plotData.getXAxisLabels(),
             plotData.getAverageElapsedTimeSeconds(),
-            "Liczba wątków",
-            "Średni czas pracy algorytmu [s]",
-            "1", null, null, null
+            PerformanceDefaults.GRAPH_X_LABEL_CPU,
+            PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+            "1", null, "4", "8"
+        ).generatePlot();
+
+        new XYPlot(testName + "WastePercentage.tex",
+            plotData.getXAxisLabels(),
+            plotData.getAveragePercentageWasteAboveOptimal(),
+            PerformanceDefaults.GRAPH_X_LABEL_CPU,
+            PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+            "1", null, null, "0.008"
         ).generatePlot();
     }
 

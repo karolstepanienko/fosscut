@@ -23,4 +23,8 @@ public class PerformanceDefaults {
     public static final String DEFAULT_CPU = "2";
     public static final String DEFAULT_MEMORY = "5Gi";
 
+    public static final String GRAPH_X_LABEL_CPU = "Liczba wątków";
+    public static final String GRAPH_Y_LABEL_CPU_TIME = "Średni czas [s]";
+    public static final String GRAPH_Y_LABEL_CPU_WASTE = "Średni odpad [\\%]";
+
 }
