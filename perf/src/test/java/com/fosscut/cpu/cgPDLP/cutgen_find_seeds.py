@@ -29,7 +29,7 @@ def get_fosscut_command(seed):
 
 def run_fosscut_command():
     good_seeds = []
-    for seed in range(1, 1000):
+    for seed in range(648, 1000):
         cmd = get_fosscut_command(seed)
         rc, stdout, stderr = run_command(cmd, use_shell=True, check=False)
         if (rc is None) or (rc != 0):
