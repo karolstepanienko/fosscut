@@ -21,6 +21,7 @@ dependencies {
     testImplementation libs.junit.jupiter
     testImplementation libs.logback
     testImplementation libs.okhttp3
+    testImplementation libs.apache.math
 }
 
 tasks.named('test') {

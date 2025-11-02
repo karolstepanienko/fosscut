@@ -132,7 +132,7 @@ public class PlotData extends ResultsFilesAfter {
         List<File> filteredFiles = new ArrayList<>();
         for (File file : files) {
             String fileName = file.getName();
-            if (fileName.contains("x" + xAxisLabel)) {
+            if (fileName.contains("x" + xAxisLabel + "-run")) {
                 filteredFiles.add(file);
             }
         }

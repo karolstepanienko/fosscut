@@ -2,6 +2,7 @@ package com.fosscut;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class AbstractTest {
 
@@ -28,6 +29,13 @@ public class AbstractTest {
             map.put(values[i], values[i + 1]);
         }
         return map;
+    }
+
+    protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2) {
+        LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
+        combinedDataSeries.add(dataSeries1);
+        combinedDataSeries.add(dataSeries2);
+        return combinedDataSeries;
     }
 
 }
