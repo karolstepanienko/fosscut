@@ -27,6 +27,20 @@ public class OptimalGen extends AbstractGen {
         required = true)
     private int outputCount;
 
+    @Option(names = { "-ore", "--disable-output-type-reuse" },
+        defaultValue = "false",
+        description = "Do not enforce reuse of existing output types."
+        + " False by default."
+        + " When set to false, the generator will first try to reuse"
+        + " existing output types, which increases the chance of generating"
+        + " orders with the exact number of output types specified by"
+        + " --output-type-count but might cause the generator to get stuck"
+        + " in an infinite loop."
+        + " Set to true to try generating only new output types if reusing"
+        + " existing ones did not lead to the creation of a new output type.",
+        required = false)
+    private boolean disableReuseOfExistingOutputTypes;
+
     @Override
     protected void runWithExceptions()
     throws FosscutException, TimeoutException {
@@ -56,7 +70,8 @@ public class OptimalGen extends AbstractGen {
             outputTypeCount,
             outputLengthLowerBound,
             outputLengthUpperBound,
-            seed);
+            seed,
+            disableReuseOfExistingOutputTypes);
         return optimalGenAlg.nextOrder();
     }
 

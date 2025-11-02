@@ -17,6 +17,7 @@ import com.fosscut.shared.type.cutting.plan.PlanOutput;
 public class OptimalGenAlg extends AbstractGenAlg {
 
     private int outputCount;
+    private boolean disableReuseOfExistingOutputTypes;
 
     private HashMap<Integer, OrderOutput> outputTypeMap;
 
@@ -30,7 +31,8 @@ public class OptimalGenAlg extends AbstractGenAlg {
         int outputTypeCount,
         double outputLengthLowerBound,
         double outputLengthUpperBound,
-        Long seed
+        Long seed,
+        boolean disableReuseOfExistingOutputTypes
     ) {
         super(
             inputLength,
@@ -44,6 +46,7 @@ public class OptimalGenAlg extends AbstractGenAlg {
             seed
         );
         this.outputCount = outputCount;
+        this.disableReuseOfExistingOutputTypes = disableReuseOfExistingOutputTypes;
         this.outputTypeMap = new HashMap<>();
     }
 
@@ -61,12 +64,22 @@ public class OptimalGenAlg extends AbstractGenAlg {
         // at least one input must generate new output types
         inputs.set(0, divideInputIntoNewOutputs(inputs.get(0)));
 
-        // now generate patterns with already existing output types
+        // now try to generate patterns with already existing output types
         // this allows for finer control of output type count
         int i = 1;
         while (outputTypeMap.size() < outputTypeCount) {
             int chosenInputIndex = i % inputs.size();
-            inputs.set(chosenInputIndex, divideInputIntoExistingOutputs(inputs.get(chosenInputIndex)));
+
+            List<Integer> newPattern = divideInputIntoExistingOutputs(inputs.get(chosenInputIndex).getLength());
+            if (!disableReuseOfExistingOutputTypes || wasNewOutputTypeGenerated(newPattern)) {
+                addOutputTypesToMap(newPattern);
+                inputs.set(chosenInputIndex, addPatternToInput(inputs.get(chosenInputIndex), newPattern));
+            } else {
+                // if no new output type was generated while reusing already existing output types
+                // then try generating only new output types without reusing existing ones
+                inputs.set(chosenInputIndex, divideInputIntoNewOutputs(inputs.get(chosenInputIndex)));
+            }
+
             i++;
         }
 
@@ -106,8 +119,8 @@ public class OptimalGenAlg extends AbstractGenAlg {
     }
 
     // can generate up to one new pattern and output type at the end of the pattern
-    private PlanInput divideInputIntoExistingOutputs(PlanInput input) {
-        Integer remainingLength = input.getLength();
+    private List<Integer> divideInputIntoExistingOutputs(Integer inputLength) {
+        Integer remainingLength = inputLength;
 
         List<Integer> patternInList = new ArrayList<>();
         while (remainingLength > 0) {
@@ -118,12 +131,11 @@ public class OptimalGenAlg extends AbstractGenAlg {
                 outputLength = remainingLength;
 
             patternInList.add(outputLength);
-            addOutputTypeToMap(outputLength);
 
             remainingLength -= outputLength;
         }
 
-        return addPatternToInput(input, patternInList);
+        return patternInList;
     }
 
     // does not generate new output types or patterns
@@ -156,6 +168,25 @@ public class OptimalGenAlg extends AbstractGenAlg {
         if (minInputLength != null) return minInputLength;
         else if (inputLength != null) return inputLength;
         else return 0;
+    }
+
+    private boolean wasNewOutputTypeGenerated(List<Integer> patternInList) {
+        for (Integer length : patternInList) {
+            if (!isOutputTypeInMap(length)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isOutputTypeInMap(int length) {
+        return outputTypeMap.values().stream().anyMatch(o -> o.getLength() == length);
+    }
+
+    private void addOutputTypesToMap(List<Integer> lengths) {
+        for (Integer length : lengths) {
+            addOutputTypeToMap(length);
+        }
     }
 
     private void addOutputTypeToMap(int length) {
