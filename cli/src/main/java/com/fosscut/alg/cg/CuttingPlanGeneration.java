@@ -59,9 +59,6 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
     }
 
     public void solve() throws LPUnfeasibleException {
-        logger.info("");
-        logger.info("Starting cutting plan generation...");
-
         defineSolver();
         this.patternsPerInputVariables = defineVariables();
         this.demandConstraints = defineDemandConstraints();
@@ -69,7 +66,7 @@ class CuttingPlanGeneration extends ColumnGenerationLPTask {
         setObjective(defineObjective(this.optimizationCriterion));
         final ResultStatus resultStatus = getSolver().solve();
 
-        printSolution(resultStatus);
+        printSolution("Plan:    ", resultStatus);
     }
 
     public List<List<Integer>> getInputPatternUsage() throws NotIntegerLPTaskException {

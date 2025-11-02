@@ -68,16 +68,13 @@ class PatternGeneration extends ColumnGenerationLPTask {
     }
 
     public void solve() throws LPUnfeasibleException {
-        logger.info("");
-        logger.info("Starting pattern generation...");
-
         createSolver(integerSolver.toString(), integerNumThreads);
 
         if (relaxEnabled) initModelWithRelaxation();
         else initModel();
 
         final ResultStatus resultStatus = getSolver().solve();
-        printSolution(resultStatus);
+        printSolution("Pattern: ", resultStatus);
     }
 
     private void initModel() {

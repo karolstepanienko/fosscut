@@ -36,7 +36,7 @@ public abstract class LPTask {
         this.objective = objective;
     }
 
-    protected void printSolution(ResultStatus resultStatus) throws LPUnfeasibleException {
+    protected void printSolution(String prefix, ResultStatus resultStatus) throws LPUnfeasibleException {
         if (resultStatus != ResultStatus.OPTIMAL) {
             if (resultStatus == ResultStatus.FEASIBLE) {
                 logger.warn("A potentially suboptimal solution was found.");
@@ -45,7 +45,7 @@ public abstract class LPTask {
             }
         }
 
-        String message = "";
+        String message = prefix;
         message += "Status: " + resultStatus;
         message += ", obj: " + String.format("%12.2f", getObjective().value());
         message += ", time: " + getSolver().wallTime() + " ms";

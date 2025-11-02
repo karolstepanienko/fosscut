@@ -71,7 +71,7 @@ public class GreedyPatternGeneration extends GreedyLPTask {
         else initModel();
 
         final ResultStatus resultStatus = getSolver().solve();
-        printSolution(resultStatus);
+        printSolution("Pattern: ", resultStatus);
     }
 
     public CHPattern getPattern() {
