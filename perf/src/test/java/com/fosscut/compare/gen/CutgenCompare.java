@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CutgenCompare extends GenComparePlot {
 
     private static String testName = "cutgenCompare";
-    private static String orderCommand = "cutgen -il 100 -iu 1000 -it 5 -ol 0.4 -ou 0.8 -d 100 -ot 50 --timeout-amount 10 --timeout-unit SECONDS";
+    private static String orderCommand = "cutgen -il 100 -iu 1000 -it 5 -ol 0.4 -ou 0.8 -oc 1000 -ot 50 --timeout-amount 10 --timeout-unit SECONDS";
 
     /********************************* Tests **********************************/
 

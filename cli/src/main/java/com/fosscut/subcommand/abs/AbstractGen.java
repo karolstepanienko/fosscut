@@ -71,6 +71,15 @@ public abstract class AbstractGen extends AbstractOutputFile {
         required = true)
     protected double outputLengthUpperBound;
 
+    @Option(names = { "-oc", "--output-count" },
+        description = "Minimal number of outputs in the order."
+            + " Actual number might be higher due to patterns"
+            + " generating multiple outputs.",
+        required = true)
+    protected int outputCount;
+
+    /********************** Shared generator methods **************************/
+
     protected void handleGeneratedOrder(Object object) {
         File redisConnectionSecrets = fossCut.getRedisConnectionSecrets();
 

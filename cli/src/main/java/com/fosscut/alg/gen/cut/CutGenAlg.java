@@ -24,7 +24,6 @@ import com.fosscut.shared.type.cutting.plan.PlanInput;
  */
 public class CutGenAlg extends AbstractGenAlg {
 
-    private int averageOutputDemand;
     private boolean allowOutputTypeDuplicates;
 
     public CutGenAlg(
@@ -33,11 +32,11 @@ public class CutGenAlg extends AbstractGenAlg {
         Integer minInputLength,
         Integer maxInputLength,
         boolean allowInputTypeDuplicates,
-        int averageOutputDemand,
         int outputTypeCount,
         double outputLengthLowerBound,
         double outputLengthUpperBound,
         boolean allowOutputTypeDuplicates,
+        int outputCount,
         Long seed
     ) {
         super(
@@ -49,9 +48,9 @@ public class CutGenAlg extends AbstractGenAlg {
             outputTypeCount,
             outputLengthLowerBound,
             outputLengthUpperBound,
+            outputCount,
             seed
         );
-        this.averageOutputDemand = averageOutputDemand;
         this.allowOutputTypeDuplicates = allowOutputTypeDuplicates;
     }
 
@@ -169,10 +168,12 @@ public class CutGenAlg extends AbstractGenAlg {
             sum += rands[i];
         }
 
-        int totalDemand = averageOutputDemand * typeCount;
-        int rest = totalDemand;
+        // round up to ensure total generated demand >= outputCount
+        int averageDemand = Math.ceilDiv(outputCount, outputTypeCount);
+        int localTotalDemand = averageDemand * typeCount;
+        int rest = localTotalDemand;
         for (int i = 0; i < result.length - 1; i++) {
-            double demand = totalDemand * rands[i] / sum + 0.5;
+            double demand = localTotalDemand * rands[i] / sum + 0.5;
             result[i] = Math.max(1, (int) demand);
 
             rest -= result[i];

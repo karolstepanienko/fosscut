@@ -42,13 +42,13 @@ public class CutGen {
 
     @Test public void timeout() {
         RepetitiveTests.testTimeout(
-            new Command("cutgen -i 999999999 -ol 0.1 -ou 0.9 -ot 19999 -d 999999999 --seed 1 --timeout-amount 1 --timeout-unit NANOSECONDS"),
+            new Command("cutgen -i 999999999 -ol 0.1 -ou 0.9 -ot 19999 -oc 999999999 --seed 1 --timeout-amount 1 --timeout-unit NANOSECONDS"),
             Messages.ORDER_GENERATION_TIMEOUT
         );
     }
 
     @Test public void cutgenSimpleOrder() {
-        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1");
+        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -oc 100 --seed 1");
         command.run();
         assertEquals(0, command.getExitCode());
         assert(command.getOutput().contains("Generated order"));
@@ -59,7 +59,7 @@ public class CutGen {
 
     @Test public void cutgenSimpleOrderSaveToFile() throws IOException {
         String testFileName = "cutgenSimpleOrderSaveToFile";
-        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1 -o " + testFileName);
+        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -oc 100 --seed 1 -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
@@ -70,7 +70,7 @@ public class CutGen {
 
     @Test public void cutgenSimpleOrderRedis() {
         String testFileName = "cutgenSimpleOrderRedis";
-        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 1 "
+        Command command = new Command("cutgen -i 1000 -ol 0.3 -ou 0.7 -ot 10 -oc 100 --seed 1 "
             + "--redis-connection-secrets " + Utils.getAbsolutePath(TestDefaults.EXAMPLE_REDIS_CONNECTION_SECRETS)
             + " -o " + TestDefaults.REDIS_URL + testFileName);
         command.run();
@@ -79,7 +79,7 @@ public class CutGen {
 
     @Test public void cutgenMultiInputOrderSaveToFile() throws IOException {
         String testFileName = "cutgenMultiInputOrderSaveToFile";
-        Command command = new Command("cutgen -il 1000 -iu 1200 -it 3 -ol 0.3 -ou 0.7 -ot 10 -d 10 --seed 2 -o " + testFileName);
+        Command command = new Command("cutgen -il 1000 -iu 1200 -it 3 -ol 0.3 -ou 0.7 -ot 10 -oc 100 --seed 2 -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
@@ -91,7 +91,7 @@ public class CutGen {
     //***************************** Duplicates ********************************/
 
     @Test public void cutgenThrowInputDuplicates() {
-        Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -d 10 --seed 1");
+        Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -oc 50 --seed 1");
         command.run();
         assertEquals(1, command.getExitCode());
         assert(command.getError().contains("Duplicates detected while generating input elements."));
@@ -100,7 +100,7 @@ public class CutGen {
 
     @Test public void cutgenAllowInputDuplicates() throws IOException {
         String testFileName = "cutgenAllowInputDuplicates";
-        Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -d 10 --seed 1 -ai -o " + testFileName);
+        Command command = new Command("cutgen -il 1000 -iu 1001 -it 3 -ol 0.3 -ou 0.7 -ot 5 -oc 50 --seed 1 -ai -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(
@@ -110,7 +110,7 @@ public class CutGen {
     }
 
     @Test public void cutgenThrowOutputDuplicates() {
-        Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -d 10 --seed 1");
+        Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -oc 50 --seed 1");
         command.run();
         assertEquals(1, command.getExitCode());
         assert(command.getError().contains("Duplicates detected while generating output elements."));
@@ -119,7 +119,7 @@ public class CutGen {
 
     @Test public void cutgenAllowOutputDuplicates() throws IOException {
         String testFileName = "cutgenAllowOutputDuplicates";
-        Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -d 10 --seed 1 -ao -o " + testFileName);
+        Command command = new Command("cutgen -i 20 -ol 0.4 -ou 0.6 -ot 5 -oc 50 --seed 1 -ao -o " + testFileName);
         command.run();
         assertEquals(0, command.getExitCode());
         assertEquals(

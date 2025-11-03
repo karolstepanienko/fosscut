@@ -19,6 +19,7 @@ public abstract class AbstractGenAlg {
     protected int outputTypeCount;
     protected double outputLengthLowerBound;
     protected double outputLengthUpperBound;
+    protected int outputCount;
 
     protected Random randomGenerator;
 
@@ -31,6 +32,7 @@ public abstract class AbstractGenAlg {
         int outputTypeCount,
         double outputLengthLowerBound,
         double outputLengthUpperBound,
+        int outputCount,
         Long seed
     ) {
         this.inputLength = inputLength;
@@ -41,6 +43,7 @@ public abstract class AbstractGenAlg {
         this.outputTypeCount = outputTypeCount;
         this.outputLengthLowerBound = outputLengthLowerBound;
         this.outputLengthUpperBound = outputLengthUpperBound;
+        this.outputCount = outputCount;
         if (seed == null) this.randomGenerator = new Random();
         else this.randomGenerator = new Random(seed);
     }

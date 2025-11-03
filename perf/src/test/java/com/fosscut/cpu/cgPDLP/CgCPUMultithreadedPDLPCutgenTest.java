@@ -29,7 +29,7 @@ import com.fosscut.utils.ResultsReport;
 public class CgCPUMultithreadedPDLPCutgenTest extends AbstractTest {
 
     private static String testName = "cgCPUMultithreadedPDLPCutgen";
-    private static String orderCommand = "cutgen -iu 1000 -il 100 -it 5 -ol 0.4 -ou 0.8 -d 1000 -ot 40 --timeout-amount 10 --timeout-unit SECONDS";
+    private static String orderCommand = "cutgen -iu 1000 -il 100 -it 5 -ol 0.4 -ou 0.8 -oc 1000 -ot 40 --timeout-amount 10 --timeout-unit SECONDS";
     private static String planCommand = "cg --linear-solver PDLP --integer-solver SCIP --timeout-amount 5 --timeout-unit MINUTES -in 1";
     private static String memory = "5Gi";
 

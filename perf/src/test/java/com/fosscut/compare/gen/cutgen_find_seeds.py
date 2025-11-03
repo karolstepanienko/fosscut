@@ -23,7 +23,7 @@ def get_fosscut_command(seed):
     cmd.append(cdCommand)
     cmd.append(" && ")
     cmd.append(fosscutCommand)
-    cmd.append("cutgen -il 100 -iu 1000 -it 5 -ol 0.4 -ou 0.8 -d 100 -ot 50 --timeout-amount 10 --timeout-unit SECONDS --seed ")
+    cmd.append("cutgen -il 100 -iu 1000 -it 5 -ol 0.4 -ou 0.8 -oc 1000 -ot 50 --timeout-amount 10 --timeout-unit SECONDS --seed ")
     cmd.append(str(seed))
     return "".join(cmd)
 

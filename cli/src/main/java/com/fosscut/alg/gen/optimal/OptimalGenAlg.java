@@ -16,7 +16,6 @@ import com.fosscut.shared.type.cutting.plan.PlanOutput;
 
 public class OptimalGenAlg extends AbstractGenAlg {
 
-    private int outputCount;
     private boolean disableReuseOfExistingOutputTypes;
 
     private HashMap<Integer, OrderOutput> outputTypeMap;
@@ -43,9 +42,9 @@ public class OptimalGenAlg extends AbstractGenAlg {
             outputTypeCount,
             outputLengthLowerBound,
             outputLengthUpperBound,
+            outputCount,
             seed
         );
-        this.outputCount = outputCount;
         this.disableReuseOfExistingOutputTypes = disableReuseOfExistingOutputTypes;
         this.outputTypeMap = new HashMap<>();
     }

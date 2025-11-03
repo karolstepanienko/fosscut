@@ -20,13 +20,6 @@ import picocli.CommandLine.Option;
 @Command(name = "optimalgen", versionProvider = PropertiesVersionProvider.class)
 public class OptimalGen extends AbstractGen {
 
-    @Option(names = { "-oc", "--output-count" },
-        description = "Minimal number of outputs in the order."
-            + " Actual number might be higher due to patterns"
-            + " generating multiple outputs.",
-        required = true)
-    private int outputCount;
-
     @Option(names = { "-ore", "--disable-output-type-reuse" },
         defaultValue = "false",
         description = "Do not enforce reuse of existing output types."

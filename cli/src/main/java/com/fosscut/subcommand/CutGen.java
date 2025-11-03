@@ -19,9 +19,6 @@ import picocli.CommandLine.Option;
 @Command(name = "cutgen", versionProvider = PropertiesVersionProvider.class)
 public class CutGen extends AbstractGen {
 
-    @Option(names = { "-d", "--average-output-demand" }, required = true)
-    private int averageOutputDemand;
-
     @Option(names = { "-ao", "--allow-output-type-duplicates" },
         defaultValue = "false",
         description = "Some output types can be generated as duplicates."
@@ -55,11 +52,11 @@ public class CutGen extends AbstractGen {
             minInputLength,
             maxInputLength,
             allowInputTypeDuplicates,
-            averageOutputDemand,
             outputTypeCount,
             outputLengthLowerBound,
             outputLengthUpperBound,
             allowOutputTypeDuplicates,
+            outputCount,
             seed
         );
         return cutGenAlg.nextOrder();
