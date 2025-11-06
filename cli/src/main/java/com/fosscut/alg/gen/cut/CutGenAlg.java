@@ -107,20 +107,20 @@ public class CutGenAlg extends AbstractGenAlg {
         if (!allowInputTypeDuplicates && finalInputTypeCount != inputTypeCount)
             throw new IllegalStateException("Number of generated inputs does not equal the desired one.");
 
-        int[] outputCountPerInput = divideOrdersBetweenStockItems(finalInputTypeCount);
+        int[] outputTypeCountPerInput = divideOutputTypesBetweenStockItems(finalInputTypeCount);
 
         List<OrderInput> resultInputs = new ArrayList<OrderInput>();
         for (int i = 0; i < finalInputTypeCount; i++) {
             int inputLength = inputs.get(i).getLength();
 
             int[] lengths = generateOutputLengths(
-                outputCountPerInput[i],
+                outputTypeCountPerInput[i],
                 outputLengthLowerBound,
                 outputLengthUpperBound,
                 inputLength
             );
 
-            int[] demands = generateDemands(outputCountPerInput[i]);
+            int[] demands = generateDemands(outputTypeCountPerInput[i]);
             List<OrderOutput> mergedOutputs = merge(lengths, demands);
             addOutputsToMap(outputCountMap, mergedOutputs);
 
@@ -232,7 +232,7 @@ public class CutGenAlg extends AbstractGenAlg {
     }
 
 
-    private int[] divideOrdersBetweenStockItems(int finalInputTypeCount) {
+    private int[] divideOutputTypesBetweenStockItems(int finalInputTypeCount) {
         int[] result = new int[finalInputTypeCount];
 
         int avrCount = outputTypeCount / finalInputTypeCount;
