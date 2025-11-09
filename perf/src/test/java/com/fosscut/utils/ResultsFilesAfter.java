@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
     protected String resultsFolder;
     protected List<File> orderFiles;
     protected List<File> planFiles;
-    protected List<String> xAxisLabels;
+    protected LinkedList<String> xAxisLabels;
 
     public ResultsFilesAfter(String testName) {
         this.testName = testName;
@@ -24,7 +25,7 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
         this.xAxisLabels = collectXAxisLabels();
     }
 
-    public List<String> getXAxisLabels() {
+    public LinkedList<String> getXAxisLabels() {
         return xAxisLabels;
     }
 
@@ -43,7 +44,7 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
         return files != null ? Arrays.asList(files) : Collections.emptyList();
     }
 
-    private List<String> collectXAxisLabels() {
+    private LinkedList<String> collectXAxisLabels() {
         Set<String> xAxisLabelsSet = new HashSet<>();
         for (File file : planFiles) {
             String fileName = file.getName();
@@ -58,7 +59,7 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
         }
 
         Collections.sort(numericLabels);
-        xAxisLabels = new ArrayList<>();
+        xAxisLabels = new LinkedList<>();
         for (int i = 0; i < numericLabels.size(); i++) {
             String sortedLabel = String.valueOf(numericLabels.get(i)).replaceAll("\\.0$", "");
             xAxisLabels.add(sortedLabel);

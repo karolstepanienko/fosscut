@@ -12,6 +12,7 @@ import com.fosscut.utils.PerformanceDefaults;
 
 public class GenComparePlot extends AbstractTest {
 
+    private static String testName = "genCompare";
     protected static String planCommand = "cg --linear-solver GLOP --integer-solver SCIP -ln 1 -in 1 --timeout-amount 5 --timeout-unit MINUTES";
 
     protected static LinkedList<Integer> seeds = LinkedList_of(3, 4, 9, 31, 58, 96, 121, 239, 373, 435);
@@ -19,8 +20,6 @@ public class GenComparePlot extends AbstractTest {
     protected static int N_RUNS_INIT = 100; // larger than range to accommodate for future increases
     protected static int N_RUNS_WITH_IDENTICAL_SEED_START = 1;
     protected static int N_RUNS_WITH_IDENTICAL_SEED_END = 5;
-
-    private static String testName = "genCompare";
 
     @Test public void optimalgenComparePlot() throws IOException {
         PlotData cutgenPlotData = new PlotData("cutgenCompare");

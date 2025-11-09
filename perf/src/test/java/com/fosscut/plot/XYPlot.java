@@ -26,6 +26,7 @@ public class XYPlot {
     private static final LinkedList<String> LINE_SPEC = new LinkedList<>() {{
         add("color=black, line width=1.5pt");
         add("color=black, dashed, line width=1.5pt");
+        add("color=black, densely dotted, line width=1.5pt");
     }};
 
     public XYPlot(

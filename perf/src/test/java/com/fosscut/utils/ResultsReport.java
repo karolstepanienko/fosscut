@@ -17,7 +17,7 @@ public class ResultsReport extends ResultsFilesAfter {
 
     private List<String> ignoredXAxisLabels;
 
-    private LinkedHashMap<Integer, Integer> finalSeedsMap;
+    private LinkedHashMap<String, LinkedHashMap<Integer, Integer>> xAxisLabelsSeedsMap;
     private LinkedList<String> expectedPlanFileNames;
     private LinkedHashMap<String, LinkedHashMap<Integer, Integer>> missingRuns;
     private LinkedHashMap<String, LinkedHashMap<Integer, Integer>> timeoutRuns;
@@ -28,7 +28,7 @@ public class ResultsReport extends ResultsFilesAfter {
         LinkedHashMap<Integer, Integer> seeds) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
-        this.finalSeedsMap = seeds;
+        this.xAxisLabelsSeedsMap = generateXAxisLabelsSeedsMap(seeds);
     }
 
     public ResultsReport(String testName,
@@ -36,7 +36,7 @@ public class ResultsReport extends ResultsFilesAfter {
         LinkedList<Integer> seeds) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
-        this.finalSeedsMap = generateFinalSeedsMap(seeds, 1);
+        this.xAxisLabelsSeedsMap = generateXAxisLabelsSeedsMap(generateFinalSeedsMap(seeds, 1));
     }
 
     public ResultsReport(String testName,
@@ -44,7 +44,7 @@ public class ResultsReport extends ResultsFilesAfter {
         LinkedList<Integer> seeds, int nRunsInit) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
-        this.finalSeedsMap = generateFinalSeedsMap(seeds, nRunsInit);
+        this.xAxisLabelsSeedsMap = generateXAxisLabelsSeedsMap(generateFinalSeedsMap(seeds, nRunsInit));
     }
 
     public ResultsReport(String testName,
@@ -53,7 +53,14 @@ public class ResultsReport extends ResultsFilesAfter {
         int nRunsInit, int eachSeedRunsStart, int eachSeedRunsEnd) {
         super(testName);
         this.ignoredXAxisLabels = ignoredXAxisLabels;
-        this.finalSeedsMap = generateFinalSeedsMap(seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd);
+        this.xAxisLabelsSeedsMap = generateXAxisLabelsSeedsMap(generateFinalSeedsMap(seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd));
+    }
+
+    public ResultsReport(String testName,
+        LinkedHashMap<String, LinkedHashMap<Integer, Integer>> xAxisLabelSeedsMap) {
+        super(testName);
+        this.ignoredXAxisLabels = new ArrayList<>();
+        this.xAxisLabelsSeedsMap = xAxisLabelSeedsMap;
     }
 
     public LinkedHashMap<String, LinkedHashMap<Integer, Integer>> getMissingRuns() {
@@ -75,13 +82,23 @@ public class ResultsReport extends ResultsFilesAfter {
             + "report.sh");
     }
 
+    private LinkedHashMap<String, LinkedHashMap<Integer, Integer>>
+        generateXAxisLabelsSeedsMap(LinkedHashMap<Integer, Integer> finalSeedsMap) {
+        LinkedHashMap<String, LinkedHashMap<Integer, Integer>> map = new LinkedHashMap<>();
+        for (String xAxisLabel : xAxisLabels) {
+            if (ignoredXAxisLabels.contains(xAxisLabel)) { continue; }
+            map.put(xAxisLabel, finalSeedsMap);
+        }
+        return map;
+    }
+
     private void findMissingRuns() {
         expectedPlanFileNames = new LinkedList<>();
         missingRuns = new LinkedHashMap<>();
         timeoutRuns = new LinkedHashMap<>();
         for (String xAxisLabel : xAxisLabels) {
             if (ignoredXAxisLabels.contains(xAxisLabel)) { continue; }
-            for (Map.Entry<Integer, Integer> entry : finalSeedsMap.entrySet()) {
+            for (Map.Entry<Integer, Integer> entry : xAxisLabelsSeedsMap.get(xAxisLabel).entrySet()) {
                 String expectedPlanFileName = getPlanFileName(testName, "x" + xAxisLabel, entry);
                 expectedPlanFileNames.add(expectedPlanFileName);
 

@@ -38,4 +38,12 @@ public class AbstractTest {
         return combinedDataSeries;
     }
 
+    protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2, Map<String, Double> dataSeries3) {
+        LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
+        combinedDataSeries.add(dataSeries1);
+        combinedDataSeries.add(dataSeries2);
+        combinedDataSeries.add(dataSeries3);
+        return combinedDataSeries;
+    }
+
 }
