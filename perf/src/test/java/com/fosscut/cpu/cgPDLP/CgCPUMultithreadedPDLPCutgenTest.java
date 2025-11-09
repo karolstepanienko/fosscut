@@ -82,6 +82,14 @@ public class CgCPUMultithreadedPDLPCutgenTest extends AbstractTest {
             null, null, null, "100"
         ).generatePlot();
 
+        // not used in fosscut-doc
+        // new XYPlot(testName + "TotalNeededInputLength.tex",
+        //     plotData.getXAxisLabels(),
+        //     plotData.getAverageTotalNeededInputLength(),
+        //     PerformanceDefaults.GRAPH_X_LABEL_CPU,
+        //     "Średnia całkowita długość zamówienia"
+        // ).generatePlot();
+
         // no waste plot because cutgen creates orders without known optimal solution
     }
 

@@ -102,6 +102,14 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
             "1", null, "0.008", "0.016"
         ).generatePlot();
+
+        // not used in fosscut-doc
+        // new XYPlot(testName + "TotalNeededInputLength.tex",
+        //     plotData.getXAxisLabels(),
+        //     plotData.getAverageTotalNeededInputLength(),
+        //     PerformanceDefaults.GRAPH_X_LABEL_CPU,
+        //     "Średnia całkowita długość zamówienia"
+        // ).generatePlot();
     }
 
     /********************************* Tests **********************************/
