@@ -10,8 +10,13 @@ import org.junit.jupiter.api.Test;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
+// After try 1:
 // not used in fosscut-doc since it is similar to GreedyCompareSolverSCIPOptimalgen3itTest
 // probably orders are too simple for SCIP multithreaded to show any difference
+// After try 2:
+// increasing input types count to 8 to make orders more complex did not
+// make a difference for SCIP multithreaded
+// Throwing away this test for now, will not be used in fosscut-doc
 public class GreedyCompareSolverSCIPOptimalgen3it2inTest extends GreedyCompareSolverOptimalgen3itPlot {
 
     private static String testName = "greedyCompareSolverSCIPOptimalgen3it2in";
