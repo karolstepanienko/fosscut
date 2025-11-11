@@ -11,6 +11,9 @@ master:
     limits:
       cpu: 200m
       memory: 256Mi
+  extraFlags:
+    - "--maxmemory 200mb"
+    - "--maxmemory-policy allkeys-lru"
   nodeSelector:
     node-role.kubernetes.io/worker: worker
 
@@ -25,6 +28,9 @@ replica:
     limits:
       cpu: 200m
       memory: 256Mi
+  extraFlags:
+    - "--maxmemory 200mb"
+    - "--maxmemory-policy allkeys-lru"
   autoscaling:
     enabled: true
     minReplicas: 1
