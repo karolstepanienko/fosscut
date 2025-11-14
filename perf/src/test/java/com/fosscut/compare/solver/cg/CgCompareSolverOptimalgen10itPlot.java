@@ -1,0 +1,270 @@
+package com.fosscut.compare.solver.cg;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+
+import com.fosscut.AbstractTest;
+import com.fosscut.plot.PlotData;
+import com.fosscut.plot.XYPlot;
+import com.fosscut.utils.PerformanceDefaults;
+
+public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
+
+    protected static String orderCommand = "optimalgen -iu 1000 -il 500 -it 10 -ol 0.4 -ou 0.8 -oc 10000 --timeout-amount 10 --timeout-unit SECONDS";
+
+    // each order is ran one time since solvers running in single-threaded mode
+    // always produce the same result for identical seed
+    // 50 orders since for 10 graph was quite jittery
+
+    // PDLP-SCIP x50 had timeouts for seeds:
+    // 30, 41, 51
+    // PDLP-SCIP x50 had OOMs for seeds:
+    protected static LinkedHashMap<Integer, Integer> x50seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 33, 31, 32, // 10 seeds
+        34, 35, 36, 37, 38, 39, 40, 54, 42, 43, // 10 seeds
+        44, 45, 46, 47, 48, 49, 50, 55, 52, 53  // 10 seeds
+    ));
+
+    // PDLP-SCIP x60 had timeouts for seeds:
+    // 19, 25, 37, 40
+    // PDLP-SCIP x60 had OOMs for seeds:
+    protected static LinkedHashMap<Integer, Integer> x60seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 33, 20, 22, // 10 seeds
+        23, 24, 34, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        35, 36, 55, 38, 39, 58, 41, 42, 43, 44, // 10 seeds
+        45, 46, 47, 48, 49, 50, 51, 52, 53, 54  // 10 seeds
+    ));
+
+    // PDLP-SCIP x70 had timeouts for seeds:
+    // 25, 38, 54
+    // PDLP-SCIP x70 had OOMs for seeds:
+    protected static LinkedHashMap<Integer, Integer> x70seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
+        23, 24, 33, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        35, 36, 37, 55, 39, 40, 41, 42, 43, 44, // 10 seeds
+        45, 46, 47, 48, 49, 50, 51, 52, 53, 57  // 10 seeds
+    ));
+
+    // PDLP-SCIP x80 had timeouts for seeds:
+    // 5, 15, 44, 51
+    // PDLP-SCIP x80 had OOMs for seeds:
+    protected static LinkedHashMap<Integer, Integer> x80seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 33, 6, 7, 8, 9, 10, 11, // 10 seeds
+        12, 13, 14, 34, 16, 17, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        35, 36, 37, 38, 39, 40, 41, 42, 43, 55, // 10 seeds
+        45, 46, 47, 48, 49, 50, 57, 52, 53, 54  // 10 seeds
+    ));
+
+    // PDLP-SCIP x90 had timeouts for seeds:
+    // 11, 27
+    // PDLP-SCIP x90 had OOMs for seeds:
+    // 51
+    protected static LinkedHashMap<Integer, Integer> x90seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 34, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 33, 28, 29, 30, 31, 32, // 10 seeds
+        35, 36, 37, 38, 39, 40, 41, 42, 43, 44, // 10 seeds
+        45, 46, 47, 48, 49, 50, 55, 52, 53, 54  // 10 seeds
+    ));
+
+    // PDLP-SCIP x100 had timeouts for seeds:
+    // 7, 8, 12, 30, 48, 55
+    // PDLP-SCIP x100 had OOMs for seeds:
+    // 17, 29, 51, 54
+    protected static LinkedHashMap<Integer, Integer> x100seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 6, 35, 33, 9, 10, 11, // 10 seeds
+        36, 13, 14, 15, 16, 37, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 38, 34, 31, 32, // 10 seeds
+        39, 40, 41, 42, 43, 44, 45, 46, 47, 59, // 10 seeds
+        49, 50, 60, 52, 53, 61, 62, 63, 57, 58  // 10 seeds
+    ));
+
+    // PDLP-SCIP x110 had timeouts for seeds:
+    // 11, 14, 17, 36, 51
+    // PDLP-SCIP x110 had OOMs for seeds:
+    // PDLP-SCIP x110 returned UNFEASIBLE for seeds:
+    // 13
+    protected static LinkedHashMap<Integer, Integer> x110seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 33, // 10 seeds
+        12, 37, 34, 15, 16, 35, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        38, 39, 40, 41, 42, 43, 44, 45, 46, 47, // 10 seeds
+        48, 49, 50, 58, 52, 53, 54, 55, 59, 57  // 10 seeds
+    ));
+
+    // PDLP-SCIP x120 had timeouts for seeds:
+    // 5, 11, 12, 14, 35, 28, 31, 41, 44, 45, 51, 59, 68, 71
+    // PDLP-SCIP x120 had OOMs for seeds:
+    // 17, 20, 30, 36, 29, 54, 60
+    protected static LinkedHashMap<Integer, Integer> x120seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 33, 6, 7, 8, 9, 10, 34, // 10 seeds
+        40, 13, 47, 15, 16, 37, 18, 19, 38, 22, // 10 seeds
+        23, 24, 25, 26, 27, 42, 43, 39, 46, 32, // 10 seeds
+        48, 49, 50, 73, 52, 53, 69, 55, 70, 57, // 10 seeds
+        58, 74, 72, 61, 62, 63, 64, 65, 66, 67  // 10 seeds
+    ));
+
+    // PDLP-SCIP x130 had timeouts for seeds:
+    // 9, 10, 11, 12, 13, 14, 20, 28, 33, 43, 51, 53, 64, 71, 72, 74, 78, 79
+    // PDLP-SCIP x130 had OOMs for seeds:
+    // 6, 17, 25, 27, 29, 36, 54
+    protected static LinkedHashMap<Integer, Integer> x130seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 46, 7, 8, 34, 35, 48, // 10 seeds
+        37, 38, 39, 15, 16, 40, 18, 19, 41, 22, // 10 seeds
+        23, 24, 42, 26, 47, 44, 45, 30, 31, 32, // 10 seeds
+        49, 50, 69, 52, 70, 81, 55, 75, 57, 58, // 10 seeds
+        59, 60, 61, 62, 63, 73, 65, 66, 67, 68  // 10 seeds
+    ));
+
+    // PDLP-SCIP x140 had timeouts for seeds:
+    // 6, 8, 10, 11, 16, 20, 25, 38, 48, 56, 57, 58, 62, 66, 83
+    // PDLP-SCIP x140 had OOMs for seeds:
+    // 7, 14, 17, 29, 30, 51, 54, 59, 61, 70, 78, 84
+    // UNFEASIBLE for seeds: 63
+    protected static LinkedHashMap<Integer, Integer> x140seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 33, 34, 35, 9, 47, 37, // 10 seeds
+        12, 13, 38, 15, 39, 86, 18, 19, 40, 22, // 10 seeds
+        23, 24, 41, 26, 27, 42, 43, 46, 31, 32, // 10 seeds
+        68, 49, 50, 69, 52, 79, 71, 55, 72, 73, // 10 seeds
+        74, 75, 60, 76, 82, 81, 64, 65, 85, 67  // 10 seeds
+    ));
+
+    // PDLP-SCIP x150 had timeouts for seeds:
+    // 6, 8, 10, 12, 14, 17, 19, 20, 27, 30, 7, 11, 36, 25, 56, 59, 64, 71, 76, 78, 84
+    // PDLP-SCIP x150 had OOMs for seeds:
+    // 15, 29, 44, 48, 54, 58, 61, 83
+    protected static LinkedHashMap<Integer, Integer> x150seeds = LinkedHashMapFromList_of(LinkedList_of(
+        1, 2, 4, 5, 33, 49, 34, 9, 35, 55, // 10 seeds
+        45, 13, 37, 46, 16, 38, 18, 39, 40, 22, // 10 seeds
+        23, 24, 47, 26, 41, 28, 53, 42, 31, 32, // 10 seeds
+        86, 57, 82, 87, 60, 81, 62, 63, 85, 65, // 10 seeds
+        66, 67, 68, 69, 70, 79, 72, 73, 74, 75  // 10 seeds
+    ));
+
+    protected static LinkedHashMap<String, LinkedHashMap<Integer, Integer>> getXAxisLabelSeedsMap() {
+        LinkedHashMap<String, LinkedHashMap<Integer, Integer>> xAxisLabelSeedsMap = new LinkedHashMap<>();
+        xAxisLabelSeedsMap.put("50", detectDuplicates(x50seeds));
+        xAxisLabelSeedsMap.put("60", detectDuplicates(x60seeds));
+        xAxisLabelSeedsMap.put("70", detectDuplicates(x70seeds));
+        xAxisLabelSeedsMap.put("80", detectDuplicates(x80seeds));
+        xAxisLabelSeedsMap.put("90", detectDuplicates(x90seeds));
+        xAxisLabelSeedsMap.put("100", detectDuplicates(x100seeds));
+        xAxisLabelSeedsMap.put("110", detectDuplicates(x110seeds));
+        xAxisLabelSeedsMap.put("120", detectDuplicates(x120seeds));
+        xAxisLabelSeedsMap.put("130", detectDuplicates(x130seeds));
+        xAxisLabelSeedsMap.put("140", detectDuplicates(x140seeds));
+        xAxisLabelSeedsMap.put("150", detectDuplicates(x150seeds));
+        return xAxisLabelSeedsMap;
+    }
+
+    protected static LinkedHashMap<Integer, Integer> detectDuplicates(LinkedHashMap<Integer, Integer> map) {
+        Set<Integer> seen = new HashSet<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            Integer value = entry.getValue();
+            if (seen.contains(value)) {
+                assert false : "Duplicate seed detected: " + value;
+            } else {
+                seen.add(value);
+            }
+        }
+        return map;
+    }
+
+    @Test public void cgCompareLinSolverCBCOptimalgen10itPlot() throws IOException {
+        String testName = "cgCompareLinSolverCBCOptimalgen10itPlot";
+        PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntCBCOptimalgen10itTest");
+        PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntCBCOptimalgen10itTest");
+        PlotData pdlpThreadsPlotData = new PlotData("cgCompareSolverLinPDLPIntCBCOptimalgen10itTest");
+
+        new XYPlot(testName + "Time.tex",
+                clpPlotData.getXAxisLabels(),
+                getCombinedDataSeries(
+                    clpPlotData.getAverageElapsedTimeSeconds(),
+                    glopPlotData.getAverageElapsedTimeSeconds(),
+                    pdlpThreadsPlotData.getAverageElapsedTimeSeconds()
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "120",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                    add("PDLP");
+                }},
+                clpPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "WastePercentage.tex",
+                clpPlotData.getXAxisLabels(),
+                getCombinedDataSeries(
+                    clpPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    glopPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    pdlpThreadsPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.006",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                    add("PDLP");
+                }},
+                clpPlotData.getXAxisLabels()
+        ).generatePlot();
+    }
+
+    @Test public void cgCompareLinSolverSCIPOptimalgen10itPlot() throws IOException {
+        String testName = "cgCompareLinSolverSCIPOptimalgen10itPlot";
+        PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10itTest");
+        PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntSCIPOptimalgen10itTest");
+        PlotData pdlpThreadsPlotData = new PlotData("cgCompareSolverLinPDLPIntSCIPOptimalgen10itTest");
+
+        new XYPlot(testName + "Time.tex",
+                clpPlotData.getXAxisLabels(),
+                getCombinedDataSeries(
+                    clpPlotData.getAverageElapsedTimeSeconds(),
+                    glopPlotData.getAverageElapsedTimeSeconds(),
+                    pdlpThreadsPlotData.getAverageElapsedTimeSeconds()
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "40",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                    add("PDLP");
+                }},
+                clpPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "WastePercentage.tex",
+                clpPlotData.getXAxisLabels(),
+                getCombinedDataSeries(
+                    clpPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    glopPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    pdlpThreadsPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.008",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                    add("PDLP");
+                }},
+                clpPlotData.getXAxisLabels()
+        ).generatePlot();
+    }
+
+}

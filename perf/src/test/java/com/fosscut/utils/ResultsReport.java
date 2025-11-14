@@ -98,6 +98,7 @@ public class ResultsReport extends ResultsFilesAfter {
         timeoutRuns = new LinkedHashMap<>();
         for (String xAxisLabel : xAxisLabels) {
             if (ignoredXAxisLabels.contains(xAxisLabel)) { continue; }
+            if (!xAxisLabelsSeedsMap.containsKey(xAxisLabel)) { continue; }
             for (Map.Entry<Integer, Integer> entry : xAxisLabelsSeedsMap.get(xAxisLabel).entrySet()) {
                 String expectedPlanFileName = getPlanFileName(testName, "x" + xAxisLabel, entry);
                 expectedPlanFileNames.add(expectedPlanFileName);
@@ -162,6 +163,7 @@ public class ResultsReport extends ResultsFilesAfter {
                 }
             }
         }
+        incorrectFileNames.sort(String::compareTo);
     }
 
     private String generateRerunCommands(LinkedHashMap<String, LinkedHashMap<Integer, Integer>> missingRuns) {

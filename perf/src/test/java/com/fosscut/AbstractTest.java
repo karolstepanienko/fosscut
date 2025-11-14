@@ -14,11 +14,11 @@ public class AbstractTest {
         return list;
     }
 
-    // for creating a LinkedHashMap from a linked (preserves order) list of integers when keys are 0,1,2,...
-    protected static LinkedHashMap<Integer, Integer> LinkedHashMap_of(LinkedList<Integer> values) {
+    // for creating a LinkedHashMap from a linked (preserves order) list of integers when keys are 1,2,...
+    protected static LinkedHashMap<Integer, Integer> LinkedHashMapFromList_of(LinkedList<Integer> values) {
         LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
-        for (int i = 0; i < values.size(); i += 1) {
-            map.put(i, values.get(i));
+        for (int i = 1; i <= values.size(); i += 1) {
+            map.put(i, values.get(i - 1));
         }
         return map;
     }

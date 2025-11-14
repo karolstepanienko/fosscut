@@ -61,7 +61,7 @@ public class GreedyCPUMultithreadedSCIPTest extends AbstractTest {
 
         new XYPlot(testName + "WastePercentage.tex",
             plotData.getXAxisLabels(),
-            plotData.getAveragePercentageWasteAboveOptimal(),
+            plotData.getAveragePercentageTrueWasteAboveOptimal(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
             "1", null, "0.8", "1.4"

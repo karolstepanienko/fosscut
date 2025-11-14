@@ -43,7 +43,7 @@ public class PlotData extends ResultsFilesAfter {
     private Map<String, Double> averageInputCount;
     private Map<String, Double> averageOutputCount; // constant for an order
     private Map<String, Double> averageTotalWaste;
-    private Map<String, Double> averagePercentageWasteAboveOptimal; // uses order's optimal totalNeededInputLength to calculate waste percentage
+    private Map<String, Double> averagePercentageTrueWasteAboveOptimal; // uses order's optimal totalNeededInputLength and plan's trueTotalWaste to calculate true waste percentage including unnecessary output elements
     private Map<String, Double> averageTrueTotalWaste;
     private Map<String, Double> averageMinTrueTotalWaste;
     private Map<String, Double> averageMaxTrueTotalWaste;
@@ -55,7 +55,7 @@ public class PlotData extends ResultsFilesAfter {
         loadOrderAndPlanPairs();
         calculateSimpleFieldAverages();
         calculateElapsedTimeSeconds();
-        calculatePercentageWasteAboveOptimal();
+        calculatePercentageTrueWasteAboveOptimal();
         calculateAdvancedFieldAverages();
     }
 
@@ -83,12 +83,12 @@ public class PlotData extends ResultsFilesAfter {
         return averageTotalWaste;
     }
 
-    public Map<String, Double> getAveragePercentageWasteAboveOptimal() {
-        return averagePercentageWasteAboveOptimal;
-    }
-
     public Map<String, Double> getAverageTrueTotalWaste() {
         return averageTrueTotalWaste;
+    }
+
+    public Map<String, Double> getAveragePercentageTrueWasteAboveOptimal() {
+        return averagePercentageTrueWasteAboveOptimal;
     }
 
     public Map<String, Double> getAverageMinTrueTotalWaste() {
@@ -194,8 +194,14 @@ public class PlotData extends ResultsFilesAfter {
         }
     }
 
-    private void calculatePercentageWasteAboveOptimal() {
-        averagePercentageWasteAboveOptimal = new HashMap<>();
+    /*
+     * Uses optimalTotalNeededInputLength from order metadata
+     * and calculatedTotalNeededInputLength from plan metadata
+     * to calculate the percentage of true waste above optimal solution.
+     * This includes unnecessary output elements in the waste calculation.
+     */
+    private void calculatePercentageTrueWasteAboveOptimal() {
+        averagePercentageTrueWasteAboveOptimal = new HashMap<>();
         boolean cutgenDetected = false;
         for (String xAxisLabel : xAxisLabels) {
             if (cutgenDetected) break;
@@ -223,10 +229,10 @@ public class PlotData extends ResultsFilesAfter {
                 .mapToDouble(Double::doubleValue)
                 .average().orElse(-200.0); // high negative value to indicate an error
 
-            averagePercentageWasteAboveOptimal.put(xAxisLabel, averagePercentageWaste);
+            averagePercentageTrueWasteAboveOptimal.put(xAxisLabel, averagePercentageWaste);
         }
         // do not generate average percentage waste when optimal solution is not known
-        if (cutgenDetected) averagePercentageWasteAboveOptimal = null;
+        if (cutgenDetected) averagePercentageTrueWasteAboveOptimal = null;
     }
 
     private void calculateAdvancedFieldAverages() {

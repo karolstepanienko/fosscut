@@ -51,9 +51,9 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
         new XYPlot(testName + "WastePercentage.tex",
                 cbcPlotData.getXAxisLabels(),
                 getCombinedDataSeries(
-                    cbcPlotData.getAveragePercentageWasteAboveOptimal(),
-                    scipPlotData.getAveragePercentageWasteAboveOptimal()
-                    // scip2ThreadsPlotData.getAveragePercentageWasteAboveOptimal()
+                    cbcPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    scipPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                    // scip2ThreadsPlotData.getAveragePercentageTrueWasteAboveOptimal()
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
