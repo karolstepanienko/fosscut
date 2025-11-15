@@ -23,19 +23,14 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
     @Test public void greedyCompareSolverOptimalgen3itPlot() throws IOException {
         PlotData cbcPlotData = new PlotData("greedyCompareSolverCBCOptimalgen3it");
         PlotData scipPlotData = new PlotData("greedyCompareSolverSCIPOptimalgen3it");
-        // PlotData scip2ThreadsPlotData = new PlotData("greedyCompareSolverSCIPOptimalgen3it2in");
-
-        LinkedList<String> xtickLabels = new LinkedList<String>();
-        for (Integer seed : seeds) {
-            xtickLabels.add(seed.toString());
-        }
+        PlotData scip2ThreadsPlotData = new PlotData("greedyCompareSolverSCIPOptimalgen3it2in");
 
         new XYPlot(testName + "Time.tex",
                 cbcPlotData.getXAxisLabels(),
                 getCombinedDataSeries(
                     cbcPlotData.getAverageElapsedTimeSeconds(),
-                    scipPlotData.getAverageElapsedTimeSeconds()
-                    // scip2ThreadsPlotData.getAverageElapsedTimeSeconds()
+                    scipPlotData.getAverageElapsedTimeSeconds(),
+                    scip2ThreadsPlotData.getAverageElapsedTimeSeconds()
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
@@ -43,7 +38,7 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                 new LinkedList<String>() {{
                     add("CBC");
                     add("SCIP");
-                    // add("SCIP - 2 wątki");
+                    add("SCIP - 2 wątki");
                 }},
                 cbcPlotData.getXAxisLabels()
         ).generatePlot();
@@ -52,8 +47,9 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                 cbcPlotData.getXAxisLabels(),
                 getCombinedDataSeries(
                     cbcPlotData.getAveragePercentageTrueWasteAboveOptimal(),
-                    scipPlotData.getAveragePercentageTrueWasteAboveOptimal()
-                    // scip2ThreadsPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                    scipPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    // only SCIP 2 threads uses best per seed average
+                    scip2ThreadsPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10)
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
@@ -61,7 +57,7 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                 new LinkedList<String>() {{
                     add("CBC");
                     add("SCIP");
-                    // add("SCIP - 2 wątki");
+                    add("SCIP - 2 wątki");
                 }},
                 cbcPlotData.getXAxisLabels()
         ).generatePlot();

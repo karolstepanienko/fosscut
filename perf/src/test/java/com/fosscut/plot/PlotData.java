@@ -13,6 +13,8 @@ import com.fosscut.utils.ResultsFilesAfter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class PlotData extends ResultsFilesAfter {
 
@@ -23,9 +25,13 @@ public class PlotData extends ResultsFilesAfter {
         private Plan order;
         private Plan plan;
 
-        public OrderAndPlanPair(Plan order, Plan plan) {
+        private Integer run;
+        private Integer seed;
+
+        public OrderAndPlanPair(String name, Plan order, Plan plan) {
             this.order = order;
             this.plan = plan;
+            extractRunAndSeedFromName(name);
         }
 
         public Plan getOrder() {
@@ -35,6 +41,21 @@ public class PlotData extends ResultsFilesAfter {
         public Plan getPlan() {
             return plan;
         }
+
+        public Integer getRun() {
+            return run;
+        }
+
+        public Integer getSeed() {
+            return seed;
+        }
+
+        private void extractRunAndSeedFromName(String name) {
+            String[] parts = name.split(PerformanceDefaults.RESULTS_RUN_PREFIX)[1]
+                .split(PerformanceDefaults.RESULTS_SEED_PREFIX);
+            this.run = parts.length > 0 ? Integer.parseInt(parts[0]) : null;
+            this.seed = parts.length > 1 ? Integer.parseInt(parts[1]) : null;
+        }
     }
 
     // xAxisLabel -> average value
@@ -43,7 +64,8 @@ public class PlotData extends ResultsFilesAfter {
     private Map<String, Double> averageInputCount;
     private Map<String, Double> averageOutputCount; // constant for an order
     private Map<String, Double> averageTotalWaste;
-    private Map<String, Double> averagePercentageTrueWasteAboveOptimal; // uses order's optimal totalNeededInputLength and plan's trueTotalWaste to calculate true waste percentage including unnecessary output elements
+    private Map<String, Double> averagePercentageTrueWasteAboveOptimal;
+    private Map<String, Double> averageBestPerSeedPercentageTrueWasteAboveOptimal;
     private Map<String, Double> averageTrueTotalWaste;
     private Map<String, Double> averageMinTrueTotalWaste;
     private Map<String, Double> averageMaxTrueTotalWaste;
@@ -91,6 +113,11 @@ public class PlotData extends ResultsFilesAfter {
         return averagePercentageTrueWasteAboveOptimal;
     }
 
+    public Map<String, Double> getAverageBestPerSeedPercentageTrueWasteAboveOptimal(Integer maxRunsPerSeed) {
+        calculateBestPerSeedPercentageTrueWasteAboveOptimal(maxRunsPerSeed);
+        return averageBestPerSeedPercentageTrueWasteAboveOptimal;
+    }
+
     public Map<String, Double> getAverageMinTrueTotalWaste() {
         return averageMinTrueTotalWaste;
     }
@@ -120,7 +147,7 @@ public class PlotData extends ResultsFilesAfter {
                     if (orderName.equals(planName)) {
                         Plan order = loadObjectFromFile(orderFile, Plan.class);
                         Plan plan = loadObjectFromFile(planFile, Plan.class);
-                        OrderAndPlanPair pair = new OrderAndPlanPair(order, plan);
+                        OrderAndPlanPair pair = new OrderAndPlanPair(orderName, order, plan);
                         orderAndPlanPairs.computeIfAbsent(xAxisLabel, k -> new ArrayList<>()).add(pair);
                     }
                 }
@@ -215,9 +242,10 @@ public class PlotData extends ResultsFilesAfter {
                 Integer calculatedTotalNeededInputLength = pair.getPlan().getMetadata().getTotalNeededInputLength();
 
                 if (optimalTotalNeededInputLength != null && optimalTotalNeededInputLength > 0) {
-                    double percentageWaste = (double)
-                        (calculatedTotalNeededInputLength - optimalTotalNeededInputLength)
-                        * 100.0 / optimalTotalNeededInputLength;
+                    double percentageWaste = calculateTruePercentageWasteAboveOptimal(
+                        optimalTotalNeededInputLength,
+                        calculatedTotalNeededInputLength
+                    );
                     percentageWastes.add(percentageWaste);
                 } else {
                     cutgenDetected = true;
@@ -233,6 +261,94 @@ public class PlotData extends ResultsFilesAfter {
         }
         // do not generate average percentage waste when optimal solution is not known
         if (cutgenDetected) averagePercentageTrueWasteAboveOptimal = null;
+    }
+
+    /*
+     * First finds all pairs of order-plan for the same seed.
+     * Then calculates percentage of true waste above optimal solution for all
+     * of them (using  optimalTotalNeededInputLength from order metadata
+     * and calculatedTotalNeededInputLength from plan metadata).
+     * Then chooses one plan with the lowest percentage of true waste per seed.
+     * Averages all those best plan values for each xAxis point.
+     */
+    private void calculateBestPerSeedPercentageTrueWasteAboveOptimal(Integer maxRunsPerSeed) {
+        averageBestPerSeedPercentageTrueWasteAboveOptimal = new HashMap<>();
+        boolean cutgenDetected = false;
+        for (String xAxisLabel : xAxisLabels) {
+            if (cutgenDetected) break;
+            List<OrderAndPlanPair> pairsForLabel = orderAndPlanPairs.get(xAxisLabel);
+            LinkedHashMap<Integer, LinkedList<OrderAndPlanPair>> seedOrderAndPlanPairMap
+                = getSeedOrderAndPlanPairMap(pairsForLabel);
+
+            List<Double> bestPercentageWastesPerSeed = new ArrayList<>();
+            for (List<OrderAndPlanPair> pairsForSeed : seedOrderAndPlanPairMap.values()) {
+                double bestPercentageWaste = Double.MAX_VALUE;
+                boolean foundValidPair = false;
+
+                for (int pairId = 0; pairId < pairsForSeed.size(); pairId++) {
+                    if (maxRunsPerSeed != null && pairId >= maxRunsPerSeed) {
+                        // limiting to only checking number:maxRunsPerSeed of available runs for one seed
+                        // that way multiple graphs can be generated with different maxRunsPerSeed values
+                        break;
+                    }
+
+                    OrderAndPlanPair pair = pairsForSeed.get(pairId);
+                    Integer optimalTotalNeededInputLength = pair.getOrder().getMetadata().getTotalNeededInputLength();
+                    Integer calculatedTotalNeededInputLength = pair.getPlan().getMetadata().getTotalNeededInputLength();
+
+                    if (optimalTotalNeededInputLength != null && optimalTotalNeededInputLength > 0) {
+                        double percentageWaste = calculateTruePercentageWasteAboveOptimal(
+                            optimalTotalNeededInputLength,
+                            calculatedTotalNeededInputLength
+                        );
+                        if (percentageWaste < bestPercentageWaste) {
+                            bestPercentageWaste = percentageWaste;
+                        }
+                        foundValidPair = true;
+                    } else {
+                        cutgenDetected = true;
+                        break;
+                    }
+                }
+
+                if (foundValidPair) {
+                    bestPercentageWastesPerSeed.add(bestPercentageWaste);
+                }
+            }
+
+            double averageBestPerSeedPercentageWaste = bestPercentageWastesPerSeed.stream()
+                .mapToDouble(Double::doubleValue)
+                .average().orElse(-200.0); // high negative value to indicate an error
+
+            averageBestPerSeedPercentageTrueWasteAboveOptimal.put(xAxisLabel, averageBestPerSeedPercentageWaste);
+        }
+        if (cutgenDetected) averageBestPerSeedPercentageTrueWasteAboveOptimal = null;
+    }
+
+    private LinkedHashMap<Integer, LinkedList<OrderAndPlanPair>> getSeedOrderAndPlanPairMap(List<OrderAndPlanPair> pairsForLabel) {
+        LinkedHashMap<Integer, LinkedList<OrderAndPlanPair>> seedOrderAndPlanPairMap = new LinkedHashMap<>();
+        // collect pairs that used the same seed
+        for (OrderAndPlanPair pair : pairsForLabel) {
+            Integer seedKey = pair.getSeed();
+            if (!seedOrderAndPlanPairMap.containsKey(seedKey)) {
+                seedOrderAndPlanPairMap.put(seedKey, new LinkedList<>());
+            }
+            seedOrderAndPlanPairMap.get(seedKey).add(pair);
+        }
+        // each list of pairs needs to be sorted to always use the same sublist when limiting to maxRunsPerSeed
+        for (LinkedList<OrderAndPlanPair> pairList : seedOrderAndPlanPairMap.values()) {
+            pairList.sort((p1, p2) -> p1.getRun().compareTo(p2.getRun()));
+        }
+        return seedOrderAndPlanPairMap;
+    }
+
+    private double calculateTruePercentageWasteAboveOptimal(
+        Integer optimalTotalNeededInputLength,
+        Integer calculatedTotalNeededInputLength
+    ) {
+        return (double)
+            (calculatedTotalNeededInputLength - optimalTotalNeededInputLength)
+            * 100.0 / optimalTotalNeededInputLength;
     }
 
     private void calculateAdvancedFieldAverages() {

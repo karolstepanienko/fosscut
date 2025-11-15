@@ -40,7 +40,8 @@ public abstract class ResultsFilesBefore {
     }
 
     protected String getRunIdentifier(Map.Entry<Integer, Integer> seed) {
-        return PerformanceDefaults.RESULTS_RUN_PREFIX + seed.getKey() + "-seed-" + seed.getValue();
+        return PerformanceDefaults.RESULTS_RUN_PREFIX + seed.getKey()
+            + PerformanceDefaults.RESULTS_SEED_PREFIX + seed.getValue();
     }
 
     protected String getOrderFileName(String testName, String xAxisLabel, Map.Entry<Integer, Integer> seed) {
