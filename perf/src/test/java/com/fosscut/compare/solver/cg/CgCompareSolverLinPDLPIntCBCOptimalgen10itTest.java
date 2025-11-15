@@ -27,7 +27,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x50seeds));
+        assertTrue(cmd.run(x50seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx60() throws InterruptedException {
@@ -35,7 +35,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x60seeds));
+        assertTrue(cmd.run(x60seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx70() throws InterruptedException {
@@ -43,7 +43,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x70seeds));
+        assertTrue(cmd.run(x70seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx80() throws InterruptedException {
@@ -51,7 +51,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x80seeds));
+        assertTrue(cmd.run(x80seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx90() throws InterruptedException {
@@ -59,7 +59,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x90seeds));
+        assertTrue(cmd.run(x90seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx100() throws InterruptedException {
@@ -67,7 +67,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x100seeds));
+        assertTrue(cmd.run(x100seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx110() throws InterruptedException {
@@ -75,7 +75,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x110seeds));
+        assertTrue(cmd.run(x110seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx120() throws InterruptedException {
@@ -83,7 +83,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x120seeds));
+        assertTrue(cmd.run(x120seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx130() throws InterruptedException {
@@ -91,7 +91,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x130seeds));
+        assertTrue(cmd.run(x130seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx140() throws InterruptedException {
@@ -99,7 +99,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x140seeds));
+        assertTrue(cmd.run(x140seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void cgCompareSolverLinPDLPIntCBCOptimalgen10itx150() throws InterruptedException {
@@ -107,7 +107,7 @@ public class CgCompareSolverLinPDLPIntCBCOptimalgen10itTest extends CgCompareSol
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x150seeds));
+        assertTrue(cmd.run(x150seedsLinkedHashMap));
     }
 
 }

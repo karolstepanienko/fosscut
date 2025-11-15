@@ -63,6 +63,17 @@ public class ResultsReport extends ResultsFilesAfter {
         this.xAxisLabelsSeedsMap = xAxisLabelSeedsMap;
     }
 
+    public ResultsReport(String testName,
+        LinkedHashMap<String, LinkedList<Integer>> xAxisLabelSeedsMapOfLists,
+        int nRunsInit, int eachSeedRunsStart, int eachSeedRunsEnd) {
+        super(testName);
+        this.ignoredXAxisLabels = new ArrayList<>();
+        this.xAxisLabelsSeedsMap = generateXAxisLabelSeedsMapFromMapOfLists(
+            xAxisLabelSeedsMapOfLists,
+            nRunsInit, eachSeedRunsStart, eachSeedRunsEnd
+        );
+    }
+
     public LinkedHashMap<String, LinkedHashMap<Integer, Integer>> getMissingRuns() {
         return missingRuns;
     }
@@ -83,11 +94,24 @@ public class ResultsReport extends ResultsFilesAfter {
     }
 
     private LinkedHashMap<String, LinkedHashMap<Integer, Integer>>
-        generateXAxisLabelsSeedsMap(LinkedHashMap<Integer, Integer> finalSeedsMap) {
-        LinkedHashMap<String, LinkedHashMap<Integer, Integer>> map = new LinkedHashMap<>();
+    generateXAxisLabelsSeedsMap(LinkedHashMap<Integer, Integer> finalSeedsMap) {
+    LinkedHashMap<String, LinkedHashMap<Integer, Integer>> map = new LinkedHashMap<>();
         for (String xAxisLabel : xAxisLabels) {
             if (ignoredXAxisLabels.contains(xAxisLabel)) { continue; }
             map.put(xAxisLabel, finalSeedsMap);
+        }
+        return map;
+    }
+
+    private LinkedHashMap<String, LinkedHashMap<Integer, Integer>>
+    generateXAxisLabelSeedsMapFromMapOfLists(
+    LinkedHashMap<String, LinkedList<Integer>> xAxisLabelSeedsMapOfLists,
+    int nRunsInit, int eachSeedRunsStart, int eachSeedRunsEnd) {
+        LinkedHashMap<String, LinkedHashMap<Integer, Integer>> map = new LinkedHashMap<>();
+        for (Map.Entry<String, LinkedList<Integer>> entry : xAxisLabelSeedsMapOfLists.entrySet()) {
+            map.put(entry.getKey(),
+                generateFinalSeedsMap(entry.getValue(), nRunsInit, eachSeedRunsStart, eachSeedRunsEnd)
+            );
         }
         return map;
     }

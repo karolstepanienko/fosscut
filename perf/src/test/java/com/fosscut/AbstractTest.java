@@ -1,8 +1,10 @@
 package com.fosscut;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 public class AbstractTest {
 
@@ -29,6 +31,31 @@ public class AbstractTest {
             map.put(values[i], values[i + 1]);
         }
         return map;
+    }
+
+    protected static LinkedHashMap<Integer, Integer> detectDuplicates(LinkedHashMap<Integer, Integer> map) {
+        Set<Integer> seen = new HashSet<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            Integer value = entry.getValue();
+            if (seen.contains(value)) {
+                assert false : "Duplicate seed detected: " + value;
+            } else {
+                seen.add(value);
+            }
+        }
+        return map;
+    }
+
+    protected static LinkedList<Integer> detectDuplicates(LinkedList<Integer> list) {
+        Set<Integer> seen = new HashSet<>();
+        for (Integer value : list) {
+            if (seen.contains(value)) {
+                assert false : "Duplicate seed detected: " + value;
+            } else {
+                seen.add(value);
+            }
+        }
+        return list;
     }
 
     protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2) {
