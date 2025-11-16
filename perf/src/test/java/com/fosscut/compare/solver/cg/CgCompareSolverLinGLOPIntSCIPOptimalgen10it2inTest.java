@@ -76,44 +76,7 @@ public class CgCompareSolverLinGLOPIntSCIPOptimalgen10it2inTest extends CgCompar
         assertTrue(cmd.run(x100seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
-    @Test @Order(1) public void cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inx110() throws InterruptedException {
-        String outputTypeCount = "110";
-        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
-        );
-        assertTrue(cmd.run(x110seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
-    }
-
-    @Test @Order(1) public void cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inx120() throws InterruptedException {
-        String outputTypeCount = "120";
-        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
-        );
-        assertTrue(cmd.run(x120seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
-    }
-
-    @Test @Order(1) public void cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inx130() throws InterruptedException {
-        String outputTypeCount = "130";
-        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
-        );
-        assertTrue(cmd.run(x130seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
-    }
-
-    @Test @Order(1) public void cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inx140() throws InterruptedException {
-        String outputTypeCount = "140";
-        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
-        );
-        assertTrue(cmd.run(x140seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
-    }
-
-    @Test @Order(1) public void cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inx150() throws InterruptedException {
-        String outputTypeCount = "150";
-        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
-        );
-        assertTrue(cmd.run(x150seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
-    }
+    // tests for larger numbers of output types not done due to
+    // a high chance of a timeout in GLOP-SCIP combination
 
 }

@@ -1,11 +1,8 @@
 package com.fosscut.compare.solver.cg;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -301,6 +298,69 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     add("PDLP");
                 }},
                 clpPlotData.getXAxisLabels()
+        ).generatePlot();
+    }
+
+    @Test public void cgCompareCLPAndGlopWithSCIPOptimalgen10it2inPlot() throws IOException {
+        String testName = "cgCompareCLPAndGLOPWithSCIPOptimalgen10it2inPlot";
+        PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest");
+        PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inTest");
+
+        LinkedList<String> xAxisLabels = new LinkedList<>();
+        xAxisLabels.add("50");
+        xAxisLabels.add("60");
+        xAxisLabels.add("70");
+        xAxisLabels.add("80");
+        xAxisLabels.add("90");
+        xAxisLabels.add("100");
+        // GLOP had timeouts for 110 output types and above
+
+        new XYPlot(testName + "Time.tex",
+                xAxisLabels,
+                getCombinedDataSeries(
+                    clpPlotData.getAverageElapsedTimeSeconds(),
+                    glopPlotData.getAverageElapsedTimeSeconds()
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "30",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                }},
+                xAxisLabels
+        ).generatePlot();
+
+        new XYPlot(testName + "1Run" + "WastePercentage.tex",
+                xAxisLabels,
+                getCombinedDataSeries(
+                    clpPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(1),
+                    glopPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(1)
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.004",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                }},
+                xAxisLabels
+        ).generatePlot();
+
+        new XYPlot(testName + "10Run" + "WastePercentage.tex",
+                xAxisLabels,
+                getCombinedDataSeries(
+                    clpPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10),
+                    glopPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10)
+                ),
+                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.0004",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                }},
+                xAxisLabels
         ).generatePlot();
     }
 
