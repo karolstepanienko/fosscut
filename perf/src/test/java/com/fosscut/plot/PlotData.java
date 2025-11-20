@@ -19,6 +19,7 @@ import java.util.LinkedList;
 public class PlotData extends ResultsFilesAfter {
 
     private Map<String, List<OrderAndPlanPair>> orderAndPlanPairs;
+    private LinkedList<String> additionalXAxisLabels;
 
     private class OrderAndPlanPair {
         // object type of a loaded order is Plan to also load metadata
@@ -74,7 +75,18 @@ public class PlotData extends ResultsFilesAfter {
 
     public PlotData(String folderPath) throws IOException {
         super(folderPath);
+        prepareData();
+    }
+
+    public PlotData(String folderPath, LinkedList<String> additionalXAxisLabels) throws IOException {
+        super(folderPath);
+        this.additionalXAxisLabels = additionalXAxisLabels;
+        prepareData();
+    }
+
+    private void prepareData() throws IOException {
         loadOrderAndPlanPairs();
+        removeXAxisLabelsWithMissingResults();
         calculateSimpleFieldAverages();
         calculateElapsedTimeSeconds();
         calculatePercentageTrueWasteAboveOptimal();
@@ -151,6 +163,34 @@ public class PlotData extends ResultsFilesAfter {
                         orderAndPlanPairs.computeIfAbsent(xAxisLabel, k -> new ArrayList<>()).add(pair);
                     }
                 }
+            }
+        }
+    }
+
+    private void removeXAxisLabelsWithMissingResults() {
+        LinkedHashMap<String, List<File>> filteredPlanFilesList = new LinkedHashMap<>();
+
+        Integer longestListLength = 0;
+        for (String xAxisLabel : xAxisLabels) {
+            filteredPlanFilesList.put(
+                xAxisLabel,
+                filterFilesByXAxisLabel(planFiles, xAxisLabel)
+            );
+            if (filteredPlanFilesList.get(xAxisLabel).size() > longestListLength) {
+                longestListLength = filteredPlanFilesList.get(xAxisLabel).size();
+            }
+        }
+
+        List<String> xAxisLabelsCopy = new ArrayList<>(xAxisLabels);
+        for (String xAxisLabel : xAxisLabelsCopy) {
+            if (filteredPlanFilesList.get(xAxisLabel).size() < longestListLength) {
+                xAxisLabels.remove(xAxisLabel);
+            }
+        }
+
+        if (additionalXAxisLabels != null) {
+            for (String xAxisLabel : additionalXAxisLabels) {
+                xAxisLabels.add(0, xAxisLabel);
             }
         }
     }

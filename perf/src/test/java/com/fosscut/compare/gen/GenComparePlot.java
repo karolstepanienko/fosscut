@@ -31,7 +31,10 @@ public class GenComparePlot extends AbstractTest {
         }
 
         new XYPlot(testName + "Time.tex",
-                cutgenPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    cutgenPlotData.getXAxisLabels(),
+                    optimalgenPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     cutgenPlotData.getAverageElapsedTimeSeconds(),
                     optimalgenPlotData.getAverageElapsedTimeSeconds()

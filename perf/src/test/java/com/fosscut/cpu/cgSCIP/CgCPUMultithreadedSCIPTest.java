@@ -49,10 +49,10 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
     }
 
     @Test @Order(2) public void cgCPUMultithreadedSCIPPlot() throws IOException {
-        PlotData plotData = new PlotData(testName);
+        PlotData plotData = new PlotData(testName, new LinkedList<String>() {{ add("1"); }});
 
         new XYPlot(testName + "Time.tex",
-            plotData.getXAxisLabels(),
+            plotData.getXAxisLabelsList(),
             plotData.getAverageElapsedTimeSeconds(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
@@ -60,7 +60,7 @@ public class CgCPUMultithreadedSCIPTest extends AbstractTest {
         ).generatePlot();
 
         new XYPlot(testName + "WastePercentage.tex",
-            plotData.getXAxisLabels(),
+            plotData.getXAxisLabelsList(),
             plotData.getAveragePercentageTrueWasteAboveOptimal(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,

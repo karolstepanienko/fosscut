@@ -80,24 +80,16 @@ public class CgCompareSolverOptimalgen10it2inPlot extends CgCompareSolverOptimal
         PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest");
         PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inTest");
 
-        LinkedList<String> xAxisLabels = new LinkedList<>();
-        xAxisLabels.add("10");
-        xAxisLabels.add("20");
-        xAxisLabels.add("30");
-        xAxisLabels.add("40");
-        xAxisLabels.add("50");
-        xAxisLabels.add("60");
-        xAxisLabels.add("70");
-        xAxisLabels.add("80");
-        xAxisLabels.add("90");
-        xAxisLabels.add("100");
         // GLOP had timeouts for 110 output types and above
         // while CLP was able to solve 110 and 120 while timeouts started
         // from 130 output types
         // so CLP is more capable but GLOP could provide better results
 
         new XYPlot(testName + "Time.tex",
-                xAxisLabels,
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     clpPlotData.getAverageElapsedTimeSeconds(),
                     glopPlotData.getAverageElapsedTimeSeconds()
@@ -109,7 +101,7 @@ public class CgCompareSolverOptimalgen10it2inPlot extends CgCompareSolverOptimal
                     add("CLP");
                     add("GLOP");
                 }},
-                xAxisLabels
+                clpPlotData.getXAxisLabels()
         ).generatePlot();
 
         // one run does not make sense sense to show because SCIP multithreaded
@@ -132,7 +124,10 @@ public class CgCompareSolverOptimalgen10it2inPlot extends CgCompareSolverOptimal
         // ).generatePlot();
 
         new XYPlot(testName + "10Run" + "WastePercentage.tex",
-                xAxisLabels,
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     clpPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10),
                     glopPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10)
@@ -144,7 +139,7 @@ public class CgCompareSolverOptimalgen10it2inPlot extends CgCompareSolverOptimal
                     add("CLP");
                     add("GLOP");
                 }},
-                xAxisLabels
+                clpPlotData.getXAxisLabels()
         ).generatePlot();
     }
 

@@ -75,7 +75,7 @@ public class CgCPUMultithreadedPDLPCutgenTest extends AbstractTest {
         PlotData plotData = new PlotData(testName);
 
         new XYPlot(testName + "Time.tex",
-            plotData.getXAxisLabels(),
+            plotData.getXAxisLabelsList(),
             plotData.getAverageElapsedTimeSeconds(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,

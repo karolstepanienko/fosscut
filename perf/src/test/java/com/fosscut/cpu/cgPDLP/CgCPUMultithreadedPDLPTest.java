@@ -88,7 +88,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
         PlotData plotData = new PlotData(testName);
 
         new XYPlot(testName + "Time.tex",
-            plotData.getXAxisLabels(),
+            plotData.getXAxisLabelsList(),
             plotData.getAverageElapsedTimeSeconds(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
@@ -96,7 +96,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
         ).generatePlot();
 
         new XYPlot(testName + "WastePercentage.tex",
-            plotData.getXAxisLabels(),
+            plotData.getXAxisLabelsList(),
             plotData.getAveragePercentageTrueWasteAboveOptimal(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,

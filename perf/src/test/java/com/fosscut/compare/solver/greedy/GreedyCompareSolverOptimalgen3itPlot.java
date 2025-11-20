@@ -26,7 +26,11 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
         PlotData scip2ThreadsPlotData = new PlotData("greedyCompareSolverSCIPOptimalgen3it2in");
 
         new XYPlot(testName + "Time.tex",
-                cbcPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    cbcPlotData.getXAxisLabels(),
+                    scipPlotData.getXAxisLabels(),
+                    scip2ThreadsPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     cbcPlotData.getAverageElapsedTimeSeconds(),
                     scipPlotData.getAverageElapsedTimeSeconds(),
@@ -44,7 +48,11 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
         ).generatePlot();
 
         new XYPlot(testName + "WastePercentage.tex",
-                cbcPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    cbcPlotData.getXAxisLabels(),
+                    scipPlotData.getXAxisLabels(),
+                    scip2ThreadsPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     cbcPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     scipPlotData.getAveragePercentageTrueWasteAboveOptimal(),

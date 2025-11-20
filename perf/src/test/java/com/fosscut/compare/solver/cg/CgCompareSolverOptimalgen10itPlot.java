@@ -203,14 +203,18 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
         String testName = "cgCompareLinSolverCBCOptimalgen10itPlot";
         PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntCBCOptimalgen10itTest");
         PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntCBCOptimalgen10itTest");
-        PlotData pdlpThreadsPlotData = new PlotData("cgCompareSolverLinPDLPIntCBCOptimalgen10itTest");
+        PlotData pdlpPlotData = new PlotData("cgCompareSolverLinPDLPIntCBCOptimalgen10itTest");
 
         new XYPlot(testName + "Time.tex",
-                clpPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels(),
+                    pdlpPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     clpPlotData.getAverageElapsedTimeSeconds(),
                     glopPlotData.getAverageElapsedTimeSeconds(),
-                    pdlpThreadsPlotData.getAverageElapsedTimeSeconds()
+                    pdlpPlotData.getAverageElapsedTimeSeconds()
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
@@ -224,11 +228,15 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
         ).generatePlot();
 
         new XYPlot(testName + "WastePercentage.tex",
-                clpPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels(),
+                    pdlpPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     clpPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     glopPlotData.getAveragePercentageTrueWasteAboveOptimal(),
-                    pdlpThreadsPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                    pdlpPlotData.getAveragePercentageTrueWasteAboveOptimal()
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
@@ -246,14 +254,18 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
         String testName = "cgCompareLinSolverSCIPOptimalgen10itPlot";
         PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10itTest");
         PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntSCIPOptimalgen10itTest");
-        PlotData pdlpThreadsPlotData = new PlotData("cgCompareSolverLinPDLPIntSCIPOptimalgen10itTest");
+        PlotData pdlpPlotData = new PlotData("cgCompareSolverLinPDLPIntSCIPOptimalgen10itTest");
 
         new XYPlot(testName + "Time.tex",
-                clpPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels(),
+                    pdlpPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     clpPlotData.getAverageElapsedTimeSeconds(),
                     glopPlotData.getAverageElapsedTimeSeconds(),
-                    pdlpThreadsPlotData.getAverageElapsedTimeSeconds()
+                    pdlpPlotData.getAverageElapsedTimeSeconds()
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
@@ -267,11 +279,15 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
         ).generatePlot();
 
         new XYPlot(testName + "WastePercentage.tex",
-                clpPlotData.getXAxisLabels(),
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels(),
+                    pdlpPlotData.getXAxisLabels()
+                ),
                 getCombinedDataSeries(
                     clpPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     glopPlotData.getAveragePercentageTrueWasteAboveOptimal(),
-                    pdlpThreadsPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                    pdlpPlotData.getAveragePercentageTrueWasteAboveOptimal()
                 ),
                 "Liczba typów elementów wyjściowych",
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,

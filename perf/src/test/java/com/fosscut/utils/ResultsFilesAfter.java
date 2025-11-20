@@ -29,6 +29,12 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
         return xAxisLabels;
     }
 
+    public LinkedList<LinkedList<String>> getXAxisLabelsList() {
+        LinkedList<LinkedList<String>> xAxisLabelsList = new LinkedList<>();
+        xAxisLabelsList.add(this.xAxisLabels);
+        return xAxisLabelsList;
+    }
+
     private List<File> getOrderFiles() {
         return getFilesWithSuffix(PerformanceDefaults.RESULTS_ORDER_SUFFIX);
     }

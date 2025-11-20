@@ -58,6 +58,21 @@ public class AbstractTest {
         return list;
     }
 
+    protected static LinkedList<LinkedList<String>> getCombinedXAxisLabelsList(LinkedList<String> xAxisLabelsList1, LinkedList<String> xAxisLabelsList2) {
+        LinkedList<LinkedList<String>> combinedXAxisLabelsList = new LinkedList<>();
+        combinedXAxisLabelsList.add(xAxisLabelsList1);
+        combinedXAxisLabelsList.add(xAxisLabelsList2);
+        return combinedXAxisLabelsList;
+    }
+
+    protected static LinkedList<LinkedList<String>> getCombinedXAxisLabelsList(LinkedList<String> xAxisLabelsList1, LinkedList<String> xAxisLabelsList2, LinkedList<String> xAxisLabelsList3) {
+        LinkedList<LinkedList<String>> combinedXAxisLabelsList = new LinkedList<>();
+        combinedXAxisLabelsList.add(xAxisLabelsList1);
+        combinedXAxisLabelsList.add(xAxisLabelsList2);
+        combinedXAxisLabelsList.add(xAxisLabelsList3);
+        return combinedXAxisLabelsList;
+    }
+
     protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2) {
         LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
         combinedDataSeries.add(dataSeries1);

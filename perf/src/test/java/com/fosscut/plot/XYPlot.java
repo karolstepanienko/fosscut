@@ -1,7 +1,6 @@
 package com.fosscut.plot;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -12,7 +11,7 @@ import com.fosscut.utils.PerformanceDefaults;
 public class XYPlot {
 
     private String filePath;
-    private List<String> xAxisLabels;
+    private LinkedList<LinkedList<String>> xAxisLabelsList;
     private LinkedList<Map<String, Double>> dataSeries;
     private String xMin;
     private String xMax;
@@ -31,13 +30,13 @@ public class XYPlot {
 
     public XYPlot(
         String filePath,
-        List<String> xAxisLabels,
+        LinkedList<LinkedList<String>> xAxisLabelsList,
         Map<String, Double> dataSeries,
         String xLabel,
         String yLabel
     ) {
         this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;
-        this.xAxisLabels = xAxisLabels;
+        this.xAxisLabelsList = xAxisLabelsList;
         this.dataSeries = new LinkedList<Map<String, Double>>() {{
             add(dataSeries);
         }};
@@ -47,7 +46,7 @@ public class XYPlot {
 
     public XYPlot(
         String filePath,
-        List<String> xAxisLabels,
+        LinkedList<LinkedList<String>> xAxisLabelsList,
         Map<String, Double> dataSeries,
         String xLabel,
         String yLabel,
@@ -57,7 +56,7 @@ public class XYPlot {
         String yMax
     ) {
         this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;
-        this.xAxisLabels = xAxisLabels;
+        this.xAxisLabelsList = xAxisLabelsList;
         this.dataSeries = new LinkedList<Map<String, Double>>() {{
             add(dataSeries);
         }};
@@ -71,7 +70,7 @@ public class XYPlot {
 
     public XYPlot(
         String filePath,
-        List<String> xAxisLabels,
+        LinkedList<LinkedList<String>> xAxisLabelsList,
         LinkedList<Map<String, Double>> dataSeries,
         String xLabel,
         String yLabel,
@@ -83,7 +82,7 @@ public class XYPlot {
         LinkedList<String> xtickLabels
     ) {
         this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;
-        this.xAxisLabels = xAxisLabels;
+        this.xAxisLabelsList = xAxisLabelsList;
         this.dataSeries = dataSeries;
         this.xLabel = xLabel;
         this.yLabel = yLabel;
@@ -136,7 +135,7 @@ public class XYPlot {
 
     private String calculateXTicks() {
         StringBuilder xTicks = new StringBuilder();
-        for (String label : getFilteredXAxisLabels()) {
+        for (String label : getFilteredXAxisLabels(getLongestXAxisLabels())) {
             xTicks.append(label).append(", ");
         }
         // Remove last comma and space
@@ -146,22 +145,34 @@ public class XYPlot {
         return xTicks.toString();
     }
 
-    private List<String> getFilteredXAxisLabels() {
+    private LinkedList<String> getLongestXAxisLabels() {
+        LinkedList<String> longestXAxisLabels = new LinkedList<>();
+
+        for (LinkedList<String> labels : xAxisLabelsList) {
+            if (labels.size() > longestXAxisLabels.size()) {
+                longestXAxisLabels = labels;
+            }
+        }
+
+        return longestXAxisLabels;
+    }
+
+    private LinkedList<String> getFilteredXAxisLabels(LinkedList<String> xAxisLabels) {
         if (xMin == null && xMax == null) {
             return xAxisLabels;
         } else if (xMin != null && xMax == null) {
-            return xAxisLabels.stream()
+            return new LinkedList<>(xAxisLabels.stream()
                 .filter(label -> Double.parseDouble(label) >= Double.parseDouble(xMin))
-                .toList();
+                .toList());
         } else if (xMin == null) { // xMax != null
-            return xAxisLabels.stream()
+            return new LinkedList<>(xAxisLabels.stream()
                 .filter(label -> Double.parseDouble(label) <= Double.parseDouble(xMax))
-                .toList();
+                .toList());
         } else {
-            return xAxisLabels.stream()
+            return new LinkedList<>(xAxisLabels.stream()
                 .filter(label -> Double.parseDouble(label) >= Double.parseDouble(xMin))
                 .filter(label -> Double.parseDouble(label) <= Double.parseDouble(xMax))
-                .toList();
+                .toList());
         }
     }
 
@@ -243,7 +254,7 @@ public class XYPlot {
         return n % 2 == 1;
     }
 
-    private double calculateStandardDeviation(Map<String, Double> dataSeries) {
+    private double calculateStandardDeviation(LinkedList<String> xAxisLabels, Map<String, Double> dataSeries) {
         DescriptiveStatistics stats = new DescriptiveStatistics();
 
         for (String xAxisLabel : xAxisLabels) {
@@ -261,9 +272,9 @@ public class XYPlot {
         for (int i = 0; i < dataSeries.size(); i++) {
             plot += "\\addplot";
             plot += "[" + LINE_SPEC.get(i % LINE_SPEC.size()) + "] table[row sep=crcr]\n";
-            plot += getPlotData(dataSeries.get(i));
+            plot += getPlotData(xAxisLabelsList.get(i), dataSeries.get(i));
             plot += "% Odchylenie standardowe, Standard deviation: ";
-            plot += calculateStandardDeviation(dataSeries.get(i)) + "\n";
+            plot += calculateStandardDeviation(xAxisLabelsList.get(i), dataSeries.get(i)) + "\n";
             if (legendEntries != null && legendEntries.size() > i) {
                 plot += "\\addlegendentry{" + legendEntries.get(i) + "}\n";
             }
@@ -271,10 +282,10 @@ public class XYPlot {
         return plot;
     }
 
-    private String getPlotData(Map<String, Double> dataSeries) {
+    private String getPlotData(LinkedList<String> xAxisLabels, Map<String, Double> dataSeries) {
         StringBuilder plotData = new StringBuilder();
 
-        for (String label : getFilteredXAxisLabels()) {
+        for (String label : getFilteredXAxisLabels(xAxisLabels)) {
             Double value = dataSeries.get(label);
             plotData.append(label).append(" ").append(value).append(" \\\\\n");
         }
