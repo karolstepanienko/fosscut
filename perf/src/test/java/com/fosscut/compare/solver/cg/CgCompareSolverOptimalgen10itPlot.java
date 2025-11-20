@@ -198,22 +198,6 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
         return xAxisLabelSeedsMap;
     }
 
-    protected static LinkedHashMap<String, LinkedList<Integer>> getXAxisLabelSeedsMapOfLists() {
-        LinkedHashMap<String, LinkedList<Integer>> xAxisLabelSeedsMapOfLists = new LinkedHashMap<>();
-        xAxisLabelSeedsMapOfLists.put("50", detectDuplicates(x50seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("60", detectDuplicates(x60seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("70", detectDuplicates(x70seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("80", detectDuplicates(x80seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("90", detectDuplicates(x90seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("100", detectDuplicates(x100seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("110", detectDuplicates(x110seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("120", detectDuplicates(x120seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("130", detectDuplicates(x130seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("140", detectDuplicates(x140seedsLinkedList));
-        xAxisLabelSeedsMapOfLists.put("150", detectDuplicates(x150seedsLinkedList));
-        return xAxisLabelSeedsMapOfLists;
-    }
-
 
     @Test public void cgCompareLinSolverCBCOptimalgen10itPlot() throws IOException {
         String testName = "cgCompareLinSolverCBCOptimalgen10itPlot";
@@ -298,69 +282,6 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     add("PDLP");
                 }},
                 clpPlotData.getXAxisLabels()
-        ).generatePlot();
-    }
-
-    @Test public void cgCompareCLPAndGlopWithSCIPOptimalgen10it2inPlot() throws IOException {
-        String testName = "cgCompareCLPAndGLOPWithSCIPOptimalgen10it2inPlot";
-        PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest");
-        PlotData glopPlotData = new PlotData("cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inTest");
-
-        LinkedList<String> xAxisLabels = new LinkedList<>();
-        xAxisLabels.add("50");
-        xAxisLabels.add("60");
-        xAxisLabels.add("70");
-        xAxisLabels.add("80");
-        xAxisLabels.add("90");
-        xAxisLabels.add("100");
-        // GLOP had timeouts for 110 output types and above
-
-        new XYPlot(testName + "Time.tex",
-                xAxisLabels,
-                getCombinedDataSeries(
-                    clpPlotData.getAverageElapsedTimeSeconds(),
-                    glopPlotData.getAverageElapsedTimeSeconds()
-                ),
-                "Liczba typów elementów wyjściowych",
-                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "30",
-                new LinkedList<String>() {{
-                    add("CLP");
-                    add("GLOP");
-                }},
-                xAxisLabels
-        ).generatePlot();
-
-        new XYPlot(testName + "1Run" + "WastePercentage.tex",
-                xAxisLabels,
-                getCombinedDataSeries(
-                    clpPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(1),
-                    glopPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(1)
-                ),
-                "Liczba typów elementów wyjściowych",
-                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.004",
-                new LinkedList<String>() {{
-                    add("CLP");
-                    add("GLOP");
-                }},
-                xAxisLabels
-        ).generatePlot();
-
-        new XYPlot(testName + "10Run" + "WastePercentage.tex",
-                xAxisLabels,
-                getCombinedDataSeries(
-                    clpPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10),
-                    glopPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10)
-                ),
-                "Liczba typów elementów wyjściowych",
-                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.0004",
-                new LinkedList<String>() {{
-                    add("CLP");
-                    add("GLOP");
-                }},
-                xAxisLabels
         ).generatePlot();
     }
 

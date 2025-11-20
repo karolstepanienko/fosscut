@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
-public class CgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest extends CgCompareSolverOptimalgen10itPlot {
+public class CgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest extends CgCompareSolverOptimalgen10it2inPlot {
 
     private static String testName = "cgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest";
     protected static String planCommand = "cg --linear-solver CLP --integer-solver SCIP -ln 1 -in 2 --timeout-amount 5 --timeout-unit MINUTES";
@@ -27,6 +27,38 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest extends CgCompare
     }
 
     /********************************* Tests **********************************/
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10it2inx10() throws InterruptedException {
+        String outputTypeCount = "10";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x10seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10it2inx20() throws InterruptedException {
+        String outputTypeCount = "20";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x20seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10it2inx30() throws InterruptedException {
+        String outputTypeCount = "30";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x30seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10it2inx40() throws InterruptedException {
+        String outputTypeCount = "40";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x40seedsLinkedList, N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
+    }
 
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10it2inx50() throws InterruptedException {
         String outputTypeCount = "50";
