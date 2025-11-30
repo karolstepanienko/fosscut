@@ -87,12 +87,13 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
     @Test @Order(2) public void cgCPUMultithreadedPDLPPlot() throws IOException {
         PlotData plotData = new PlotData(testName);
 
+        // 10cm height to fill the entire page height-wise when in fosscut-doc
         new XYPlot(testName + "Time.tex",
             plotData.getXAxisLabelsList(),
             plotData.getAverageElapsedTimeSeconds(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-            "1", null, "0", "50"
+            "10cm", "1", null, "0", "60"
         ).generatePlot();
 
         new XYPlot(testName + "WastePercentage.tex",
@@ -100,7 +101,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             plotData.getAveragePercentageTrueWasteAboveOptimal(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-            "1", null, "0.008", "0.016"
+            "10cm", "1", null, "0.008", "0.016"
         ).generatePlot();
 
         // not used in fosscut-doc

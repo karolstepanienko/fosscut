@@ -13,6 +13,7 @@ public class XYPlot {
     private String filePath;
     private LinkedList<LinkedList<String>> xAxisLabelsList;
     private LinkedList<Map<String, Double>> dataSeries;
+    private String height;
     private String xMin;
     private String xMax;
     private String yMin;
@@ -71,6 +72,32 @@ public class XYPlot {
     public XYPlot(
         String filePath,
         LinkedList<LinkedList<String>> xAxisLabelsList,
+        Map<String, Double> dataSeries,
+        String xLabel,
+        String yLabel,
+        String height,
+        String xMin,
+        String xMax,
+        String yMin,
+        String yMax
+    ) {
+        this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;
+        this.xAxisLabelsList = xAxisLabelsList;
+        this.dataSeries = new LinkedList<Map<String, Double>>() {{
+            add(dataSeries);
+        }};
+        this.xLabel = xLabel;
+        this.yLabel = yLabel;
+        this.height = height;
+        this.xMin = xMin;
+        this.xMax = xMax;
+        this.yMin = yMin;
+        this.yMax = yMax;
+    }
+
+    public XYPlot(
+        String filePath,
+        LinkedList<LinkedList<String>> xAxisLabelsList,
         LinkedList<Map<String, Double>> dataSeries,
         String xLabel,
         String yLabel,
@@ -117,7 +144,7 @@ public class XYPlot {
         StringBuilder options = new StringBuilder();
         options.append("[%\n");
         options.append("width=0.98\\textwidth,\n");
-        options.append("height=7cm,\n");
+        options.append("height=").append(getHeight()).append(",\n");
         options.append("grid=both,\n");
         options.append("xtick={").append(calculateXTicks()).append("},\n");
         options.append(getXtickLabelsString());
@@ -131,6 +158,13 @@ public class XYPlot {
         options.append("ticklabel style={font=\\small},x label style={font=\\small},y label style={font=\\small}\n");
         options.append("]\n");
         return options.toString();
+    }
+
+    private String getHeight() {
+        if (height == null) {
+            return "7cm";
+        }
+        return height;
     }
 
     private String calculateXTicks() {
