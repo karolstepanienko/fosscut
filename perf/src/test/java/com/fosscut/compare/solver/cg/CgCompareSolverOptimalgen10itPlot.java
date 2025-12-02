@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import org.junit.jupiter.api.Test;
 
 import com.fosscut.AbstractTest;
+import com.fosscut.plot.Axis;
 import com.fosscut.plot.PlotData;
 import com.fosscut.plot.XYPlot;
 import com.fosscut.utils.PerformanceDefaults;
@@ -216,7 +217,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     glopPlotData.getAverageElapsedTimeSeconds(),
                     pdlpPlotData.getAverageElapsedTimeSeconds()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
                 null, null, "0", "120",
                 new LinkedList<String>() {{
@@ -238,7 +239,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     glopPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     pdlpPlotData.getAveragePercentageTrueWasteAboveOptimal()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
                 null, null, "0", "0.006",
                 new LinkedList<String>() {{
@@ -267,7 +268,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     glopPlotData.getAverageElapsedTimeSeconds(),
                     pdlpPlotData.getAverageElapsedTimeSeconds()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
                 null, null, "0", "40",
                 new LinkedList<String>() {{
@@ -289,7 +290,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     glopPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     pdlpPlotData.getAveragePercentageTrueWasteAboveOptimal()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
                 null, null, "0", "0.008",
                 new LinkedList<String>() {{
@@ -299,6 +300,152 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 }},
                 clpPlotData.getXAxisLabels()
         ).generatePlot();
+    }
+
+    @Test public void cgCompareIntSolverOptimalgen10itPlot() throws IOException {
+        String testName = "cgCompareIntSolverOptimalgen10itPlot";
+
+        PlotData clpCbcPlotData = new PlotData("cgCompareSolverLinCLPIntCBCOptimalgen10itTest");
+        PlotData glopCbcPlotData = new PlotData("cgCompareSolverLinGLOPIntCBCOptimalgen10itTest");
+        PlotData pdlpCbcPlotData = new PlotData("cgCompareSolverLinPDLPIntCBCOptimalgen10itTest");
+
+        PlotData clpScipPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10itTest");
+        PlotData glopScipPlotData = new PlotData("cgCompareSolverLinGLOPIntSCIPOptimalgen10itTest");
+        PlotData pdlpScipPlotData = new PlotData("cgCompareSolverLinPDLPIntSCIPOptimalgen10itTest");
+
+        // Time plot
+        LinkedList<Axis> timeAxesList = new LinkedList<>();
+        // CLP - CBC vs CLP - SCIP
+        timeAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    clpCbcPlotData.getXAxisLabels(),
+                    clpScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    clpCbcPlotData.getAverageElapsedTimeSeconds(),
+                    clpScipPlotData.getAverageElapsedTimeSeconds()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "40",
+                new LinkedList<String>() {{
+                    add("CLP - CBC");
+                    add("CLP - SCIP");
+                }},
+                clpCbcPlotData.getXAxisLabels()
+            )
+        );
+        // GLOP - CBC vs GLOP - SCIP
+        timeAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    glopCbcPlotData.getXAxisLabels(),
+                    glopScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    glopCbcPlotData.getAverageElapsedTimeSeconds(),
+                    glopScipPlotData.getAverageElapsedTimeSeconds()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "40",
+                new LinkedList<String>() {{
+                    add("GLOP - CBC");
+                    add("GLOP - SCIP");
+                }},
+                glopCbcPlotData.getXAxisLabels()
+            )
+        );
+        // PDLP - CBC vs PDLP - SCIP
+        timeAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    pdlpCbcPlotData.getXAxisLabels(),
+                    pdlpScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    pdlpCbcPlotData.getAverageElapsedTimeSeconds(),
+                    pdlpScipPlotData.getAverageElapsedTimeSeconds()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "100",
+                new LinkedList<String>() {{
+                    add("PDLP - CBC");
+                    add("PDLP - SCIP");
+                }},
+                pdlpCbcPlotData.getXAxisLabels()
+            )
+        );
+        new XYPlot(testName + "Time.tex", timeAxesList).generatePlot();
+
+        // Waste plot
+        LinkedList<Axis> wasteAxesList = new LinkedList<>();
+        // CLP - CBC vs CLP - SCIP
+        wasteAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    clpCbcPlotData.getXAxisLabels(),
+                    clpScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    clpCbcPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    clpScipPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.006",
+                new LinkedList<String>() {{
+                    add("CLP - CBC");
+                    add("CLP - SCIP");
+                }},
+                clpCbcPlotData.getXAxisLabels()
+            )
+        );
+        // GLOP - CBC vs GLOP - SCIP
+        wasteAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    glopCbcPlotData.getXAxisLabels(),
+                    glopScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    glopCbcPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    glopScipPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.006",
+                new LinkedList<String>() {{
+                    add("GLOP - CBC");
+                    add("GLOP - SCIP");
+                }},
+                glopCbcPlotData.getXAxisLabels()
+            )
+        );
+        // PDLP - CBC vs PDLP - SCIP
+        wasteAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    pdlpCbcPlotData.getXAxisLabels(),
+                    pdlpScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    pdlpCbcPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    pdlpScipPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "0.006",
+                new LinkedList<String>() {{
+                    add("PDLP - CBC");
+                    add("PDLP - SCIP");
+                }},
+                pdlpCbcPlotData.getXAxisLabels()
+            )
+        );
+        new XYPlot(testName + "WastePercentage.tex", wasteAxesList).generatePlot();
     }
 
 }
