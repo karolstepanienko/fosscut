@@ -94,15 +94,14 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
         return xAxisLabelSeedsMap;
     }
 
-    @Test public void compareAlgOptimalgen10itPlot() throws IOException {
-        String testName = "compareAlgOptimalgen10itPlot";
+    @Test public void compareAlgCBCOptimalgen10itPlot() throws IOException {
+        String testName = "compareAlgCBCOptimalgen10itPlot";
         PlotData ffdPlotData = new PlotData("ffdCompareAlgOptimalgen10itTest");
-        PlotData greedyPlotData = new PlotData("greedyCompareAlgOptimalgen10itTest");
-        PlotData cgPlotData = new PlotData("cgCompareAlgOptimalgen10itTest");
-
+        PlotData greedyPlotData = new PlotData("greedyCompareAlgCBCOptimalgen10itTest");
+        PlotData cgPlotData = new PlotData("cgCompareAlgCBCOptimalgen10itTest");
         // ffd solved all orders
-        // greedy solved all orders until x130 where a lot of timeouts and OOMs started happening
-        // cg solved all orders until x170 where a timeouts and OOMs started happening
+        // greedy with CBC solver solved all orders
+        // cg with CLP - CBC solvers solved all orders
 
         new XYPlot(testName + "Time.tex",
                 getCombinedXAxisLabelsList(
@@ -115,13 +114,13 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                     greedyPlotData.getAverageElapsedTimeSeconds(),
                     cgPlotData.getAverageElapsedTimeSeconds()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "50",
+                null, null, "0", "150",
                 new LinkedList<String>() {{
                     add("FFD");
-                    add("Greedy");
-                    add("CG");
+                    add("Greedy (CBC)");
+                    add("CG (CLP, CBC)");
                 }},
                 ffdPlotData.getXAxisLabels()
         ).generatePlot();
@@ -139,13 +138,72 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                     greedyPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     cgPlotData.getAveragePercentageTrueWasteAboveOptimal()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "1",
+                null, null, "0", "1.2",
                 new LinkedList<String>() {{
                     add("FFD");
-                    add("Greedy");
-                    add("CG");
+                    add("Greedy (CBC)");
+                    add("CG (CLP, CBC)");
+                }},
+                ffdPlotData.getXAxisLabels()
+        ).generatePlot();
+    }
+
+    // not used in fosscut-doc, since some data is missing on that plot
+    // CBC one is used instead
+    @Test public void compareAlgSCIPOptimalgen10itPlot() throws IOException {
+        String testName = "compareAlgSCIPOptimalgen10itPlot";
+        PlotData ffdPlotData = new PlotData("ffdCompareAlgOptimalgen10itTest");
+        PlotData greedyPlotData = new PlotData("greedyCompareAlgSCIPOptimalgen10itTest");
+        PlotData cgPlotData = new PlotData("cgCompareAlgSCIPOptimalgen10itTest");
+
+        // ffd solved all orders
+        // greedy solved all orders until x130 where a lot of timeouts and OOMs started happening
+        // cg solved all orders until x170 where a timeouts and OOMs started happening
+
+        new XYPlot(testName + "Time.tex",
+                getCombinedXAxisLabelsList(
+                    ffdPlotData.getXAxisLabels(),
+                    greedyPlotData.getXAxisLabels(),
+                    cgPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    ffdPlotData.getAverageElapsedTimeSeconds(),
+                    greedyPlotData.getAverageElapsedTimeSeconds(),
+                    cgPlotData.getAverageElapsedTimeSeconds()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
+                null, null, "0", "50",
+                new LinkedList<String>() {{
+                    add("FFD");
+                    add("Greedy (SCIP)");
+                    add("CG (CLP, SCIP)");
+                }},
+                ffdPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "WastePercentage.tex",
+                getCombinedXAxisLabelsList(
+                    ffdPlotData.getXAxisLabels(),
+                    greedyPlotData.getXAxisLabels(),
+                    cgPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    // since FFD is only single-threaded, all tests were run
+                    // with solvers using a single thread
+                    ffdPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    greedyPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    cgPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                null, null, "0", "1.2",
+                new LinkedList<String>() {{
+                    add("FFD");
+                    add("Greedy (SCIP)");
+                    add("CG (CLP, SCIP)");
                 }},
                 ffdPlotData.getXAxisLabels()
         ).generatePlot();
