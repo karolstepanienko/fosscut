@@ -18,13 +18,6 @@ public class SaveFile {
         saveContentToFile(content, outputFile);
     }
 
-    public static void createDirectoriesForFile(File outputFile) {
-        File parentDir = outputFile.getParentFile();
-        if (parentDir != null && !parentDir.exists()) {
-            parentDir.mkdirs();
-        }
-    }
-
     public static void saveContentToFile(String content, File outputFile) {
         createDirectoriesForFile(outputFile);
         try {
@@ -38,6 +31,13 @@ public class SaveFile {
         } catch (IOException e) {
             logger.error("Unable to save file.");
             logger.error(e.getMessage());
+        }
+    }
+
+    private static void createDirectoriesForFile(File outputFile) {
+        File parentDir = outputFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
         }
     }
 

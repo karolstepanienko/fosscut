@@ -8,4 +8,6 @@ public class SharedDefaults {
 
     public static final String COOKIE_IDENTIFIER = "fosscut_orderIdentifier";
 
+    public static final String TEKTON_NAMESPACE = "tekton";
+
 }

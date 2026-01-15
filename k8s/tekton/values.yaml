@@ -2,8 +2,8 @@
 nameOverride: ""
 fullnameOverride: ""
 
-# Tekton task capable of running
-tektonTask:
+# Tekton task capable of running fosscut CLI
+fosscutCLITektonTask:
   name: fosscut-generate
   repository: karolstepanienko/fosscut-cli-native
   tag: ""
@@ -14,6 +14,11 @@ tektonTask:
       mountPath: "/secrets/truststore.p12"
     - name: redis-connection-secrets
       mountPath: "/secrets/redis-connection-secrets.yaml"
+
+fosscutCICDPerformanceTektonTask:
+  name: fosscut-cicd-performance
+  repository: karolstepanienko/fosscut-cli-native
+  tag: ""
 
 keystorePath: secrets/keystore.p12
 truststorePath: secrets/truststore.p12

@@ -88,9 +88,15 @@ public class ResultsReport extends ResultsFilesAfter {
         StringBuilder reportContent = new StringBuilder();
         reportContent.append(generateRerunCommands(missingRuns));
         reportContent.append(generateRemoveCommands(incorrectFileNames));
-        SaveFile.saveContentToFile(reportContent.toString(),
-            resultsFolder + System.getProperty("file.separator")
-            + "report.sh");
+        saveReportToFile(reportContent.toString(), testName);
+    }
+
+    public static void saveReportToFile(String reportContent, String testName) {
+        SaveFile.saveContentToFile(reportContent,
+            PerformanceDefaults.getResultsFolder(testName)
+            + System.getProperty("file.separator")
+            + "report.sh"
+        );
     }
 
     private LinkedHashMap<String, LinkedHashMap<Integer, Integer>>

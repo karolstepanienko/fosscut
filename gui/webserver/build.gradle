@@ -36,22 +36,14 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.register('run') {
-    doLast {
-        exec {
-            workingDir '..'
-            commandLine 'deno', 'run', 'dev'
-        }
-    }
+tasks.register('run', Exec) {
+    workingDir '..'
+    commandLine 'deno', 'run', 'dev'
 }
 
-tasks.register('buildGui') {
-    doLast {
-        exec {
-            workingDir '..'
-            commandLine 'deno', 'run', 'build'
-        }
-    }
+tasks.register('buildGui', Exec) {
+    workingDir '..'
+    commandLine 'deno', 'run', 'build'
 }
 
 task copyBuildGuiToStaticFolder(type: Copy) {

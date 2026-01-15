@@ -16,7 +16,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation project(':shared')
+    implementation project(':shared')
+    implementation libs.k8sTektonClient
     testImplementation libs.k8sClient
     testImplementation libs.junit.jupiter
     testImplementation libs.logback

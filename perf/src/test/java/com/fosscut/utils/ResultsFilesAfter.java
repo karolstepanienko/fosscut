@@ -12,14 +12,12 @@ import java.util.Set;
 public class ResultsFilesAfter extends ResultsFilesBefore {
 
     protected String testName;
-    protected String resultsFolder;
     protected List<File> orderFiles;
     protected List<File> planFiles;
     protected LinkedList<String> xAxisLabels;
 
     public ResultsFilesAfter(String testName) {
         this.testName = testName;
-        this.resultsFolder = PerformanceDefaults.RESULTS_PATH + testName;
         this.orderFiles = getOrderFiles();
         this.planFiles = getPlanFiles();
         this.xAxisLabels = collectXAxisLabels();
@@ -44,7 +42,7 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
     }
 
     private List<File> getFilesWithSuffix(String suffix) {
-        File folder = new File(resultsFolder);
+        File folder = new File(PerformanceDefaults.getResultsFolder(testName));
         System.out.println("Looking for files in folder: " + folder.getAbsolutePath());
         File[] files = folder.listFiles((dir, name) -> name.endsWith(suffix));
         return files != null ? Arrays.asList(files) : Collections.emptyList();

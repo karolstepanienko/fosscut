@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fosscut.api.type.Settings;
 import com.fosscut.api.type.TektonTaskRunLogsDTO;
+import com.fosscut.shared.SharedDefaults;
 
 import io.fabric8.knative.pkg.apis.Condition;
 import io.fabric8.kubernetes.api.model.SecretVolumeSourceBuilder;
@@ -21,7 +22,6 @@ import io.fabric8.tekton.v1.WorkspaceBindingBuilder;
 
 public class FosscutTektonClient extends AbstractClient {
 
-    private static final String NAMESPACE = "tekton";
     private static final String TASK_NAME = "fosscut-generate";
     private static final String TASK_RUN_NAME_PREFIX = "fosscut-generate-";
     private static final String SECRET_NAME = "tekton-cli-redis-connection-secrets";
@@ -36,7 +36,7 @@ public class FosscutTektonClient extends AbstractClient {
     public boolean taskRunExists(String identifier) {
         TaskRun taskRun = tkn.v1()
             .taskRuns()
-            .inNamespace(NAMESPACE)
+            .inNamespace(SharedDefaults.TEKTON_NAMESPACE)
             .withName(TASK_RUN_NAME_PREFIX + identifier)
             .get();
         return taskRun != null;
@@ -87,12 +87,12 @@ public class FosscutTektonClient extends AbstractClient {
             .endSpec()
         .build();
 
-        tkn.v1().taskRuns().inNamespace(NAMESPACE).resource(taskRun).create();
+        tkn.v1().taskRuns().inNamespace(SharedDefaults.TEKTON_NAMESPACE).resource(taskRun).create();
     }
 
     public void deleteTaskRun(String identifier) {
         tkn.v1().taskRuns()
-            .inNamespace(NAMESPACE)
+            .inNamespace(SharedDefaults.TEKTON_NAMESPACE)
             .withName(TASK_RUN_NAME_PREFIX + identifier)
             .delete();
     }
@@ -102,7 +102,7 @@ public class FosscutTektonClient extends AbstractClient {
 
         TaskRun taskRun = tkn.v1()
             .taskRuns()
-            .inNamespace(NAMESPACE)
+            .inNamespace(SharedDefaults.TEKTON_NAMESPACE)
             .withName(TASK_RUN_NAME_PREFIX + identifier)
             .get();
 
@@ -122,7 +122,7 @@ public class FosscutTektonClient extends AbstractClient {
         // Wait for pod creation before asking for logs
         if (!taskRunLogsDTO.getReason().equals("Pending")) {
             podLogs = k8s.pods()
-                .inNamespace(NAMESPACE)
+                .inNamespace(SharedDefaults.TEKTON_NAMESPACE)
                 .withName(status.getPodName())
                 .inContainer(STEP_NAME)
                 .getLog();

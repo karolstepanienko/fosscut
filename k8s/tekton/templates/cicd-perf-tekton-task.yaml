@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: {{ .Values.fosscutCICDPerformanceTektonTask.name }}
+spec:
+  steps:
+    - name: run
+      image: "{{ .Values.fosscutCICDPerformanceTektonTask.repository }}:{{ .Values.fosscutCICDPerformanceTektonTask.tag | default .Chart.AppVersion }}"
+      script: |
+        #!/bin/sh
+        echo "CICD Performance Tekton Task ran."

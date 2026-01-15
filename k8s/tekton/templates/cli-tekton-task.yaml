@@ -1,9 +1,9 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: {{ .Values.tektonTask.name }}
+  name: {{ .Values.fosscutCLITektonTask.name }}
 spec:
-  {{- with .Values.tektonTask.workspaces }}
+  {{- with .Values.fosscutCLITektonTask.workspaces }}
   workspaces:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -40,7 +40,7 @@ spec:
       default: "false"
   steps:
     - name: generate
-      image: "{{ .Values.tektonTask.repository }}:{{ .Values.tektonTask.tag | default .Chart.AppVersion }}"
+      image: "{{ .Values.fosscutCLITektonTask.repository }}:{{ .Values.fosscutCLITektonTask.tag | default .Chart.AppVersion }}"
       script: |
         #!/bin/sh
         if [ $(params.subcommand) = 'cg' ]; then

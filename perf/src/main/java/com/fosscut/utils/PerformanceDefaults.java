@@ -2,6 +2,7 @@ package com.fosscut.utils;
 
 public class PerformanceDefaults {
 
+    // CLI
     public static final String DEFAULT_NAMESPACE = "performance";
     public static final long DEFAULT_CLOUD_SCHEDULING_TIMEOUT = 8L; // hours
     public static final long DEFAULT_CLOUD_EXECUTION_TIMEOUT = 10L; // minutes
@@ -28,5 +29,13 @@ public class PerformanceDefaults {
     public static final String GRAPH_X_LABEL_OUTPUT_TYPES = "Liczba typów elementów wyjściowych";
     public static final String GRAPH_Y_LABEL_CPU_TIME = "Średni czas [s]";
     public static final String GRAPH_Y_LABEL_CPU_WASTE = "Średni odpad [\\%]";
+
+    // CICD
+    public static final String CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME = "fosscut-cicd-performance";
+    public static final String CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME_PREFIX = CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME + "-tekton-";
+
+    public static String getResultsFolder(String testName) {
+        return PerformanceDefaults.RESULTS_PATH + testName;
+    }
 
 }
