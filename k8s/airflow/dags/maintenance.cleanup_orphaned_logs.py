@@ -51,7 +51,7 @@ def cleanup_orphaned_logs(dry_run=True):
 with DAG(
     dag_id="maintenance.cleanup_orphaned_logs",
     start_date=days_ago(1),
-    schedule_interval="@daily",
+    schedule_interval = None,  # Only triggered manually
     catchup=False,
     max_active_runs=1,
 ) as dag:
