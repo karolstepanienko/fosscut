@@ -24,7 +24,7 @@ def cleanup_orphaned_logs(dry_run=True):
     print(f"Valid runs: {valid_runs}")
     # 2. Walk log directory
     for dag_id in os.listdir(LOG_BASE):
-        if not dag_id.startswith("fosscut_") and not dag_id.startswith("maintenance."):
+        if not dag_id.startswith("dag_id=fosscut_") and not dag_id.startswith("dag_id=maintenance."):
             continue
 
         dag_path = os.path.join(LOG_BASE, dag_id)
