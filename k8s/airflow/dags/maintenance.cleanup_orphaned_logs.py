@@ -21,7 +21,7 @@ def cleanup_orphaned_logs(dry_run=True):
 
     removed = []
 
-    print(f"Valid runs: {valid_runs}")
+    # print(f"Valid runs: {valid_runs}")
     # 2. Walk log directory
     for dag_id in os.listdir(LOG_BASE):
         if not dag_id.startswith("dag_id=fosscut_") and not dag_id.startswith("dag_id=maintenance."):
@@ -37,7 +37,7 @@ def cleanup_orphaned_logs(dry_run=True):
             if not os.path.isdir(run_path):
                 continue
 
-            print(f"dag_id, run_id: {(dag_id, run_id)}")
+            # print(f"dag_id, run_id: {(dag_id, run_id)}")
             if (dag_id, run_id) not in valid_runs:
                 if dry_run:
                     print(f"[DRY-RUN] Would remove {run_path}")
@@ -58,5 +58,5 @@ with DAG(
     cleanup = PythonOperator(
         task_id="cleanup_logs",
         python_callable=cleanup_orphaned_logs,
-        op_kwargs={"dry_run": True},
+        op_kwargs={"dry_run": False},
     )
