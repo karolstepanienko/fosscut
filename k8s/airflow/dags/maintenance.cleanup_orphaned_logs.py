@@ -9,19 +9,6 @@ from airflow.configuration import conf
 
 LOG_BASE = conf.get("logging", "base_log_folder")
 
-with DAG(
-    dag_id="maintenance.cleanup_orphaned_logs",
-    start_date=days_ago(1),
-    schedule_interval="@daily",
-    catchup=False,
-    max_active_runs=1,
-) as dag:
-    cleanup = PythonOperator(
-        task_id="cleanup_logs",
-        python_callable=cleanup_orphaned_logs,
-        op_kwargs={"dry_run": True},
-    )
-
 def cleanup_orphaned_logs(dry_run=True):
     session = Session()
 
@@ -55,3 +42,16 @@ def cleanup_orphaned_logs(dry_run=True):
                     removed.append(run_path)
 
     return removed
+
+with DAG(
+    dag_id="maintenance.cleanup_orphaned_logs",
+    start_date=days_ago(1),
+    schedule_interval="@daily",
+    catchup=False,
+    max_active_runs=1,
+) as dag:
+    cleanup = PythonOperator(
+        task_id="cleanup_logs",
+        python_callable=cleanup_orphaned_logs,
+        op_kwargs={"dry_run": True},
+    )
