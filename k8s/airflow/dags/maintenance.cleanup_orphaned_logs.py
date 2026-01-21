@@ -21,6 +21,7 @@ def cleanup_orphaned_logs(dry_run=True):
 
     removed = []
 
+    print(f"Valid runs: {valid_runs}")
     # 2. Walk log directory
     for dag_id in os.listdir(LOG_BASE):
         dag_path = os.path.join(LOG_BASE, dag_id)
@@ -33,6 +34,7 @@ def cleanup_orphaned_logs(dry_run=True):
             if not os.path.isdir(run_path):
                 continue
 
+            print(f"dag_id, run_id: {(dag_id, run_id)}")
             if (dag_id, run_id) not in valid_runs:
                 if dry_run:
                     print(f"[DRY-RUN] Would remove {run_path}")
