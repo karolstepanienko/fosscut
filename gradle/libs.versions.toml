@@ -19,6 +19,7 @@ k8sClient = "7.4.0"
 junit-jupiter = "5.12.1"
 okhttp3 = "5.2.1"
 apache-math = "3.6.1"
+google-guava = "33.5.0-jre"
 
 [libraries]
 # cli
@@ -45,3 +46,4 @@ k8sClient = { module = "io.fabric8:kubernetes-client", version.ref = "k8sClient"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
 apache-math = { module = "org.apache.commons:commons-math3", version.ref = "apache-math" }
+google-guava = { module = "com.google.guava:guava", version.ref = "google-guava" }

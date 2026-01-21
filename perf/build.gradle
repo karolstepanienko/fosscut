@@ -18,11 +18,12 @@ repositories {
 dependencies {
     implementation project(':shared')
     implementation libs.k8sTektonClient
+    implementation libs.okhttp3
     testImplementation libs.k8sClient
     testImplementation libs.junit.jupiter
     testImplementation libs.logback
-    testImplementation libs.okhttp3
     testImplementation libs.apache.math
+    testImplementation libs.google.guava
 }
 
 tasks.named('test') {

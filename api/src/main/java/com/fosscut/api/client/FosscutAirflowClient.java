@@ -1,7 +1,5 @@
 package com.fosscut.api.client;
 
-import java.time.Instant;
-import java.util.Base64;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fosscut.api.type.AirflowDAGLogsDTO;
 import com.fosscut.api.type.Settings;
+import com.fosscut.shared.util.AirflowSecrets;
 
 import jakarta.annotation.PostConstruct;
 
@@ -27,7 +26,7 @@ public class FosscutAirflowClient extends AbstractClient {
     @Value("${airflow.password}")
     private String password;
 
-    private String basicAuth;
+    private AirflowSecrets airflowSecrets;
     private WebClient webClient;
 
     private static final String DAG_ID = "fosscut_generate_kubernetes_executor";
@@ -39,16 +38,16 @@ public class FosscutAirflowClient extends AbstractClient {
 
     @PostConstruct
     private void init() {
-        this.basicAuth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+        this.airflowSecrets = new AirflowSecrets(hostname, port, username, password, DAG_ID, "");
     }
 
     public String runFosscutGenerateDAG(String identifier, Settings settings) {
-        String dagRunID = getDAGRunID(identifier);
+        String dagRunID = airflowSecrets.getDAGRunID(identifier);
         String body = getBodyJson(dagRunID, settings);
 
         webClient.post()
-                .uri(getUrl())
-                .header("Authorization", getAuthHeader())
+                .uri(airflowSecrets.getUrl())
+                .header("Authorization", airflowSecrets.getAuthHeader())
                 .header("Content-Type","application/json")
                 .bodyValue(body)
                 .retrieve()
@@ -59,8 +58,8 @@ public class FosscutAirflowClient extends AbstractClient {
 
     private Map<String, Object> getTaskDetails(String dagRunID) {
         Map<String, Object> taskDetails = webClient.get()
-                .uri(getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID)
-                .header("Authorization", getAuthHeader())
+                .uri(airflowSecrets.getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID)
+                .header("Authorization", airflowSecrets.getAuthHeader())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
@@ -70,8 +69,8 @@ public class FosscutAirflowClient extends AbstractClient {
 
     private String getDAGLogsString(String dagRunID, Integer taskTryNumber) {
         String logs = webClient.get()
-                .uri(getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID + "/logs/" + taskTryNumber.toString())
-                .header("Authorization", getAuthHeader())
+                .uri(airflowSecrets.getUrl() + "/" + dagRunID + "/taskInstances/" + TASK_ID + "/logs/" + taskTryNumber.toString())
+                .header("Authorization", airflowSecrets.getAuthHeader())
                 .retrieve()
                 .bodyToMono(String.class).block();
 
@@ -89,38 +88,12 @@ public class FosscutAirflowClient extends AbstractClient {
 
     ///////////////////////// String Helpers ///////////////////////////////////
 
-    private String getUrl() {
-        return "https://" + hostname + ":" + port + "/api/v1/dags/" + DAG_ID + "/dagRuns";
-    }
-
-    private String getAuthHeader() {
-        return "Basic " + this.basicAuth;
-    }
-
-    private String getDAGRunID(String identifier) {
-        String unixEpochMillisString = String.valueOf(System.currentTimeMillis());
-        return "manual_run_" + identifier + "_" + unixEpochMillisString;
-    }
-
     private String getBodyJson(String dagRunID, Settings settings) {
         return "{" +
-            getDAGRunIDJson(dagRunID) +
-            getLogicalDateJson() +
+            airflowSecrets.getDAGRunIDJson(dagRunID) +
+            airflowSecrets.getLogicalDateJson() +
             settings.toAirflowParamsString(redisReadHost, redisReadPort) +
         "}";
-    }
-
-    private String getDAGRunIDJson(String dagRunID) {
-        return "\"dag_run_id\": \"" + dagRunID + "\",";
-    }
-
-    private String getLogicalDateJson() {
-        return "\"logical_date\": \"" + getLogicalDate() + "\",";
-    }
-
-    private String getLogicalDate() {
-        String timeStamp = Instant.now().toString();
-        return timeStamp;
     }
 
 }

@@ -8,4 +8,4 @@ spec:
       image: "{{ .Values.fosscutCICDPerformanceTektonTask.repository }}:{{ .Values.fosscutCICDPerformanceTektonTask.tag | default .Chart.AppVersion }}"
       script: |
         #!/bin/sh
-        echo "CICD Performance Tekton Task ran."
+        echo "CICD performance test."

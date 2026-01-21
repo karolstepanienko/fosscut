@@ -64,12 +64,18 @@ config:
     auth_backends: airflow.api.auth.backend.basic_auth
   core:
     # PERFORMANCE: Maximum number of task instances allowed to run concurrently by the scheduler
-    dag_concurrency: 27
+    dag_concurrency: 200
     # PERFORMANCE: Maximum number of active DAG runs per DAG
-    max_active_runs_per_dag: 27
+    max_active_runs_per_dag: 200
+    # PERFORMANCE: This defines the maximum number of task instances that can run concurrently per scheduler in Airflow, regardless of the worker count.
+    # Generally this value, multiplied by the number of schedulers in your cluster, is the maximum number of task instances with the running state in the metadata database.
+    parallelism: 200
   kubernetes:
     # PERFORMANCE: Number of Kubernetes Worker Pod creation calls per scheduler loop
-    worker_pods_creation_batch_size: 1
+    worker_pods_creation_batch_size: 200
+  scheduler:
+    # PERFORMANCE: This determines the number of task instances to be evaluated for scheduling during each scheduler loop. Set this to 0 to use the value of [core] parallelism
+    max_tis_per_query: 200
   webserver:
     web_server_ssl_cert: /tls.crt
     web_server_ssl_key: /tls.key

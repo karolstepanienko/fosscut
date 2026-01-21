@@ -1,8 +1,10 @@
 package com.fosscut.compare.cicd.tekton;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fosscut.compare.cicd.CICDReportLine;
 import com.fosscut.shared.SharedDefaults;
 import com.fosscut.utils.PerformanceDefaults;
 
@@ -10,28 +12,47 @@ import io.fabric8.tekton.client.DefaultTektonClient;
 import io.fabric8.tekton.client.TektonClient;
 import io.fabric8.tekton.v1.TaskRun;
 import io.fabric8.tekton.v1.TaskRunBuilder;
+import io.fabric8.tekton.v1.TaskRunStatus;
 
 public class TektonCICDUtils {
     private TektonClient tkn;
-    private String RUN_ID;
-    private int NUM_PARTS;
 
     public TektonCICDUtils(String RUN_ID, int NUM_PARTS) {
         this.tkn = new DefaultTektonClient();
-        this.RUN_ID = RUN_ID;
-        this.NUM_PARTS = NUM_PARTS;
     }
 
     public TektonClient getTektonClient() {
         return tkn;
     }
 
-    public List<String> generateIdentifiers() {
-        List<String> identifiers = new ArrayList<>();
-        for (int part = 0; part < NUM_PARTS; part++) {
-            identifiers.add("-run-" + RUN_ID + "-part-" + part);
+    public List<CICDReportLine> prepareReportLines(List<String> identifiers) {
+        List<CICDReportLine> reportLines = new ArrayList<>();
+
+        for (String identifier : identifiers.reversed()) {
+            String name = PerformanceDefaults.CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME_PREFIX + identifier;
+            TaskRun taskRun = tkn.v1().taskRuns()
+                .inNamespace(SharedDefaults.TEKTON_NAMESPACE)
+                .withName(name)
+                .get();
+
+            String creationTimestamp = null;
+            String completionTimestamp = null;
+
+            if (taskRun.getMetadata() != null) {
+                creationTimestamp = taskRun.getMetadata().getCreationTimestamp();
+            }
+
+            if (taskRun.getStatus() != null) {
+                TaskRunStatus status = taskRun.getStatus();
+                completionTimestamp = status.getCompletionTime();
+            }
+
+            reportLines.add(new CICDReportLine(
+                name,
+                creationTimestamp == null ? null : Instant.parse(creationTimestamp),
+                completionTimestamp == null ? null : Instant.parse(completionTimestamp)));
         }
-        return identifiers;
+        return reportLines;
     }
 
     public void createTaskRun(String identifier) {

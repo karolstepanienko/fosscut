@@ -21,6 +21,8 @@ public class PerformanceDefaults {
     public static final String FOSSCUT_API_REDIS_URL = "https://haproxy-kubernetes-ingress.haproxy-controller/api/redis/get/";
     public static final String FOSSCUT_API_HOSTNAME = "fosscut.com";
     public static final String FOSSCUT_API_TRUSTSTORE_PATH = "../helm/secrets/haproxy-truststore.jks";
+    public static final String FOSSCUT_INTERNAL_TRUSTSTORE_PATH = "../helm/secrets/truststore.p12";
+    public static final String FOSSCUT_API_TRUSTSTORE_PASSWORD = "password";
 
     public static final String DEFAULT_CPU = "1";
     public static final String DEFAULT_MEMORY = "3Gi";
@@ -33,6 +35,13 @@ public class PerformanceDefaults {
     // CICD
     public static final String CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME = "fosscut-cicd-performance";
     public static final String CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME_PREFIX = CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME + "-tekton-";
+
+    public static final String CICD_PERFORMANCE_AIRFLOW_HOSTNAME = "airflow.fosscut.com";
+    public static final String CICD_PERFORMANCE_AIRFLOW_PORT = "443";
+    public static final String CICD_PERFORMANCE_AIRFLOW_DAG_ID = "fosscut_cicd_performance_kubernetes_executor";
+    public static final String CICD_PERFORMANCE_AIRFLOW_CLEANUP_DAG_ID = "maintenance.cleanup_orphaned_logs";
+    public static final String CICD_PERFORMANCE_AIRFLOW_USERNAME = "fosscut-api-local";
+    public static final String CICD_PERFORMANCE_AIRFLOW_PASSWORD = "password";
 
     public static String getResultsFolder(String testName) {
         return PerformanceDefaults.RESULTS_PATH + testName;

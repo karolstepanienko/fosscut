@@ -1,15 +1,15 @@
-package com.fosscut.compare.cicd.tekton;
+package com.fosscut.compare.cicd;
 
 import java.time.Duration;
 import java.time.Instant;
 
-public class TektonCICDReportLine {
+public class CICDReportLine {
     public String name;
     public Instant creationTimestamp;
     public Instant completionTimestamp;
     public Duration duration;
 
-    public TektonCICDReportLine(String name, Instant creationTimestamp, Instant completionTimestamp) {
+    public CICDReportLine(String name, Instant creationTimestamp, Instant completionTimestamp) {
         this.name = name;
         this.creationTimestamp = creationTimestamp;
         this.completionTimestamp = completionTimestamp;

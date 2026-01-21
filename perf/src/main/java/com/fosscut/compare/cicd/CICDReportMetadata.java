@@ -1,10 +1,10 @@
-package com.fosscut.compare.cicd.tekton;
+package com.fosscut.compare.cicd;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-public class TektonCICDReportMetadata {
+public class CICDReportMetadata {
 
     private Duration totalDuration;
     private Duration averageDuration;
@@ -15,7 +15,7 @@ public class TektonCICDReportMetadata {
     private Instant earliestCreationTimestamp;
     private Instant latestCompletionTimestamp;
 
-    public TektonCICDReportMetadata(List<TektonCICDReportLine> reportLines) {
+    public CICDReportMetadata(List<CICDReportLine> reportLines) {
         this.totalDuration = calculateTotalDuration(reportLines);
 
         List<Duration> durations = reportLines.stream().map(line -> line.duration).toList();
@@ -28,7 +28,7 @@ public class TektonCICDReportMetadata {
         this.latestCompletionTimestamp = getLatestCompletionTimestamp(reportLines);
     }
 
-    private Duration calculateTotalDuration(List<TektonCICDReportLine> reportLines) {
+    private Duration calculateTotalDuration(List<CICDReportLine> reportLines) {
         Instant earliestCreation = getEarliestCreationTimestamp(reportLines);
         Instant latestCompletion = getLatestCompletionTimestamp(reportLines);
         return Duration.between(earliestCreation, latestCompletion);
@@ -88,14 +88,14 @@ public class TektonCICDReportMetadata {
         return longest;
     }
 
-    private Instant getEarliestCreationTimestamp(List<TektonCICDReportLine> reportLines) {
+    private Instant getEarliestCreationTimestamp(List<CICDReportLine> reportLines) {
         return reportLines.stream()
             .map(line -> line.creationTimestamp)
             .min(Instant::compareTo)
             .orElse(null);
     }
 
-    private Instant getLatestCompletionTimestamp(List<TektonCICDReportLine> reportLines) {
+    private Instant getLatestCompletionTimestamp(List<CICDReportLine> reportLines) {
         return reportLines.stream()
             .map(line -> line.completionTimestamp)
             .max(Instant::compareTo)
