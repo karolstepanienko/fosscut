@@ -14,7 +14,7 @@ def cleanup_orphaned_logs(dry_run=True):
 
     # 1. Build set of valid (dag_id, run_id)
     valid_runs = {
-        (dr.dag_id, dr.run_id)
+        ("dag_id=" + dr.dag_id, "run_id=" + dr.run_id)
         for dr in session.query(DagRun.dag_id, DagRun.run_id).all()
     }
     session.close()
@@ -24,6 +24,9 @@ def cleanup_orphaned_logs(dry_run=True):
     print(f"Valid runs: {valid_runs}")
     # 2. Walk log directory
     for dag_id in os.listdir(LOG_BASE):
+        if not dag_id.startswith("fosscut_") and not dag_id.startswith("maintenance."):
+            continue
+
         dag_path = os.path.join(LOG_BASE, dag_id)
         if not os.path.isdir(dag_path):
             continue
