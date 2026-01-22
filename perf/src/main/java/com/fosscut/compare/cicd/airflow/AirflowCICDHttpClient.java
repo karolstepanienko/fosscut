@@ -7,20 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fosscut.compare.cicd.CICDHttpClient;
 import com.fosscut.compare.cicd.CICDReportLine;
 import com.fosscut.shared.util.AirflowSecrets;
 import com.fosscut.utils.FosscutInternalHttpClient;
 import com.fosscut.utils.PerformanceDefaults;
 
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AirflowCICDHttpClient {
+public class AirflowCICDHttpClient extends CICDHttpClient {
 
-    private OkHttpClient client;
     private AirflowSecrets airflowSecrets;
 
     public AirflowCICDHttpClient() {
@@ -34,7 +33,7 @@ public class AirflowCICDHttpClient {
         );
         try {
             FosscutInternalHttpClient httpClient = new FosscutInternalHttpClient();
-            this.client = httpClient.getAirflowClient();
+            this.client = httpClient.getAirflowOrJenkinsClient();
         } catch (Exception e) {
             throw new RuntimeException("Failed to create AirflowCICDHttpClient", e);
         }
@@ -149,18 +148,6 @@ public class AirflowCICDHttpClient {
                 .header("Authorization", airflowSecrets.getAuthHeader())
                 .build();
         return executeApiCall(request, "Failed to get Airflow DAGs");
-    }
-
-    private String executeApiCall(Request request, String errorMessage) {
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(errorMessage + ": "
-                    + response.code() + " " + response.message());
-            }
-            return response.body().string();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed Airflow API call", e);
-        }
     }
 
     @SuppressWarnings("unchecked")

@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient;
 
 public class FosscutInternalHttpClient {
 
-    public OkHttpClient getAirflowClient() throws Exception {
+    public OkHttpClient getAirflowOrJenkinsClient() throws Exception {
         TrustManagerFactory tmf = buildTrustManagerFactory(PerformanceDefaults.FOSSCUT_INTERNAL_TRUSTSTORE_PATH);
         SSLContext sslContext = createSslContext(tmf);
 

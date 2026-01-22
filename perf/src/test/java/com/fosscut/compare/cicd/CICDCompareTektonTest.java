@@ -32,13 +32,13 @@ public class CICDCompareTektonTest {
     }
 
     @Test public void runJobs() {
-        identifiers.parallelStream().forEach( identifier -> 
+        identifiers.parallelStream().forEach( identifier ->
             tektonCICDUtils.createTaskRun(identifier)
         );
     }
 
     @Test public void removeJobs() {
-        identifiers.parallelStream().forEach( identifier -> 
+        identifiers.parallelStream().forEach( identifier ->
             tektonCICDUtils.deleteTaskRun(identifier)
         );
     }

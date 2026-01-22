@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import com.fosscut.api.type.JenkinsJobLogsDTO;
 import com.fosscut.api.type.Settings;
+import com.fosscut.shared.util.JenkinsSecrets;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ public class FosscutJenkinsClient extends AbstractClient {
     @Value("${jenkins.token}")
     private String token;
 
-    private String basicAuth;
+    private JenkinsSecrets jenkinsSecrets;
     private WebClient webClient;
 
     public FosscutJenkinsClient(WebClient webClient) {
@@ -39,15 +40,15 @@ public class FosscutJenkinsClient extends AbstractClient {
 
     @PostConstruct
     private void init() {
-        this.basicAuth = Base64.getEncoder().encodeToString((username + ":" + token).getBytes());
+        this.jenkinsSecrets = new JenkinsSecrets(hostname, port, username, token);
     }
 
     @SuppressWarnings("null")
     public String triggerJob(Settings settings) {
         // returns HTTP code and headers, body is empty
         Mono<ResponseEntity<Void>> monoResponse = webClient.post()
-                .uri(getUrl() + "/job/fosscut/buildWithParameters?" + settings.toJenkinsParamsString(redisReadHost, redisReadPort))
-                .header("Authorization", getAuthHeader())
+                .uri(jenkinsSecrets.getUrl() + "/job/fosscut/buildWithParameters?" + settings.toJenkinsParamsString(redisReadHost, redisReadPort))
+                .header("Authorization", jenkinsSecrets.getAuthHeader())
                 .header("Content-Type","application/json")
                 .retrieve().toBodilessEntity();
         return monoResponse.block().getHeaders().getFirst("location")
@@ -95,8 +96,8 @@ public class FosscutJenkinsClient extends AbstractClient {
 
     private WebClient.ResponseSpec getResponseSpec(String uri) {
         return webClient.get()
-                .uri(getUrl() + uri)
-                .header("Authorization", getAuthHeader())
+                .uri(jenkinsSecrets.getUrl() + uri)
+                .header("Authorization", jenkinsSecrets.getAuthHeader())
                 .retrieve();
     }
 
@@ -121,14 +122,6 @@ public class FosscutJenkinsClient extends AbstractClient {
         }
 
         return jobNumberIdentifier;
-    }
-
-    private String getAuthHeader() {
-        return "Basic " + this.basicAuth;
-    }
-
-    private String getUrl() {
-        return "https://" + hostname + ":" + port;
     }
 
 }

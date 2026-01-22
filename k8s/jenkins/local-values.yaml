@@ -1,6 +1,13 @@
 controller:
   nodeSelector:
     node-role.kubernetes.io/worker: worker
+  resources:
+    requests:
+      cpu: "4000m"
+      memory: "10Gi"
+    limits:
+      cpu: "4000m"
+      memory: "10Gi"
 
 agent:
   nodeSelector:

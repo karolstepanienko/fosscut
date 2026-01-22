@@ -2,6 +2,7 @@ package com.fosscut.compare.cicd;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 public class CICDReportMetadata {
@@ -17,6 +18,7 @@ public class CICDReportMetadata {
 
     public CICDReportMetadata(List<CICDReportLine> reportLines) {
         this.totalDuration = calculateTotalDuration(reportLines);
+        sortReportLinesByPart(reportLines);
 
         List<Duration> durations = reportLines.stream().map(line -> line.duration).toList();
         this.averageDuration = calculateAverageDuration(durations);
@@ -26,6 +28,27 @@ public class CICDReportMetadata {
         this.longestDuration = calculateLongestDuration(durations);
         this.earliestCreationTimestamp = getEarliestCreationTimestamp(reportLines);
         this.latestCompletionTimestamp = getLatestCompletionTimestamp(reportLines);
+    }
+
+    private void sortReportLinesByPart(List<CICDReportLine> reportLines) {
+        reportLines.sort((line1, line2) ->
+            extractPartFromName(line1.name)
+            .compareTo(extractPartFromName(line2.name))
+        );
+        Collections.reverse(reportLines);
+    }
+
+    private Integer extractPartFromName(String name) {
+        String[] parts = name.split("-part-");
+        if (parts.length < 2) {
+            return null;
+        }
+        String partString = parts[1].split("_")[0];
+        try {
+            return Integer.parseInt(partString);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     private Duration calculateTotalDuration(List<CICDReportLine> reportLines) {

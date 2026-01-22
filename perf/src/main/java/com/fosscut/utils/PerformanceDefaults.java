@@ -43,6 +43,12 @@ public class PerformanceDefaults {
     public static final String CICD_PERFORMANCE_AIRFLOW_USERNAME = "fosscut-api-local";
     public static final String CICD_PERFORMANCE_AIRFLOW_PASSWORD = "password";
 
+    public static final String CICD_PERFORMANCE_JENKINS_HOSTNAME = "jenkins.fosscut.com";
+    public static final String CICD_PERFORMANCE_JENKINS_PORT = "443";
+    public static final String CICD_PERFORMANCE_JENKINS_JOB = "fosscut-cicd-performance";
+    public static final String CICD_PERFORMANCE_JENKINS_USERNAME = "fosscut-api-local";
+    public static final String CICD_PERFORMANCE_JENKINS_API_TOKEN = "115bc5d999f2b0e7a8b1b18e38bcbd34ed";
+
     public static String getResultsFolder(String testName) {
         return PerformanceDefaults.RESULTS_PATH + testName;
     }

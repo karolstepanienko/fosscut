@@ -16,7 +16,7 @@ public class CICDUtils {
     public List<String> generateIdentifiers() {
         List<String> identifiers = new ArrayList<>();
         for (int part = 0; part < NUM_PARTS; part++) {
-            identifiers.add("-run-" + RUN_ID + "-part-" + part);
+            identifiers.add("run-" + RUN_ID + "-part-" + part);
         }
         return identifiers;
     }
