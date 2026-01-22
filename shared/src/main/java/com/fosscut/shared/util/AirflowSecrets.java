@@ -50,11 +50,13 @@ public class AirflowSecrets {
         return "\"logical_date\": \"" + getLogicalDate() + "\",";
     }
 
-    public String getBodyJson(String dagRunID) {
+    public String getBodyJson(String identifier) {
         return "{" +
-            getDAGRunIDJson(dagRunID) +
+            getDAGRunIDJson(getDAGRunID(identifier)) +
             getLogicalDateJson() +
-            "\"conf\": {}" +
+            "\"conf\": {" +
+                "\"IDENTIFIER\": \"" + identifier + "\"" +
+            "}" +
         "}";
     }
 

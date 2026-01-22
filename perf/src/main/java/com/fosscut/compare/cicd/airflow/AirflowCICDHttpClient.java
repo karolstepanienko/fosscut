@@ -82,7 +82,7 @@ public class AirflowCICDHttpClient extends CICDHttpClient {
     public void runDAG(String identifier) throws RuntimeException {
         runDAGRun(
             airflowSecrets.getUrl(),
-            airflowSecrets.getBodyJson(airflowSecrets.getDAGRunID(identifier)),
+            airflowSecrets.getBodyJson(identifier),
             "Failed to trigger Airflow DAG for identifier: " + identifier
         );
     }
