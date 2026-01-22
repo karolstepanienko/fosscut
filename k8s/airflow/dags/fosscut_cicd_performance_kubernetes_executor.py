@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from airflow import DAG
+from airflow.models import Param
 from airflow.operators.bash import BashOperator
 
 from kubernetes.client import models as k8s
