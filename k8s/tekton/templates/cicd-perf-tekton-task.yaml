@@ -3,9 +3,13 @@ kind: Task
 metadata:
   name: {{ .Values.fosscutCICDPerformanceTektonTask.name }}
 spec:
+  params:
+    - name: IDENTIFIER
+      description: Identifier of the CICD performance test.
+      type: string
   steps:
     - name: run
       image: "{{ .Values.fosscutCICDPerformanceTektonTask.repository }}:{{ .Values.fosscutCICDPerformanceTektonTask.tag | default .Chart.AppVersion }}"
       script: |
         #!/bin/sh
-        echo "CICD performance test."
+        echo "CICD performance test. $(params.IDENTIFIER)"

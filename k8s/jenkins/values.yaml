@@ -77,7 +77,7 @@ controller:
                   description('Job used in CICD Performance testing. Creates only one pod.')
                   concurrentBuild(true)
                   parameters {
-                      stringParam('IDENTIFIER', '')
+                      stringParam('IDENTIFIER', '', 'Identifier of the CICD performance test.')
                   }
                   steps {
                       shell('''

@@ -16,11 +16,11 @@ public class CICDCompareTektonTest {
     // DONE - should be able to run multiple such tasks in parallel
     // DONE - step for triggering task runs should be separate from step for measuring their status
     // DONE - create a report file that contains the list of all runs INPROGRESS/COMPLETED/FAILED with their start and end times
-    // MAYBE - should be prepared for k8s to reject api calls when overloaded and retry them after some time
+    // MAYBE - should be prepared for k8s to reject api calls when overloaded and retry them after some time, rate limiting
 
     private static String testName = "CICDCompareTektonTest";
     private static String RUN_ID = "1"; // Run is a set of data, managed manually
-    private static int NUM_PARTS = 200; // Number of task runs to create per run
+    private static int NUM_PARTS = 100; // Number of task runs to create per run
 
     private TektonCICDUtils tektonCICDUtils;
     private List<String> identifiers;

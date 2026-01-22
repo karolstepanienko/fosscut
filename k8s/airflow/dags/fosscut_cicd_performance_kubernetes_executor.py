@@ -20,7 +20,13 @@ fosscut_cicd_performance_kubernetes_executor = DAG(
     schedule_interval = None,  # Only triggered manually
     start_date = datetime(2024, 1, 1),
     catchup = False,
-    params = {}
+    params = {
+        "IDENTIFIER": Param(
+            default = "",
+            type = "string",
+            description = "Identifier of the CICD performance test."
+        )
+    }
 )
 
 
@@ -45,7 +51,7 @@ BashOperator(
     task_id = 'fosscut_cicd_performance_kubernetes_executor_task_id',
     bash_command = """
         #!/bin/sh
-        echo "CICD performance test."
+        echo "CICD performance test. {{ params.IDENTIFIER }}"
     """,
     dag = fosscut_cicd_performance_kubernetes_executor,
     executor_config = { "pod_override": pod_override }

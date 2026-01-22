@@ -10,6 +10,7 @@ import com.fosscut.utils.PerformanceDefaults;
 
 import io.fabric8.tekton.client.DefaultTektonClient;
 import io.fabric8.tekton.client.TektonClient;
+import io.fabric8.tekton.v1.ParamBuilder;
 import io.fabric8.tekton.v1.TaskRun;
 import io.fabric8.tekton.v1.TaskRunBuilder;
 import io.fabric8.tekton.v1.TaskRunStatus;
@@ -64,6 +65,11 @@ public class TektonCICDUtils {
                 .withNewTaskRef()
                     .withName(PerformanceDefaults.CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME)
                 .endTaskRef()
+                .withParams(
+                    new ParamBuilder()
+                    .withName("IDENTIFIER")
+                    .withNewValue(identifier)
+                    .build())
             .endSpec()
             .build();
 
