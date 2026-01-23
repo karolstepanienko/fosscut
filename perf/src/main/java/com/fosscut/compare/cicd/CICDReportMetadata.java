@@ -7,27 +7,70 @@ import java.util.List;
 
 public class CICDReportMetadata {
 
-    private Duration totalDuration;
-    private Duration averageDuration;
-    private Duration medianDuration;
-    private Duration standardDeviationDuration;
-    private Duration shortestDuration;
-    private Duration longestDuration;
-    private Instant earliestCreationTimestamp;
-    private Instant latestCompletionTimestamp;
+    private Duration externalTotalDuration;
+    private Duration internalTotalDuration;
+    private Duration internalAverageDuration;
+    private Duration internalMedianDuration;
+    private Duration internalStandardDeviationDuration;
+    private Duration internalShortestDuration;
+    private Duration internalLongestDuration;
+    private Instant internalEarliestCreationTimestamp;
+    private Instant internalLatestCompletionTimestamp;
 
-    public CICDReportMetadata(List<CICDReportLine> reportLines) {
-        this.totalDuration = calculateTotalDuration(reportLines);
+    public CICDReportMetadata() {}
+
+    public CICDReportMetadata(List<CICDReportLine> reportLines, Instant startTimestamp) {
+        this.internalTotalDuration = calculateTotalDuration(reportLines);
         sortReportLinesByPart(reportLines);
 
         List<Duration> durations = reportLines.stream().map(line -> line.duration).toList();
-        this.averageDuration = calculateAverageDuration(durations);
-        this.medianDuration = calculateMedianDuration(durations);
-        this.standardDeviationDuration = calculateStandardDeviationDuration(durations);
-        this.shortestDuration = calculateShortestDuration(durations);
-        this.longestDuration = calculateLongestDuration(durations);
-        this.earliestCreationTimestamp = getEarliestCreationTimestamp(reportLines);
-        this.latestCompletionTimestamp = getLatestCompletionTimestamp(reportLines);
+        this.internalAverageDuration = calculateAverageDuration(durations);
+        this.internalMedianDuration = calculateMedianDuration(durations);
+        this.internalStandardDeviationDuration = calculateStandardDeviationDuration(durations);
+        this.internalShortestDuration = calculateShortestDuration(durations);
+        this.internalLongestDuration = calculateLongestDuration(durations);
+        this.internalEarliestCreationTimestamp = getEarliestCreationTimestamp(reportLines);
+        this.internalLatestCompletionTimestamp = getLatestCompletionTimestamp(reportLines);
+
+        this.externalTotalDuration = Duration.between(
+            startTimestamp, this.internalLatestCompletionTimestamp
+        );
+    }
+
+    public Duration getExternalTotalDuration() {
+        return externalTotalDuration;
+    }
+
+    public Duration getInternalTotalDuration() {
+        return internalTotalDuration;
+    }
+
+    public Duration getInternalAverageDuration() {
+        return internalAverageDuration;
+    }
+
+    public Duration getInternalMedianDuration() {
+        return internalMedianDuration;
+    }
+
+    public Duration getInternalStandardDeviationDuration() {
+        return internalStandardDeviationDuration;
+    }
+
+    public Duration getInternalShortestDuration() {
+        return internalShortestDuration;
+    }
+
+    public Duration getInternalLongestDuration() {
+        return internalLongestDuration;
+    }
+
+    public Instant getInternalEarliestCreationTimestamp() {
+        return internalEarliestCreationTimestamp;
+    }
+
+    public Instant getInternalLatestCompletionTimestamp() {
+        return internalLatestCompletionTimestamp;
     }
 
     private void sortReportLinesByPart(List<CICDReportLine> reportLines) {
@@ -126,14 +169,15 @@ public class CICDReportMetadata {
     }
 
     @Override public String toString() {
-        return "# Total Duration: " + totalDuration + "\n" +
-               "# Average Duration: " + averageDuration + "\n" +
-               "# Median Duration: " + medianDuration + "\n" +
-               "# Standard Deviation Duration: " + standardDeviationDuration + "\n" +
-               "# Shortest Duration: " + shortestDuration + "\n" +
-               "# Longest Duration: " + longestDuration + "\n" +
-               "# Earliest Creation Timestamp: " + earliestCreationTimestamp + "\n" +
-               "# Latest Completion Timestamp: " + latestCompletionTimestamp;
+        return "# External Total Duration: " + externalTotalDuration + "\n" +
+               "# Internal Total Duration: " + internalTotalDuration + "\n" +
+               "# Internal Average Duration: " + internalAverageDuration + "\n" +
+               "# Internal Median Duration: " + internalMedianDuration + "\n" +
+               "# Internal Standard Deviation Duration: " + internalStandardDeviationDuration + "\n" +
+               "# Internal Shortest Duration: " + internalShortestDuration + "\n" +
+               "# Internal Longest Duration: " + internalLongestDuration + "\n" +
+               "# Internal Earliest Creation Timestamp: " + internalEarliestCreationTimestamp + "\n" +
+               "# Internal Latest Completion Timestamp: " + internalLatestCompletionTimestamp;
     }
 
 }

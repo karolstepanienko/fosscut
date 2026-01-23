@@ -18,6 +18,7 @@ repositories {
 dependencies {
     implementation libs.slf4jApi
     implementation libs.jackson
+    implementation libs.jackson.datatype.jsr310
 }
 
 tasks.named('test') {

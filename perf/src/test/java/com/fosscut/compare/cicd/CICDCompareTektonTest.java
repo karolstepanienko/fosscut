@@ -1,5 +1,7 @@
 package com.fosscut.compare.cicd;
 
+import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -23,15 +25,17 @@ public class CICDCompareTektonTest {
     private static int NUM_PARTS = 100; // Number of task runs to create per run
 
     private TektonCICDUtils tektonCICDUtils;
+    private CICDUtils cicdUtils;
     private List<String> identifiers;
 
-    @Test public void report() {
+    @Test public void report() throws IOException {
+        Instant startTimestamp = cicdUtils.loadStartTimestampFromFile();
         List<CICDReportLine> reportLines = tektonCICDUtils.prepareReportLines(identifiers);
-        CICDReport cicdReport = new CICDReport(reportLines);
-        cicdReport.saveReport(testName);
+        cicdUtils.saveReport(new CICDReport(reportLines, startTimestamp));
     }
 
     @Test public void runJobs() {
+        cicdUtils.saveStartTimestampToFile();
         identifiers.parallelStream().forEach( identifier ->
             tektonCICDUtils.createTaskRun(identifier)
         );
@@ -46,7 +50,8 @@ public class CICDCompareTektonTest {
     @BeforeAll
     void setUp() {
         tektonCICDUtils = new TektonCICDUtils(RUN_ID, NUM_PARTS);
-        identifiers = new CICDUtils(RUN_ID, NUM_PARTS).generateIdentifiers();
+        cicdUtils = new CICDUtils(testName, RUN_ID, NUM_PARTS);
+        identifiers = cicdUtils.generateIdentifiers();
     }
 
     @AfterAll

@@ -9,6 +9,8 @@ public class CICDReportLine {
     public Instant completionTimestamp;
     public Duration duration;
 
+    public CICDReportLine() {}
+
     public CICDReportLine(String name, Instant creationTimestamp, Instant completionTimestamp) {
         this.name = name;
         this.creationTimestamp = creationTimestamp;

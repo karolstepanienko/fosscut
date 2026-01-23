@@ -3,6 +3,7 @@ package com.fosscut.shared.util.save;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ public class YamlDumper {
 
     public String dump(Object object) {
         ObjectMapper yamlMapper = getObjectMapper();
+        yamlMapper.registerModule(new JavaTimeModule());
         yamlMapper.setSerializationInclusion(Include.NON_NULL);
 
         String cuttingPatternString = "";

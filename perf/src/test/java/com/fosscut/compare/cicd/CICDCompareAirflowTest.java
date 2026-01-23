@@ -1,5 +1,7 @@
 package com.fosscut.compare.cicd;
 
+import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -17,14 +19,17 @@ public class CICDCompareAirflowTest {
     private static int NUM_PARTS = 100; // Number of DAG runs to create per run
 
     private AirflowCICDHttpClient httpClient;
+    private CICDUtils cicdUtils;
     private List<String> identifiers;
 
-    @Test public void report() {
-        CICDReport cicdReport = new CICDReport(httpClient.prepareReportLines(identifiers));
-        cicdReport.saveReport(testName);
+    @Test public void report() throws IOException {
+        Instant startTimestamp = cicdUtils.loadStartTimestampFromFile();
+        List<CICDReportLine> reportLines = httpClient.prepareReportLines(identifiers);
+        cicdUtils.saveReport(new CICDReport(reportLines, startTimestamp));
     }
 
     @Test public void runJobs() {
+        cicdUtils.saveStartTimestampToFile();
         RateLimiter limiter = RateLimiter.create(20.0); // 20 requests / second
         identifiers.parallelStream().forEach( identifier -> {
             limiter.acquire();
@@ -43,7 +48,8 @@ public class CICDCompareAirflowTest {
     @BeforeAll
     void setUp() {
         httpClient = new AirflowCICDHttpClient();
-        identifiers = new CICDUtils(RUN_ID, NUM_PARTS).generateIdentifiers();
+        cicdUtils = new CICDUtils(testName, RUN_ID, NUM_PARTS);
+        identifiers = cicdUtils.generateIdentifiers();
     }
 
 }

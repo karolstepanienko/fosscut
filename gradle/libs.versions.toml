@@ -6,6 +6,7 @@ ortools = "9.11.4210"
 junit = "4.13.2"
 picocli = "4.7.6"
 jackson = "2.18.2"
+jackson-datatype-jsr310 = "2.21.0"
 jedis = "5.2.0"
 slf4j = "2.0.16"
 logback = "1.5.16"
@@ -28,6 +29,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
 picoclicodegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
 jackson = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson-datatype-jsr310" }
 jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
 slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }

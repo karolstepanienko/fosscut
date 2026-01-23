@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fosscut.shared.type.cutting.order.Order;
 
 public class YamlLoader {
@@ -22,6 +23,7 @@ public class YamlLoader {
     public <T> T loadClassFromYamlString(String yamlString, Class<T> clazz)
         throws JsonProcessingException {
         ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+        yamlMapper.registerModule(new JavaTimeModule());
         T object = yamlMapper.readValue(yamlString, clazz);
         return object;
     }
