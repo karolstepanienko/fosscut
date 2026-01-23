@@ -1,0 +1,6 @@
+server:
+  nodeSelector:
+    node-role.kubernetes.io/worker: worker
+  persistentVolume:
+    size: 100Gi
+  retentionSize: 90GB
