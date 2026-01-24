@@ -1,5 +1,7 @@
 package com.fosscut.shared.type.cutting.plan;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class Metadata {
     private Integer totalNeededInputLength;
     private Double totalCost;
     private PlanStatus planStatus;
+    private Long memoryUsagePeakBytes;
 
     public Metadata() {
         planStatus = PlanStatus.TIMEOUT;
@@ -46,6 +49,7 @@ public class Metadata {
         calculateTotalNeededInputLength(inputs);
         calculateTotalCost(inputs);
         planStatus = PlanStatus.COMPLETE;
+        memoryUsagePeakBytes = readMemoryUsagePeakBytes();
     }
 
     public Long getElapsedTimeMilliseconds() {
@@ -102,6 +106,10 @@ public class Metadata {
 
     public PlanStatus getPlanStatus() {
         return planStatus;
+    }
+
+    public Long getMemoryUsagePeakBytes() {
+        return memoryUsagePeakBytes;
     }
 
     private void calculateInputCount(List<PlanInput> inputs) {
@@ -275,6 +283,18 @@ public class Metadata {
                     totalCost += inputCost * pattern.getCount();
                 }
             }
+        }
+    }
+
+    private Long readMemoryUsagePeakBytes() {
+        try {
+            return Long.parseLong(
+                Files.readString(
+                    Paths.get("/sys/fs/cgroup/memory.peak")
+                ).trim()
+            );
+        } catch (Exception e) {
+            return null;
         }
     }
 
