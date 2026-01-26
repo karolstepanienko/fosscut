@@ -44,6 +44,13 @@ pod_override = k8s.V1Pod(
                     "/entrypoint"
                 ]
             )
+        ],
+        tolerations = [
+            k8s.V1Toleration(
+                key="node-role.kubernetes.io/control-plane",
+                operator="Exists",
+                effect="NoSchedule"
+            )
         ]
     )
 )
