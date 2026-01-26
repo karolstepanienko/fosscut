@@ -42,6 +42,14 @@ pod_override = k8s.V1Pod(
                     "/usr/bin/dumb-init",
                     "--",
                     "/entrypoint"
+                ],
+                # disable migration check to speed up pod startup
+                # and decrease CPU usage on k8s nodes where pods are scheduled
+                env = [
+                    k8s.V1EnvVar(
+                        name = "AIRFLOW__DATABASE__CHECK_MIGRATIONS",
+                        value = "False"
+                    )
                 ]
             )
         ],
