@@ -50,7 +50,17 @@ pod_override = k8s.V1Pod(
                         name = "AIRFLOW__DATABASE__CHECK_MIGRATIONS",
                         value = "False"
                     )
-                ]
+                ],
+                resources = k8s.V1ResourceRequirements(
+                    requests = {
+                        "cpu": "50m",
+                        "memory": "0"
+                    },
+                    limits = {
+                        "cpu": "20000m",
+                        "memory": "0"
+                    }
+                )
             )
         ],
         tolerations = [
