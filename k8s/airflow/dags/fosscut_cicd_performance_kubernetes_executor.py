@@ -54,11 +54,11 @@ pod_override = k8s.V1Pod(
                 resources = k8s.V1ResourceRequirements(
                     requests = {
                         "cpu": "50m",
-                        "memory": "0"
+                        "memory": "120Mi"
                     },
                     limits = {
                         "cpu": "20000m",
-                        "memory": "0"
+                        "memory": "50Gi"
                     }
                 )
             )
