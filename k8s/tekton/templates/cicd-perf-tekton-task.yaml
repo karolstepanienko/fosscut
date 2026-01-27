@@ -13,3 +13,5 @@ spec:
       script: |
         #!/bin/sh
         echo "CICD performance test. $(params.IDENTIFIER)"
+      computeResources:
+        {{- toYaml .Values.fosscutCICDPerformanceTektonTask.computeResources | nindent 8 -}}

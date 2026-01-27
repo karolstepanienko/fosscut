@@ -39,57 +39,61 @@ public class AirflowCICDHttpClient extends CICDHttpClient {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public List<CICDReportLine> prepareReportLines(List<String> identifiers) {
         List<CICDReportLine> reportLines = new ArrayList<>();
 
-        String json = getDAGs(airflowSecrets.getUrl());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Map<String, Object> root = mapper.readValue(json, Map.class);
-            List<Map<String, Object>> dagRuns = (List<Map<String, Object>>) root.get("dag_runs");
-            for (Map<String, Object> dagRun : dagRuns) {
-                String state = (String) dagRun.get("state");
-                String dagRunId = (String) dagRun.get("dag_run_id");
-                if ((state.equals("success") || state.equals("failed"))
-                    && dagRunStartsWithIdentifier(dagRunId, identifiers)) {
-                    // used as creationTimestamp
-                    String logicalDate = (String) dagRun.get("logical_date");
-                    // both below used as completionTimestamp, whichever will be later
-                    String endDate = (String) dagRun.get("end_date");
-                    String lastSchedulingDecision = (String) dagRun.get("last_scheduling_decision");
+        List<Map<String, Object>> dagRuns = getDAGs(airflowSecrets.getUrl());
+        for (Map<String, Object> dagRun : dagRuns) {
+            String state = (String) dagRun.get("state");
+            String dagRunId = (String) dagRun.get("dag_run_id");
+            if ((state.equals("success") || state.equals("failed"))
+                && dagRunStartsWithIdentifier(dagRunId, identifiers)) {
+                // used as creationTimestamp
+                String logicalDate = (String) dagRun.get("logical_date");
+                // both below used as completionTimestamp, whichever will be later
+                String endDate = (String) dagRun.get("end_date");
+                String lastSchedulingDecision = (String) dagRun.get("last_scheduling_decision");
 
-                    Instant creationTimestamp = Instant.parse(logicalDate);
-                    Instant completionTimestampEndDate = Instant.parse(endDate);
-                    Instant completionTimestampLastSchedulingDecision = Instant.parse(lastSchedulingDecision);
-                    Instant completionTimestamp = completionTimestampEndDate.isAfter(completionTimestampLastSchedulingDecision)
-                        ? completionTimestampEndDate
-                        : completionTimestampLastSchedulingDecision;
+                Instant creationTimestamp = Instant.parse(logicalDate);
+                Instant completionTimestampEndDate = Instant.parse(endDate);
+                Instant completionTimestampLastSchedulingDecision = Instant.parse(lastSchedulingDecision);
+                Instant completionTimestamp = completionTimestampEndDate.isAfter(completionTimestampLastSchedulingDecision)
+                    ? completionTimestampEndDate
+                    : completionTimestampLastSchedulingDecision;
 
-                    reportLines.add(new CICDReportLine(
-                        dagRunId,
-                        creationTimestamp,
-                        completionTimestamp
-                    ));
-                }
+                reportLines.add(new CICDReportLine(
+                    dagRunId,
+                    creationTimestamp,
+                    completionTimestamp
+                ));
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to parse Airflow DAGs JSON", e);
         }
         return reportLines;
     }
 
     public void runDAG(String identifier) throws RuntimeException {
-        runDAGRun(
-            airflowSecrets.getUrl(),
-            airflowSecrets.getBodyJson(identifier),
-            "Failed to trigger Airflow DAG for identifier: " + identifier
-        );
+        boolean triggered = false;
+        while (!triggered) {
+            try {
+                runDAGRun(
+                    airflowSecrets.getUrl(),
+                    airflowSecrets.getBodyJson(identifier),
+                    "Failed to trigger Airflow DAG for identifier: " + identifier
+                );
+                triggered = true;
+            } catch (Exception e) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 
     public List<String> getToDeleteDagRunIds(List<String> identifiers) {
-        String jsonString = getDAGs(airflowSecrets.getUrl());
-        List<String> dagRunIds = extractDagRunIds(jsonString);
+        List<Map<String, Object>> dagRuns = getDAGs(airflowSecrets.getUrl());
+        List<String> dagRunIds = extractDagRunIds(dagRuns);
         return filterToDeleteDagRunIds(identifiers, dagRunIds);
     }
 
@@ -99,8 +103,8 @@ public class AirflowCICDHttpClient extends CICDHttpClient {
 
     public void cleanupLogs() throws RuntimeException {
         // delete existing DAG runs for cleanup DAG
-        String jsonString = getDAGs(airflowSecrets.getCleanupUrl());
-        List<String> dagRunIds = extractDagRunIds(jsonString);
+        List<Map<String, Object>> dagRuns = getDAGs(airflowSecrets.getCleanupUrl());
+        List<String> dagRunIds = extractDagRunIds(dagRuns);
         for (String dagRunId : dagRunIds) {
             deleteDAGRun(airflowSecrets.getCleanupUrl(), dagRunId);
         }
@@ -142,33 +146,58 @@ public class AirflowCICDHttpClient extends CICDHttpClient {
         }
     }
 
-    private String getDAGs(String url) throws RuntimeException {
-        Request request = new Request.Builder()
-                .url(url)
-                .header("Authorization", airflowSecrets.getAuthHeader())
-                .build();
-        return executeApiCall(request, "Failed to get Airflow DAGs");
+    private List<Map<String, Object>> getDAGs(String url) {
+        List<Map<String, Object>> dagRuns = new ArrayList<>();
+        Integer offset = 0;
+        Integer totalEntries = 1; // dummy initial value to enter the loop
+
+        while (offset < totalEntries) {
+            Request request = new Request.Builder()
+                    .url(url + "?offset=" + offset)
+                    .header("Authorization", airflowSecrets.getAuthHeader())
+                    .build();
+            String json = executeApiCall(request, "Failed to get Airflow DAGs");
+            List<Map<String, Object>> extractedDagRuns = extractDagRuns(json);
+            dagRuns.addAll(extractedDagRuns);
+            totalEntries = extractTotalEntries(json);
+            offset += extractedDagRuns.size();
+        }
+
+        return dagRuns;
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> extractDagRunIds(String json) {
-        List<String> toDeleteDagRunIds = new ArrayList<>();
+    private List<Map<String, Object>> extractDagRuns(String json) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String, Object> root = mapper.readValue(json, Map.class);
-            List<Map<String, Object>> dagRuns =
-                (List<Map<String, Object>>) root.get("dag_runs");
-            for (Map<String, Object> dagRun : dagRuns) {
-                String dagRunId = (String) dagRun.get("dag_run_id");
-                String state = (String) dagRun.get("state");
-                if (state.equals("success") || state.equals("failed")) {
-                    toDeleteDagRunIds.add(dagRunId);
-                }
-            }
-            return toDeleteDagRunIds;
+            return (List<Map<String, Object>>) root.get("dag_runs");
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse Airflow DAGs JSON", e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Integer extractTotalEntries(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, Object> root = mapper.readValue(json, Map.class);
+            return (Integer) root.get("total_entries");
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to parse Airflow DAGs JSON", e);
+        }
+    }
+
+    private List<String> extractDagRunIds(List<Map<String, Object>> dagRuns) {
+        List<String> toDeleteDagRunIds = new ArrayList<>();
+        for (Map<String, Object> dagRun : dagRuns) {
+            String dagRunId = (String) dagRun.get("dag_run_id");
+            String state = (String) dagRun.get("state");
+            if (state.equals("success") || state.equals("failed")) {
+                toDeleteDagRunIds.add(dagRunId);
+            }
+        }
+        return toDeleteDagRunIds;
     }
 
     private List<String> filterToDeleteDagRunIds(List<String> identifiers, List<String> dagRunIds) {

@@ -19,6 +19,13 @@ fosscutCICDPerformanceTektonTask:
   name: fosscut-cicd-performance
   repository: karolstepanienko/fosscut-cli-native
   tag: ""
+  computeResources:
+    requests:
+      cpu: "50m"
+      memory: "120Mi"
+    limits:
+      cpu: "20000m"
+      memory: "50Gi"
 
 keystorePath: secrets/keystore.p12
 truststorePath: secrets/truststore.p12

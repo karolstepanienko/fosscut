@@ -176,32 +176,38 @@ public class JenkinsCICDHttpClient extends CICDHttpClient {
         return executeApiCall(request, "Failed to get Jenkins build info for buildId: " + buildId);
     }
 
-    @SuppressWarnings("unchecked")
     private List<String> getAllBuildIds() {
         List<String> allBuildIds = new ArrayList<>();
 
+        int firstBuildNumber = Integer.parseInt(getBuildNumber("firstBuild"));
+        int lastBuildNumber = Integer.parseInt(getBuildNumber("lastBuild"));
+
+        for (int i = firstBuildNumber; i <= lastBuildNumber; i += 1) {
+            allBuildIds.add(String.valueOf(i));
+        }
+
+        return allBuildIds;
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getBuildNumber(String urlFragment) {
         Request request = new Request.Builder()
                 .url(jenkinsSecrets.getUrl() + "/job/"
                     + PerformanceDefaults.CICD_PERFORMANCE_JENKINS_JOB
-                    + "/api/json")
+                    + "/api/json?tree=" + urlFragment + "[number]")
                 .get()
                 .header("Authorization", jenkinsSecrets.getAuthHeader())
                 .header("Content-Type", "application/json")
                 .build();
 
         String json = executeApiCall(request, "Failed to get Jenkins builds");
-
         try {
             Map<String, Object> root = mapper.readValue(json, Map.class);
-            List<Map<String, Object>> builds = (List<Map<String, Object>>) root.get("builds");
-            builds.stream().forEach( build -> {
-                allBuildIds.add(String.valueOf(build.get("number")));
-            });
+            Map<String, Object> build = (Map<String, Object>) root.get(urlFragment);
+            return String.valueOf(build.get("number"));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to parse Airflow DAGs JSON", e);
+            throw new RuntimeException("Failed to parse Jenkins builds JSON", e);
         }
-
-        return allBuildIds;
     }
 
 }

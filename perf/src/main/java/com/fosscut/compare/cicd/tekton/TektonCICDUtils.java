@@ -8,6 +8,7 @@ import com.fosscut.compare.cicd.CICDReportLine;
 import com.fosscut.shared.SharedDefaults;
 import com.fosscut.utils.PerformanceDefaults;
 
+import io.fabric8.kubernetes.api.model.TolerationBuilder;
 import io.fabric8.tekton.client.DefaultTektonClient;
 import io.fabric8.tekton.client.TektonClient;
 import io.fabric8.tekton.v1.ParamBuilder;
@@ -70,6 +71,16 @@ public class TektonCICDUtils {
                     .withName("IDENTIFIER")
                     .withNewValue(identifier)
                     .build())
+                // Toleration cannot be defined in Task definition, only in TaskRun
+                .withNewPodTemplate()
+                    .addToTolerations(
+                        new TolerationBuilder()
+                            .withKey("node-role.kubernetes.io/control-plane")
+                            .withOperator("Exists")
+                            .withEffect("NoSchedule")
+                        .build()
+                    )
+                .endPodTemplate()
             .endSpec()
             .build();
 

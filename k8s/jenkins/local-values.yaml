@@ -3,12 +3,27 @@ controller:
     node-role.kubernetes.io/worker: worker
   resources:
     requests:
-      cpu: "4000m"
-      memory: "10Gi"
+      cpu: "0"
+      memory: "0"
     limits:
-      cpu: "4000m"
-      memory: "10Gi"
+      cpu: "0"
+      memory: "0"
 
 agent:
-  nodeSelector:
-    node-role.kubernetes.io/worker: worker
+  # nodeSelector:
+  #   node-role.kubernetes.io/worker: worker
+  yamlTemplate: |-
+    apiVersion: v1
+    kind: Pod
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+  resources:
+    requests:
+      cpu: 50m
+      memory: "120Mi"
+    limits:
+      cpu: 20000m
+      memory: "50Gi"

@@ -14,8 +14,38 @@ import com.fosscut.compare.cicd.jenkins.JenkinsCICDHttpClient;
 public class CICDCompareJenkinsTest {
 
     private static String testName = "CICDCompareJenkinsTest";
-    private static String RUN_ID = "1"; // Run is a set of data, managed manually
-    private static int NUM_PARTS = 100; // Number of builds to create per run
+    // RUN_ID: Run is a set of data, managed manually
+    // NUM_PARTS: Number of builds to create per run
+
+    private static String RUN_ID = "a"; private static int NUM_PARTS = 50; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "b"; private static int NUM_PARTS = 50; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "c"; private static int NUM_PARTS = 50; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "d"; private static int NUM_PARTS = 50; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "e"; private static int NUM_PARTS = 50; // DONE arch-beta + arch-gamma and cpu and memory request
+
+    // private static String RUN_ID = "a"; private static int NUM_PARTS = 100; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "b"; private static int NUM_PARTS = 100; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "c"; private static int NUM_PARTS = 100; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "d"; private static int NUM_PARTS = 100; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "e"; private static int NUM_PARTS = 100; // DONE arch-beta + arch-gamma and cpu and memory request
+
+    // private static String RUN_ID = "a"; private static int NUM_PARTS = 150; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "b"; private static int NUM_PARTS = 150; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "c"; private static int NUM_PARTS = 150; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "d"; private static int NUM_PARTS = 150; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "e"; private static int NUM_PARTS = 150; // DONE arch-beta + arch-gamma and cpu and memory request
+
+    // private static String RUN_ID = "a"; private static int NUM_PARTS = 200; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "b"; private static int NUM_PARTS = 200; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "c"; private static int NUM_PARTS = 200; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "d"; private static int NUM_PARTS = 200; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "e"; private static int NUM_PARTS = 200; // DONE arch-beta + arch-gamma and cpu and memory request
+
+    // private static String RUN_ID = "a"; private static int NUM_PARTS = 250; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "b"; private static int NUM_PARTS = 250; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "c"; private static int NUM_PARTS = 250; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "d"; private static int NUM_PARTS = 250; // DONE arch-beta + arch-gamma and cpu and memory request
+    // private static String RUN_ID = "e"; private static int NUM_PARTS = 250; // DONE arch-beta + arch-gamma and cpu and memory request
 
     private JenkinsCICDHttpClient httpClient;
     private CICDUtils cicdUtils;
