@@ -1,6 +1,7 @@
 package com.fosscut.shared.type.cutting.plan;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.fosscut.shared.type.cutting.order.OrderOutput;
 import com.fosscut.shared.util.save.YamlDumper;
@@ -12,6 +13,12 @@ public class Plan {
 
     public Plan() {
         this.metadata = new Metadata();
+        this.metadata.calculateMetadataForUnsuccessfulPlan();
+    }
+
+    public Plan(Long timeoutAmount, TimeUnit timeoutUnit) {
+        this.metadata = new Metadata(timeoutUnit.toMillis(timeoutAmount));
+        this.metadata.calculateMetadataForUnsuccessfulPlan();
     }
 
     public Plan(List<PlanInput> inputs, List<OrderOutput> outputs) {

@@ -104,7 +104,7 @@ public abstract class AbstractAlg extends AbstractInputOutputFile {
             validatePlan(cuttingPlan);
         } catch (CompletionException e) {
             if (e.getCause() instanceof TimeoutException) {
-                handlePlan(new Plan()); // print or save info about plan time out
+                handlePlan(new Plan(timeoutAmount, timeoutUnit)); // print or save info about plan time out
                 StringWriter sw = new StringWriter();
                 e.getCause().printStackTrace(new PrintWriter(sw));
                 throw new TimeoutException(

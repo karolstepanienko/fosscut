@@ -1,7 +1,6 @@
 package com.fosscut.compare.gen;
 
 import com.fosscut.utils.CloudCommand;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -10,7 +9,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer;
 
+// DONE retest with collecting memory usage data
 @Execution(ExecutionMode.CONCURRENT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OptimalgenCompare extends GenComparePlot {
@@ -55,6 +56,7 @@ public class OptimalgenCompare extends GenComparePlot {
         assertTrue(cmd.run(LinkedList_of(seeds.get(6)), N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
+    // all 5 failed with a timeout
     @Test @Order(1) public void optimalgenComparex8() throws InterruptedException {
         CloudCommand cmd = new CloudCommand(testName, "x8", orderCommand, planCommand);
         assertTrue(cmd.run(LinkedList_of(seeds.get(7)), N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
@@ -65,6 +67,7 @@ public class OptimalgenCompare extends GenComparePlot {
         assertTrue(cmd.run(LinkedList_of(seeds.get(8)), N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
 
+    // all 5 failed with a timeout
     @Test @Order(1) public void optimalgenComparex10() throws InterruptedException {
         CloudCommand cmd = new CloudCommand(testName, "x10", orderCommand, planCommand);
         assertTrue(cmd.run(LinkedList_of(seeds.get(9)), N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));

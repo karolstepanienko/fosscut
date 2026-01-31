@@ -4,7 +4,7 @@ public class PerformanceDefaults {
 
     // CLI
     public static final String DEFAULT_NAMESPACE = "performance";
-    public static final long DEFAULT_CLOUD_SCHEDULING_TIMEOUT = 8L; // hours
+    public static final long DEFAULT_CLOUD_SCHEDULING_TIMEOUT = 24L; // hours
     public static final long DEFAULT_CLOUD_EXECUTION_TIMEOUT = 10L; // minutes
 
     public static final String CLI_TOOL_PATH = "fosscut";
@@ -31,6 +31,8 @@ public class PerformanceDefaults {
     public static final String GRAPH_X_LABEL_OUTPUT_TYPES = "Liczba typów elementów wyjściowych";
     public static final String GRAPH_Y_LABEL_CPU_TIME = "Średni czas [s]";
     public static final String GRAPH_Y_LABEL_CPU_WASTE = "Średni odpad [\\%]";
+    public static final String GRAPH_Y_LABEL_MEMORY_USAGE_MEBI_BYTES = "Średnie zużycie pamięci [MiB]";
+    public static final String GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES = "Średnie zużycie pamięci [GiB]";
 
     // CICD
     public static final String CICD_PERFORMANCE_TEKTON_TASK_RUN_NAME = "fosscut-cicd-performance";

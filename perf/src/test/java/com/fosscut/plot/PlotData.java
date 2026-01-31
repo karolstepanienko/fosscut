@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fosscut.shared.type.cutting.plan.Plan;
+import com.fosscut.shared.type.cutting.plan.PlanStatus;
 import com.fosscut.shared.util.load.YamlLoader;
 import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsFilesAfter;
@@ -72,6 +73,7 @@ public class PlotData extends ResultsFilesAfter {
     private Map<String, Double> averageMaxTrueTotalWaste;
     private Map<String, Double> averageTotalNeededInputLength;
     private Map<String, Double> averageTotalCost;
+    private Map<String, Double> averageMemoryUsagePeakBytes;
 
     public PlotData(String folderPath) throws IOException {
         super(folderPath);
@@ -146,6 +148,30 @@ public class PlotData extends ResultsFilesAfter {
         return averageTotalCost;
     }
 
+    public Map<String, Double> getAverageMemoryUsagePeakBytes() {
+        return averageMemoryUsagePeakBytes;
+    }
+
+    public Map<String, Double> getAverageMemoryUsagePeakMebiBytes() {
+        Map<String, Double> averageMemoryUsagePeakMebiBytes = new HashMap<>();
+        for (String xAxisLabel : averageMemoryUsagePeakBytes.keySet()) {
+            double bytes = averageMemoryUsagePeakBytes.get(xAxisLabel);
+            double mebiBytes = bytes / (1024.0 * 1024.0);
+            averageMemoryUsagePeakMebiBytes.put(xAxisLabel, mebiBytes);
+        }
+        return averageMemoryUsagePeakMebiBytes;
+    }
+
+    public Map<String, Double> getAverageMemoryUsagePeakGibiBytes() {
+        Map<String, Double> averageMemoryUsagePeakGibiBytes = new HashMap<>();
+        for (String xAxisLabel : averageMemoryUsagePeakBytes.keySet()) {
+            double bytes = averageMemoryUsagePeakBytes.get(xAxisLabel);
+            double gibiBytes = bytes / (1024.0 * 1024.0 * 1024.0);
+            averageMemoryUsagePeakGibiBytes.put(xAxisLabel, gibiBytes);
+        }
+        return averageMemoryUsagePeakGibiBytes;
+    }
+
     private void loadOrderAndPlanPairs() throws IOException {
         orderAndPlanPairs = new HashMap<>();
         for (String xAxisLabel : xAxisLabels) {
@@ -218,37 +244,51 @@ public class PlotData extends ResultsFilesAfter {
         averageOutputCount = new HashMap<>();
         averageTotalWaste = new HashMap<>();
         averageTotalNeededInputLength = new HashMap<>();
+        averageMemoryUsagePeakBytes = new HashMap<>();
         for (String xAxisLabel : xAxisLabels) {
             List<OrderAndPlanPair> pairsForLabel = orderAndPlanPairs.get(xAxisLabel);
 
             double elapsedTimeSum = 0.0;
-            double inputCountSum = 0.0;
-            double outputCountSum = 0.0;
-            double totalWasteSum = 0.0;
-            double totalNeededInputLengthSum = 0.0;
+            Double inputCountSum = 0.0;
+            Double outputCountSum = 0.0;
+            Double totalWasteSum = 0.0;
+            Double totalNeededInputLengthSum = 0.0;
+            double memoryUsagePeakBytesSum = 0.0;
 
             for (OrderAndPlanPair pair : pairsForLabel) {
+                try {
+                    inputCountSum += pair.getPlan().getMetadata().getInputCount();
+                    outputCountSum += pair.getPlan().getMetadata().getOutputCount();
+                    totalWasteSum += pair.getPlan().getMetadata().getTotalWaste();
+                    totalNeededInputLengthSum += pair.getPlan().getMetadata().getTotalNeededInputLength();
+                } catch (NullPointerException e) {
+                    // for plans that finished with a TIMEOUT metadata is missing
+                    inputCountSum = null;
+                    outputCountSum = null;
+                    totalWasteSum = null;
+                    totalNeededInputLengthSum = null;
+                }
                 elapsedTimeSum += pair.getPlan().getMetadata().getElapsedTimeMilliseconds();
-                inputCountSum += pair.getPlan().getMetadata().getInputCount();
-                outputCountSum += pair.getPlan().getMetadata().getOutputCount();
-                totalWasteSum += pair.getPlan().getMetadata().getTotalWaste();
-                totalNeededInputLengthSum += pair.getPlan().getMetadata().getTotalNeededInputLength();
+                memoryUsagePeakBytesSum += pair.getPlan().getMetadata().getMemoryUsagePeakBytes();
             }
+
+            Double localAverageInputCount = inputCountSum != null ? inputCountSum / pairsForLabel.size() : null;
+            averageInputCount.put(xAxisLabel, localAverageInputCount);
+
+            Double localAverageOutputCount = outputCountSum != null ? outputCountSum / pairsForLabel.size() : null;
+            averageOutputCount.put(xAxisLabel, localAverageOutputCount);
+
+            Double localAverageTotalWaste = totalWasteSum != null ? totalWasteSum / pairsForLabel.size() : null;
+            averageTotalWaste.put(xAxisLabel, localAverageTotalWaste);
+
+            Double localAverageTotalNeededInputLength = totalNeededInputLengthSum != null ? totalNeededInputLengthSum / pairsForLabel.size() : null;
+            averageTotalNeededInputLength.put(xAxisLabel, localAverageTotalNeededInputLength);
 
             double localAverageElapsedTime = elapsedTimeSum / pairsForLabel.size();
             averageElapsedTimeMilliseconds.put(xAxisLabel, localAverageElapsedTime);
 
-            double localAverageInputCount = inputCountSum / pairsForLabel.size();
-            averageInputCount.put(xAxisLabel, localAverageInputCount);
-
-            double localAverageOutputCount = outputCountSum / pairsForLabel.size();
-            averageOutputCount.put(xAxisLabel, localAverageOutputCount);
-
-            double localAverageTotalWaste = totalWasteSum / pairsForLabel.size();
-            averageTotalWaste.put(xAxisLabel, localAverageTotalWaste);
-
-            double localAverageTotalNeededInputLength = totalNeededInputLengthSum / pairsForLabel.size();
-            averageTotalNeededInputLength.put(xAxisLabel, localAverageTotalNeededInputLength);
+            double localAverageMemoryUsagePeakBytes = memoryUsagePeakBytesSum / pairsForLabel.size();
+            averageMemoryUsagePeakBytes.put(xAxisLabel, localAverageMemoryUsagePeakBytes);
         }
     }
 
@@ -280,6 +320,11 @@ public class PlotData extends ResultsFilesAfter {
             for (OrderAndPlanPair pair : pairsForLabel) {
                 Integer optimalTotalNeededInputLength = pair.getOrder().getMetadata().getTotalNeededInputLength();
                 Integer calculatedTotalNeededInputLength = pair.getPlan().getMetadata().getTotalNeededInputLength();
+
+                if (isPlanTimeout(pair)) {
+                    // skip plans that finished with TIMEOUT since their calculatedTotalNeededInputLength is null
+                    continue;
+                }
 
                 if (optimalTotalNeededInputLength != null && optimalTotalNeededInputLength > 0) {
                     double percentageWaste = calculateTruePercentageWasteAboveOptimal(
@@ -408,6 +453,11 @@ public class PlotData extends ResultsFilesAfter {
                 Integer localTotalWaste = pair.getPlan().getMetadata().getTotalWaste();
                 Integer localTrueTotalWaste = pair.getPlan().getMetadata().getTrueTotalWaste();
 
+                if (isPlanTimeout(pair)) {
+                    // skip plans that finished with TIMEOUT since their calculatedTotalNeededInputLength is null
+                    continue;
+                }
+
                 trueTotalWastes.add(localTrueTotalWaste == null
                     ? localTotalWaste
                     : localTrueTotalWaste);
@@ -435,24 +485,29 @@ public class PlotData extends ResultsFilesAfter {
 
             averageTrueTotalWaste.put(xAxisLabel,
                 trueTotalWastes.stream().mapToDouble(Integer::doubleValue)
-                    .average().getAsDouble()
+                    .average().orElse(Double.NaN)
             );
 
             averageMinTrueTotalWaste.put(xAxisLabel,
                 minTrueTotalWastes.stream().mapToDouble(Integer::doubleValue)
-                    .average().getAsDouble()
+                    .average().orElse(Double.NaN)
             );
 
             averageMaxTrueTotalWaste.put(xAxisLabel,
                 maxTrueTotalWastes.stream().mapToDouble(Integer::doubleValue)
-                    .average().getAsDouble()
+                    .average().orElse(Double.NaN)
             );
 
             averageTotalCost.put(xAxisLabel,
                 totalCosts.stream().mapToDouble(Double::doubleValue)
-                    .average().orElse(0.0)
+                    .average().orElse(Double.NaN)
             );
         }
+    }
+
+    private boolean isPlanTimeout(OrderAndPlanPair pair) {
+        PlanStatus planStatus = pair.getPlan().getMetadata().getPlanStatus();
+        return planStatus != null && planStatus == PlanStatus.TIMEOUT;
     }
 
 }

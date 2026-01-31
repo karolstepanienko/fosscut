@@ -3,9 +3,17 @@ package com.fosscut.compare.gen;
 import com.fosscut.utils.CloudCommand;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer;
+
+// DONE retest with collecting memory usage data
+@Execution(ExecutionMode.CONCURRENT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CutgenCompare extends GenComparePlot {
 
     private static String testName = "cutgenCompare";
@@ -62,6 +70,5 @@ public class CutgenCompare extends GenComparePlot {
         CloudCommand cmd = new CloudCommand(testName, "x10", orderCommand, planCommand);
         assertTrue(cmd.run(LinkedList_of(seeds.get(9)), N_RUNS_INIT, N_RUNS_WITH_IDENTICAL_SEED_START, N_RUNS_WITH_IDENTICAL_SEED_END));
     }
-
 
 }

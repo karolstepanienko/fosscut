@@ -96,6 +96,11 @@ public class CloudCommand extends ResultsFilesBefore {
                         .runSingleCommand(k8sClient, buildCommand(seed));
                     downloadFromRedis(seed);
                 } catch (InterruptedException | RuntimeException | IOException e) {
+                    try {
+                        downloadFromRedis(seed);
+                    } catch (RuntimeException | IOException ex) {
+                        // ignore
+                    }
                     Thread.currentThread().interrupt();
                     failedRuns++;
                 }

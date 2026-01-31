@@ -29,27 +29,30 @@ public class Metadata {
     private PlanStatus planStatus;
     private Long memoryUsagePeakBytes;
 
-    public Metadata() {
-        planStatus = PlanStatus.TIMEOUT;
-    }
+    public Metadata() {}
 
     public Metadata(Long elapsedTimeMilliseconds) {
         this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
     }
 
     public void calculateMetadata(List<PlanInput> inputs, List<OrderOutput> outputs) {
+        calculateMetadataForUnsuccessfulPlan();
         calculateInputCount(inputs);
         calculateOutputCount(outputs);
         inputTypeCount = inputs.size();
         outputTypeCount = outputs.size();
-        determineTimestamp();
         findUnnecessaryOutputs(inputs, outputs);
         calculateTotalWaste(inputs, outputs);
         if (unnecessaryOutputs != null) calculateTrueTotalWaste(inputs);
         calculateTotalNeededInputLength(inputs);
         calculateTotalCost(inputs);
         planStatus = PlanStatus.COMPLETE;
+    }
+
+    public void calculateMetadataForUnsuccessfulPlan() {
+        determineTimestamp();
         memoryUsagePeakBytes = readMemoryUsagePeakBytes();
+        planStatus = PlanStatus.TIMEOUT;
     }
 
     public Long getElapsedTimeMilliseconds() {
