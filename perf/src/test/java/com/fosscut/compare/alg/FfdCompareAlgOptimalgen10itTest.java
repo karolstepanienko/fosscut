@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
+// DONE retest with collecting memory usage data
 public class FfdCompareAlgOptimalgen10itTest extends CompareAlgOptimalgen10itPlot {
 
     private static String testName = "ffdCompareAlgOptimalgen10itTest";
     // Since FFD is only single-threaded, we use only one thread everywhere
     protected static String planCommand = "ffd --timeout-amount 5 --timeout-unit MINUTES";
+    // MEMORY SETTING UNNECESSARY FOR FFD since usage is very low
 
     /***************************** Results Report *****************************/
 
@@ -148,7 +150,7 @@ public class FfdCompareAlgOptimalgen10itTest extends CompareAlgOptimalgen10itPlo
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x160seedsLinkedHashMap));
+        assertTrue(cmd.run(x160x200seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void ffdCompareAlgOptimalgen10itx170() throws InterruptedException {
@@ -156,7 +158,7 @@ public class FfdCompareAlgOptimalgen10itTest extends CompareAlgOptimalgen10itPlo
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x170seedsLinkedHashMap));
+        assertTrue(cmd.run(x160x200seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void ffdCompareAlgOptimalgen10itx180() throws InterruptedException {
@@ -164,7 +166,7 @@ public class FfdCompareAlgOptimalgen10itTest extends CompareAlgOptimalgen10itPlo
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x180seedsLinkedHashMap));
+        assertTrue(cmd.run(x160x200seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void ffdCompareAlgOptimalgen10itx190() throws InterruptedException {
@@ -172,7 +174,7 @@ public class FfdCompareAlgOptimalgen10itTest extends CompareAlgOptimalgen10itPlo
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x190seedsLinkedHashMap));
+        assertTrue(cmd.run(x160x200seedsLinkedHashMap));
     }
 
     @Test @Order(1) public void ffdCompareAlgOptimalgen10itx200() throws InterruptedException {
@@ -180,7 +182,7 @@ public class FfdCompareAlgOptimalgen10itTest extends CompareAlgOptimalgen10itPlo
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
             orderCommand + " -ot " + outputTypeCount, planCommand
         );
-        assertTrue(cmd.run(x200seedsLinkedHashMap));
+        assertTrue(cmd.run(x160x200seedsLinkedHashMap));
     }
 
 }

@@ -19,55 +19,15 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
 
     // x10 - x150 seeds are inherited from CgCompareSolverOptimalgen10it2inPlot
 
-    protected static LinkedList<Integer> x160seedsLinkedList = LinkedList_of(
+    protected static LinkedList<Integer> x160x200seedsLinkedList = LinkedList_of(
         1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
         12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
         23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
         33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
-        43, 44, 45, 46, 47, 48, 49, 50, 51, 52  // 10 seeds
+        43, 44, 45, 46, 48, 49, 50, 51, 52, 53  // 10 seeds
     );
-    protected static LinkedHashMap<Integer, Integer> x160seedsLinkedHashMap
-        = LinkedHashMapFromList_of(x160seedsLinkedList);
-
-    protected static LinkedList<Integer> x170seedsLinkedList = LinkedList_of(
-        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
-        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
-        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
-        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
-        43, 44, 45, 46, 47, 48, 49, 50, 51, 52  // 10 seeds
-    );
-    protected static LinkedHashMap<Integer, Integer> x170seedsLinkedHashMap
-        = LinkedHashMapFromList_of(x170seedsLinkedList);
-
-    protected static LinkedList<Integer> x180seedsLinkedList = LinkedList_of(
-        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
-        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
-        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
-        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
-        43, 44, 45, 46, 47, 48, 49, 50, 51, 52  // 10 seeds
-    );
-    protected static LinkedHashMap<Integer, Integer> x180seedsLinkedHashMap
-        = LinkedHashMapFromList_of(x180seedsLinkedList);
-
-    protected static LinkedList<Integer> x190seedsLinkedList = LinkedList_of(
-        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
-        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
-        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
-        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
-        43, 44, 45, 46, 47, 48, 49, 50, 51, 52  // 10 seeds
-    );
-    protected static LinkedHashMap<Integer, Integer> x190seedsLinkedHashMap
-        = LinkedHashMapFromList_of(x190seedsLinkedList);
-
-    protected static LinkedList<Integer> x200seedsLinkedList = LinkedList_of(
-        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, // 10 seeds
-        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
-        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
-        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
-        43, 44, 45, 46, 47, 48, 49, 50, 51, 52  // 10 seeds
-    );
-    protected static LinkedHashMap<Integer, Integer> x200seedsLinkedHashMap
-        = LinkedHashMapFromList_of(x200seedsLinkedList);
+    protected static LinkedHashMap<Integer, Integer> x160x200seedsLinkedHashMap
+        = LinkedHashMapFromList_of(x160x200seedsLinkedList);
 
     protected static LinkedHashMap<String, LinkedHashMap<Integer, Integer>> getXAxisLabelSeedsMap() {
         LinkedHashMap<String, LinkedHashMap<Integer, Integer>> xAxisLabelSeedsMap = new LinkedHashMap<>();
@@ -86,11 +46,11 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
         xAxisLabelSeedsMap.put("130", detectDuplicates(x130seedsLinkedHashMap));
         xAxisLabelSeedsMap.put("140", detectDuplicates(x140seedsLinkedHashMap));
         xAxisLabelSeedsMap.put("150", detectDuplicates(x150seedsLinkedHashMap));
-        xAxisLabelSeedsMap.put("160", detectDuplicates(x160seedsLinkedHashMap));
-        xAxisLabelSeedsMap.put("170", detectDuplicates(x170seedsLinkedHashMap));
-        xAxisLabelSeedsMap.put("180", detectDuplicates(x180seedsLinkedHashMap));
-        xAxisLabelSeedsMap.put("190", detectDuplicates(x190seedsLinkedHashMap));
-        xAxisLabelSeedsMap.put("200", detectDuplicates(x200seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("160", detectDuplicates(x160x200seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("170", detectDuplicates(x160x200seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("180", detectDuplicates(x160x200seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("190", detectDuplicates(x160x200seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("200", detectDuplicates(x160x200seedsLinkedHashMap));
         return xAxisLabelSeedsMap;
     }
 
@@ -116,7 +76,31 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "150",
+                null, null, "0", "100",
+                new LinkedList<String>() {{
+                    add("FFD");
+                    add("Greedy (CBC)");
+                    add("CG (CLP, CBC)");
+                }},
+                ffdPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "MemoryUsagePeak.tex",
+                getCombinedXAxisLabelsList(
+                    ffdPlotData.getXAxisLabels(),
+                    greedyPlotData.getXAxisLabels(),
+                    cgPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    // since FFD is only single-threaded, all tests were run
+                    // with solvers using a single thread
+                    ffdPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    greedyPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    cgPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "0.5",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
