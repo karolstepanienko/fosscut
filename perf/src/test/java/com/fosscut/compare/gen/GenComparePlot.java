@@ -56,12 +56,12 @@ public class GenComparePlot extends AbstractTest {
                     optimalgenPlotData.getXAxisLabels()
                 ),
                 getCombinedDataSeries(
-                    cutgenPlotData.getAverageMemoryUsagePeakMebiBytes(),
-                    optimalgenPlotData.getAverageMemoryUsagePeakMebiBytes()
+                    cutgenPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    optimalgenPlotData.getAverageMemoryUsagePeakGibiBytes()
                 ),
                 "Ziarno generatora liczb pseudolosowych",
-                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_MEBI_BYTES,
-                null, null, "200", "2500",
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "2.5",
                 new LinkedList<String>() {{
                     add("CUTGEN1");
                     add("OPTIMALGEN");

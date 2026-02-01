@@ -20,6 +20,7 @@ import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsReport;
 
+// DONE retest with collecting memory usage data
 // PDLP is deterministic with multithreading
 // so the best test would be to just run a set of seeds that produce an order
 // that is not solved optimally by a single-threaded PDLP
@@ -30,7 +31,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
     private static String testName = "cgCPUMultithreadedPDLP";
     private static String orderCommand = "optimalgen -iu 1000 -il 100 -it 5 -ol 0.4 -ou 0.8 -oc 1000 -ot 30 --timeout-amount 10 --timeout-unit SECONDS";
     private static String planCommand = "cg --linear-solver PDLP --integer-solver SCIP --timeout-amount 2 --timeout-unit MINUTES -in 1";
-    private static String memory = "5Gi";
+    private static String memory = "10Gi";
 
     // 150 orders
     // All seeds have been tested to work with PDLP multithreaded
@@ -84,10 +85,9 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
         report.generateReport();
     }
 
-    @Test @Order(2) public void cgCPUMultithreadedPDLPPlot() throws IOException {
+    @Test @Order(2) public void cgCPUMultithreadedPDLPTimePlot() throws IOException {
         PlotData plotData = new PlotData(testName);
 
-        // 10cm height to fill the entire page height-wise when in fosscut-doc
         new XYPlot(testName + "Time.tex",
             plotData.getXAxisLabelsList(),
             plotData.getAverageElapsedTimeSeconds(),
@@ -95,6 +95,10 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
             "10cm", "1", null, "0", "60"
         ).generatePlot();
+    }
+
+    @Test @Order(2) public void cgCPUMultithreadedPDLPWastePercentagePlot() throws IOException {
+        PlotData plotData = new PlotData(testName);
 
         new XYPlot(testName + "WastePercentage.tex",
             plotData.getXAxisLabelsList(),
@@ -103,14 +107,18 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
             "10cm", "1", null, "0.008", "0.016"
         ).generatePlot();
+    }
 
-        // not used in fosscut-doc
-        // new XYPlot(testName + "TotalNeededInputLength.tex",
-        //     plotData.getXAxisLabels(),
-        //     plotData.getAverageTotalNeededInputLength(),
-        //     PerformanceDefaults.GRAPH_X_LABEL_CPU,
-        //     "Średnia całkowita długość zamówienia"
-        // ).generatePlot();
+    @Test @Order(2) public void cgCPUMultithreadedPDLPMemoryUsagePlot() throws IOException {
+        PlotData plotData = new PlotData(testName);
+
+        new XYPlot(testName + "MemoryUsagePeak.tex",
+            plotData.getXAxisLabelsList(),
+            plotData.getAverageMemoryUsagePeakGibiBytes(),
+            PerformanceDefaults.GRAPH_X_LABEL_CPU,
+            PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+            "10cm", "1", null, "0.44", "0.56"
+        ).generatePlot();
     }
 
     /********************************* Tests **********************************/
@@ -121,59 +129,59 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx1() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx1() throws InterruptedException {
         String numThreads = "1";
         CloudCommand cmd = new CloudCommand(testName, "x1", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx2() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx2() throws InterruptedException {
         String numThreads = "2";
         CloudCommand cmd = new CloudCommand(testName, "x2", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx3() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx3() throws InterruptedException {
         String numThreads = "3";
         CloudCommand cmd = new CloudCommand(testName, "x3", orderCommand,
-            planCommand + " -ln " + numThreads, numThreads, memory, false);
+            planCommand + " -ln " + numThreads, numThreads, "10Gi", false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx4() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx4() throws InterruptedException {
         String numThreads = "4";
         CloudCommand cmd = new CloudCommand(testName, "x4", orderCommand,
-            planCommand + " -ln " + numThreads, numThreads, memory, false);
+            planCommand + " -ln " + numThreads, numThreads, "10Gi", false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx5() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx5() throws InterruptedException {
         String numThreads = "5";
         CloudCommand cmd = new CloudCommand(testName, "x5", orderCommand,
-            planCommand + " -ln " + numThreads, numThreads, memory, false);
+            planCommand + " -ln " + numThreads, numThreads, "16Gi", false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx6() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx6() throws InterruptedException {
         String numThreads = "6";
         CloudCommand cmd = new CloudCommand(testName, "x6", orderCommand,
-            planCommand + " -ln " + numThreads, numThreads, memory, false);
+            planCommand + " -ln " + numThreads, numThreads, "16Gi", false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx7() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx7() throws InterruptedException {
         String numThreads = "7";
         CloudCommand cmd = new CloudCommand(testName, "x7", orderCommand,
-            planCommand + " -ln " + numThreads, numThreads, memory, false);
+            planCommand + " -ln " + numThreads, numThreads, "20Gi", false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx8() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx8() throws InterruptedException {
         String numThreads = "8";
         CloudCommand cmd = new CloudCommand(testName, "x8", orderCommand,
-            planCommand + " -ln " + numThreads, numThreads, memory, false);
+            planCommand + " -ln " + numThreads, numThreads, "20Gi", false);
         assertTrue(cmd.run(seeds));
     }
 

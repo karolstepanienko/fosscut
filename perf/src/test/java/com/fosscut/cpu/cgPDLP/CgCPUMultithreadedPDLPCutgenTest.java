@@ -101,56 +101,56 @@ public class CgCPUMultithreadedPDLPCutgenTest extends AbstractTest {
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx1() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx1() throws InterruptedException {
         String numThreads = "1";
         CloudCommand cmd = new CloudCommand(testName, "x1", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx2() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx2() throws InterruptedException {
         String numThreads = "2";
         CloudCommand cmd = new CloudCommand(testName, "x2", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx3() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx3() throws InterruptedException {
         String numThreads = "3";
         CloudCommand cmd = new CloudCommand(testName, "x3", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx4() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx4() throws InterruptedException {
         String numThreads = "4";
         CloudCommand cmd = new CloudCommand(testName, "x4", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx5() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx5() throws InterruptedException {
         String numThreads = "5";
         CloudCommand cmd = new CloudCommand(testName, "x5", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx6() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx6() throws InterruptedException {
         String numThreads = "6";
         CloudCommand cmd = new CloudCommand(testName, "x6", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx7() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx7() throws InterruptedException {
         String numThreads = "7";
         CloudCommand cmd = new CloudCommand(testName, "x7", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
         assertTrue(cmd.run(seeds));
     }
 
-    @Test @Order(1) public void cgCPUMultithreadedSCIPx8() throws InterruptedException {
+    @Test @Order(1) public void cgCPUMultithreadedPDLPx8() throws InterruptedException {
         String numThreads = "8";
         CloudCommand cmd = new CloudCommand(testName, "x8", orderCommand,
             planCommand + " -ln " + numThreads, numThreads, memory, false);
