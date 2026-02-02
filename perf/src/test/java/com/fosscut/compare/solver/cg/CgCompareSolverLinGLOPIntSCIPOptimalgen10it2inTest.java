@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
+// not used in fosscut-doc for now
 public class CgCompareSolverLinGLOPIntSCIPOptimalgen10it2inTest extends CgCompareSolverOptimalgen10it2inPlot {
 
     private static String testName = "cgCompareSolverLinGLOPIntSCIPOptimalgen10it2inTest";

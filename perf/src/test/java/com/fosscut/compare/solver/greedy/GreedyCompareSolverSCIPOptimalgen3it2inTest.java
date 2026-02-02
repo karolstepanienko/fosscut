@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
+// DONE retest with collecting memory usage data
+
 // After try 1:
 // not used in fosscut-doc since it is similar to GreedyCompareSolverSCIPOptimalgen3itTest
 // probably orders are too simple for SCIP multithreaded to show any difference
@@ -17,12 +19,14 @@ import com.fosscut.utils.ResultsReport;
 // increasing input types count to 8 to make orders more complex did not
 // make a difference for SCIP multithreaded
 // Throwing away this test for now, will not be used in fosscut-doc
+// After try 3 with memory measurement:
+// Will be used in fosscut-doc in solver comparison for greedy algorithm
 public class GreedyCompareSolverSCIPOptimalgen3it2inTest extends GreedyCompareSolverOptimalgen3itPlot {
 
     private static String testName = "greedyCompareSolverSCIPOptimalgen3it2in";
     protected static String planCommand = "greedy --integer-solver SCIP -in 2 --timeout-amount 5 --timeout-unit MINUTES";
     private static String cpu = "2";
-    private static String memory = "5Gi";
+    private static String memory = "8Gi"; // MEMORY SETTING READY
 
     private static int N_RUNS_INIT = 1000; // larger than range to accommodate for future increases
     private static int N_RUNS_WITH_IDENTICAL_SEED_START = 1;

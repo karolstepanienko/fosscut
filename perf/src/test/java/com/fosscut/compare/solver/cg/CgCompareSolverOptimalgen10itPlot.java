@@ -182,6 +182,83 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
     protected static LinkedHashMap<Integer, Integer> x150seedsLinkedHashMap
         = LinkedHashMapFromList_of(x150seedsLinkedList);
 
+    // PDLP-SCIP x160 had timeouts for seeds:
+    // 7, 23, 27, 44, 59
+    // could not generate an order for seeds:
+    // 56
+    // GLOP-SCIP UNFEASIBLE for seeds:
+    // 10
+    protected static LinkedList<Integer> x160seedsLinkedList = LinkedList_of(
+        1, 2, 4, 5, 6, 54, 8, 9, 60, 11, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
+        55, 24, 25, 26, 58, 28, 29, 30, 31, 32, // 10 seeds
+        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
+        43, 57, 45, 46, 48, 49, 50, 51, 52, 53  // 10 seeds
+    );
+    protected static LinkedHashMap<Integer, Integer> x160seedsLinkedHashMap
+        = LinkedHashMapFromList_of(x160seedsLinkedList);
+
+    // PDLP-SCIP x170 had timeouts for seeds:
+    // 7, 12, 17, 37, 41, 54, 59, 61
+    // could not generate an order for seeds:
+    // 56
+    // PDLP-SCIP UNFEASIBLE for seeds:
+    // 42
+    // GLOP-SCIP UNFEASIBLE for seeds:
+    // 8
+    protected static LinkedList<Integer> x170seedsLinkedList = LinkedList_of(
+        1, 2, 4, 5, 6, 60, 64, 9, 10, 11, // 10 seeds
+        55, 13, 14, 15, 16, 63, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        33, 34, 35, 36, 57, 38, 39, 40, 58, 62, // 10 seeds
+        43, 44, 45, 46, 48, 49, 50, 51, 52, 53  // 10 seeds
+    );
+    protected static LinkedHashMap<Integer, Integer> x170seedsLinkedHashMap
+        = LinkedHashMapFromList_of(x170seedsLinkedList);
+
+    // PDLP-SCIP x180 had timeouts for seeds:
+    // 8, 13, 20, 35, 38, 44, 51, 58
+    // could not generate an order for seeds:
+    // 56
+    protected static LinkedList<Integer> x180seedsLinkedList = LinkedList_of(
+        1, 2, 4, 5, 6, 7, 54, 9, 10, 11, // 10 seeds
+        12, 55, 14, 15, 16, 17, 18, 19, 61, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        33, 34, 57, 36, 37, 62, 39, 40, 41, 42, // 10 seeds
+        43, 59, 45, 46, 48, 49, 50, 60, 52, 53  // 10 seeds
+    );
+    protected static LinkedHashMap<Integer, Integer> x180seedsLinkedHashMap
+        = LinkedHashMapFromList_of(x180seedsLinkedList);
+
+    // PDLP-SCIP x190 had timeouts for seeds:
+    // 11, 20, 32, 38, 44, 48
+    // GLOP-SCIP x200 had timeouts for seeds:
+    // 53
+    // could not generate an order for seeds:
+    // 56
+    protected static LinkedList<Integer> x190seedsLinkedList = LinkedList_of(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 54, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 19, 55, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 60, // 10 seeds
+        33, 34, 35, 36, 37, 57, 39, 40, 41, 42, // 10 seeds
+        43, 58, 45, 46, 59, 49, 50, 51, 52, 61  // 10 seeds
+    );
+    protected static LinkedHashMap<Integer, Integer> x190seedsLinkedHashMap
+        = LinkedHashMapFromList_of(x190seedsLinkedList);
+
+    // PDLP-SCIP x200 had timeouts for seeds:
+    // 1, 6, 11, 44, 49, 52, 59
+    // could not generate an order for seeds:
+    // 56
+    protected static LinkedList<Integer> x200seedsLinkedList = LinkedList_of(
+        54, 2, 4, 5, 55, 7, 8, 9, 10, 60, // 10 seeds
+        12, 13, 14, 15, 16, 17, 18, 19, 20, 22, // 10 seeds
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // 10 seeds
+        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // 10 seeds
+        43, 57, 45, 46, 48, 58, 50, 51, 61, 53  // 10 seeds
+    );
+    protected static LinkedHashMap<Integer, Integer> x200seedsLinkedHashMap
+        = LinkedHashMapFromList_of(x200seedsLinkedList);
 
     protected static LinkedHashMap<String, LinkedHashMap<Integer, Integer>> getXAxisLabelSeedsMap() {
         LinkedHashMap<String, LinkedHashMap<Integer, Integer>> xAxisLabelSeedsMap = new LinkedHashMap<>();
@@ -196,6 +273,11 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
         xAxisLabelSeedsMap.put("130", detectDuplicates(x130seedsLinkedHashMap));
         xAxisLabelSeedsMap.put("140", detectDuplicates(x140seedsLinkedHashMap));
         xAxisLabelSeedsMap.put("150", detectDuplicates(x150seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("160", detectDuplicates(x160seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("170", detectDuplicates(x170seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("180", detectDuplicates(x180seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("190", detectDuplicates(x190seedsLinkedHashMap));
+        xAxisLabelSeedsMap.put("200", detectDuplicates(x200seedsLinkedHashMap));
         return xAxisLabelSeedsMap;
     }
 
@@ -219,7 +301,29 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "120",
+                null, null, "0", "150",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                    add("PDLP");
+                }},
+                clpPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "MemoryUsagePeak.tex",
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels(),
+                    pdlpPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    clpPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    glopPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    pdlpPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, null, "0.5",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -270,7 +374,29 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "40",
+                null, null, "0", "60",
+                new LinkedList<String>() {{
+                    add("CLP");
+                    add("GLOP");
+                    add("PDLP");
+                }},
+                clpPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "MemoryUsagePeak.tex",
+                getCombinedXAxisLabelsList(
+                    clpPlotData.getXAxisLabels(),
+                    glopPlotData.getXAxisLabels(),
+                    pdlpPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    clpPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    glopPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    pdlpPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, null, "5",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -328,7 +454,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "40",
+                null, null, "0", "60",
                 new LinkedList<String>() {{
                     add("CLP - CBC");
                     add("CLP - SCIP");
@@ -349,7 +475,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "40",
+                null, null, "0", "60",
                 new LinkedList<String>() {{
                     add("GLOP - CBC");
                     add("GLOP - SCIP");
@@ -370,7 +496,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "100",
+                null, null, "0", "150",
                 new LinkedList<String>() {{
                     add("PDLP - CBC");
                     add("PDLP - SCIP");
@@ -379,6 +505,73 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
             )
         );
         new XYPlot(testName + "Time.tex", timeAxesList).generatePlot();
+
+        // Memory usage plot
+        LinkedList<Axis> memoryAxesList = new LinkedList<>();
+        // CLP - CBC vs CLP - SCIP
+        memoryAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    clpCbcPlotData.getXAxisLabels(),
+                    clpScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    clpCbcPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    clpScipPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "6",
+                new LinkedList<String>() {{
+                    add("CLP - CBC");
+                    add("CLP - SCIP");
+                }},
+                clpCbcPlotData.getXAxisLabels()
+            )
+        );
+        // GLOP - CBC vs GLOP - SCIP
+        memoryAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    glopCbcPlotData.getXAxisLabels(),
+                    glopScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    glopCbcPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    glopScipPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "6",
+                new LinkedList<String>() {{
+                    add("GLOP - CBC");
+                    add("GLOP - SCIP");
+                }},
+                glopCbcPlotData.getXAxisLabels()
+            )
+        );
+        // PDLP - CBC vs PDLP - SCIP
+        memoryAxesList.add(
+            new Axis(
+                getCombinedXAxisLabelsList(
+                    pdlpCbcPlotData.getXAxisLabels(),
+                    pdlpScipPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    pdlpCbcPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    pdlpScipPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "6",
+                new LinkedList<String>() {{
+                    add("PDLP - CBC");
+                    add("PDLP - SCIP");
+                }},
+                pdlpCbcPlotData.getXAxisLabels()
+            )
+        );
+        new XYPlot(testName + "MemoryUsagePeak.tex", memoryAxesList).generatePlot();
 
         // Waste plot
         LinkedList<Axis> wasteAxesList = new LinkedList<>();
@@ -395,7 +588,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.006",
+                null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("CLP - CBC");
                     add("CLP - SCIP");
@@ -416,7 +609,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.006",
+                null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("GLOP - CBC");
                     add("GLOP - SCIP");
@@ -437,7 +630,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.006",
+                null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("PDLP - CBC");
                     add("PDLP - SCIP");

@@ -75,6 +75,7 @@ public class CgCompareSolverOptimalgen10it2inPlot extends CgCompareSolverOptimal
     }
 
 
+    // not used in fosscut-doc for now
     @Test public void cgCompareCLPAndGlopWithSCIPOptimalgen10it2inPlot() throws IOException {
         String testName = "cgCompareCLPAndGLOPWithSCIPOptimalgen10it2inPlot";
         PlotData clpPlotData = new PlotData("cgCompareSolverLinCLPIntSCIPOptimalgen10it2inTest");

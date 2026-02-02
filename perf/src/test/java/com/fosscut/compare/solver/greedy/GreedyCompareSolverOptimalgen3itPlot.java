@@ -36,9 +36,31 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                     scipPlotData.getAverageElapsedTimeSeconds(),
                     scip2ThreadsPlotData.getAverageElapsedTimeSeconds()
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
                 null, null, "0", "100",
+                new LinkedList<String>() {{
+                    add("CBC");
+                    add("SCIP");
+                    add("SCIP - 2 wątki");
+                }},
+                cbcPlotData.getXAxisLabels()
+        ).generatePlot();
+
+        new XYPlot(testName + "MemoryUsagePeak.tex",
+                getCombinedXAxisLabelsList(
+                    cbcPlotData.getXAxisLabels(),
+                    scipPlotData.getXAxisLabels(),
+                    scip2ThreadsPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    cbcPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    scipPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    scip2ThreadsPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "5",
                 new LinkedList<String>() {{
                     add("CBC");
                     add("SCIP");
@@ -59,7 +81,7 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                     // only SCIP 2 threads uses best per seed average
                     scip2ThreadsPlotData.getAverageBestPerSeedPercentageTrueWasteAboveOptimal(10)
                 ),
-                "Liczba typów elementów wyjściowych",
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
                 null, null, "3", "5",
                 new LinkedList<String>() {{

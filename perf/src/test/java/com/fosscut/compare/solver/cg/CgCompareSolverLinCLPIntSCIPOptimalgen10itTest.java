@@ -8,10 +8,13 @@ import org.junit.jupiter.api.Test;
 import com.fosscut.utils.CloudCommand;
 import com.fosscut.utils.ResultsReport;
 
+// DONE retest with collecting memory usage data
 public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSolverOptimalgen10itPlot {
 
     private static String testName = "cgCompareSolverLinCLPIntSCIPOptimalgen10itTest";
     protected static String planCommand = "cg --linear-solver CLP --integer-solver SCIP -ln 1 -in 1 --timeout-amount 5 --timeout-unit MINUTES";
+    private static String cpu = "1";
+    private static String memory = "6Gi"; // MEMORY SETTING READY
 
     /***************************** Results Report *****************************/
 
@@ -25,7 +28,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx50() throws InterruptedException {
         String outputTypeCount = "50";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x50seedsLinkedHashMap));
     }
@@ -33,7 +36,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx60() throws InterruptedException {
         String outputTypeCount = "60";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x60seedsLinkedHashMap));
     }
@@ -41,7 +44,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx70() throws InterruptedException {
         String outputTypeCount = "70";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x70seedsLinkedHashMap));
     }
@@ -49,7 +52,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx80() throws InterruptedException {
         String outputTypeCount = "80";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x80seedsLinkedHashMap));
     }
@@ -57,7 +60,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx90() throws InterruptedException {
         String outputTypeCount = "90";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x90seedsLinkedHashMap));
     }
@@ -65,7 +68,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx100() throws InterruptedException {
         String outputTypeCount = "100";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x100seedsLinkedHashMap));
     }
@@ -73,7 +76,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx110() throws InterruptedException {
         String outputTypeCount = "110";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x110seedsLinkedHashMap));
     }
@@ -81,7 +84,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx120() throws InterruptedException {
         String outputTypeCount = "120";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x120seedsLinkedHashMap));
     }
@@ -89,7 +92,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx130() throws InterruptedException {
         String outputTypeCount = "130";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x130seedsLinkedHashMap));
     }
@@ -97,7 +100,7 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx140() throws InterruptedException {
         String outputTypeCount = "140";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x140seedsLinkedHashMap));
     }
@@ -105,9 +108,49 @@ public class CgCompareSolverLinCLPIntSCIPOptimalgen10itTest extends CgCompareSol
     @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx150() throws InterruptedException {
         String outputTypeCount = "150";
         CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
-            orderCommand + " -ot " + outputTypeCount, planCommand
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
         );
         assertTrue(cmd.run(x150seedsLinkedHashMap));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx160() throws InterruptedException {
+        String outputTypeCount = "160";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x160seedsLinkedHashMap));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx170() throws InterruptedException {
+        String outputTypeCount = "170";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x170seedsLinkedHashMap));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx180() throws InterruptedException {
+        String outputTypeCount = "180";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x180seedsLinkedHashMap));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx190() throws InterruptedException {
+        String outputTypeCount = "190";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x190seedsLinkedHashMap));
+    }
+
+    @Test @Order(1) public void cgCompareSolverLinCLPIntSCIPOptimalgen10itx200() throws InterruptedException {
+        String outputTypeCount = "200";
+        CloudCommand cmd = new CloudCommand(testName, "x" + outputTypeCount,
+            orderCommand + " -ot " + outputTypeCount, planCommand, cpu, memory
+        );
+        assertTrue(cmd.run(x200seedsLinkedHashMap));
     }
 
 }
