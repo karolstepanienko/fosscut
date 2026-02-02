@@ -115,6 +115,32 @@ public class Axis {
         this.xtickLabels = xtickLabels;
     }
 
+    public Axis(
+        LinkedList<LinkedList<String>> xAxisLabelsList,
+        LinkedList<Map<String, Double>> dataSeries,
+        String xLabel,
+        String yLabel,
+        String height,
+        String xMin,
+        String xMax,
+        String yMin,
+        String yMax,
+        LinkedList<String> legendEntries,
+        LinkedList<String> xtickLabels
+    ) {
+        this.xAxisLabelsList = xAxisLabelsList;
+        this.dataSeries = dataSeries;
+        this.xLabel = xLabel;
+        this.yLabel = yLabel;
+        this.height = height;
+        this.xMin = xMin;
+        this.xMax = xMax;
+        this.yMin = yMin;
+        this.yMax = yMax;
+        this.legendEntries = legendEntries;
+        this.xtickLabels = xtickLabels;
+    }
+
     public String generateAxis(Integer axisId, boolean includeAt, boolean includeXLabel) {
         StringBuilder tikzContent = new StringBuilder();
         tikzContent.append(startAxis());

@@ -86,6 +86,29 @@ public class XYPlot {
 
     public XYPlot(
         String filePath,
+        LinkedList<LinkedList<String>> xAxisLabelsList,
+        LinkedList<Map<String, Double>> dataSeries,
+        String xLabel,
+        String yLabel,
+        String height,
+        String xMin,
+        String xMax,
+        String yMin,
+        String yMax,
+        LinkedList<String> legendEntries,
+        LinkedList<String> xtickLabels
+    ) {
+        this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;
+        this.axesList = new LinkedList<>();
+        this.axesList.add(new Axis(
+            xAxisLabelsList, dataSeries, xLabel, yLabel,
+            height, xMin, xMax, yMin, yMax,
+            legendEntries, xtickLabels
+        ));
+    }
+
+    public XYPlot(
+        String filePath,
         LinkedList<Axis> axesList
     ) {
         this.filePath = PerformanceDefaults.RESULTS_PLOT_PATH + filePath;

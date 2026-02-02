@@ -323,7 +323,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, null, "0.5",
+                "10cm", null, null, null, "0.5",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -345,7 +345,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.006",
+                "10cm", null, null, "0", "0.006",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -396,7 +396,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, null, "5",
+                "9cm", null, null, null, "5",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -418,7 +418,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.008",
+                "9cm", null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
