@@ -54,6 +54,8 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
         return xAxisLabelSeedsMap;
     }
 
+    // since FFD is only single-threaded, all tests were run
+    // with solvers using a single thread
     @Test public void compareAlgCBCOptimalgen10itPlot() throws IOException {
         String testName = "compareAlgCBCOptimalgen10itPlot";
         PlotData ffdPlotData = new PlotData("ffdCompareAlgOptimalgen10itTest");
@@ -92,8 +94,6 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                     cgPlotData.getXAxisLabels()
                 ),
                 getCombinedDataSeries(
-                    // since FFD is only single-threaded, all tests were run
-                    // with solvers using a single thread
                     ffdPlotData.getAverageMemoryUsagePeakGibiBytes(),
                     greedyPlotData.getAverageMemoryUsagePeakGibiBytes(),
                     cgPlotData.getAverageMemoryUsagePeakGibiBytes()
@@ -116,8 +116,6 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                     cgPlotData.getXAxisLabels()
                 ),
                 getCombinedDataSeries(
-                    // since FFD is only single-threaded, all tests were run
-                    // with solvers using a single thread
                     ffdPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     greedyPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     cgPlotData.getAveragePercentageTrueWasteAboveOptimal()
@@ -134,17 +132,19 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
         ).generatePlot();
     }
 
-    // not used in fosscut-doc, since some data is missing on that plot
-    // CBC one is used instead
     @Test public void compareAlgSCIPOptimalgen10itPlot() throws IOException {
         String testName = "compareAlgSCIPOptimalgen10itPlot";
         PlotData ffdPlotData = new PlotData("ffdCompareAlgOptimalgen10itTest");
         PlotData greedyPlotData = new PlotData("greedyCompareAlgSCIPOptimalgen10itTest");
         PlotData cgPlotData = new PlotData("cgCompareAlgSCIPOptimalgen10itTest");
 
+        // Before memory limit increase:
         // ffd solved all orders
         // greedy solved all orders until x130 where a lot of timeouts and OOMs started happening
         // cg solved all orders until x170 where a timeouts and OOMs started happening
+        // After memory limit increase:
+        // after increasing memory limit for both greedy (SCIP) and cg (CLP - SCIP),
+        // they both solved all orders until x200
 
         new XYPlot(testName + "Time.tex",
                 getCombinedXAxisLabelsList(
@@ -168,6 +168,28 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ffdPlotData.getXAxisLabels()
         ).generatePlot();
 
+        new XYPlot(testName + "MemoryUsagePeak.tex",
+                getCombinedXAxisLabelsList(
+                    ffdPlotData.getXAxisLabels(),
+                    greedyPlotData.getXAxisLabels(),
+                    cgPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    ffdPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    greedyPlotData.getAverageMemoryUsagePeakGibiBytes(),
+                    cgPlotData.getAverageMemoryUsagePeakGibiBytes()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
+                null, null, "0", "6",
+                new LinkedList<String>() {{
+                    add("FFD");
+                    add("Greedy (SCIP)");
+                    add("CG (CLP, SCIP)");
+                }},
+                ffdPlotData.getXAxisLabels()
+        ).generatePlot();
+
         new XYPlot(testName + "WastePercentage.tex",
                 getCombinedXAxisLabelsList(
                     ffdPlotData.getXAxisLabels(),
@@ -175,8 +197,6 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                     cgPlotData.getXAxisLabels()
                 ),
                 getCombinedDataSeries(
-                    // since FFD is only single-threaded, all tests were run
-                    // with solvers using a single thread
                     ffdPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     greedyPlotData.getAveragePercentageTrueWasteAboveOptimal(),
                     cgPlotData.getAveragePercentageTrueWasteAboveOptimal()
