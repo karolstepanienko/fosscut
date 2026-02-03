@@ -122,7 +122,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "1.2",
+                "10cm", null, null, "0", "1.2",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
@@ -203,13 +203,38 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "1.2",
+                "10cm", null, null, "0", "1.2",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (SCIP)");
                     add("CG (CLP, SCIP)");
                 }},
                 ffdPlotData.getXAxisLabels()
+        ).generatePlot();
+    }
+
+    @Test public void cgCompareAlgOptimalgen10itPlotWastePercentage() throws IOException {
+        String testName = "cgCompareAlgOptimalgen10itPlot";
+        PlotData cgCBCPlotData = new PlotData("cgCompareAlgCBCOptimalgen10itTest");
+        PlotData cgSCIPPlotData = new PlotData("cgCompareAlgSCIPOptimalgen10itTest");
+
+        new XYPlot(testName + "WastePercentage.tex",
+                getCombinedXAxisLabelsList(
+                    cgCBCPlotData.getXAxisLabels(),
+                    cgSCIPPlotData.getXAxisLabels()
+                ),
+                getCombinedDataSeries(
+                    cgCBCPlotData.getAveragePercentageTrueWasteAboveOptimal(),
+                    cgSCIPPlotData.getAveragePercentageTrueWasteAboveOptimal()
+                ),
+                PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
+                PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
+                "10cm", null, null, "0", "0.008",
+                new LinkedList<String>() {{
+                    add("CG (CLP, CBC)");
+                    add("CG (CLP, SCIP)");
+                }},
+                cgCBCPlotData.getXAxisLabels()
         ).generatePlot();
     }
 
