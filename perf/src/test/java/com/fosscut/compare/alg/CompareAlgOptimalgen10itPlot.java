@@ -122,7 +122,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "0", "1.2",
+                "9cm", null, null, "0", "1.2",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
