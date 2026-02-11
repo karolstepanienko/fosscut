@@ -88,6 +88,17 @@ public class CloudCommand extends ResultsFilesBefore {
         return runAllGivenSeeds(finalSeedsMap);
     }
 
+    public boolean run(LinkedList<Integer> seeds, int nRunsInit, int nRunsStep,
+        int eachSeedRunsStart, int eachSeedRunsEnd)
+    throws InterruptedException {
+        LinkedHashMap<Integer, Integer> finalSeedsMap = generateFinalSeedsMap(
+            seeds, nRunsInit, nRunsStep, eachSeedRunsStart, eachSeedRunsEnd);
+        finalSeedsMap = removeAlreadyExecutedRuns(
+            seeds, finalSeedsMap, nRunsInit, nRunsStep,
+            eachSeedRunsStart, eachSeedRunsEnd);
+        return runAllGivenSeeds(finalSeedsMap);
+    }
+
     private boolean runAllGivenSeeds(LinkedHashMap<Integer, Integer> seeds) throws InterruptedException {
         try (KubernetesClient k8sClient = new KubernetesClientBuilder().build()) {
             seeds.entrySet().parallelStream().forEach(seed -> {
@@ -144,6 +155,23 @@ public class CloudCommand extends ResultsFilesBefore {
     ) {
         ResultsReport report = new ResultsReport(testName, new ArrayList<>(),
             seeds, nRunsInit, eachSeedRunsStart, eachSeedRunsEnd
+        );
+        report.generateReportData();
+        LinkedHashMap<Integer, Integer> missingSeedsRuns =
+            report.getMissingRuns().get(xAxisLabel.substring(1));
+
+        if (missingSeedsRuns == null) return finalSeedsMap;
+        else return missingSeedsRuns;
+    }
+
+    private LinkedHashMap<Integer, Integer> removeAlreadyExecutedRuns(
+        LinkedList<Integer> seeds,
+        LinkedHashMap<Integer, Integer> finalSeedsMap,
+        int nRunsInit, int nRunsStep,
+        int eachSeedRunsStart, int eachSeedRunsEnd
+    ) {
+        ResultsReport report = new ResultsReport(testName, new ArrayList<>(),
+            seeds, nRunsInit, nRunsStep, eachSeedRunsStart, eachSeedRunsEnd
         );
         report.generateReportData();
         LinkedHashMap<Integer, Integer> missingSeedsRuns =

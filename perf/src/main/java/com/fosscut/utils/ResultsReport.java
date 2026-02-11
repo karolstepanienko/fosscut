@@ -57,6 +57,16 @@ public class ResultsReport extends ResultsFilesAfter {
     }
 
     public ResultsReport(String testName,
+        List<String> ignoredXAxisLabels,
+        LinkedList<Integer> seeds,
+        int nRunsInit, int nRunsStep,
+        int eachSeedRunsStart, int eachSeedRunsEnd) {
+        super(testName);
+        this.ignoredXAxisLabels = ignoredXAxisLabels;
+        this.xAxisLabelsSeedsMap = generateXAxisLabelsSeedsMap(generateFinalSeedsMap(seeds, nRunsInit, nRunsStep, eachSeedRunsStart, eachSeedRunsEnd));
+    }
+
+    public ResultsReport(String testName,
         LinkedHashMap<String, LinkedHashMap<Integer, Integer>> xAxisLabelSeedsMap) {
         super(testName);
         this.ignoredXAxisLabels = new ArrayList<>();

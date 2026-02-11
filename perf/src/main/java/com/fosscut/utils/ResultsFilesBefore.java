@@ -35,6 +35,23 @@ public abstract class ResultsFilesBefore {
         return newSeedsMap;
     }
 
+    public static LinkedHashMap<Integer, Integer> generateFinalSeedsMap(
+        LinkedList<Integer> seeds, int nRunsInit, int nRunsStep,
+        int eachSeedRunsStart, int eachSeedRunsEnd
+    ) {
+        LinkedHashMap<Integer, Integer> newSeedsMap = new LinkedHashMap<>();
+        int run = nRunsInit;
+        for (Integer seed : seeds) {
+            run += eachSeedRunsStart;
+            for (int i = eachSeedRunsStart; i <= eachSeedRunsEnd; i++) {
+                newSeedsMap.put(run, seed);
+                run++;
+            }
+            run += nRunsStep - eachSeedRunsEnd - 1;
+        }
+        return newSeedsMap;
+    }
+
     protected String getRedisKey(String testName, String xAxisLabel, Map.Entry<Integer, Integer> seed) {
         return testName + xAxisLabel + getRunIdentifier(seed);
     }
