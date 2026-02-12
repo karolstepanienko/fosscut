@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeoutException;
 
+import com.fosscut.alg.gen.RelaxApplicator;
 import com.fosscut.alg.gen.cut.CutGenAlg;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.order.Order;
@@ -59,7 +60,14 @@ public class CutGen extends AbstractGen {
             outputCount,
             seed
         );
-        return cutGenAlg.nextOrder();
+        Order order = cutGenAlg.nextOrder();
+        RelaxApplicator relaxApplicator = new RelaxApplicator(
+            outputTypesToRelaxPercentage,
+            outputTypeLengthRelaxPercentage,
+            seed
+        );
+        relaxApplicator.relaxOrderOutputs(order.getOutputs());
+        return order;
     }
 
     private void handleOrderFuture(CompletableFuture<Order> future)

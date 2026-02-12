@@ -43,4 +43,8 @@ public class Messages {
         + " (with integer constraints) using an integer solver."
         + " Most solvers are single-threaded by default.";
 
+    public static final String RELAX_APPLY_NULL_ERROR = "Both --output-types-to-relax-percentage and --output-type-length-relax-percentage must be defined or both must be null.";
+    public static final String RELAX_APPLY_PERCENTAGE_ERROR = "Percentages must be between 0 and 100.";
+    public static final String RELAX_APPLY_NO_RELAX_APPLIED = "No output types were relaxed. Consider increasing the percentage of output types to relax.";
+
 }

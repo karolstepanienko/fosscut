@@ -128,4 +128,39 @@ public class CutGen {
         );
     }
 
+    @Test public void cutgenRelax() throws IOException {
+        String testFileName = "cutgenRelax";
+        Command command = new Command("cutgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 5 --seed 1 -otrp 20 -otlrp 10 -o " + testFileName);
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assertEquals(
+            Utils.loadFile(TestDefaults.CUTGEN_RELAX),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
+    @Test public void cutgenRelaxNullError() throws IOException {
+        String testFileName = "cutgenRelaxNullError";
+        Command command = new Command("cutgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 5 --seed 1 -otrp 1 -o " + testFileName);
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getError().contains(Messages.RELAX_APPLY_NULL_ERROR));
+    }
+
+    @Test public void cutgenRelaxPercentageError() throws IOException {
+        String testFileName = "cutgenRelaxPercentageError";
+        Command command = new Command("cutgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 5 --seed 1 -otrp 10 -otlrp 110 -o " + testFileName);
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getError().contains(Messages.RELAX_APPLY_PERCENTAGE_ERROR));
+    }
+
+    @Test public void cutgenNoRelaxAppliedError() throws IOException {
+        String testFileName = "cutgenNoRelaxAppliedError";
+        Command command = new Command("cutgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 5 --seed 1 -otrp 1 -otlrp 1 -o " + testFileName);
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getError().contains(Messages.RELAX_APPLY_NO_RELAX_APPLIED));
+    }
+
 }

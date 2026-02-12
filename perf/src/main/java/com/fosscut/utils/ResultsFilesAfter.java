@@ -53,7 +53,7 @@ public class ResultsFilesAfter extends ResultsFilesBefore {
         for (File file : planFiles) {
             String fileName = file.getName();
             String[] xParts = fileName.split("x");
-            String label = xParts[1].split(PerformanceDefaults.RESULTS_RUN_PREFIX)[0];
+            String label = xParts[xParts.length - 1].split(PerformanceDefaults.RESULTS_RUN_PREFIX)[0];
             xAxisLabelsSet.add(label);
         }
 

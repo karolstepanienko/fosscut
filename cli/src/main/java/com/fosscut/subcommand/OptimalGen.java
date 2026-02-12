@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeoutException;
 
+import com.fosscut.alg.gen.RelaxApplicator;
 import com.fosscut.alg.gen.optimal.OptimalGenAlg;
 import com.fosscut.shared.exception.FosscutException;
 import com.fosscut.shared.type.cutting.plan.Plan;
@@ -65,7 +66,14 @@ public class OptimalGen extends AbstractGen {
             outputLengthUpperBound,
             seed,
             disableReuseOfExistingOutputTypes);
-        return optimalGenAlg.nextOrder();
+        Plan orderWithCuttingPlan = optimalGenAlg.nextOrder();
+        RelaxApplicator relaxApplicator = new RelaxApplicator(
+            outputTypesToRelaxPercentage,
+            outputTypeLengthRelaxPercentage,
+            seed
+        );
+        relaxApplicator.relaxOrderOutputs(orderWithCuttingPlan.getOutputs());
+        return orderWithCuttingPlan;
     }
 
     private void handleOrderFuture(CompletableFuture<Plan> future)

@@ -22,6 +22,16 @@ public abstract class AbstractGen extends AbstractOutputFile {
     )
     protected Long seed;
 
+    @Option(names = { "-otrp", "--output-types-to-relax-percentage" },
+        description = "Percentage of output types to relax. null means no relaxation."
+    )
+    protected Integer outputTypesToRelaxPercentage;
+
+    @Option(names = { "-otlrp", "--output-type-length-relax-percentage" },
+        description = "Percentage of output type lengths to relax. null means no relaxation."
+    )
+    protected Integer outputTypeLengthRelaxPercentage;
+
     /******************************* Inputs ***********************************/
 
     @Option(names = { "-i", "--input-length" },

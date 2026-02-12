@@ -78,4 +78,39 @@ public class OptimalGen {
         assertEquals(0, command.getExitCode());
     }
 
+    @Test public void optimalgenRelax() throws IOException {
+        String testFileName = "optimalgenRelax";
+        Command command = new Command("optimalgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 10 --seed 1 -otrp 30 -otlrp 10 -o " + testFileName);
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assertEquals(
+            Utils.loadFile(TestDefaults.OPTIMAL_GEN_RELAX),
+            Utils.loadFile(TestDefaults.FOSSCUT_BINARY_FOLDER_PATH + File.separator + testFileName)
+        );
+    }
+
+    @Test public void optimalgenRelaxNullError() throws IOException {
+        String testFileName = "optimalgenRelaxNullError";
+        Command command = new Command("optimalgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 10 --seed 1 -otrp 1 -o " + testFileName);
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getError().contains(Messages.RELAX_APPLY_NULL_ERROR));
+    }
+
+    @Test public void optimalgenRelaxPercentageError() throws IOException {
+        String testFileName = "optimalgenRelaxPercentageError";
+        Command command = new Command("optimalgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 10 --seed 1 -otrp 10 -otlrp 110 -o " + testFileName);
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getError().contains(Messages.RELAX_APPLY_PERCENTAGE_ERROR));
+    }
+
+    @Test public void optimalgenNoRelaxAppliedError() throws IOException {
+        String testFileName = "optimalgenNoRelaxAppliedError";
+        Command command = new Command("optimalgen -i 100 -ol 0.2 -ou 0.8 -oc 100 -ot 10 --seed 1 -otrp 1 -otlrp 1 -o " + testFileName);
+        command.run();
+        assertEquals(1, command.getExitCode());
+        assert(command.getError().contains(Messages.RELAX_APPLY_NO_RELAX_APPLIED));
+    }
+
 }

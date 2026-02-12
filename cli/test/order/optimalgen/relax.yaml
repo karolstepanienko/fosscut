@@ -1,0 +1,100 @@
+inputs:
+- length: 100
+  patterns:
+  - count: 11
+    patternDefinition:
+    - id: 0
+      count: 1
+    - id: 1
+      count: 1
+  - count: 6
+    patternDefinition:
+    - id: 1
+      count: 2
+    - id: 2
+      count: 1
+  - count: 16
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 3
+      count: 1
+  - count: 5
+    patternDefinition:
+    - id: 2
+      count: 2
+    - id: 4
+      count: 1
+  - count: 9
+    patternDefinition:
+    - id: 4
+      count: 1
+    - id: 5
+      count: 1
+  - count: 5
+    patternDefinition:
+    - id: 1
+      count: 1
+    - id: 4
+      count: 1
+    - id: 6
+      count: 1
+  - count: 3
+    patternDefinition:
+    - id: 2
+      count: 1
+    - id: 6
+      count: 1
+    - id: 7
+      count: 1
+  - count: 3
+    patternDefinition:
+    - id: 7
+      count: 1
+    - id: 8
+      count: 1
+  - count: 1
+    patternDefinition:
+    - id: 6
+      count: 1
+    - id: 9
+      count: 1
+outputs:
+- length: 64
+  count: 11
+  maxRelax: 0
+- length: 36
+  count: 28
+  maxRelax: 0
+- length: 28
+  count: 35
+  maxRelax: 0
+- length: 72
+  count: 16
+  maxRelax: 0
+- length: 44
+  count: 19
+  maxRelax: 0
+- length: 56
+  count: 9
+  maxRelax: 0
+- length: 20
+  count: 9
+  maxRelax: 2
+- length: 52
+  count: 6
+  maxRelax: 5
+- length: 48
+  count: 3
+  maxRelax: 0
+- length: 80
+  count: 1
+  maxRelax: 8
+metadata:
+  inputCount: 59
+  outputCount: 137
+  inputTypeCount: 1
+  outputTypeCount: 10
+  totalWaste: 0
+  totalNeededInputLength: 5900
+  planStatus: "COMPLETE"
