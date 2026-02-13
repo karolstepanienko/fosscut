@@ -73,6 +73,48 @@ public class AbstractTest {
         return combinedXAxisLabelsList;
     }
 
+    protected static LinkedList<LinkedList<String>> getCombinedXAxisLabelsList(LinkedList<String> xAxisLabelsList1, LinkedList<String> xAxisLabelsList2, LinkedList<String> xAxisLabelsList3, LinkedList<String> xAxisLabelsList4) {
+        LinkedList<LinkedList<String>> combinedXAxisLabelsList = new LinkedList<>();
+        combinedXAxisLabelsList.add(xAxisLabelsList1);
+        combinedXAxisLabelsList.add(xAxisLabelsList2);
+        combinedXAxisLabelsList.add(xAxisLabelsList3);
+        combinedXAxisLabelsList.add(xAxisLabelsList4);
+        return combinedXAxisLabelsList;
+    }
+
+    protected static LinkedList<LinkedList<String>> getCombinedXAxisLabelsList(LinkedList<String> xAxisLabelsList1, LinkedList<String> xAxisLabelsList2, LinkedList<String> xAxisLabelsList3, LinkedList<String> xAxisLabelsList4, LinkedList<String> xAxisLabelsList5) {
+        LinkedList<LinkedList<String>> combinedXAxisLabelsList = new LinkedList<>();
+        combinedXAxisLabelsList.add(xAxisLabelsList1);
+        combinedXAxisLabelsList.add(xAxisLabelsList2);
+        combinedXAxisLabelsList.add(xAxisLabelsList3);
+        combinedXAxisLabelsList.add(xAxisLabelsList4);
+        combinedXAxisLabelsList.add(xAxisLabelsList5);
+        return combinedXAxisLabelsList;
+    }
+
+    protected static LinkedList<LinkedList<String>> getCombinedXAxisLabelsList(LinkedList<String> xAxisLabelsList1, LinkedList<String> xAxisLabelsList2, LinkedList<String> xAxisLabelsList3, LinkedList<String> xAxisLabelsList4, LinkedList<String> xAxisLabelsList5, LinkedList<String> xAxisLabelsList6) {
+        LinkedList<LinkedList<String>> combinedXAxisLabelsList = new LinkedList<>();
+        combinedXAxisLabelsList.add(xAxisLabelsList1);
+        combinedXAxisLabelsList.add(xAxisLabelsList2);
+        combinedXAxisLabelsList.add(xAxisLabelsList3);
+        combinedXAxisLabelsList.add(xAxisLabelsList4);
+        combinedXAxisLabelsList.add(xAxisLabelsList5);
+        combinedXAxisLabelsList.add(xAxisLabelsList6);
+        return combinedXAxisLabelsList;
+    }
+
+    protected static LinkedList<LinkedList<String>> getCombinedXAxisLabelsList(LinkedList<String> xAxisLabelsList1, LinkedList<String> xAxisLabelsList2, LinkedList<String> xAxisLabelsList3, LinkedList<String> xAxisLabelsList4, LinkedList<String> xAxisLabelsList5, LinkedList<String> xAxisLabelsList6, LinkedList<String> xAxisLabelsList7) {
+        LinkedList<LinkedList<String>> combinedXAxisLabelsList = new LinkedList<>();
+        combinedXAxisLabelsList.add(xAxisLabelsList1);
+        combinedXAxisLabelsList.add(xAxisLabelsList2);
+        combinedXAxisLabelsList.add(xAxisLabelsList3);
+        combinedXAxisLabelsList.add(xAxisLabelsList4);
+        combinedXAxisLabelsList.add(xAxisLabelsList5);
+        combinedXAxisLabelsList.add(xAxisLabelsList6);
+        combinedXAxisLabelsList.add(xAxisLabelsList7);
+        return combinedXAxisLabelsList;
+    }
+
     protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2) {
         LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
         combinedDataSeries.add(dataSeries1);
@@ -85,6 +127,48 @@ public class AbstractTest {
         combinedDataSeries.add(dataSeries1);
         combinedDataSeries.add(dataSeries2);
         combinedDataSeries.add(dataSeries3);
+        return combinedDataSeries;
+    }
+
+    protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2, Map<String, Double> dataSeries3, Map<String, Double> dataSeries4) {
+        LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
+        combinedDataSeries.add(dataSeries1);
+        combinedDataSeries.add(dataSeries2);
+        combinedDataSeries.add(dataSeries3);
+        combinedDataSeries.add(dataSeries4);
+        return combinedDataSeries;
+    }
+
+    protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2, Map<String, Double> dataSeries3, Map<String, Double> dataSeries4, Map<String, Double> dataSeries5) {
+        LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
+        combinedDataSeries.add(dataSeries1);
+        combinedDataSeries.add(dataSeries2);
+        combinedDataSeries.add(dataSeries3);
+        combinedDataSeries.add(dataSeries4);
+        combinedDataSeries.add(dataSeries5);
+        return combinedDataSeries;
+    }
+
+    protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2, Map<String, Double> dataSeries3, Map<String, Double> dataSeries4, Map<String, Double> dataSeries5, Map<String, Double> dataSeries6) {
+        LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
+        combinedDataSeries.add(dataSeries1);
+        combinedDataSeries.add(dataSeries2);
+        combinedDataSeries.add(dataSeries3);
+        combinedDataSeries.add(dataSeries4);
+        combinedDataSeries.add(dataSeries5);
+        combinedDataSeries.add(dataSeries6);
+        return combinedDataSeries;
+    }
+
+    protected static LinkedList<Map<String, Double>> getCombinedDataSeries(Map<String, Double> dataSeries1, Map<String, Double> dataSeries2, Map<String, Double> dataSeries3, Map<String, Double> dataSeries4, Map<String, Double> dataSeries5, Map<String, Double> dataSeries6, Map<String, Double> dataSeries7) {
+        LinkedList<Map<String, Double>> combinedDataSeries = new LinkedList<>();
+        combinedDataSeries.add(dataSeries1);
+        combinedDataSeries.add(dataSeries2);
+        combinedDataSeries.add(dataSeries3);
+        combinedDataSeries.add(dataSeries4);
+        combinedDataSeries.add(dataSeries5);
+        combinedDataSeries.add(dataSeries6);
+        combinedDataSeries.add(dataSeries7);
         return combinedDataSeries;
     }
 

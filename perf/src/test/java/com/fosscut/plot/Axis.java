@@ -25,6 +25,28 @@ public class Axis {
         add("color=black, densely dotted, line width=1.5pt");
     }};
 
+    // https://latexcolor.blogspot.com/2019/10/list-of-latex-colors.html
+    // Standard matlab colors from their 'gem' light theme palette
+    // generated with commands in matlab web:
+    // RGB = orderedcolors("gem");
+    // H = rgb2hex(RGB)
+    // "#1171BE"
+    // "#DD5400"
+    // "#EDB120"
+    // "#8516D1"
+    // "#3BAA32"
+    // "#2FBEEF"
+    // "#D1048B"
+    private static final LinkedList<String> LINE_SPEC_COLOR = new LinkedList<>() {{
+        add("color=matlabBlue, line width=1.5pt");
+        add("color=matlabOrange, line width=1.5pt");
+        add("color=matlabYellow, line width=1.5pt");
+        add("color=matlabPurple, line width=1.5pt");
+        add("color=matlabGreen, line width=1.5pt");
+        add("color=matlabLightBlue, line width=1.5pt");
+        add("color=matlabPink, line width=1.5pt");
+    }};
+
     private static final LinkedList<String> AT_STRINGS = new LinkedList<>() {{
         add("at={(0,0)},\n");
         add("at={(0,-6.5cm)},\n");
@@ -317,10 +339,12 @@ public class Axis {
     }
 
     private String getPlots() {
+        LinkedList<String> lineSpecToUse = dataSeries.size() > LINE_SPEC.size() ? LINE_SPEC_COLOR : LINE_SPEC;
+
         String plot = "";
         for (int i = 0; i < dataSeries.size(); i++) {
             plot += "\\addplot";
-            plot += "[" + LINE_SPEC.get(i % LINE_SPEC.size()) + "] table[row sep=crcr]\n";
+            plot += "[" + lineSpecToUse.get(i % lineSpecToUse.size()) + "] table[row sep=crcr]\n";
             plot += getPlotData(xAxisLabelsList.get(i), dataSeries.get(i));
             plot += "% Odchylenie standardowe, Standard deviation: ";
             plot += calculateStandardDeviation(xAxisLabelsList.get(i), dataSeries.get(i)) + "\n";
