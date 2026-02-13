@@ -25,6 +25,8 @@ public class TestDefaults {
     public static final String REDIS_ORDER_PATH_IDENTIFIER_EXCEPTION = "redis://127.0.0.1:6379/";
 
     public static final String FAIL_EXECUTION_INPUT_COUNT = "./test/order/fail/execution-input-count.yaml";
+    public static final String CG_LP_UNFEASIBLE_WARNING_ORDER = "./test/order/fail/cg-lp-unfeasible.yaml";
+    public static final String GREEDY_LP_UNFEASIBLE_WARNING_ORDER = "./test/order/fail/greedy-lp-unfeasible.yaml";
 
     public static final String FAIL_VALIDATION_INPUT_COUNT = "./test/order/fail/validation-input-count.yaml";
     public static final String FAIL_VALIDATION_NONPOSITIVE_INPUT_LENGTH = "./test/order/fail/validation-nonpositive-input-length.yaml";

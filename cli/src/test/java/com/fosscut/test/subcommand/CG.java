@@ -133,6 +133,15 @@ public class CG {
         assert(command.getOutput().contains("elapsedTimeMilliseconds:"));
     }
 
+    @Test public void cgUnfeasibleWarning() {
+        Command command = new Command("cg -r -c 10 --linear-solver CLP --integer-solver SCIP -ln 1 -in 1 "
+            + Utils.getAbsolutePath(TestDefaults.CG_LP_UNFEASIBLE_WARNING_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_WARNING_PART_1));
+        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_WARNING_PART_2));
+    }
+
     /**************************** Multithreading ******************************/
 
     @Test public void cgMultithreading() throws IOException {

@@ -20,6 +20,7 @@ import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.util.Defaults;
+import com.fosscut.util.Messages;
 import com.google.ortools.Loader;
 
 public class ColumnGeneration {
@@ -36,6 +37,7 @@ public class ColumnGeneration {
     private IntegerSolver integerSolver;
     private int linearNumThreads;
     private int integerNumThreads;
+    private int patternGenerationFailureCount;
 
     private Parameters params;
     private CuttingPlanGeneration integerCuttingPlanGeneration;
@@ -60,6 +62,7 @@ public class ColumnGeneration {
         this.integerSolver = integerSolver;
         this.linearNumThreads = linearNumThreads;
         this.integerNumThreads = integerNumThreads;
+        this.patternGenerationFailureCount = 0;
     }
 
     public Plan getCuttingPlan(Long elapsedTimeMilliseconds)
@@ -68,7 +71,8 @@ public class ColumnGeneration {
         CuttingPlanFormatter cuttingPlanFormatter = new CuttingPlanFormatter(
             relaxEnabled,
             relaxationSpreadStrategy,
-            order, params, elapsedTimeMilliseconds
+            order, params, elapsedTimeMilliseconds,
+            patternGenerationFailureCount
         );
         return cuttingPlanFormatter.getCuttingPlan(integerCuttingPlanGeneration);
     }
@@ -98,11 +102,15 @@ public class ColumnGeneration {
                     relaxCost, relaxEnabled, integerSolver,
                     integerNumThreads, optimizationCriterion
                 );
-                patternGeneration.solve();
-
-                if (handleNewPattern(inputId, patternGeneration, supplyDualValues.get(inputId))) {
-                    params.incrementNumberOfPatternsPerInput(inputId);
-                    patternsAdded = true;
+                try {
+                    patternGeneration.solve();
+                    if (handleNewPattern(inputId, patternGeneration, supplyDualValues.get(inputId))) {
+                        params.incrementNumberOfPatternsPerInput(inputId);
+                        patternsAdded = true;
+                    }
+                } catch (LPUnfeasibleException e) {
+                    patternGenerationFailureCount++;
+                    logger.warn(Messages.LP_UNFEASIBLE_WARNING_PART_1 + inputId + Messages.LP_UNFEASIBLE_WARNING_PART_2);
                 }
             }
         }

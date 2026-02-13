@@ -31,11 +31,12 @@ public class Plan {
     public Plan(
         List<PlanInput> inputs,
         List<OrderOutput> outputs,
-        Long elapsedTimeMilliseconds
+        Long elapsedTimeMilliseconds,
+        int patternGenerationFailureCount
     ) {
         this.inputs = inputs;
         this.outputs = outputs;
-        this.metadata = new Metadata(elapsedTimeMilliseconds);
+        this.metadata = new Metadata(elapsedTimeMilliseconds, patternGenerationFailureCount);
         this.metadata.calculateMetadata(inputs, outputs);
     }
 

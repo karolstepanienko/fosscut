@@ -36,7 +36,7 @@ public class FirstFitDecreasing extends ConstructiveHeuristic {
     }
 
     public Plan getCuttingPlan(Long elapsedTimeMilliseconds) {
-        return getCuttingPlan(orderSortedOutputs, elapsedTimeMilliseconds);
+        return getCuttingPlan(orderSortedOutputs, elapsedTimeMilliseconds, 0);
     }
 
     public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {

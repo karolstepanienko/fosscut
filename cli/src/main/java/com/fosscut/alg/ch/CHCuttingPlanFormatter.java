@@ -20,12 +20,14 @@ public class CHCuttingPlanFormatter {
 
     public Plan getCuttingPlan(
         List<CHPattern> cuttingPlanPatterns,
-        Long elapsedTimeMilliseconds
+        Long elapsedTimeMilliseconds,
+        int patternGenerationFailureCount
     ) {
         return new Plan(
             getPlanInputs(cuttingPlanPatterns),
             order.getOutputs(),
-            elapsedTimeMilliseconds
+            elapsedTimeMilliseconds,
+            patternGenerationFailureCount
         );
     }
 

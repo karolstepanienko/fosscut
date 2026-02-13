@@ -32,9 +32,9 @@ public abstract class ConstructiveHeuristic {
         this.optimizationCriterion = optimizationCriterion;
     }
 
-    protected Plan getCuttingPlan(Order order, Long elapsedTimeMilliseconds) {
+    protected Plan getCuttingPlan(Order order, Long elapsedTimeMilliseconds, int patternGenerationFailureCount) {
         CHCuttingPlanFormatter chCuttingPlanFormatter = new CHCuttingPlanFormatter(order);
-        return chCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns, elapsedTimeMilliseconds);
+        return chCuttingPlanFormatter.getCuttingPlan(cuttingPlanPatterns, elapsedTimeMilliseconds, patternGenerationFailureCount);
     }
 
     protected List<Integer> getInputCounts() {

@@ -122,6 +122,15 @@ public class Greedy {
         assert(command.getOutput().contains("elapsedTimeMilliseconds:"));
     }
 
+    @Test public void greedyUnfeasibleWarning() {
+        Command command = new Command("greedy -r -c 0 --integer-solver SCIP -in 1 "
+            + Utils.getAbsolutePath(TestDefaults.GREEDY_LP_UNFEASIBLE_WARNING_ORDER));
+        command.run();
+        assertEquals(0, command.getExitCode());
+        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_WARNING_PART_1));
+        assert(command.getOutput().contains(Messages.LP_UNFEASIBLE_WARNING_PART_2));
+    }
+
     /**************************** Multithreading ******************************/
 
     @Test public void greedyMultithreading() throws IOException {

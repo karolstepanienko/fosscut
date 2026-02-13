@@ -27,12 +27,20 @@ public class Metadata {
     private Integer totalNeededInputLength;
     private Double totalCost;
     private PlanStatus planStatus;
+    private Integer patternGenerationFailureCount;
     private Long memoryUsagePeakBytes;
 
     public Metadata() {}
 
     public Metadata(Long elapsedTimeMilliseconds) {
         this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
+    }
+
+    public Metadata(Long elapsedTimeMilliseconds, int patternGenerationFailureCount) {
+        this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
+        if (patternGenerationFailureCount != 0) {
+            this.patternGenerationFailureCount = patternGenerationFailureCount;
+        }
     }
 
     public void calculateMetadata(List<PlanInput> inputs, List<OrderOutput> outputs) {
@@ -109,6 +117,10 @@ public class Metadata {
 
     public PlanStatus getPlanStatus() {
         return planStatus;
+    }
+
+    public Integer getPatternGenerationFailureCount() {
+        return patternGenerationFailureCount;
     }
 
     public Long getMemoryUsagePeakBytes() {

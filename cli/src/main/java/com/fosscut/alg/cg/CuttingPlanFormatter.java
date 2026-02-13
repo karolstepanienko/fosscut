@@ -19,19 +19,22 @@ public class CuttingPlanFormatter {
     private Parameters params;
     private Long elapsedTimeMilliseconds;
     private RelaxationSpread relaxationSpread;
+    private int patternGenerationFailureCount;
 
     public CuttingPlanFormatter(
         boolean relaxEnabled,
         RelaxationSpreadStrategy relaxationSpreadStrategy,
         Order order,
         Parameters params,
-        Long elapsedTimeMilliseconds
+        Long elapsedTimeMilliseconds,
+        int patternGenerationFailureCount
     ) {
         this.relaxEnabled = relaxEnabled;
         this.order = order;
         this.params = params;
         this.elapsedTimeMilliseconds = elapsedTimeMilliseconds;
         this.relaxationSpread = new RelaxationSpread(relaxationSpreadStrategy);
+        this.patternGenerationFailureCount = patternGenerationFailureCount;
     }
 
     public Plan getCuttingPlan(CuttingPlanGeneration integerCuttingPlanGeneration)
@@ -39,7 +42,8 @@ public class CuttingPlanFormatter {
         return new Plan(
             getPlanInputs(integerCuttingPlanGeneration),
             order.getOutputs(),
-            elapsedTimeMilliseconds
+            elapsedTimeMilliseconds,
+            patternGenerationFailureCount
         );
     }
 

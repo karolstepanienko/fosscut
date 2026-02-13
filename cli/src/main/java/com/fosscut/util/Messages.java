@@ -47,4 +47,7 @@ public class Messages {
     public static final String RELAX_APPLY_PERCENTAGE_ERROR = "Percentages must be between 0 and 100.";
     public static final String RELAX_APPLY_NO_RELAX_APPLIED = "No output types were relaxed. Consider increasing the percentage of output types to relax.";
 
+    public static final String LP_UNFEASIBLE_WARNING_PART_1 = "LP unfeasible for input ";
+    public static final String LP_UNFEASIBLE_WARNING_PART_2 = ", skipping pattern generation for this input...";
+
 }

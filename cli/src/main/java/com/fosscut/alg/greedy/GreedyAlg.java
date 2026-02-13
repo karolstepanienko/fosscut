@@ -15,6 +15,7 @@ import com.fosscut.shared.type.cutting.order.Order;
 import com.fosscut.shared.type.cutting.plan.Plan;
 import com.fosscut.type.RelaxationSpreadStrategy;
 import com.fosscut.type.cutting.CHPattern;
+import com.fosscut.util.Messages;
 import com.google.ortools.Loader;
 
 public class GreedyAlg extends ConstructiveHeuristic {
@@ -27,6 +28,7 @@ public class GreedyAlg extends ConstructiveHeuristic {
     private RelaxationSpreadStrategy relaxationSpreadStrategy;
     private IntegerSolver integerSolver;
     private int integerNumThreads;
+    private int patternGenerationFailureCount;
 
     public GreedyAlg(Order order, Double relaxCost, boolean relaxEnabled,
         RelaxationSpreadStrategy relaxationSpreadStrategy,
@@ -41,10 +43,11 @@ public class GreedyAlg extends ConstructiveHeuristic {
         this.relaxationSpreadStrategy = relaxationSpreadStrategy;
         this.integerSolver = integerSolver;
         this.integerNumThreads = integerNumThreads;
+        this.patternGenerationFailureCount = 0;
     }
 
     public Plan getCuttingPlan(Long elapsedTimeMilliseconds) {
-        return getCuttingPlan(order, elapsedTimeMilliseconds);
+        return getCuttingPlan(order, elapsedTimeMilliseconds, patternGenerationFailureCount);
     }
 
     public void run() throws GeneratedPatternsCannotBeEmptyException, LPUnfeasibleException {
@@ -65,20 +68,25 @@ public class GreedyAlg extends ConstructiveHeuristic {
         for (Integer inputId = 0; inputId < order.getInputs().size(); ++inputId) {
             Integer inputCount = getInputCounts().get(inputId);
             if (inputCount == null || inputCount > 0) {
-                GreedyPatternGeneration greedyPatternGeneration =
-                    new GreedyPatternGeneration(
-                        inputId,
-                        order.getInputs().get(inputId),
-                        order.getOutputs(),
-                        getOrderDemands(),
-                        relaxCost,
-                        relaxEnabled,
-                        relaxationSpreadStrategy,
-                        integerSolver,
-                        integerNumThreads
-                    );
-                greedyPatternGeneration.solve();
-                patterns.add(greedyPatternGeneration.getPattern());
+                try {
+                    GreedyPatternGeneration greedyPatternGeneration =
+                        new GreedyPatternGeneration(
+                            inputId,
+                            order.getInputs().get(inputId),
+                            order.getOutputs(),
+                            getOrderDemands(),
+                            relaxCost,
+                            relaxEnabled,
+                            relaxationSpreadStrategy,
+                            integerSolver,
+                            integerNumThreads
+                        );
+                    greedyPatternGeneration.solve();
+                    patterns.add(greedyPatternGeneration.getPattern());
+                } catch (LPUnfeasibleException e) {
+                    patternGenerationFailureCount++;
+                    logger.warn(Messages.LP_UNFEASIBLE_WARNING_PART_1 + inputId + Messages.LP_UNFEASIBLE_WARNING_PART_2);
+                }
             }
         }
         return patterns;
