@@ -13,6 +13,7 @@ import com.fosscut.utils.PerformanceDefaults;
 import com.fosscut.utils.ResultsFilesAfter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -52,6 +53,12 @@ public class PlotData extends ResultsFilesAfter {
             return seed;
         }
 
+        public boolean isPlanOptimal() {
+            Integer optimalTotalNeededInputLength = this.getOrder().getMetadata().getTotalNeededInputLength();
+            Integer calculatedTotalNeededInputLength = this.getPlan().getMetadata().getTotalNeededInputLength();
+            return optimalTotalNeededInputLength.equals(calculatedTotalNeededInputLength);
+        }
+
         private void extractRunAndSeedFromName(String name) {
             String[] parts = name.split(PerformanceDefaults.RESULTS_RUN_PREFIX)[1]
                 .split(PerformanceDefaults.RESULTS_SEED_PREFIX);
@@ -68,6 +75,7 @@ public class PlotData extends ResultsFilesAfter {
     private Map<String, Double> averageTotalWaste;
     private Map<String, Double> averagePercentageTrueWasteAboveOptimal;
     private Map<String, Double> averageBestPerSeedPercentageTrueWasteAboveOptimal;
+    private Map<String, Double> numberOfOptimalSolutions;
     private Map<String, Double> averageTrueTotalWaste;
     private Map<String, Double> averageMinTrueTotalWaste;
     private Map<String, Double> averageMaxTrueTotalWaste;
@@ -130,6 +138,11 @@ public class PlotData extends ResultsFilesAfter {
     public Map<String, Double> getAverageBestPerSeedPercentageTrueWasteAboveOptimal(Integer maxRunsPerSeed) {
         calculateBestPerSeedPercentageTrueWasteAboveOptimal(maxRunsPerSeed);
         return averageBestPerSeedPercentageTrueWasteAboveOptimal;
+    }
+
+    public Map<String, Double> getNumberOfOptimalSolutions(LinkedList<Integer> maxRunsPerSeedList) {
+        calculateNumberOfOptimalSolutions(maxRunsPerSeedList);
+        return numberOfOptimalSolutions;
     }
 
     public Map<String, Double> getAverageMinTrueTotalWaste() {
@@ -366,6 +379,7 @@ public class PlotData extends ResultsFilesAfter {
                 = getSeedOrderAndPlanPairMap(pairsForLabel);
 
             List<Double> bestPercentageWastesPerSeed = new ArrayList<>();
+            // for each seed
             for (List<OrderAndPlanPair> pairsForSeed : seedOrderAndPlanPairMap.values()) {
                 double bestPercentageWaste = Double.MAX_VALUE;
                 boolean foundValidPair = false;
@@ -408,6 +422,48 @@ public class PlotData extends ResultsFilesAfter {
             averageBestPerSeedPercentageTrueWasteAboveOptimal.put(xAxisLabel, averageBestPerSeedPercentageWaste);
         }
         if (cutgenDetected) averageBestPerSeedPercentageTrueWasteAboveOptimal = null;
+    }
+
+    private void calculateNumberOfOptimalSolutions(LinkedList<Integer> maxRunsPerSeedList) {
+        numberOfOptimalSolutions = new HashMap<>();
+
+        // assuming that there are 0 optimal solutions and incrementing only when they are found
+        for (Integer maxRunsPerSeed : maxRunsPerSeedList) {
+            numberOfOptimalSolutions.put(maxRunsPerSeed.toString(), 0.0);
+        }
+
+        for (String xAxisLabel : xAxisLabels) { // here will only be one xAxisLabel
+            List<OrderAndPlanPair> pairsForLabel = orderAndPlanPairs.get(xAxisLabel);
+            LinkedHashMap<Integer, LinkedList<OrderAndPlanPair>> seedOrderAndPlanPairMap
+                = getSeedOrderAndPlanPairMap(pairsForLabel);
+            for (Integer maxRunsPerSeed : maxRunsPerSeedList) {
+                // for each seed
+                for (List<OrderAndPlanPair> pairsForSeed : seedOrderAndPlanPairMap.values()) {
+                    boolean optimalSolutionFoundForThisSeed = false;
+                    int normalizedRunSubtrahend = getRunSubtrahend(pairsForSeed);
+                    for (OrderAndPlanPair pair : pairsForSeed) {
+                        if (!optimalSolutionFoundForThisSeed
+                            && pair.getRun() - normalizedRunSubtrahend <= maxRunsPerSeed
+                            && pair.isPlanOptimal()) {
+                            optimalSolutionFoundForThisSeed = true;
+                        }
+                    }
+
+                    if (optimalSolutionFoundForThisSeed) {
+                        double previous = numberOfOptimalSolutions.get(maxRunsPerSeed.toString());
+                        numberOfOptimalSolutions.replace(maxRunsPerSeed.toString(), previous + 1.0);
+                    }
+                }
+            }
+        }
+    }
+
+    private int getRunSubtrahend(List<OrderAndPlanPair> pairsForSeed) {
+        List<Integer> runs = new ArrayList<>();
+        for (OrderAndPlanPair pair : pairsForSeed) {
+            runs.add(pair.getRun());
+        }
+        return Collections.min(runs) - 1;
     }
 
     private LinkedHashMap<Integer, LinkedList<OrderAndPlanPair>> getSeedOrderAndPlanPairMap(List<OrderAndPlanPair> pairsForLabel) {

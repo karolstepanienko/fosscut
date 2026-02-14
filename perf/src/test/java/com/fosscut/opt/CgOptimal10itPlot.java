@@ -1,15 +1,59 @@
 package com.fosscut.opt;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
-import com.fosscut.AbstractTest;
+import org.junit.jupiter.api.Test;
 
-// TODO add plots here
+import com.fosscut.AbstractTest;
+import com.fosscut.plot.PlotData;
+import com.fosscut.plot.XYPlot;
+
 public class CgOptimal10itPlot extends AbstractTest {
 
     // Testing 150 output types to generate more diverse orders
     protected static String orderCommand = "optimalgen -iu 1000 -il 500 -it 10 -ol 0.4 -ou 0.8 -ot 150 -oc 10000 --timeout-amount 10 --timeout-unit SECONDS";
     protected static String xAxisLabel = "x150";
+
+    @Test public void numberOfOptimalSolutionsRelatedToTheNumberOfRunsPlot() throws IOException {
+        String testName = "numberOfOptimalSolutionsRelatedToTheNumberOfRunsPlot";
+        PlotData cgOptimal2in = new PlotData("CgOptimal10it2inTest");
+
+        LinkedList<String> labelsList10String = new LinkedList<>();
+        LinkedList<Integer> labelsList10Integer = new LinkedList<>();
+        for (int i = 1; i <= 10; i += 1) {
+            labelsList10String.add(String.valueOf(i));
+            labelsList10Integer.add(i);
+        }
+        LinkedList<LinkedList<String>> xAxisLabelsList10 = new LinkedList<>();
+        xAxisLabelsList10.add(labelsList10String);
+
+        new XYPlot(testName + "10.tex",
+            xAxisLabelsList10,
+            cgOptimal2in.getNumberOfOptimalSolutions(labelsList10Integer),
+            "Liczba rozwiązań wygenerowanych dla każdego zamówienia",
+            "Liczba zamówień rozwiązanych optymalnie",
+            null, null, "0", "100"
+        ).generatePlot();
+
+        LinkedList<String> labelsList100String = new LinkedList<>();
+        LinkedList<Integer> labelsList100Integer = new LinkedList<>();
+        for (int i = 10; i <= 100; i += 10) {
+            labelsList100String.add(String.valueOf(i));
+            labelsList100Integer.add(i);
+        }
+        LinkedList<LinkedList<String>> xAxisLabelsList100 = new LinkedList<>();
+        xAxisLabelsList100.add(labelsList100String);
+
+        new XYPlot(testName + "100.tex",
+            xAxisLabelsList100,
+            cgOptimal2in.getNumberOfOptimalSolutions(labelsList100Integer),
+            "Liczba rozwiązań wygenerowanych dla każdego zamówienia",
+            "Liczba zamówień rozwiązanych optymalnie",
+            null, null, "0", "100"
+        ).generatePlot();
+    }
+
 
     // 100 orders grouped in groups of 4 seeds for easier triggering
     protected static int N_GROUP_SIZE = 4;
