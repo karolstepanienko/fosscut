@@ -38,7 +38,7 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "100",
+                "10cm", null, null, "0", "100",
                 new LinkedList<String>() {{
                     add("CBC");
                     add("SCIP");
@@ -60,7 +60,7 @@ public class GreedyCompareSolverOptimalgen3itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "5",
+                "10cm", null, null, "0", "5",
                 new LinkedList<String>() {{
                     add("CBC");
                     add("SCIP");

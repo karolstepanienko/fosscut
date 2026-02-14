@@ -78,7 +78,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "100",
+                "10cm", null, null, "0", "100",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
@@ -100,7 +100,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "0.5",
+                "10cm", null, null, "0", "0.5",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
@@ -159,7 +159,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "50",
+                "10cm", null, null, "0", "50",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (SCIP)");
@@ -181,7 +181,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "6",
+                "10cm", null, null, "0", "6",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (SCIP)");
