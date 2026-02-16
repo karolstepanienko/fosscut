@@ -232,3 +232,57 @@ html, body {
 .download-button {
   margin: 1em;
 }
+
+.metadata-container {
+  width: 40%;
+  padding: 1rem 1.25rem;
+  margin-top: 0;
+  margin-bottom: 1em;
+  border-radius: 12px;
+  border: 1px solid #e2e5ea;
+  font-size: 0.8rem;
+}
+
+.metadata-container h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.metadata-container dl {
+  margin: 0;
+}
+
+.metadata-container dl > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #eceff3;
+}
+
+.metadata-container dl > div:last-child {
+  border-bottom: none;
+}
+
+.metadata-container dt {
+  justify-self: start;   /* forces left alignment */
+  text-align: left;
+  color: #666;
+  font-weight: 500;
+}
+
+.metadata-container dd {
+  margin: 0;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Optional status styling */
+.status.complete {
+  color: #1a7f37;
+}
+
+.status.timeout {
+  color: #c62828;
+}

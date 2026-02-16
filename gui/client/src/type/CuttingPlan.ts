@@ -15,11 +15,25 @@ type PlanInput = {
     patterns: Pattern[]
 }
 
-type CuttingPlan = {
-    inputs: PlanInput[],
-    outputs: Output[]
+type PlanMetadata = {
+    elapsedTimeMilliseconds: number,
+    timestamp: string,
+    inputCount: number,
+    outputCount: number,
+    inputTypeCount: number,
+    outputTypeCount: number,
+    totalWaste: number,
+    totalNeededInputLength: number,
+    planStatus: string
+    memoryUsagePeakBytes: number,
 }
 
-export type { PlanInput, PlanOutput, Pattern };
+type CuttingPlan = {
+    inputs: PlanInput[],
+    outputs: Output[],
+    metadata: PlanMetadata
+}
+
+export type { PlanInput, PlanOutput, Pattern, PlanMetadata };
 
 export default CuttingPlan;

@@ -70,9 +70,64 @@ const PlanAction = () => {
     } else return (<div><div/></div>);
   }
 
+  const renderMetadata = () => {
+    if (cuttingPlan != undefined) {
+      return (
+        <div className="metadata-container">
+          <h3>Plan metadata</h3>
+          <dl>
+            <div>
+              <dt>Elapsed time</dt>
+              <dd>{cuttingPlan.metadata.elapsedTimeMilliseconds} ms</dd>
+            </div>
+            <div>
+              <dt>Timestamp</dt>
+              <dd>{cuttingPlan.metadata.timestamp}</dd>
+            </div>
+            <div>
+              <dt>Input count</dt>
+              <dd>{cuttingPlan.metadata.inputCount}</dd>
+            </div>
+            <div>
+              <dt>Output count</dt>
+              <dd>{cuttingPlan.metadata.outputCount}</dd>
+            </div>
+            <div>
+              <dt>Input types</dt>
+              <dd>{cuttingPlan.metadata.inputTypeCount}</dd>
+            </div>
+            <div>
+              <dt>Output types</dt>
+              <dd>{cuttingPlan.metadata.outputTypeCount}</dd>
+            </div>
+            <div>
+              <dt>Total waste</dt>
+              <dd>{cuttingPlan.metadata.totalWaste}</dd>
+            </div>
+            <div>
+              <dt>Needed input length</dt>
+              <dd>{cuttingPlan.metadata.totalNeededInputLength}</dd>
+            </div>
+            <div>
+              <dt>Memory usage peak (megabytes)</dt>
+              <dd>{Math.round(cuttingPlan.metadata.memoryUsagePeakBytes / (1024 * 1024))}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd className={`status ${cuttingPlan.metadata.planStatus.toLowerCase()}`}>
+                {cuttingPlan.metadata.planStatus}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      );
+    }
+  }
+
   return (
     <div className="action-container">
       {renderError()}
+      {renderMetadata()}
       <div className="action-content-container">
         <PlanTable planTableData={planTableData}/>
       </div>
