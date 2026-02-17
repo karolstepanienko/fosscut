@@ -78,7 +78,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                "10cm", null, null, "0", "100",
+                "9cm", null, null, "0", "100",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
@@ -94,13 +94,13 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                     cgPlotData.getXAxisLabels()
                 ),
                 getCombinedDataSeries(
-                    ffdPlotData.getAverageMemoryUsagePeakGibiBytes(),
-                    greedyPlotData.getAverageMemoryUsagePeakGibiBytes(),
-                    cgPlotData.getAverageMemoryUsagePeakGibiBytes()
+                    ffdPlotData.getAverageMemoryUsagePeakMebiBytes(),
+                    greedyPlotData.getAverageMemoryUsagePeakMebiBytes(),
+                    cgPlotData.getAverageMemoryUsagePeakMebiBytes()
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
-                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                "10cm", null, null, "0", "0.5",
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_MEBI_BYTES,
+                "9cm", null, null, "0", "500",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (CBC)");
@@ -159,7 +159,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                "10cm", null, null, "0", "50",
+                "9cm", null, null, "0", "50",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (SCIP)");
@@ -181,7 +181,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                "10cm", null, null, "0", "6",
+                "9cm", null, null, "0", "6",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (SCIP)");
@@ -203,7 +203,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "0", "1.2",
+                "9cm", null, null, "0", "1.2",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy (SCIP)");
@@ -213,6 +213,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
         ).generatePlot();
     }
 
+    // not used in fosscut-doc since it generates a very similar plot to cgCompareIntSolverOptimalgen10itPlot
     @Test public void cgCompareAlgOptimalgen10itPlotWastePercentage() throws IOException {
         String testName = "cgCompareAlgOptimalgen10itPlot";
         PlotData cgCBCPlotData = new PlotData("cgCompareAlgCBCOptimalgen10itTest");
@@ -229,7 +230,7 @@ public class CompareAlgOptimalgen10itPlot extends CgCompareSolverOptimalgen10it2
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "0", "0.008",
+                "9cm", null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("CG (CLP, CBC)");
                     add("CG (CLP, SCIP)");

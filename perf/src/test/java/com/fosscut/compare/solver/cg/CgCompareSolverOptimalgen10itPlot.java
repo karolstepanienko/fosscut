@@ -301,7 +301,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "150",
+                "9cm", null, null, "0", "140",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -317,13 +317,13 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                     pdlpPlotData.getXAxisLabels()
                 ),
                 getCombinedDataSeries(
-                    clpPlotData.getAverageMemoryUsagePeakGibiBytes(),
-                    glopPlotData.getAverageMemoryUsagePeakGibiBytes(),
-                    pdlpPlotData.getAverageMemoryUsagePeakGibiBytes()
+                    clpPlotData.getAverageMemoryUsagePeakMebiBytes(),
+                    glopPlotData.getAverageMemoryUsagePeakMebiBytes(),
+                    pdlpPlotData.getAverageMemoryUsagePeakMebiBytes()
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
-                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, null, "0.5",
+                PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_MEBI_BYTES,
+                "9cm", null, null, "50", "450",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -345,7 +345,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.006",
+                "8.6cm", null, null, "0", "0.006",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -374,7 +374,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "60",
+                "8.6cm", null, null, "0", "60",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -396,7 +396,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, null, "5",
+                "9cm", null, null, null, "5",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -418,7 +418,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.008",
+                "9cm", null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("CLP");
                     add("GLOP");
@@ -454,7 +454,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "60",
+                "5cm", null, null, "0", "60",
                 new LinkedList<String>() {{
                     add("CLP - CBC");
                     add("CLP - SCIP");
@@ -475,7 +475,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "60",
+                "5cm", null, null, "0", "60",
                 new LinkedList<String>() {{
                     add("GLOP - CBC");
                     add("GLOP - SCIP");
@@ -496,7 +496,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "150",
+                "5cm", null, null, "0", "150",
                 new LinkedList<String>() {{
                     add("PDLP - CBC");
                     add("PDLP - SCIP");
@@ -521,7 +521,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "6",
+                "5cm", null, null, "0", "6",
                 new LinkedList<String>() {{
                     add("CLP - CBC");
                     add("CLP - SCIP");
@@ -542,7 +542,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "6",
+                "5cm", null, null, "0", "6",
                 new LinkedList<String>() {{
                     add("GLOP - CBC");
                     add("GLOP - SCIP");
@@ -563,7 +563,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "6",
+                "5cm", null, null, "0", "6",
                 new LinkedList<String>() {{
                     add("PDLP - CBC");
                     add("PDLP - SCIP");
@@ -588,7 +588,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.008",
+                "5cm", null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("CLP - CBC");
                     add("CLP - SCIP");
@@ -609,7 +609,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.008",
+                "5cm", null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("GLOP - CBC");
                     add("GLOP - SCIP");
@@ -630,7 +630,7 @@ public class CgCompareSolverOptimalgen10itPlot extends AbstractTest {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "0", "0.008",
+                "5cm", null, null, "0", "0.008",
                 new LinkedList<String>() {{
                     add("PDLP - CBC");
                     add("PDLP - SCIP");

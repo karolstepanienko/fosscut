@@ -180,7 +180,8 @@ public class Axis {
         StringBuilder options = new StringBuilder();
         options.append("[%\n");
         options.append(includeAt ? AT_STRINGS.get(axisId) : "");
-        options.append("width=0.98\\textwidth,\n");
+        options.append("scale only axis,\n");
+        options.append("width=0.86\\textwidth,\n");
         options.append("height=").append(getHeight()).append(",\n");
         options.append("grid=both,\n");
         options.append("xtick={").append(calculateXTicks()).append("},\n");
@@ -192,14 +193,15 @@ public class Axis {
         options.append("ylabel style={font=\\color{white!15!black}},\n");
         options.append("ylabel={").append(yLabel).append("},\n");
         options.append(getLegendPosString());
-        options.append("ticklabel style={font=\\small},x label style={font=\\small},y label style={font=\\small}\n");
+        options.append("ticklabel style={font=\\small},x label style={font=\\small},y label style={font=\\small},\n");
+        options.append("yticklabel style={text width=2em, align=right}\n");
         options.append("]\n");
         return options.toString();
     }
 
     private String getHeight() {
         if (height == null) {
-            return "7cm";
+            return "6cm";
         }
         return height;
     }

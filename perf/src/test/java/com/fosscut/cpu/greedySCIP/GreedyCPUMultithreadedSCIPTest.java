@@ -57,7 +57,7 @@ public class GreedyCPUMultithreadedSCIPTest extends AbstractTest {
             plotData.getAverageElapsedTimeSeconds(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-            "1", null, null, "10"
+            "5cm", "1", null, null, "10"
         ).generatePlot();
     }
 
@@ -69,7 +69,7 @@ public class GreedyCPUMultithreadedSCIPTest extends AbstractTest {
             plotData.getAveragePercentageTrueWasteAboveOptimal(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-            "1", null, "0.8", "1.4"
+            "5cm", "1", null, "0.8", "1.4"
         ).generatePlot();
     }
 
@@ -81,7 +81,7 @@ public class GreedyCPUMultithreadedSCIPTest extends AbstractTest {
             plotData.getAverageMemoryUsagePeakGibiBytes(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-            "1", null, null, null
+            "5cm", "1", null, null, null
         ).generatePlot();
     }
 

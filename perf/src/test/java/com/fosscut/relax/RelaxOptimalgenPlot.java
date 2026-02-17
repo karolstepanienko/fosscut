@@ -88,7 +88,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-8", "4",
+                "9cm", null, null, "-8", "4",
                 new LinkedList<String>() {{
                     add("0\\%");
                     add("5\\%");
@@ -172,7 +172,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-8", "4",
+                "9cm", null, null, "-8", "4",
                 new LinkedList<String>() {{
                     add("0\\%");
                     add("5\\%");
@@ -256,7 +256,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-8", "4",
+                "9cm", null, null, "-8", "4",
                 new LinkedList<String>() {{
                     add("0\\%");
                     add("5\\%");
@@ -287,7 +287,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                null, null, "-3", "1",
+                "9cm", null, null, "-3", "1",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy");
@@ -313,7 +313,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-6", "0",
+                "9cm", null, null, "-6", "0",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy");
@@ -339,7 +339,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-8", "0",
+                "9cm", null, null, "-8", "0",
                 new LinkedList<String>() {{
                     add("FFD");
                     add("Greedy");
@@ -376,7 +376,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "200",
+                "8cm", null, null, "0", "200",
                 new LinkedList<String>() {{
                     add("no relaxation");
                     add("c = 0");
@@ -404,7 +404,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "20",
+                "8cm", null, null, "0", "20",
                 new LinkedList<String>() {{
                     add("no relaxation");
                     add("c = 0");
@@ -432,7 +432,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-6", "4",
+                "8cm", null, null, "-6", "4",
                 new LinkedList<String>() {{
                     add("no relaxation");
                     add("c = 0");
@@ -472,7 +472,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-                null, null, "0", "150",
+                "8cm", null, null, "0", "140",
                 new LinkedList<String>() {{
                     add("no relaxation");
                     add("c = 0");
@@ -500,7 +500,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-                null, null, "0", "8",
+                "8cm", null, null, "0", "8",
                 new LinkedList<String>() {{
                     add("no relaxation");
                     add("c = 0");
@@ -528,7 +528,7 @@ public class RelaxOptimalgenPlot extends CompareAlgOptimalgen10itPlot {
                 ),
                 PerformanceDefaults.GRAPH_X_LABEL_OUTPUT_TYPES,
                 PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-                "10cm", null, null, "-6", "4",
+                "8cm", null, null, "-6", "4",
                 new LinkedList<String>() {{
                     add("no relaxation");
                     add("c = 0");

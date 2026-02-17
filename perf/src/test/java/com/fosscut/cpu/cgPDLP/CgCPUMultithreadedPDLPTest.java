@@ -93,7 +93,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             plotData.getAverageElapsedTimeSeconds(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_TIME,
-            "10cm", "1", null, "0", "60"
+            "5cm", "1", null, "0", "60"
         ).generatePlot();
     }
 
@@ -105,7 +105,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             plotData.getAveragePercentageTrueWasteAboveOptimal(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_CPU_WASTE,
-            "10cm", "1", null, "0.008", "0.016"
+            "9cm", "1", null, "0.008", "0.016"
         ).generatePlot();
     }
 
@@ -117,7 +117,7 @@ public class CgCPUMultithreadedPDLPTest extends AbstractTest {
             plotData.getAverageMemoryUsagePeakGibiBytes(),
             PerformanceDefaults.GRAPH_X_LABEL_CPU,
             PerformanceDefaults.GRAPH_Y_LABEL_MEMORY_USAGE_GIBI_BYTES,
-            "10cm", "1", null, "0.44", "0.56"
+            "9cm", "1", null, "0.44", "0.56"
         ).generatePlot();
     }
 
