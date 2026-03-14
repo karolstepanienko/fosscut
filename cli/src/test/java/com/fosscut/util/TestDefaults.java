@@ -12,7 +12,7 @@ public class TestDefaults {
 
     public static final long DEFAULT_COMMAND_TIMEOUT = 5; // seconds
 
-    public static final String VERSION_STRING = "fosscut version \"0.0.1\"";
+    public static final String VERSION_STRING = "fosscut version \"1.0.0\"";
 
     public static final String EXAMPLE_DIRECTORY = "./test";
 
